@@ -5,35 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>रयत सेवक डिजिटल पोर्टल | Rayat Sevak Portal</title>
     
-    <!-- Google Fonts -->
+    <!-- फॉन्ट्स -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Khand:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Khand:wght@500;600;700&family=Mukta:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- JSZip आणि FileSaver लायब्ररी -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
     <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --secondary-color: #0d9488;
+            --bg-color: #f1f5f9;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --border-color: #cbd5e1;
+        }
+
         * {
             box-sizing: border-box;
-            font-family: 'Poppins', 'Segoe UI', Tahoma, sans-serif;
-        }
-        body {
-            background-color: #eef2f7;
             margin: 0;
             padding: 0;
-            color: #2c3e50;
+            font-family: 'Mukta', 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
 
         /* टॉप नेव्हिगेशन बार */
-        .navbar {
+        .portal-nav {
             background: #ffffff;
             padding: 10px 25px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -43,137 +53,224 @@
             top: 0;
             z-index: 1000;
         }
+
         .brand-title {
             font-family: 'Khand', sans-serif;
             font-size: 26px;
             font-weight: 700;
-            color: #1a73e8;
-            letter-spacing: 0.5px;
+            color: var(--primary-color);
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        /* टॅब बटन्स */
         .nav-tabs {
             display: flex;
             gap: 8px;
-            background: #f1f3f4;
-            padding: 5px;
+            background: #e2e8f0;
+            padding: 4px;
             border-radius: 10px;
         }
+
         .tab-btn {
             background: transparent;
             border: none;
-            padding: 8px 18px;
+            padding: 8px 16px;
             font-size: 14px;
-            font-weight: 600;
-            color: #5f6368;
+            font-weight: 700;
+            color: #475569;
             border-radius: 8px;
             cursor: pointer;
-            transition: all 0.25s ease;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .tab-btn:hover {
-            color: #1a73e8;
-            background: rgba(26, 115, 232, 0.08);
-        }
-        .tab-btn.active {
-            background: #1a73e8;
-            color: #ffffff;
-            box-shadow: 0 2px 6px rgba(26, 115, 232, 0.3);
+            transition: all 0.2s ease;
         }
 
-        /* टॅब कंटेन्ट */
-        .main-container {
+        .tab-btn:hover {
+            color: var(--primary-color);
+            background: rgba(255,255,255,0.6);
+        }
+
+        .tab-btn.active {
+            background: var(--primary-color);
+            color: #ffffff;
+            box-shadow: 0 2px 6px rgba(30, 58, 138, 0.3);
+        }
+
+        /* टॅब कंटेन्ट एरिया */
+        .main-wrapper {
             flex: 1;
-            padding: 20px;
-            max-width: 1250px;
-            margin: auto;
+            padding: 18px;
+            max-width: 1450px;
+            margin: 0 auto;
             width: 100%;
         }
-        .tab-content {
+
+        .portal-tab {
             display: none;
-            animation: fadeIn 0.3s ease-in-out;
         }
-        .tab-content.active {
+
+        .portal-tab.active {
             display: block;
+            animation: fadeIn 0.25s ease-in-out;
         }
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
+            from { opacity: 0; transform: translateY(4px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ==================== टूल १: कटर स्टाईल्स ==================== */
-        .tool-header {
+        /* कॉमन फॉर्म व बटनांच्या स्टाईल्स */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        @media (min-width: 1200px) {
+            .grid {
+                grid-template-columns: 340px 1fr;
+            }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .card h2 {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 12px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 6px;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 3px;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 6px 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 9px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            text-align: center;
+            transition: 0.2s;
+        }
+
+        .btn:hover { opacity: 0.95; }
+        .btn-success { background-color: #059669; }
+        .btn-danger { background-color: #ef4444; }
+        .btn-sm { width: auto; padding: 4px 10px; font-size: 12px; }
+        .btn-outline { background: white; border: 1px solid var(--border-color); color: #334155; }
+        .btn-outline:hover { background: #f1f5f9; }
+
+        /* टेबल्स */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 6px 4px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .text-input {
+            width: 100%;
+            min-width: 130px;
+            padding: 5px 6px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .inline-input {
+            width: 80px;
+            padding: 5px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .select-input {
+            width: 100%;
+            min-width: 60px;
+            padding: 5px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        /* ==================== कटर टूल स्टाईल्स ==================== */
+        .cutter-toolbar {
             background: #fff;
-            padding: 12px 20px;
+            padding: 12px 18px;
             border-radius: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 10px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-        }
-        .tool-controls {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .btn {
-            padding: 8px 15px;
-            font-size: 13px;
-            font-weight: 600;
-            border: none;
-            border-radius: 7px;
-            cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .btn:hover {
-            transform: translateY(-2px);
-            opacity: 0.95;
-        }
-        .btn-upload { background: #6f42c1; color: white; }
-        .btn-auto { background: #e83e8c; color: white; }
-        .btn-photo { background: #0d6efd; color: white; }
-        .btn-sign { background: #198754; color: white; }
-        .btn-clear { background: #dc3545; color: white; }
-        .btn-download { background: #fd7e14; color: white; font-weight: 700; }
-
-        .counter-badge {
-            background: #f8f9fa;
-            border: 1px solid #dee2e6;
-            padding: 5px 12px;
-            border-radius: 7px;
-            font-size: 13px;
-            font-weight: 600;
+            margin-bottom: 14px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
         }
 
-        .workspace {
+        .workspace-cutter {
             display: flex;
             justify-content: center;
             background: #343a40;
             padding: 20px;
             border-radius: 10px;
             overflow: auto;
-            min-height: 70vh;
+            min-height: 72vh;
             border: 1px solid #495057;
         }
+
         #canvasWrapper {
             position: relative;
             background: white;
             box-shadow: 0 8px 25px rgba(0,0,0,0.35);
             display: inline-block;
         }
+
         #scannedDoc {
             display: block;
             max-width: 950px;
@@ -194,14 +291,17 @@
             padding: 2px;
             border-radius: 3px;
         }
+
         .crop-box.photo-box {
             border-color: #0d6efd;
             background: rgba(13, 110, 253, 0.2);
         }
+
         .crop-box.sign-box {
             border-color: #198754;
             background: rgba(25, 135, 84, 0.2);
         }
+
         .box-label {
             background: rgba(0, 0, 0, 0.8);
             color: #ffffff;
@@ -211,6 +311,7 @@
             border-radius: 3px;
             pointer-events: none;
         }
+
         .box-close {
             background: #dc3545;
             color: white;
@@ -224,6 +325,7 @@
             align-items: center;
             justify-content: center;
         }
+
         .resize-handle {
             position: absolute;
             width: 11px;
@@ -235,47 +337,11 @@
             cursor: se-resize;
         }
 
-        /* ==================== चार्ट्स टेबल्स (DA / HRA) ==================== */
-        .chart-card {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-        }
-        .chart-header {
-            font-family: 'Khand', sans-serif;
-            font-size: 24px;
-            font-weight: 700;
-            color: #1a73e8;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #e8f0fe;
-            padding-bottom: 8px;
-        }
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        .data-table th, .data-table td {
-            border: 1px solid #dee2e6;
-            padding: 12px 15px;
-            text-align: left;
-            font-size: 14px;
-        }
-        .data-table th {
-            background: #f8f9fa;
-            color: #333;
-            font-weight: 600;
-        }
-        .data-table tr:hover {
-            background-color: #f8faff;
-        }
-
         /* फुटर */
         .footer {
-            margin-top: 25px;
+            margin-top: auto;
             background: #ffffff;
-            padding: 12px 25px;
+            padding: 10px 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -283,57 +349,148 @@
             flex-wrap: wrap;
             gap: 10px;
         }
-        .footer-note {
-            font-size: 13px;
-            color: #6c757d;
-        }
+
         .footer-author {
             font-size: 14px;
             font-weight: 700;
-            color: #1a73e8;
-            background: #e8f0fe;
-            padding: 6px 16px;
+            color: var(--primary-color);
+            background: #e0f2fe;
+            padding: 5px 16px;
             border-radius: 20px;
-            border: 1px solid #d2e3fc;
+            border: 1px solid #bae6fd;
+        }
+
+        /* ==================== A4 लँडस्केप प्रिंटिंग ==================== */
+        #print-area {
+            display: none;
+        }
+
+        @media print {
+            @page {
+                size: A4 landscape;
+                margin: 6mm 6mm 4mm 6mm;
+            }
+            html, body {
+                width: 100%;
+                background: white !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .portal-nav, .main-wrapper, .footer {
+                display: none !important;
+            }
+            #print-area {
+                display: block !important;
+                width: 100%;
+            }
+            .a4-page {
+                position: relative;
+                width: 285mm;
+                height: 198mm;
+                max-height: 198mm;
+                page-break-after: always;
+                box-sizing: border-box;
+                background: white;
+                overflow: hidden;
+                padding-bottom: 7mm;
+            }
+            .emp-chart-block {
+                border: 1.1px solid #000;
+                margin-bottom: 2mm;
+                padding: 3px 6px;
+                box-sizing: border-box;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                background: #fff;
+            }
+            .page-footer {
+                position: absolute;
+                bottom: 1mm;
+                left: 0;
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0 4mm;
+                font-size: 11px;
+                font-weight: 600;
+            }
+            .page-bottom-watermark {
+                font-style: italic;
+                color: #000000;
+                opacity: 0.3;
+            }
+            .emp-chart-block table {
+                font-size: 12px;
+                margin-top: 2px;
+                width: 100%;
+                border-collapse: collapse;
+                font-weight: 600;
+            }
+            .emp-chart-block th, .emp-chart-block td {
+                padding: 2px 4px;
+                border: 1px solid #000;
+                text-align: center;
+                line-height: 1.15;
+            }
+            .print-title {
+                text-align: center;
+                font-weight: 700;
+                font-size: 13.5px;
+                margin-bottom: 2px;
+                background-color: #f2f2f2 !important;
+                padding: 2px;
+                border: 1px solid #000;
+            }
+            .meta-info {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 2px;
+                font-weight: 600;
+                font-size: 12px;
+                border-bottom: 1px solid #000;
+                padding-bottom: 1px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- टॉप नेव्हिगेशन बार -->
-    <header class="navbar">
+    <!-- टॉप नेव्हिगेशन -->
+    <header class="portal-nav">
         <div class="brand-title">🏛️ रयत सेवक डिजिटल पोर्टल</div>
         <nav class="nav-tabs">
-            <button class="tab-btn active" onclick="openTab(event, 'tab-cutter')">✂️ फोटो व सही कटर</button>
-            <button class="tab-btn" onclick="openTab(event, 'tab-da')">📊 DA Chart</button>
-            <button class="tab-btn" onclick="openTab(event, 'tab-hra')">🏠 HRA Chart</button>
+            <button class="tab-btn active" onclick="switchPortalTab('tab-cutter', this)">✂️ फोटो व सही कटर</button>
+            <button class="tab-btn" onclick="switchPortalTab('tab-da', this)">📊 DA फरक कॅल्क्युलेटर</button>
+            <button class="tab-btn" onclick="switchPortalTab('tab-hra', this)">🏠 HRA फरक कॅल्क्युलेटर</button>
         </nav>
     </header>
 
-    <main class="main-container">
+    <main class="main-wrapper">
 
         <!-- ==================== टॅब १: कटर टूल ==================== -->
-        <section id="tab-cutter" class="tab-content active">
-            <div class="tool-header">
-                <div style="font-family: 'Khand', sans-serif; font-size: 20px; font-weight: 700; color: #333;">
-                    इयत्ता १०वी / १२वी फॉर्म स्कॅनिंग
+        <section id="tab-cutter" class="portal-tab active">
+            <div class="cutter-toolbar">
+                <div style="font-family:'Khand',sans-serif; font-size: 21px; font-weight:700; color:var(--primary-color);">
+                    इयत्ता १०वी / १२वी फॉर्म स्कॅनिंग व क्रॉपिंग
                 </div>
-                
-                <div class="tool-controls">
-                    <input type="file" id="fileInput" accept="image/*" style="display:none;">
-                    <button class="btn btn-upload" onclick="document.getElementById('fileInput').click()">📁 फॉर्म अपलोड</button>
-                    <button class="btn btn-auto" onclick="autoDetectBoxes()">🤖 ऑटो डिटेक्ट</button>
-                    <button class="btn btn-photo" onclick="addNewBox('photo')">➕ फोटो</button>
-                    <button class="btn btn-sign" onclick="addNewBox('sign')">➕ सही</button>
-                    <button class="btn btn-clear" onclick="clearAllBoxes()">🗑️ क्लिअर</button>
+                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                    <input type="file" id="cutterFileInput" accept="image/*" style="display:none;">
+                    <button class="btn" style="background:#6f42c1;" onclick="document.getElementById('cutterFileInput').click()">📁 फॉर्म अपलोड</button>
+                    <button class="btn" style="background:#e83e8c;" onclick="autoDetectBoxes()">🤖 ऑटो डिटेक्ट</button>
+                    <button class="btn" style="background:#0d6efd;" onclick="addNewBox('photo')">➕ फोटो</button>
+                    <button class="btn" style="background:#198754;" onclick="addNewBox('sign')">➕ सही</button>
+                    <button class="btn btn-danger" onclick="clearAllBoxes()">🗑️ क्लिअर</button>
 
-                    <span class="counter-badge">फोटो: <span id="photoCount" style="color:#0d6efd;">0</span> | सह्या: <span id="signCount" style="color:#198754;">0</span></span>
-                    
-                    <button class="btn btn-download" onclick="cropAndDownloadAll()">📦 ZIP डाऊनलोड</button>
+                    <span style="background:#f8f9fa; border:1px solid #dee2e6; padding:5px 12px; border-radius:6px; font-size:13px; font-weight:700;">
+                        फोटो: <span id="photoCount" style="color:#0d6efd;">0</span> | सह्या: <span id="signCount" style="color:#198754;">0</span>
+                    </span>
+
+                    <button class="btn" style="background:#fd7e14; font-weight:700;" onclick="cropAndDownloadAll()">📦 ZIP डाऊनलोड</button>
                 </div>
             </div>
 
-            <div class="workspace">
+            <div class="workspace-cutter">
                 <div id="canvasWrapper">
                     <img id="scannedDoc" src="" alt="कृपया आधी 'फॉर्म अपलोड' वर क्लिक करून स्कॅन प्रत निवडा">
                     <div id="boxesContainer"></div>
@@ -341,90 +498,109 @@
             </div>
         </section>
 
-        <!-- ==================== टॅब २: DA CHART ==================== -->
-        <section id="tab-da" class="tab-content">
-            <div class="chart-card">
-                <div class="chart-header">📈 महाराष्ट्र शासन - महागाई भत्ता (DA) दर तक्ता</div>
-                <p style="font-size: 13px; color: #666;">(टीप: तुमच्या चालू जीआरनुसार आवश्यकतेनुसार हे आकडे बदलता येतील)</p>
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>अ.क्र.</th>
-                            <th>लागू दिनांक</th>
-                            <th>DA टक्केवारी (%)</th>
-                            <th>वाढ (%)</th>
-                            <th>शासन निर्णय (GR) संदर्भ</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>01/01/2024 पासून</td>
-                            <td><b>50%</b></td>
-                            <td>+ 4%</td>
-                            <td>वित्त विभाग जीआर 2024</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>01/07/2023 पासून</td>
-                            <td><b>46%</b></td>
-                            <td>+ 4%</td>
-                            <td>वित्त विभाग जीआर 2023</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>01/01/2023 पासून</td>
-                            <td><b>42%</b></td>
-                            <td>+ 4%</td>
-                            <td>वित्त विभाग जीआर 2023</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>01/07/2022 पासून</td>
-                            <td><b>38%</b></td>
-                            <td>+ 4%</td>
-                            <td>वित्त विभाग जीआर 2022</td>
-                        </tr>
-                    </tbody>
-                </table>
+        <!-- ==================== टॅब २: DA फरक कॅल्क्युलेटर ==================== -->
+        <section id="tab-da" class="portal-tab">
+            <div class="grid">
+                <div class="card">
+                    <h2>१. DA निकष व महिने सेटिंग</h2>
+                    <div class="form-group">
+                        <label>शाळेचे / आस्थापनेचे नाव</label>
+                        <input type="text" id="da-school-name" class="form-control" value="स्वामी रामानंद विद्यालय व ज्युनियर कॉलेज, तासगावकर">
+                    </div>
+
+                    <div style="display: flex; gap: 8px;">
+                        <div class="form-group" style="flex:1;">
+                            <label>जुना DA (%)</label>
+                            <input type="number" id="old-da" class="form-control" value="55" step="0.1" oninput="recalculateAllDARows()">
+                        </div>
+                        <div class="form-group" style="flex:1;">
+                            <label>नवीन DA (%)</label>
+                            <input type="number" id="new-da" class="form-control" value="58" step="0.1" oninput="recalculateAllDARows()">
+                        </div>
+                    </div>
+                    
+                    <div style="background: #f1f5f9; padding: 10px; border-radius: 6px; margin-top: 5px; border: 1px solid #e2e8f0;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
+                            <label style="font-weight: 700; font-size: 13px; margin:0;">लागू महिने:</label>
+                            <div style="display:flex; gap:4px;">
+                                <button type="button" class="btn btn-sm btn-outline" onclick="removeDAMonth()">➖ कमी</button>
+                                <button type="button" class="btn btn-sm btn-success" onclick="addDAMonth()">➕ वाढवा</button>
+                            </div>
+                        </div>
+                        <div id="da-months-container"></div>
+                    </div>
+
+                    <div style="margin-top: 15px; display:flex; flex-direction:column; gap:8px;">
+                        <button class="btn btn-success" onclick="printA4DACharts()">🖨️ DA सविस्तर फरक चार्ट प्रिंट करा</button>
+                        <button class="btn btn-danger" onclick="addNewDARow()">➕ नवीन कर्मचारी जोडा</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>२. महागाई भत्ता (DA) फरक पत्रक</h2>
+                    <p style="font-size: 13px; color: #dc2626; margin-bottom: 8px; font-weight: 600;">
+                        * बेसिक टाकताना अंक सहज टाईप करता येतील आणि फरक त्वरित समोर दिसेल.
+                    </p>
+                    <div style="overflow-x: auto; max-height: 75vh;">
+                        <table>
+                            <thead id="da-master-thead"></thead>
+                            <tbody id="da-master-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- ==================== टॅब ३: HRA CHART ==================== -->
-        <section id="tab-hra" class="tab-content">
-            <div class="chart-card">
-                <div class="chart-header">🏠 घरभाडे भत्ता (HRA) दर वर्गीकरण</div>
-                <p style="font-size: 13px; color: #666;">७ व्या वेतन आयोगानुसार शहरांचे वर्गीकरण व दर</p>
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>शहर वर्ग (Class)</th>
-                            <th>शहरांची वर्गवारी (उदाहरणे)</th>
-                            <th>सध्याचा दर (DA 50% झाल्यावर)</th>
-                            <th>मूळ दर (7th Pay)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><b>X वर्ग</b> (50 लाखांपेक्षा जास्त)</td>
-                            <td>मुंबई, बृहन्मुंबई, पुणे इत्यादी</td>
-                            <td><b style="color: #28a745;">30%</b></td>
-                            <td>24%</td>
-                        </tr>
-                        <tr>
-                            <td><b>Y वर्ग</b> (5 ते 50 लाख लोकसंख्या)</td>
-                            <td>नागपूर, नाशिक, कोल्हापूर, सांगली, सोलापूर, औरंगाबाद इ.</td>
-                            <td><b style="color: #28a745;">20%</b></td>
-                            <td>16%</td>
-                        </tr>
-                        <tr>
-                            <td><b>Z वर्ग</b> (इतर सर्व शहरे व ग्रामीण)</td>
-                            <td>तालुका गावे, ग्रामीण भाग व इतर आस्थापना</td>
-                            <td><b style="color: #28a745;">10%</b></td>
-                            <td>8%</td>
-                        </tr>
-                    </tbody>
-                </table>
+        <!-- ==================== टॅब ३: HRA फरक कॅल्क्युलेटर ==================== -->
+        <section id="tab-hra" class="portal-tab">
+            <div class="grid">
+                <div class="card">
+                    <h2>१. HRA निकष व महिने सेटिंग</h2>
+                    <div class="form-group">
+                        <label>शाळेचे / आस्थापनेचे नाव</label>
+                        <input type="text" id="hra-school-name" class="form-control" value="शाळेचे नाव">
+                    </div>
+
+                    <div style="display: flex; gap: 8px;">
+                        <div class="form-group" style="flex:1;">
+                            <label>जुना HRA (%)</label>
+                            <input type="number" id="old-hra" class="form-control" value="9" step="0.1" oninput="recalculateAllHRARows()">
+                        </div>
+                        <div class="form-group" style="flex:1;">
+                            <label>नवीन HRA (%)</label>
+                            <input type="number" id="new-hra" class="form-control" value="10" step="0.1" oninput="recalculateAllHRARows()">
+                        </div>
+                    </div>
+                    
+                    <div style="background: #f1f5f9; padding: 10px; border-radius: 6px; margin-top: 5px; border: 1px solid #e2e8f0;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
+                            <label style="font-weight: 700; font-size: 13px; margin:0;">लागू महिने:</label>
+                            <div style="display:flex; gap:4px;">
+                                <button type="button" class="btn btn-sm btn-outline" onclick="removeHRAMonth()">➖ कमी</button>
+                                <button type="button" class="btn btn-sm btn-success" onclick="addHRAMonth()">➕ वाढवा</button>
+                            </div>
+                        </div>
+                        <div id="hra-months-container"></div>
+                    </div>
+
+                    <div style="margin-top: 15px; display:flex; flex-direction:column; gap:8px;">
+                        <button class="btn btn-success" onclick="printA4HRACharts()">🖨️ HRA सविस्तर फरक चार्ट प्रिंट करा</button>
+                        <button class="btn btn-danger" onclick="addNewHRARow()">➕ नवीन कर्मचारी जोडा</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>२. घरभाडे भत्ता (HRA) फरक पत्रक</h2>
+                    <p style="font-size: 13px; color: #dc2626; margin-bottom: 8px; font-weight: 600;">
+                        * बेसिक टाकताना अंक सहज टाईप करता येतील आणि फरक त्वरित समोर दिसेल.
+                    </p>
+                    <div style="overflow-x: auto; max-height: 75vh;">
+                        <table>
+                            <thead id="hra-master-thead"></thead>
+                            <tbody id="hra-master-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -432,24 +608,536 @@
 
     <!-- फुटर -->
     <footer class="footer">
-        <div class="footer-note">📌 शिक्षक व शिक्षकेतर कर्मचाऱ्यांच्या कामातील सुलभतेसाठी विकसित.</div>
+        <div style="font-size: 13px; color: #64748b;">📌 शिक्षक व शिक्षकेतर कर्मचाऱ्यांच्या कामातील सुलभतेसाठी विकसित.</div>
         <div class="footer-author">Developed by : Rayat Sevak Sujit Patil</div>
     </footer>
 
-<script>
-    // १. टॅब बदलणे लॉजिक
-    function openTab(evt, tabId) {
-        const contents = document.querySelectorAll('.tab-content');
-        contents.forEach(el => el.classList.remove('active'));
+    <!-- प्रिंटिंग कंटेनर -->
+    <div id="print-area"></div>
 
-        const tabBtns = document.querySelectorAll('.tab-btn');
-        tabBtns.forEach(btn => btn.classList.remove('active'));
+<script>
+    // ==================== टॅब स्विच लॉजिक ====================
+    function switchPortalTab(tabId, btnElement) {
+        document.querySelectorAll('.portal-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
 
         document.getElementById(tabId).classList.add('active');
-        evt.currentTarget.classList.add('active');
+        btnElement.classList.add('active');
     }
 
-    // २. कटर टूल लॉजिक
+    // ==================== १. DA फरक कॅल्क्युलेटर लॉजिक ====================
+    let daMonths = ["नोव्हेंबर २०२५", "डिसेंबर २०२५"];
+    let daEmployees = [
+        { name: "", desig: "", basics: [0, 0], nps: "No" },
+        { name: "", desig: "", basics: [0, 0], nps: "No" },
+        { name: "", desig: "", basics: [0, 0], nps: "No" }
+    ];
+
+    function renderDAMonthInputs() {
+        const container = document.getElementById('da-months-container');
+        container.innerHTML = '';
+        daMonths.forEach((m, idx) => {
+            container.innerHTML += `
+                <div class="form-group" style="margin-bottom:6px;">
+                    <label style="font-size:12px; font-weight:600;">महिना ${idx + 1}</label>
+                    <input type="text" class="form-control" style="padding:4px 8px; font-size:13px;" value="${m}" oninput="updateDAMonthName(${idx}, this.value)">
+                </div>
+            `;
+        });
+    }
+
+    function updateDAMonthName(index, val) {
+        daMonths[index] = val;
+        const th = document.getElementById(`da-month-th-${index}`);
+        if(th) th.innerText = val || `महिना ${index + 1}`;
+    }
+
+    function addDAMonth() {
+        daMonths.push(`महिना ${daMonths.length + 1}`);
+        daEmployees.forEach(emp => emp.basics.push(0));
+        renderDAMonthInputs();
+        buildDATable();
+    }
+
+    function removeDAMonth() {
+        if (daMonths.length <= 1) {
+            alert("किमान १ महिना असणे आवश्यक आहे!");
+            return;
+        }
+        daMonths.pop();
+        daEmployees.forEach(emp => emp.basics.pop());
+        renderDAMonthInputs();
+        buildDATable();
+    }
+
+    function addNewDARow() {
+        daEmployees.push({ name: "", desig: "", basics: new Array(daMonths.length).fill(0), nps: "No" });
+        buildDATable();
+    }
+
+    function renderDATableHeaders() {
+        const thead = document.getElementById('da-master-thead');
+        let row1 = `
+            <tr>
+                <th rowspan="2" style="width: 35px;">अ.क्र.</th>
+                <th rowspan="2" style="width: 170px;">कर्मचाऱ्याचे नाव</th>
+                <th rowspan="2" style="width: 120px;">पद</th>
+        `;
+        let row2 = `<tr>`;
+
+        daMonths.forEach((m, idx) => {
+            row1 += `<th colspan="2" id="da-month-th-${idx}" style="background: #e0f2fe; border-left: 2px solid #94a3b8;">${m || 'महिना ' + (idx + 1)}</th>`;
+            row2 += `
+                <th style="background: #f8fafc; font-size:11px; width:75px; border-left: 2px solid #94a3b8;">Basic</th>
+                <th style="background: #fdf2f8; font-size:11px; width:60px;">Diff</th>
+            `;
+        });
+
+        row1 += `
+                <th rowspan="2" style="width: 60px;">NPS?</th>
+                <th rowspan="2" style="width: 95px;">एकूण फरक</th>
+                <th rowspan="2" style="width: 85px;">NPS (10%)</th>
+            </tr>
+        `;
+        row2 += `</tr>`;
+        thead.innerHTML = row1 + row2;
+    }
+
+    function buildDATable() {
+        renderDATableHeaders();
+        const tbody = document.getElementById('da-master-table-body');
+        tbody.innerHTML = '';
+
+        const oldDa = parseFloat(document.getElementById('old-da').value) || 0;
+        const newDa = parseFloat(document.getElementById('new-da').value) || 0;
+        const diffRate = (newDa - oldDa) / 100;
+
+        daEmployees.forEach((emp, eIdx) => {
+            let tr = document.createElement('tr');
+            let rowHtml = `
+                <td>${eIdx + 1}</td>
+                <td><input type="text" class="text-input" value="${emp.name}" placeholder="नाव टाका" oninput="daEmployees[${eIdx}].name = this.value"></td>
+                <td><input type="text" class="text-input" value="${emp.desig}" placeholder="पद टाका" oninput="daEmployees[${eIdx}].desig = this.value"></td>
+            `;
+
+            let totalGross = 0;
+            daMonths.forEach((m, mIdx) => {
+                let basicVal = emp.basics[mIdx] || 0;
+                let monthDiff = Math.round(basicVal * diffRate);
+                totalGross += monthDiff;
+
+                rowHtml += `
+                    <td style="border-left: 2px solid #cbd5e1;">
+                        <input type="number" class="inline-input" value="${basicVal === 0 ? '' : basicVal}" placeholder="0" 
+                               oninput="onDABasicChange(${eIdx}, ${mIdx}, this.value)">
+                    </td>
+                    <td id="da-diff-cell-${eIdx}-${mIdx}" style="color:#be185d; font-weight:700;">₹${monthDiff}</td>
+                `;
+            });
+
+            let npsAmt = emp.nps === "Yes" ? Math.floor(totalGross * 0.10) : 0;
+
+            rowHtml += `
+                <td>
+                    <select class="select-input" onchange="onDANpsChange(${eIdx}, this.value)">
+                        <option value="No" ${emp.nps === 'No' ? 'selected' : ''}>No</option>
+                        <option value="Yes" ${emp.nps === 'Yes' ? 'selected' : ''}>Yes</option>
+                    </select>
+                </td>
+                <td><strong id="da-gross-cell-${eIdx}" style="color:#1e3a8a;">₹${totalGross}</strong></td>
+                <td id="da-nps-cell-${eIdx}" style="color:#059669; font-weight:700;">₹${npsAmt}</td>
+            `;
+            tr.innerHTML = rowHtml;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function onDABasicChange(empIdx, monthIdx, val) {
+        daEmployees[empIdx].basics[monthIdx] = parseFloat(val) || 0;
+        const diffRate = (parseFloat(document.getElementById('new-da').value) - parseFloat(document.getElementById('old-da').value)) / 100;
+        const monthDiff = Math.round((daEmployees[empIdx].basics[monthIdx] || 0) * diffRate);
+        const cell = document.getElementById(`da-diff-cell-${empIdx}-${monthIdx}`);
+        if(cell) cell.innerText = `₹${monthDiff}`;
+        updateDARowTotals(empIdx, diffRate);
+    }
+
+    function onDANpsChange(empIdx, val) {
+        daEmployees[empIdx].nps = val;
+        const diffRate = (parseFloat(document.getElementById('new-da').value) - parseFloat(document.getElementById('old-da').value)) / 100;
+        updateDARowTotals(empIdx, diffRate);
+    }
+
+    function updateDARowTotals(empIdx, diffRate) {
+        let totalGross = 0;
+        daEmployees[empIdx].basics.forEach(b => totalGross += Math.round((b || 0) * diffRate));
+        const npsAmt = daEmployees[empIdx].nps === "Yes" ? Math.floor(totalGross * 0.10) : 0;
+        const grossCell = document.getElementById(`da-gross-cell-${empIdx}`);
+        const npsCell = document.getElementById(`da-nps-cell-${empIdx}`);
+        if (grossCell) grossCell.innerText = `₹${totalGross}`;
+        if (npsCell) npsCell.innerText = `₹${npsAmt}`;
+    }
+
+    function recalculateAllDARows() {
+        const diffRate = (parseFloat(document.getElementById('new-da').value) - parseFloat(document.getElementById('old-da').value)) / 100;
+        daEmployees.forEach((emp, eIdx) => {
+            daMonths.forEach((m, mIdx) => {
+                const monthDiff = Math.round((emp.basics[mIdx] || 0) * diffRate);
+                const cell = document.getElementById(`da-diff-cell-${eIdx}-${mIdx}`);
+                if(cell) cell.innerText = `₹${monthDiff}`;
+            });
+            updateDARowTotals(eIdx, diffRate);
+        });
+    }
+
+    function printA4DACharts() {
+        const printArea = document.getElementById('print-area');
+        printArea.innerHTML = '';
+        const schoolName = document.getElementById('da-school-name').value;
+        const oldDa = parseFloat(document.getElementById('old-da').value) || 0;
+        const newDa = parseFloat(document.getElementById('new-da').value) || 0;
+
+        let validEmps = daEmployees.filter(e => e.name.trim() !== "" || e.basics.some(b => b > 0));
+        if (validEmps.length === 0) {
+            alert("कृपया आधी कमीत कमी एका कर्मचाऱ्याची माहिती भरा!");
+            return;
+        }
+
+        let blocksPerPage = daMonths.length <= 3 ? 4 : (daMonths.length <= 6 ? 3 : 2);
+        const totalPages = Math.ceil(validEmps.length / blocksPerPage);
+        let finalHTML = '';
+
+        for (let p = 0; p < totalPages; p++) {
+            let pageEmps = validEmps.slice(p * blocksPerPage, (p + 1) * blocksPerPage);
+            let pageNum = p + 1;
+            let pageHTML = `<div class="a4-page">`;
+
+            pageEmps.forEach(emp => {
+                let rowsHTML = '';
+                let totalDueDaSum = 0, totalDrawnDaSum = 0, totalDiffSum = 0;
+
+                daMonths.forEach((m, mIdx) => {
+                    let currentBasic = emp.basics[mIdx] || 0;
+                    let dueDaAmt = Math.round(currentBasic * (newDa / 100));
+                    let drawnDaAmt = Math.round(currentBasic * (oldDa / 100));
+                    let diff = dueDaAmt - drawnDaAmt;
+                    let npsContr = emp.nps === "Yes" ? Math.floor(diff * 0.1) : 0;
+
+                    totalDueDaSum += dueDaAmt;
+                    totalDrawnDaSum += drawnDaAmt;
+                    totalDiffSum += diff;
+
+                    rowsHTML += `
+                        <tr>
+                            <td style="font-weight:600;">${m || 'महिना ' + (mIdx + 1)}</td>
+                            <td>₹${currentBasic}</td>
+                            <td>${newDa}%</td>
+                            <td><strong>₹${dueDaAmt}</strong></td>
+                            <td>${oldDa}%</td>
+                            <td><strong>₹${drawnDaAmt}</strong></td>
+                            <td style="background:#f0fdf4; font-weight:700;">₹${diff}</td>
+                            <td>₹${npsContr}</td>
+                        </tr>
+                    `;
+                });
+
+                let finalNpsSum = emp.nps === "Yes" ? Math.floor(totalDiffSum * 0.10) : 0;
+
+                pageHTML += `
+                    <div class="emp-chart-block">
+                        <div class="print-title">${schoolName} - महागाई भत्ता (DA) वाढ फरक तक्ता</div>
+                        <div class="meta-info">
+                            <span>कर्मचाऱ्याचे नाव: ${emp.name || '-----------'}</span>
+                            <span>पद: ${emp.desig || '-----------'}</span>
+                            <span>NPS कपात: ${emp.nps}</span>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="width: 15%;">महिना</th>
+                                    <th style="width: 12%;">मूळ वेतन (Basic)</th>
+                                    <th style="width: 10%;">देय DA (%)</th>
+                                    <th style="width: 13%;">देय DA रक्कम (${newDa}%)</th>
+                                    <th style="width: 10%;">आकारलेला DA (%)</th>
+                                    <th style="width: 13%;">आकारलेला DA रक्कम (${oldDa}%)</th>
+                                    <th style="width: 14%; background:#e2f0d9;">मासिक फरक रक्कम</th>
+                                    <th style="width: 13%;">NPS कपात (10%)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${rowsHTML}
+                                <tr style="background:#f2f2f2; font-weight:700; border-top: 1px solid #000;">
+                                    <td>एकूण (Total)</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>₹${totalDueDaSum}</td>
+                                    <td>-</td>
+                                    <td>₹${totalDrawnDaSum}</td>
+                                    <td style="background:#dcfce7;">₹${totalDiffSum}</td>
+                                    <td>₹${finalNpsSum}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="margin-top:2px; text-align:right; font-weight:700; font-size:12px;">
+                            निव्वळ देय DA फरक रक्कम: <span style="background:#fffbb5; padding:1px 6px; border:1px solid #000;">₹${totalDiffSum}/-</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            pageHTML += `
+                <div class="page-footer">
+                    <span>पान ${pageNum} पैकी ${totalPages} (Page ${pageNum} of ${totalPages})</span>
+                    <span class="page-bottom-watermark">Developed by : रयत सेवक सुजित पाटील</span>
+                </div>
+            </div>`;
+            finalHTML += pageHTML;
+        }
+
+        printArea.innerHTML = finalHTML;
+        window.print();
+    }
+
+    // ==================== २. HRA फरक कॅल्क्युलेटर लॉजिक ====================
+    let hraMonths = ["नोव्हेंबर २०२५", "डिसेंबर २०२५"];
+    let hraEmployees = [
+        { name: "", desig: "", basics: [0, 0] },
+        { name: "", desig: "", basics: [0, 0] },
+        { name: "", desig: "", basics: [0, 0] }
+    ];
+
+    function renderHRAMonthInputs() {
+        const container = document.getElementById('hra-months-container');
+        container.innerHTML = '';
+        hraMonths.forEach((m, idx) => {
+            container.innerHTML += `
+                <div class="form-group" style="margin-bottom:6px;">
+                    <label style="font-size:12px; font-weight:600;">महिना ${idx + 1}</label>
+                    <input type="text" class="form-control" style="padding:4px 8px; font-size:13px;" value="${m}" oninput="updateHRAMonthName(${idx}, this.value)">
+                </div>
+            `;
+        });
+    }
+
+    function updateHRAMonthName(index, val) {
+        hraMonths[index] = val;
+        const th = document.getElementById(`hra-month-th-${index}`);
+        if(th) th.innerText = val || `महिना ${index + 1}`;
+    }
+
+    function addHRAMonth() {
+        hraMonths.push(`महिना ${hraMonths.length + 1}`);
+        hraEmployees.forEach(emp => emp.basics.push(0));
+        renderHRAMonthInputs();
+        buildHRATable();
+    }
+
+    function removeHRAMonth() {
+        if (hraMonths.length <= 1) {
+            alert("किमान १ महिना असणे आवश्यक आहे!");
+            return;
+        }
+        hraMonths.pop();
+        hraEmployees.forEach(emp => emp.basics.pop());
+        renderHRAMonthInputs();
+        buildHRATable();
+    }
+
+    function addNewHRARow() {
+        hraEmployees.push({ name: "", desig: "", basics: new Array(hraMonths.length).fill(0) });
+        buildHRATable();
+    }
+
+    function renderHRATableHeaders() {
+        const thead = document.getElementById('hra-master-thead');
+        let row1 = `
+            <tr>
+                <th rowspan="2" style="width: 35px;">अ.क्र.</th>
+                <th rowspan="2" style="width: 200px;">कर्मचाऱ्याचे नाव</th>
+                <th rowspan="2" style="width: 140px;">पद</th>
+        `;
+        let row2 = `<tr>`;
+
+        hraMonths.forEach((m, idx) => {
+            row1 += `<th colspan="2" id="hra-month-th-${idx}" style="background: #e0f2fe; border-left: 2px solid #94a3b8;">${m || 'महिना ' + (idx + 1)}</th>`;
+            row2 += `
+                <th style="background: #f8fafc; font-size:11px; width:80px; border-left: 2px solid #94a3b8;">Basic</th>
+                <th style="background: #fdf2f8; font-size:11px; width:65px;">Diff</th>
+            `;
+        });
+
+        row1 += `<th rowspan="2" style="width: 120px;">एकूण HRA फरक</th></tr>`;
+        row2 += `</tr>`;
+        thead.innerHTML = row1 + row2;
+    }
+
+    function buildHRATable() {
+        renderHRATableHeaders();
+        const tbody = document.getElementById('hra-master-table-body');
+        tbody.innerHTML = '';
+
+        const oldHra = parseFloat(document.getElementById('old-hra').value) || 0;
+        const newHra = parseFloat(document.getElementById('new-hra').value) || 0;
+        const diffRate = (newHra - oldHra) / 100;
+
+        hraEmployees.forEach((emp, eIdx) => {
+            let tr = document.createElement('tr');
+            let rowHtml = `
+                <td>${eIdx + 1}</td>
+                <td><input type="text" class="text-input" value="${emp.name}" placeholder="नाव टाका" oninput="hraEmployees[${eIdx}].name = this.value"></td>
+                <td><input type="text" class="text-input" value="${emp.desig}" placeholder="पद टाका" oninput="hraEmployees[${eIdx}].desig = this.value"></td>
+            `;
+
+            let totalGross = 0;
+            hraMonths.forEach((m, mIdx) => {
+                let basicVal = emp.basics[mIdx] || 0;
+                let monthDiff = Math.round(basicVal * diffRate);
+                totalGross += monthDiff;
+
+                rowHtml += `
+                    <td style="border-left: 2px solid #cbd5e1;">
+                        <input type="number" class="inline-input" value="${basicVal === 0 ? '' : basicVal}" placeholder="0" 
+                               oninput="onHRABasicChange(${eIdx}, ${mIdx}, this.value)">
+                    </td>
+                    <td id="hra-diff-cell-${eIdx}-${mIdx}" style="color:#be185d; font-weight:700;">₹${monthDiff}</td>
+                `;
+            });
+
+            rowHtml += `<td><strong id="hra-gross-cell-${eIdx}" style="color:#1e3a8a; font-size:15px;">₹${totalGross}</strong></td>`;
+            tr.innerHTML = rowHtml;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function onHRABasicChange(empIdx, monthIdx, val) {
+        hraEmployees[empIdx].basics[monthIdx] = parseFloat(val) || 0;
+        const diffRate = (parseFloat(document.getElementById('new-hra').value) - parseFloat(document.getElementById('old-hra').value)) / 100;
+        const monthDiff = Math.round((hraEmployees[empIdx].basics[monthIdx] || 0) * diffRate);
+        const cell = document.getElementById(`hra-diff-cell-${empIdx}-${monthIdx}`);
+        if(cell) cell.innerText = `₹${monthDiff}`;
+        updateHRARowTotals(empIdx, diffRate);
+    }
+
+    function updateHRARowTotals(empIdx, diffRate) {
+        let totalGross = 0;
+        hraEmployees[empIdx].basics.forEach(b => totalGross += Math.round((b || 0) * diffRate));
+        const cell = document.getElementById(`hra-gross-cell-${empIdx}`);
+        if(cell) cell.innerText = `₹${totalGross}`;
+    }
+
+    function recalculateAllHRARows() {
+        const diffRate = (parseFloat(document.getElementById('new-hra').value) - parseFloat(document.getElementById('old-hra').value)) / 100;
+        hraEmployees.forEach((emp, eIdx) => {
+            hraMonths.forEach((m, mIdx) => {
+                const monthDiff = Math.round((emp.basics[mIdx] || 0) * diffRate);
+                const cell = document.getElementById(`hra-diff-cell-${eIdx}-${mIdx}`);
+                if(cell) cell.innerText = `₹${monthDiff}`;
+            });
+            updateHRARowTotals(eIdx, diffRate);
+        });
+    }
+
+    function printA4HRACharts() {
+        const printArea = document.getElementById('print-area');
+        printArea.innerHTML = '';
+        const schoolName = document.getElementById('hra-school-name').value;
+        const oldHra = parseFloat(document.getElementById('old-hra').value) || 0;
+        const newHra = parseFloat(document.getElementById('new-hra').value) || 0;
+
+        let validEmps = hraEmployees.filter(e => e.name.trim() !== "" || e.basics.some(b => b > 0));
+        if (validEmps.length === 0) {
+            alert("कृपया आधी कमीत कमी एका कर्मचाऱ्याची माहिती भरा!");
+            return;
+        }
+
+        let blocksPerPage = hraMonths.length <= 3 ? 4 : (hraMonths.length <= 6 ? 3 : 2);
+        const totalPages = Math.ceil(validEmps.length / blocksPerPage);
+        let finalHTML = '';
+
+        for (let p = 0; p < totalPages; p++) {
+            let pageEmps = validEmps.slice(p * blocksPerPage, (p + 1) * blocksPerPage);
+            let pageNum = p + 1;
+            let pageHTML = `<div class="a4-page">`;
+
+            pageEmps.forEach(emp => {
+                let rowsHTML = '';
+                let totalDueHraSum = 0, totalDrawnHraSum = 0, totalDiffSum = 0;
+
+                hraMonths.forEach((m, mIdx) => {
+                    let currentBasic = emp.basics[mIdx] || 0;
+                    let dueHraAmt = Math.round(currentBasic * (newHra / 100));
+                    let drawnHraAmt = Math.round(currentBasic * (oldHra / 100));
+                    let diff = dueHraAmt - drawnHraAmt;
+
+                    totalDueHraSum += dueHraAmt;
+                    totalDrawnHraSum += drawnHraAmt;
+                    totalDiffSum += diff;
+
+                    rowsHTML += `
+                        <tr>
+                            <td style="font-weight:600;">${m || 'महिना ' + (mIdx + 1)}</td>
+                            <td>₹${currentBasic}</td>
+                            <td>${newHra}%</td>
+                            <td><strong>₹${dueHraAmt}</strong></td>
+                            <td>${oldHra}%</td>
+                            <td><strong>₹${drawnHraAmt}</strong></td>
+                            <td style="background:#f0fdf4; font-weight:700;">₹${diff}</td>
+                        </tr>
+                    `;
+                });
+
+                pageHTML += `
+                    <div class="emp-chart-block">
+                        <div class="print-title">${schoolName} - घरभाडे भत्ता (HRA) वाढ फरक तक्ता</div>
+                        <div class="meta-info">
+                            <span>कर्मचाऱ्याचे नाव: ${emp.name || '-----------'}</span>
+                            <span>पद: ${emp.desig || '-----------'}</span>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="width: 18%;">महिना</th>
+                                    <th style="width: 15%;">मूळ वेतन (Basic)</th>
+                                    <th style="width: 12%;">देय HRA (%)</th>
+                                    <th style="width: 15%;">देय HRA रक्कम (${newHra}%)</th>
+                                    <th style="width: 12%;">आकारलेला HRA (%)</th>
+                                    <th style="width: 15%;">आकारलेला HRA रक्कम (${oldHra}%)</th>
+                                    <th style="width: 13%; background:#e2f0d9;">मासिक फरक रक्कम</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${rowsHTML}
+                                <tr style="background:#f2f2f2; font-weight:700; border-top: 1px solid #000;">
+                                    <td>एकूण (Total)</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>₹${totalDueHraSum}</td>
+                                    <td>-</td>
+                                    <td>₹${totalDrawnHraSum}</td>
+                                    <td style="background:#dcfce7;">₹${totalDiffSum}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="margin-top:2px; text-align:right; font-weight:700; font-size:12px;">
+                            निव्वळ देय HRA फरक रक्कम: <span style="background:#fffbb5; padding:1px 6px; border:1px solid #000;">₹${totalDiffSum}/-</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            pageHTML += `
+                <div class="page-footer">
+                    <span>पान ${pageNum} पैकी ${totalPages} (Page ${pageNum} of ${totalPages})</span>
+                    <span class="page-bottom-watermark">Developed by : रयत सेवक सुजित पाटील</span>
+                </div>
+            </div>`;
+            finalHTML += pageHTML;
+        }
+
+        printArea.innerHTML = finalHTML;
+        window.print();
+    }
+
+    // ==================== ३. कटर टूल लॉजिक ====================
     let photoCounter = 0;
     let signCounter = 0;
     const boxesContainer = document.getElementById('boxesContainer');
@@ -457,10 +1145,9 @@
     const photoCountSpan = document.getElementById('photoCount');
     const signCountSpan = document.getElementById('signCount');
 
-    document.getElementById('fileInput').addEventListener('change', function(e) {
+    document.getElementById('cutterFileInput').addEventListener('change', function(e) {
         const file = e.target.files[0];
         if (!file) return;
-
         const reader = new FileReader();
         reader.onload = function(event) {
             scannedDoc.src = event.target.result;
@@ -482,7 +1169,6 @@
         box.style.height = height + 'px';
 
         const labelName = type === 'photo' ? `Photo ${idNumber}` : `Sign ${idNumber}`;
-
         box.innerHTML = `
             <span class="box-label">${labelName}</span>
             <button class="box-close" title="काढा" onclick="removeSpecificBox(this)">✕</button>
@@ -500,16 +1186,12 @@
             alert("कृपया आधी फॉर्म अपलोड करा!");
             return;
         }
-
-        const scrollY = window.scrollY || document.documentElement.scrollTop;
-        const topPos = Math.max(30, scrollY - 60);
-
         if (type === 'photo') {
             photoCounter++;
-            createBoxElement('photo', photoCounter, topPos, 50, 115, 140);
+            createBoxElement('photo', photoCounter, 50, 50, 115, 140);
         } else if (type === 'sign') {
             signCounter++;
-            createBoxElement('sign', signCounter, topPos, 50, 115, 45);
+            createBoxElement('sign', signCounter, 50, 50, 115, 45);
         }
     }
 
@@ -518,9 +1200,7 @@
             alert("कृपया आधी फॉर्म अपलोड करा!");
             return;
         }
-
         clearAllBoxes();
-
         const displayW = scannedDoc.clientWidth;
         const displayH = scannedDoc.clientHeight;
 
@@ -532,20 +1212,15 @@
         const signW = photoW;
         const signH = photoW * 0.45;  
 
-        let pCount = 0;
-        let sCount = 0;
-
+        let pCount = 0, sCount = 0;
         for (let r = 0; r < rowRatios.length; r++) {
             for (let c = 0; c < colRatios.length; c++) {
                 if (pCount >= 10) break;
-
                 const left = displayW * colRatios[c];
                 const topP = displayH * rowRatios[r];
                 const topS = topP + photoH + 10;
-
                 pCount++;
                 sCount++;
-
                 createBoxElement('photo', pCount, topP, left, photoW, photoH);
                 createBoxElement('sign', sCount, topS, left, signW, signH);
             }
@@ -570,8 +1245,7 @@
     }
 
     function makeDraggableAndResizable(el, handle) {
-        let isDragging = false;
-        let isResizing = false;
+        let isDragging = false, isResizing = false;
         let startX, startY, startWidth, startHeight, startLeft, startTop;
 
         el.addEventListener('mousedown', function(e) {
@@ -641,7 +1315,6 @@
             canvas.width = bWidth;
             canvas.height = bHeight;
             const ctx = canvas.getContext('2d');
-
             ctx.drawImage(originalImg, bLeft, bTop, bWidth, bHeight, 0, 0, bWidth, bHeight);
 
             let blob = await compressToTargetSize(canvas, 25, 40);
@@ -671,6 +1344,14 @@
             attempt();
         });
     }
+
+    // इनिशिएलायझेशन
+    window.onload = function() {
+        renderDAMonthInputs();
+        buildDATable();
+        renderHRAMonthInputs();
+        buildHRATable();
+    };
 </script>
 
 </body>
