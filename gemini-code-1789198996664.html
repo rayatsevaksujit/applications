@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>रयत सेवक डिजिटल पोर्टल | Rayat Sevak Portal</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Khand:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- JSZip आणि FileSaver लायब्ररी -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, sans-serif;
+        }
+        body {
+            background-color: #eef2f7;
+            margin: 0;
+            padding: 0;
+            color: #2c3e50;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* टॉप नेव्हिगेशन बार */
+        .navbar {
+            background: #ffffff;
+            padding: 10px 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .brand-title {
+            font-family: 'Khand', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: #1a73e8;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* टॅब बटन्स */
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+            background: #f1f3f4;
+            padding: 5px;
+            border-radius: 10px;
+        }
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 8px 18px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #5f6368;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .tab-btn:hover {
+            color: #1a73e8;
+            background: rgba(26, 115, 232, 0.08);
+        }
+        .tab-btn.active {
+            background: #1a73e8;
+            color: #ffffff;
+            box-shadow: 0 2px 6px rgba(26, 115, 232, 0.3);
+        }
+
+        /* टॅब कंटेन्ट */
+        .main-container {
+            flex: 1;
+            padding: 20px;
+            max-width: 1250px;
+            margin: auto;
+            width: 100%;
+        }
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ==================== टूल १: कटर स्टाईल्स ==================== */
+        .tool-header {
+            background: #fff;
+            padding: 12px 20px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .tool-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 8px 15px;
+            font-size: 13px;
+            font-weight: 600;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.95;
+        }
+        .btn-upload { background: #6f42c1; color: white; }
+        .btn-auto { background: #e83e8c; color: white; }
+        .btn-photo { background: #0d6efd; color: white; }
+        .btn-sign { background: #198754; color: white; }
+        .btn-clear { background: #dc3545; color: white; }
+        .btn-download { background: #fd7e14; color: white; font-weight: 700; }
+
+        .counter-badge {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 5px 12px;
+            border-radius: 7px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .workspace {
+            display: flex;
+            justify-content: center;
+            background: #343a40;
+            padding: 20px;
+            border-radius: 10px;
+            overflow: auto;
+            min-height: 70vh;
+            border: 1px solid #495057;
+        }
+        #canvasWrapper {
+            position: relative;
+            background: white;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+            display: inline-block;
+        }
+        #scannedDoc {
+            display: block;
+            max-width: 950px;
+            height: auto;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .crop-box {
+            position: absolute;
+            border: 2px solid;
+            cursor: move;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            user-select: none;
+            box-sizing: border-box;
+            padding: 2px;
+            border-radius: 3px;
+        }
+        .crop-box.photo-box {
+            border-color: #0d6efd;
+            background: rgba(13, 110, 253, 0.2);
+        }
+        .crop-box.sign-box {
+            border-color: #198754;
+            background: rgba(25, 135, 84, 0.2);
+        }
+        .box-label {
+            background: rgba(0, 0, 0, 0.8);
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 1px 5px;
+            border-radius: 3px;
+            pointer-events: none;
+        }
+        .box-close {
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 17px;
+            height: 17px;
+            font-size: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .resize-handle {
+            position: absolute;
+            width: 11px;
+            height: 11px;
+            background: #ffffff;
+            border: 2px solid #000000;
+            bottom: -5px;
+            right: -5px;
+            cursor: se-resize;
+        }
+
+        /* ==================== चार्ट्स टेबल्स (DA / HRA) ==================== */
+        .chart-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+        .chart-header {
+            font-family: 'Khand', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a73e8;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e8f0fe;
+            padding-bottom: 8px;
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .data-table th, .data-table td {
+            border: 1px solid #dee2e6;
+            padding: 12px 15px;
+            text-align: left;
+            font-size: 14px;
+        }
+        .data-table th {
+            background: #f8f9fa;
+            color: #333;
+            font-weight: 600;
+        }
+        .data-table tr:hover {
+            background-color: #f8faff;
+        }
+
+        /* फुटर */
+        .footer {
+            margin-top: 25px;
+            background: #ffffff;
+            padding: 12px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .footer-note {
+            font-size: 13px;
+            color: #6c757d;
+        }
+        .footer-author {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1a73e8;
+            background: #e8f0fe;
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: 1px solid #d2e3fc;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- टॉप नेव्हिगेशन बार -->
+    <header class="navbar">
+        <div class="brand-title">🏛️ रयत सेवक डिजिटल पोर्टल</div>
+        <nav class="nav-tabs">
+            <button class="tab-btn active" onclick="openTab(event, 'tab-cutter')">✂️ फोटो व सही कटर</button>
+            <button class="tab-btn" onclick="openTab(event, 'tab-da')">📊 DA Chart</button>
+            <button class="tab-btn" onclick="openTab(event, 'tab-hra')">🏠 HRA Chart</button>
+        </nav>
+    </header>
+
+    <main class="main-container">
+
+        <!-- ==================== टॅब १: कटर टूल ==================== -->
+        <section id="tab-cutter" class="tab-content active">
+            <div class="tool-header">
+                <div style="font-family: 'Khand', sans-serif; font-size: 20px; font-weight: 700; color: #333;">
+                    इयत्ता १०वी / १२वी फॉर्म स्कॅनिंग
+                </div>
+                
+                <div class="tool-controls">
+                    <input type="file" id="fileInput" accept="image/*" style="display:none;">
+                    <button class="btn btn-upload" onclick="document.getElementById('fileInput').click()">📁 फॉर्म अपलोड</button>
+                    <button class="btn btn-auto" onclick="autoDetectBoxes()">🤖 ऑटो डिटेक्ट</button>
+                    <button class="btn btn-photo" onclick="addNewBox('photo')">➕ फोटो</button>
+                    <button class="btn btn-sign" onclick="addNewBox('sign')">➕ सही</button>
+                    <button class="btn btn-clear" onclick="clearAllBoxes()">🗑️ क्लिअर</button>
+
+                    <span class="counter-badge">फोटो: <span id="photoCount" style="color:#0d6efd;">0</span> | सह्या: <span id="signCount" style="color:#198754;">0</span></span>
+                    
+                    <button class="btn btn-download" onclick="cropAndDownloadAll()">📦 ZIP डाऊनलोड</button>
+                </div>
+            </div>
+
+            <div class="workspace">
+                <div id="canvasWrapper">
+                    <img id="scannedDoc" src="" alt="कृपया आधी 'फॉर्म अपलोड' वर क्लिक करून स्कॅन प्रत निवडा">
+                    <div id="boxesContainer"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== टॅब २: DA CHART ==================== -->
+        <section id="tab-da" class="tab-content">
+            <div class="chart-card">
+                <div class="chart-header">📈 महाराष्ट्र शासन - महागाई भत्ता (DA) दर तक्ता</div>
+                <p style="font-size: 13px; color: #666;">(टीप: तुमच्या चालू जीआरनुसार आवश्यकतेनुसार हे आकडे बदलता येतील)</p>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>अ.क्र.</th>
+                            <th>लागू दिनांक</th>
+                            <th>DA टक्केवारी (%)</th>
+                            <th>वाढ (%)</th>
+                            <th>शासन निर्णय (GR) संदर्भ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>01/01/2024 पासून</td>
+                            <td><b>50%</b></td>
+                            <td>+ 4%</td>
+                            <td>वित्त विभाग जीआर 2024</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>01/07/2023 पासून</td>
+                            <td><b>46%</b></td>
+                            <td>+ 4%</td>
+                            <td>वित्त विभाग जीआर 2023</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>01/01/2023 पासून</td>
+                            <td><b>42%</b></td>
+                            <td>+ 4%</td>
+                            <td>वित्त विभाग जीआर 2023</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>01/07/2022 पासून</td>
+                            <td><b>38%</b></td>
+                            <td>+ 4%</td>
+                            <td>वित्त विभाग जीआर 2022</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ==================== टॅब ३: HRA CHART ==================== -->
+        <section id="tab-hra" class="tab-content">
+            <div class="chart-card">
+                <div class="chart-header">🏠 घरभाडे भत्ता (HRA) दर वर्गीकरण</div>
+                <p style="font-size: 13px; color: #666;">७ व्या वेतन आयोगानुसार शहरांचे वर्गीकरण व दर</p>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>शहर वर्ग (Class)</th>
+                            <th>शहरांची वर्गवारी (उदाहरणे)</th>
+                            <th>सध्याचा दर (DA 50% झाल्यावर)</th>
+                            <th>मूळ दर (7th Pay)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>X वर्ग</b> (50 लाखांपेक्षा जास्त)</td>
+                            <td>मुंबई, बृहन्मुंबई, पुणे इत्यादी</td>
+                            <td><b style="color: #28a745;">30%</b></td>
+                            <td>24%</td>
+                        </tr>
+                        <tr>
+                            <td><b>Y वर्ग</b> (5 ते 50 लाख लोकसंख्या)</td>
+                            <td>नागपूर, नाशिक, कोल्हापूर, सांगली, सोलापूर, औरंगाबाद इ.</td>
+                            <td><b style="color: #28a745;">20%</b></td>
+                            <td>16%</td>
+                        </tr>
+                        <tr>
+                            <td><b>Z वर्ग</b> (इतर सर्व शहरे व ग्रामीण)</td>
+                            <td>तालुका गावे, ग्रामीण भाग व इतर आस्थापना</td>
+                            <td><b style="color: #28a745;">10%</b></td>
+                            <td>8%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- फुटर -->
+    <footer class="footer">
+        <div class="footer-note">📌 शिक्षक व शिक्षकेतर कर्मचाऱ्यांच्या कामातील सुलभतेसाठी विकसित.</div>
+        <div class="footer-author">Developed by : Rayat Sevak Sujit Patil</div>
+    </footer>
+
+<script>
+    // १. टॅब बदलणे लॉजिक
+    function openTab(evt, tabId) {
+        const contents = document.querySelectorAll('.tab-content');
+        contents.forEach(el => el.classList.remove('active'));
+
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        tabBtns.forEach(btn => btn.classList.remove('active'));
+
+        document.getElementById(tabId).classList.add('active');
+        evt.currentTarget.classList.add('active');
+    }
+
+    // २. कटर टूल लॉजिक
+    let photoCounter = 0;
+    let signCounter = 0;
+    const boxesContainer = document.getElementById('boxesContainer');
+    const scannedDoc = document.getElementById('scannedDoc');
+    const photoCountSpan = document.getElementById('photoCount');
+    const signCountSpan = document.getElementById('signCount');
+
+    document.getElementById('fileInput').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            scannedDoc.src = event.target.result;
+            scannedDoc.onload = function() {
+                clearAllBoxes();
+            };
+        };
+        reader.readAsDataURL(file);
+    });
+
+    function createBoxElement(type, idNumber, top, left, width, height) {
+        const box = document.createElement('div');
+        box.className = `crop-box ${type}-box`;
+        box.dataset.type = type;
+        box.dataset.id = idNumber;
+        box.style.top = top + 'px';
+        box.style.left = left + 'px';
+        box.style.width = width + 'px';
+        box.style.height = height + 'px';
+
+        const labelName = type === 'photo' ? `Photo ${idNumber}` : `Sign ${idNumber}`;
+
+        box.innerHTML = `
+            <span class="box-label">${labelName}</span>
+            <button class="box-close" title="काढा" onclick="removeSpecificBox(this)">✕</button>
+            <div class="resize-handle"></div>
+        `;
+
+        const handle = box.querySelector('.resize-handle');
+        makeDraggableAndResizable(box, handle);
+        boxesContainer.appendChild(box);
+        updateCounters();
+    }
+
+    function addNewBox(type) {
+        if (!scannedDoc.src || scannedDoc.naturalWidth === 0) {
+            alert("कृपया आधी फॉर्म अपलोड करा!");
+            return;
+        }
+
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+        const topPos = Math.max(30, scrollY - 60);
+
+        if (type === 'photo') {
+            photoCounter++;
+            createBoxElement('photo', photoCounter, topPos, 50, 115, 140);
+        } else if (type === 'sign') {
+            signCounter++;
+            createBoxElement('sign', signCounter, topPos, 50, 115, 45);
+        }
+    }
+
+    function autoDetectBoxes() {
+        if (!scannedDoc.src || scannedDoc.naturalWidth === 0) {
+            alert("कृपया आधी फॉर्म अपलोड करा!");
+            return;
+        }
+
+        clearAllBoxes();
+
+        const displayW = scannedDoc.clientWidth;
+        const displayH = scannedDoc.clientHeight;
+
+        const colRatios = [0.08, 0.38, 0.68];
+        const rowRatios = [0.14, 0.35, 0.56, 0.77];
+
+        const photoW = displayW * 0.14;
+        const photoH = photoW * 1.25; 
+        const signW = photoW;
+        const signH = photoW * 0.45;  
+
+        let pCount = 0;
+        let sCount = 0;
+
+        for (let r = 0; r < rowRatios.length; r++) {
+            for (let c = 0; c < colRatios.length; c++) {
+                if (pCount >= 10) break;
+
+                const left = displayW * colRatios[c];
+                const topP = displayH * rowRatios[r];
+                const topS = topP + photoH + 10;
+
+                pCount++;
+                sCount++;
+
+                createBoxElement('photo', pCount, topP, left, photoW, photoH);
+                createBoxElement('sign', sCount, topS, left, signW, signH);
+            }
+        }
+    }
+
+    window.removeSpecificBox = function(btn) {
+        btn.closest('.crop-box').remove();
+        updateCounters();
+    };
+
+    function clearAllBoxes() {
+        boxesContainer.innerHTML = '';
+        photoCounter = 0;
+        signCounter = 0;
+        updateCounters();
+    }
+
+    function updateCounters() {
+        photoCountSpan.innerText = document.querySelectorAll('.crop-box.photo-box').length;
+        signCountSpan.innerText = document.querySelectorAll('.crop-box.sign-box').length;
+    }
+
+    function makeDraggableAndResizable(el, handle) {
+        let isDragging = false;
+        let isResizing = false;
+        let startX, startY, startWidth, startHeight, startLeft, startTop;
+
+        el.addEventListener('mousedown', function(e) {
+            if (e.target === handle || e.target.classList.contains('box-close')) return;
+            isDragging = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            startLeft = el.offsetLeft;
+            startTop = el.offsetTop;
+            e.preventDefault();
+        });
+
+        handle.addEventListener('mousedown', function(e) {
+            isResizing = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            startWidth = parseInt(document.defaultView.getComputedStyle(el).width, 10);
+            startHeight = parseInt(document.defaultView.getComputedStyle(el).height, 10);
+            e.stopPropagation();
+            e.preventDefault();
+        });
+
+        window.addEventListener('mousemove', function(e) {
+            if (isDragging) {
+                el.style.left = (startLeft + (e.clientX - startX)) + 'px';
+                el.style.top = (startTop + (e.clientY - startY)) + 'px';
+            }
+            if (isResizing) {
+                el.style.width = Math.max(30, (startWidth + (e.clientX - startX))) + 'px';
+                el.style.height = Math.max(20, (startHeight + (e.clientY - startY))) + 'px';
+            }
+        });
+
+        window.addEventListener('mouseup', function() {
+            isDragging = false;
+            isResizing = false;
+        });
+    }
+
+    async function cropAndDownloadAll() {
+        const boxes = document.querySelectorAll('.crop-box');
+        if (boxes.length === 0) {
+            alert("क्रॉप करण्यासाठी एकही बॉक्स उपलब्ध नाही!");
+            return;
+        }
+
+        const zip = new JSZip();
+        const scaleX = scannedDoc.naturalWidth / scannedDoc.clientWidth;
+        const scaleY = scannedDoc.naturalHeight / scannedDoc.clientHeight;
+
+        const originalImg = new Image();
+        originalImg.src = scannedDoc.src;
+        await originalImg.decode();
+
+        let index = 1;
+        for (let box of boxes) {
+            const type = box.dataset.type;
+            const id = box.dataset.id || index;
+            const fileName = `${type}_${id}.jpg`;
+
+            const bLeft = box.offsetLeft * scaleX;
+            const bTop = box.offsetTop * scaleY;
+            const bWidth = box.offsetWidth * scaleX;
+            const bHeight = box.offsetHeight * scaleY;
+
+            const canvas = document.createElement('canvas');
+            canvas.width = bWidth;
+            canvas.height = bHeight;
+            const ctx = canvas.getContext('2d');
+
+            ctx.drawImage(originalImg, bLeft, bTop, bWidth, bHeight, 0, 0, bWidth, bHeight);
+
+            let blob = await compressToTargetSize(canvas, 25, 40);
+            zip.file(fileName, blob);
+            index++;
+        }
+
+        zip.generateAsync({ type: "blob" }).then(function(content) {
+            saveAs(content, "Board_Photos_and_Signs.zip");
+        });
+    }
+
+    function compressToTargetSize(canvas, minKB, maxKB) {
+        return new Promise((resolve) => {
+            let quality = 0.90;
+            function attempt() {
+                canvas.toBlob((blob) => {
+                    let sizeKB = blob.size / 1024;
+                    if (sizeKB > maxKB && quality > 0.1) {
+                        quality -= 0.08;
+                        attempt();
+                    } else {
+                        resolve(blob);
+                    }
+                }, 'image/jpeg', quality);
+            }
+            attempt();
+        });
+    }
+</script>
+
+</body>
+</html>
