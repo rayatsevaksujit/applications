@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>डिजिटल साथीदार | Digital Sathidar - अधिकृत शिक्षक व कर्मचारी सेवा प्रणाली</title>
+    <title>डिजिटल साथीदार | Digital Sathidar</title>
     
-    <!-- SEO Meta Tags for Google Search -->
-    <meta name="description" content="महाराष्ट्र शासन DA फरक कॅल्क्युलेटर, HRA फरक तक्ता, SSC HSC 9 फोटो व सही कटर आणि PDF टूल्स - डिजिटल साथीदार (Digital Sathidar) सुजित पाटील.">
-    <meta name="keywords" content="Digital Sathidar, डिजिटल साथीदार, DA Difference Calculator, HRA Difference Chart Maharashtra, SSC HSC Photo Cutter, PDF Compress, Sujit Patil">
+    <meta name="description" content="महाराष्ट्र शासन DA फरक कॅल्क्युलेटर, HRA फरक तक्ता, SSC HSC 9 फोटो व सही कटर आणि PDF टूल्स - डिजिटल साथीदार.">
+    <meta name="keywords" content="Digital Sathidar, डिजिटल साथीदार, DA Difference Calculator, HRA Difference Chart Maharashtra, SSC HSC Photo Cutter, PDF Compress">
     <meta name="author" content="Sujit Patil (SP)">
 
-    <!-- Fonts (Kokila & Devanagari Fallbacks) -->
+    <!-- Fonts (DVOT Surekh, Kokila, Mukta Fallbacks) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -36,14 +35,13 @@
             --text-muted: #64748b;
             --success: #059669;
             --danger: #e11d48;
-            --warning: #d97706;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Kokila', 'Mukta', 'Mangal', 'Noto Sans Devanagari', sans-serif;
+            font-family: 'DVOT-Surekh', 'DV-Surekh', 'Surekh', 'Kokila', 'Mukta', sans-serif;
             -webkit-font-smoothing: antialiased;
         }
 
@@ -52,96 +50,72 @@
             color: var(--text-main);
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
-            font-size: 16px;
-        }
-
-        /* Top Bar */
-        .top-masthead {
-            background: #020617;
-            color: #94a3b8;
-            padding: 6px 30px;
+            height: 100vh;
+            overflow: hidden;
             font-size: 14px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #1e293b;
         }
 
+        /* Compact Header */
         .portal-nav {
             background: var(--surface);
-            padding: 12px 30px;
+            padding: 6px 18px;
             border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            flex-shrink: 0;
         }
 
         .brand-block {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
         .brand-logo-badge {
             background: linear-gradient(135deg, #1e3a8a, #0284c7);
             color: #ffffff;
-            width: 44px;
-            height: 44px;
-            border-radius: 10px;
+            width: 34px;
+            height: 34px;
+            border-radius: 7px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 800;
-            font-size: 19px;
-            letter-spacing: 1px;
-            box-shadow: 0 3px 10px rgba(2, 132, 199, 0.35);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 15px;
+            letter-spacing: 0.5px;
             font-family: 'Segoe UI', Tahoma, sans-serif;
         }
 
         .brand-text h1 {
-            font-size: 21px;
+            font-size: 17px;
             font-weight: 700;
             color: var(--primary);
-            line-height: 1.2;
+            line-height: 1.1;
         }
 
         .brand-text p {
-            font-size: 14px;
+            font-size: 11px;
             color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
         }
 
         .nav-tabs {
             display: flex;
             gap: 4px;
             background: #f1f5f9;
-            padding: 4px;
-            border-radius: 8px;
+            padding: 3px;
+            border-radius: 6px;
             border: 1px solid var(--border);
         }
 
         .tab-btn {
             background: transparent;
             border: none;
-            padding: 8px 16px;
-            font-size: 16px;
+            padding: 5px 12px;
+            font-size: 13px;
             font-weight: 600;
             color: var(--text-muted);
-            border-radius: 6px;
+            border-radius: 4px;
             cursor: pointer;
             transition: all 0.15s ease-in-out;
         }
@@ -153,191 +127,67 @@
         .tab-btn.active {
             background: var(--surface);
             color: var(--primary-accent);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-            border: 1px solid rgba(0,0,0,0.04);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.08);
         }
 
-        /* Main Container */
+        /* Screen Fit Container (Without Scroll) */
         .main-container {
             flex: 1;
-            padding: 24px 30px;
-            max-width: 1480px;
-            margin: 0 auto;
+            padding: 8px 16px;
             width: 100%;
+            height: calc(100vh - 85px);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
         }
 
         .portal-tab {
             display: none;
+            height: 100%;
         }
 
         .portal-tab.active {
-            display: block;
-            animation: modernFade 0.2s ease-out;
-        }
-
-        @keyframes modernFade {
-            from { opacity: 0; transform: translateY(3px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Generic Card & Form Layout */
-        .panel-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-
-        @media (min-width: 1180px) {
-            .panel-grid {
-                grid-template-columns: 340px 1fr;
-            }
-        }
-
-        .panel-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
-        }
-
-        .panel-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 14px;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             gap: 8px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 10px;
+            height: 100%;
         }
 
-        .form-group {
-            margin-bottom: 12px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 15px;
-            font-weight: 600;
-            color: #334155;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 8px 12px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 16px;
-            color: var(--text-main);
-            background: #fff;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .form-control:focus {
-            border-color: var(--primary-accent);
-            box-shadow: 0 0 0 2px rgba(30, 64, 175, 0.1);
-        }
-
-        .btn-ui {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            padding: 9px 16px;
-            font-size: 15px;
-            font-weight: 600;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.15s ease;
-        }
-
-        .btn-primary { background: var(--primary-accent); color: white; }
-        .btn-primary:hover { background: #1d4ed8; }
-        .btn-success { background: var(--success); color: white; }
-        .btn-success:hover { background: #047857; }
-        .btn-danger { background: var(--danger); color: white; }
-        .btn-danger:hover { background: #be123c; }
-        .btn-outline { background: white; border: 1px solid var(--border); color: #334155; }
-        .btn-outline:hover { background: #f8fafc; }
-
-        /* Tables */
-        .table-responsive {
-            overflow-x: auto;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            max-height: 75vh;
-        }
-
-        table.portal-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 16px;
-            white-space: nowrap;
-        }
-
-        table.portal-table th, table.portal-table td {
-            border: 1px solid var(--border);
-            padding: 8px 6px;
-            text-align: center;
-        }
-
-        table.portal-table th {
-            background: #f8fafc;
-            color: #334155;
-            font-weight: 700;
-            font-size: 15px;
-        }
-
-        .table-input {
-            width: 100%;
-            padding: 6px 8px;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            font-size: 15px;
-            font-weight: 600;
-        }
-
-        /* Image Cutter Toolbar & Viewport */
+        /* Cutter Viewport Compact */
         .cutter-bar {
             background: var(--surface);
-            padding: 14px 20px;
+            padding: 6px 12px;
             border: 1px solid var(--border);
-            border-radius: 10px;
+            border-radius: 6px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 16px;
+            flex-shrink: 0;
         }
 
         .cutter-viewport {
             background: #1e293b;
-            padding: 24px;
-            border-radius: 10px;
+            padding: 10px;
+            border-radius: 6px;
             display: flex;
             justify-content: center;
+            align-items: flex-start;
             overflow: auto;
-            min-height: 75vh;
+            flex: 1;
             border: 1px solid #334155;
         }
 
         #canvasWrapper {
             position: relative;
             background: white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
             display: inline-block;
         }
 
         #scannedDoc {
             display: block;
-            max-width: 950px;
-            height: auto;
+            max-height: calc(100vh - 180px);
+            width: auto;
             user-select: none;
             pointer-events: none;
         }
@@ -352,7 +202,7 @@
             user-select: none;
             box-sizing: border-box;
             padding: 2px;
-            border-radius: 4px;
+            border-radius: 3px;
         }
 
         .crop-box.photo-box {
@@ -368,10 +218,10 @@
         .box-label {
             background: #0f172a;
             color: #fff;
-            font-size: 13px;
+            font-size: 11px;
             font-weight: 600;
-            padding: 1px 6px;
-            border-radius: 3px;
+            padding: 1px 4px;
+            border-radius: 2px;
             pointer-events: none;
         }
 
@@ -380,9 +230,9 @@
             color: white;
             border: none;
             border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            font-size: 11px;
+            width: 15px;
+            height: 15px;
+            font-size: 9px;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -391,70 +241,165 @@
 
         .resize-handle {
             position: absolute;
-            width: 11px;
-            height: 11px;
+            width: 9px;
+            height: 9px;
             background: #ffffff;
             border: 2px solid #0f172a;
-            bottom: -5px;
-            right: -5px;
+            bottom: -4px;
+            right: -4px;
             cursor: se-resize;
+        }
+
+        /* Buttons & Forms */
+        .btn-ui {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            padding: 5px 10px;
+            font-size: 12.5px;
+            font-weight: 600;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: 0.15s ease;
+        }
+
+        .btn-primary { background: var(--primary-accent); color: white; }
+        .btn-primary:hover { background: #1d4ed8; }
+        .btn-success { background: var(--success); color: white; }
+        .btn-success:hover { background: #047857; }
+        .btn-danger { background: var(--danger); color: white; }
+        .btn-danger:hover { background: #be123c; }
+        .btn-outline { background: white; border: 1px solid var(--border); color: #334155; }
+        .btn-outline:hover { background: #f8fafc; }
+
+        .panel-grid {
+            display: grid;
+            grid-template-columns: 290px 1fr;
+            gap: 12px;
+            height: 100%;
+        }
+
+        .panel-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: auto;
+        }
+
+        .panel-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 4px;
+        }
+
+        .form-group {
+            margin-bottom: 8px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 3px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 5px 8px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .table-responsive {
+            overflow: auto;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            flex: 1;
+        }
+
+        table.portal-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        table.portal-table th, table.portal-table td {
+            border: 1px solid var(--border);
+            padding: 5px 4px;
+            text-align: center;
+        }
+
+        table.portal-table th {
+            background: #f8fafc;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        .table-input {
+            width: 100%;
+            padding: 4px 6px;
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            font-size: 12.5px;
+            font-weight: 600;
         }
 
         /* PDF Grid */
         .pdf-features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 12px;
+            flex: 1;
         }
 
         .pdf-action-card {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 22px;
+            border-radius: 6px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
         }
 
-        /* Footer */
+        /* Compact Footer */
         .portal-footer {
-            margin-top: auto;
             background: var(--surface);
             border-top: 1px solid var(--border);
-            padding: 14px 30px;
+            padding: 4px 18px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 15px;
+            font-size: 12px;
             color: var(--text-muted);
-            flex-wrap: wrap;
-            gap: 10px;
+            flex-shrink: 0;
         }
 
-        .author-tag {
-            font-weight: 700;
-            color: var(--primary);
-            background: #f1f5f9;
-            padding: 5px 14px;
-            border-radius: 6px;
-            border: 1px solid var(--border);
-        }
-
-        /* Floating WA */
+        /* WhatsApp Floating Icon */
         .wa-float {
             position: fixed;
-            bottom: 24px;
-            right: 24px;
+            bottom: 18px;
+            right: 18px;
             background: #10b981;
-            width: 52px;
-            height: 52px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 3px 10px rgba(16, 185, 129, 0.4);
             z-index: 9999;
             transition: transform 0.2s;
         }
@@ -463,13 +408,12 @@
             transform: scale(1.08);
         }
 
-        /* Print Area */
         #print-area { display: none; }
 
         @media print {
             @page { size: A4 landscape; margin: 6mm 6mm 4mm 6mm; }
-            html, body { background: white !important; padding: 0 !important; margin: 0 !important; font-family: 'Kokila', 'Mukta', 'Mangal', sans-serif !important; }
-            .top-masthead, .portal-nav, .main-container, .portal-footer, .wa-float { display: none !important; }
+            html, body { background: white !important; padding: 0 !important; margin: 0 !important; overflow: visible !important; height: auto !important; }
+            .portal-nav, .main-container, .portal-footer, .wa-float { display: none !important; }
             #print-area { display: block !important; width: 100%; }
             .a4-page {
                 position: relative;
@@ -496,11 +440,11 @@
                 display: flex;
                 justify-content: space-between;
                 padding: 0 4mm;
-                font-size: 13px;
+                font-size: 12px;
                 font-weight: 600;
             }
             .emp-chart-block table {
-                font-size: 14px;
+                font-size: 13px;
                 margin-top: 2px;
                 width: 100%;
                 border-collapse: collapse;
@@ -513,7 +457,7 @@
             .print-title {
                 text-align: center;
                 font-weight: 700;
-                font-size: 15px;
+                font-size: 14px;
                 background-color: #f1f5f9 !important;
                 padding: 3px;
                 border: 1px solid #000;
@@ -522,7 +466,7 @@
                 display: flex;
                 justify-content: space-between;
                 margin-bottom: 2px;
-                font-size: 13.5px;
+                font-size: 12px;
                 border-bottom: 1px solid #000;
                 padding-bottom: 1px;
             }
@@ -531,18 +475,13 @@
 </head>
 <body>
 
-    <div class="top-masthead">
-        <span>शालेय व कार्यालयीन ऑटोमेशन पोर्टल (Maharashtra Education & Staff Automation)</span>
-        <span>सुरक्षित क्लायंट-साइड डेटा प्रक्रिया</span>
-    </div>
-
     <!-- Main Navigation Bar -->
     <header class="portal-nav">
         <div class="brand-block">
             <div class="brand-logo-badge">SP</div>
             <div class="brand-text">
                 <h1>डिजिटल साथीदार</h1>
-                <p>Digital Sathidar - Digital Utilities & Office Automation</p>
+                <p>Digital Sathidar Utilities</p>
             </div>
         </div>
         
@@ -558,15 +497,15 @@
 
     <main class="main-container">
 
-        <!-- ==================== टॅब १: कटर टूल ==================== -->
+        <!-- टॅब १: कटर टूल -->
         <section id="tab-cutter" class="portal-tab active">
             <div class="cutter-bar">
                 <div>
-                    <div style="font-size: 17px; font-weight: 700; color: var(--primary);">SSC / HSC परीक्षा फॉर्म - फोटो व सही क्रॉपिंग प्रणाली</div>
-                    <div style="font-size: 14px; color: var(--text-muted);">बोर्डाच्या २२५x२८५ व आवश्यक २५ ते ४० KB साईजमध्ये थेट रूपांतरण</div>
+                    <div style="font-size: 14px; font-weight: 700; color: var(--primary);">SSC / HSC परीक्षा फॉर्म - फोटो व सही क्रॉपिंग प्रणाली</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">२२५x२८५ व आवश्यक २५ ते ४० KB साईज</div>
                 </div>
                 
-                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
                     <input type="file" id="cutterFileInput" accept="image/*" style="display:none;">
                     <button class="btn-ui btn-primary" onclick="document.getElementById('cutterFileInput').click()">📁 ९ फोटो आणि सही नमुना अपलोड करा</button>
                     <button class="btn-ui btn-outline" onclick="autoDetectBoxes()">🤖 ऑटो डिटेक्ट</button>
@@ -574,7 +513,7 @@
                     <button class="btn-ui btn-outline" onclick="addNewBox('sign')">+ सही</button>
                     <button class="btn-ui btn-danger" onclick="clearAllBoxes()">रिसेट</button>
 
-                    <span style="font-size:14px; font-weight:600; padding:6px 12px; background:#f1f5f9; border-radius:6px;">
+                    <span style="font-size:12px; font-weight:700; padding:4px 8px; background:#f1f5f9; border-radius:4px;">
                         फोटो: <span id="photoCount" style="color:#2563eb;">0</span> | सह्या: <span id="signCount" style="color:#059669;">0</span>
                     </span>
 
@@ -590,7 +529,7 @@
             </div>
         </section>
 
-        <!-- ==================== टॅब २: DA फरक कॅल्क्युलेटर ==================== -->
+        <!-- टॅब २: DA फरक कॅल्क्युलेटर -->
         <section id="tab-da" class="portal-tab">
             <div class="panel-grid">
                 <div class="panel-card">
@@ -600,7 +539,7 @@
                         <input type="text" id="da-school-name" class="form-control" value="स्वामी रामानंद विद्यालय व ज्युनियर कॉलेज, तासगावकर">
                     </div>
 
-                    <div style="display: flex; gap: 8px;">
+                    <div style="display: flex; gap: 6px;">
                         <div class="form-group" style="flex:1;">
                             <label>जुना DA (%)</label>
                             <input type="number" id="old-da" class="form-control" value="55" step="0.1" oninput="recalculateAllDARows()">
@@ -611,18 +550,18 @@
                         </div>
                     </div>
                     
-                    <div style="background: #f8fafc; padding: 12px; border-radius: 6px; border: 1px solid var(--border); margin-top: 6px;">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
-                            <label style="font-weight: 700; font-size: 14px; margin:0;">लागू महिने:</label>
+                    <div style="background: #f8fafc; padding: 8px; border-radius: 5px; border: 1px solid var(--border);">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px;">
+                            <label style="font-weight: 700; font-size: 12px; margin:0;">लागू महिने:</label>
                             <div style="display:flex; gap:4px;">
-                                <button type="button" class="btn-ui btn-outline" style="padding:3px 10px; font-size:13px;" onclick="removeDAMonth()">- कमी</button>
-                                <button type="button" class="btn-ui btn-primary" style="padding:3px 10px; font-size:13px;" onclick="addDAMonth()">+ वाढवा</button>
+                                <button type="button" class="btn-ui btn-outline" style="padding:2px 6px; font-size:11px;" onclick="removeDAMonth()">- कमी</button>
+                                <button type="button" class="btn-ui btn-primary" style="padding:2px 6px; font-size:11px;" onclick="addDAMonth()">+ वाढवा</button>
                             </div>
                         </div>
                         <div id="da-months-container"></div>
                     </div>
 
-                    <div style="margin-top: 16px; display:flex; flex-direction:column; gap:8px;">
+                    <div style="margin-top: 10px; display:flex; flex-direction:column; gap:6px;">
                         <button class="btn-ui btn-success" onclick="printA4DACharts()">🖨️ A4 लँडस्केप प्रिंट काढा</button>
                         <button class="btn-ui btn-outline" onclick="addNewDARow()">+ कर्मचारी नोंद जोडा</button>
                     </div>
@@ -640,7 +579,7 @@
             </div>
         </section>
 
-        <!-- ==================== टॅब ३: HRA फरक कॅल्क्युलेटर ==================== -->
+        <!-- टॅब ३: HRA फरक कॅल्क्युलेटर -->
         <section id="tab-hra" class="portal-tab">
             <div class="panel-grid">
                 <div class="panel-card">
@@ -650,7 +589,7 @@
                         <input type="text" id="hra-school-name" class="form-control" value="शाळेचे नाव">
                     </div>
 
-                    <div style="display: flex; gap: 8px;">
+                    <div style="display: flex; gap: 6px;">
                         <div class="form-group" style="flex:1;">
                             <label>जुना HRA (%)</label>
                             <input type="number" id="old-hra" class="form-control" value="9" step="0.1" oninput="recalculateAllHRARows()">
@@ -661,18 +600,18 @@
                         </div>
                     </div>
                     
-                    <div style="background: #f8fafc; padding: 12px; border-radius: 6px; border: 1px solid var(--border); margin-top: 6px;">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
-                            <label style="font-weight: 700; font-size: 14px; margin:0;">लागू महिने:</label>
+                    <div style="background: #f8fafc; padding: 8px; border-radius: 5px; border: 1px solid var(--border);">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px;">
+                            <label style="font-weight: 700; font-size: 12px; margin:0;">लागू महिने:</label>
                             <div style="display:flex; gap:4px;">
-                                <button type="button" class="btn-ui btn-outline" style="padding:3px 10px; font-size:13px;" onclick="removeHRAMonth()">- कमी</button>
-                                <button type="button" class="btn-ui btn-primary" style="padding:3px 10px; font-size:13px;" onclick="addHRAMonth()">+ वाढवा</button>
+                                <button type="button" class="btn-ui btn-outline" style="padding:2px 6px; font-size:11px;" onclick="removeHRAMonth()">- कमी</button>
+                                <button type="button" class="btn-ui btn-primary" style="padding:2px 6px; font-size:11px;" onclick="addHRAMonth()">+ वाढवा</button>
                             </div>
                         </div>
                         <div id="hra-months-container"></div>
                     </div>
 
-                    <div style="margin-top: 16px; display:flex; flex-direction:column; gap:8px;">
+                    <div style="margin-top: 10px; display:flex; flex-direction:column; gap:6px;">
                         <button class="btn-ui btn-success" onclick="printA4HRACharts()">🖨️ A4 लँडस्केप प्रिंट काढा</button>
                         <button class="btn-ui btn-outline" onclick="addNewHRARow()">+ कर्मचारी नोंद जोडा</button>
                     </div>
@@ -690,7 +629,7 @@
             </div>
         </section>
 
-        <!-- ==================== टॅब ४: PDF टूल्स ==================== -->
+        <!-- टॅब ४: PDF टूल्स -->
         <section id="tab-pdf" class="portal-tab">
             <div class="pdf-features-grid">
                 
@@ -698,20 +637,20 @@
                 <div class="pdf-action-card">
                     <div>
                         <div class="panel-title">🔗 PDF एकत्र करा (Merge PDF)</div>
-                        <p style="font-size:14px; color:var(--text-muted); margin-bottom:14px;">दोन किंवा अधिक PDF फाईल्स निवडून एकाच PDF मध्ये समाविष्ट करा.</p>
+                        <p style="font-size:12px; color:var(--text-muted); margin-bottom:10px;">दोन किंवा अधिक PDF फाईल्स जोडून एकच PDF बनवा.</p>
                         <div class="form-group">
                             <label>PDF फाईल्स निवडा:</label>
                             <input type="file" id="pdfMergeInput" class="form-control" accept="application/pdf" multiple>
                         </div>
                     </div>
-                    <button class="btn-ui btn-primary" style="width:100%; margin-top:14px;" onclick="mergePDFFiles()">एकत्र जोडून डाऊनलोड करा</button>
+                    <button class="btn-ui btn-primary" style="width:100%; margin-top:10px;" onclick="mergePDFFiles()">एकत्र जोडून डाऊनलोड करा</button>
                 </div>
 
                 <!-- २. Split PDF -->
                 <div class="pdf-action-card">
                     <div>
                         <div class="panel-title">✂️ PDF पाने वेगळी करा (Split PDF)</div>
-                        <p style="font-size:14px; color:var(--text-muted); margin-bottom:14px;">विशिष्ट पानांची रेंज टाकून स्वतंत्र फाईल काढा.</p>
+                        <p style="font-size:12px; color:var(--text-muted); margin-bottom:10px;">विशिष्ट पानांची रेंज टाकून स्वतंत्र फाईल काढा.</p>
                         <div class="form-group">
                             <label>मूळ PDF निवडा:</label>
                             <input type="file" id="pdfSplitInput" class="form-control" accept="application/pdf">
@@ -721,14 +660,14 @@
                             <input type="text" id="pdfSplitRange" class="form-control" placeholder="उदा. 1-2">
                         </div>
                     </div>
-                    <button class="btn-ui btn-primary" style="width:100%; margin-top:14px;" onclick="splitPDFFile()">पाने वेगळी करा</button>
+                    <button class="btn-ui btn-primary" style="width:100%; margin-top:10px;" onclick="splitPDFFile()">पाने वेगळी करा</button>
                 </div>
 
                 <!-- ३. Compress PDF -->
                 <div class="pdf-action-card">
                     <div>
                         <div class="panel-title">🗜️ PDF साईझ कमी करा (Compress PDF)</div>
-                        <p style="font-size:14px; color:var(--text-muted); margin-bottom:14px;">मोठ्या आकाराची फाईल (उदा. 10 MB) 5 MB किंवा 2 MB मध्ये कॉम्प्रेस करा.</p>
+                        <p style="font-size:12px; color:var(--text-muted); margin-bottom:10px;">मोठी फाईल (10 MB) 5 MB किंवा 2 MB मध्ये कॉम्प्रेस करा.</p>
                         <div class="form-group">
                             <label>PDF फाईल निवडा:</label>
                             <input type="file" id="pdfCompressInput" class="form-control" accept="application/pdf">
@@ -741,9 +680,9 @@
                                 <option value="0.3">अतिउच्च कॉम्प्रेशन (10MB to ~1.5MB)</option>
                             </select>
                         </div>
-                        <p id="compressStatus" style="font-size:14px; color:var(--primary-accent); font-weight:600; min-height:20px;"></p>
+                        <p id="compressStatus" style="font-size:11.5px; color:var(--primary-accent); font-weight:700; min-height:16px;"></p>
                     </div>
-                    <button class="btn-ui btn-success" style="width:100%; margin-top:14px;" id="btnCompress" onclick="compressPDFFile()">कॉम्प्रेस करून डाऊनलोड करा</button>
+                    <button class="btn-ui btn-success" style="width:100%; margin-top:10px;" id="btnCompress" onclick="compressPDFFile()">कॉम्प्रेस करून डाऊनलोड करा</button>
                 </div>
 
             </div>
@@ -751,15 +690,15 @@
 
     </main>
 
-    <!-- Professional Footer -->
+    <!-- Footer -->
     <footer class="portal-footer">
         <div>© 2026 डिजिटल साथीदार (Digital Sathidar) | सर्व हक्क सुरक्षित.</div>
-        <div class="author-tag">संकल्पना व निर्मिती : Sujit Patil (SP)</div>
+        <div style="font-weight:700; color:var(--primary);">संकल्पना व निर्मिती : Sujit Patil (SP)</div>
     </footer>
 
-    <!-- Floating WhatsApp Button -->
+    <!-- Floating WhatsApp -->
     <a href="https://wa.me/?text=नमस्कार%20डिजिटल%20साथीदार%20पोर्टल%20पहा:%20https://sujitjpatil-dada.github.io/applications/" target="_blank" class="wa-float" title="WhatsApp वर शेअर करा">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
     </a>
 
     <div id="print-area"></div>
@@ -785,8 +724,8 @@
         container.innerHTML = '';
         daMonths.forEach((m, idx) => {
             container.innerHTML += `
-                <div style="margin-bottom:5px;">
-                    <input type="text" class="form-control" style="padding:4px 8px; font-size:14px;" value="${m}" oninput="updateDAMonthName(${idx}, this.value)">
+                <div style="margin-bottom:4px;">
+                    <input type="text" class="form-control" style="padding:3px 6px; font-size:12px;" value="${m}" oninput="updateDAMonthName(${idx}, this.value)">
                 </div>
             `;
         });
@@ -822,24 +761,24 @@
         const thead = document.getElementById('da-master-thead');
         let row1 = `
             <tr>
-                <th rowspan="2" style="width: 35px;">अ.क्र.</th>
-                <th rowspan="2" style="width: 170px;">कर्मचाऱ्याचे नाव</th>
-                <th rowspan="2" style="width: 120px;">पद</th>
+                <th rowspan="2" style="width: 30px;">अ.क्र.</th>
+                <th rowspan="2" style="width: 150px;">कर्मचाऱ्याचे नाव</th>
+                <th rowspan="2" style="width: 110px;">पद</th>
         `;
         let row2 = `<tr>`;
 
         daMonths.forEach((m, idx) => {
             row1 += `<th colspan="2" id="da-month-th-${idx}" style="background: #eff6ff;">${m || 'महिना ' + (idx + 1)}</th>`;
             row2 += `
-                <th style="width:75px;">Basic</th>
-                <th style="width:60px;">Diff</th>
+                <th style="width:70px;">Basic</th>
+                <th style="width:55px;">Diff</th>
             `;
         });
 
         row1 += `
-                <th rowspan="2" style="width: 60px;">NPS?</th>
-                <th rowspan="2" style="width: 95px;">एकूण फरक</th>
-                <th rowspan="2" style="width: 85px;">NPS (10%)</th>
+                <th rowspan="2" style="width: 50px;">NPS?</th>
+                <th rowspan="2" style="width: 85px;">एकूण फरक</th>
+                <th rowspan="2" style="width: 75px;">NPS (10%)</th>
             </tr>
         `;
         row2 += `</tr>`;
@@ -871,7 +810,7 @@
 
                 rowHtml += `
                     <td>
-                        <input type="number" class="table-input" style="width:75px; text-align:center;" value="${basicVal === 0 ? '' : basicVal}" placeholder="0" 
+                        <input type="number" class="table-input" style="width:70px; text-align:center;" value="${basicVal === 0 ? '' : basicVal}" placeholder="0" 
                                oninput="onDABasicChange(${eIdx}, ${mIdx}, this.value)">
                     </td>
                     <td id="da-diff-cell-${eIdx}-${mIdx}" style="color:#e11d48; font-weight:700;">₹${monthDiff}</td>
@@ -882,7 +821,7 @@
 
             rowHtml += `
                 <td>
-                    <select class="table-input" style="width:60px;" onchange="onDANpsChange(${eIdx}, this.value)">
+                    <select class="table-input" style="width:50px;" onchange="onDANpsChange(${eIdx}, this.value)">
                         <option value="No" ${emp.nps === 'No' ? 'selected' : ''}>No</option>
                         <option value="Yes" ${emp.nps === 'Yes' ? 'selected' : ''}>Yes</option>
                     </select>
@@ -1050,8 +989,8 @@
         container.innerHTML = '';
         hraMonths.forEach((m, idx) => {
             container.innerHTML += `
-                <div style="margin-bottom:5px;">
-                    <input type="text" class="form-control" style="padding:4px 8px; font-size:14px;" value="${m}" oninput="updateHRAMonthName(${idx}, this.value)">
+                <div style="margin-bottom:4px;">
+                    <input type="text" class="form-control" style="padding:3px 6px; font-size:12px;" value="${m}" oninput="updateHRAMonthName(${idx}, this.value)">
                 </div>
             `;
         });
@@ -1087,21 +1026,21 @@
         const thead = document.getElementById('hra-master-thead');
         let row1 = `
             <tr>
-                <th rowspan="2" style="width: 35px;">अ.क्र.</th>
-                <th rowspan="2" style="width: 200px;">कर्मचाऱ्याचे नाव</th>
-                <th rowspan="2" style="width: 140px;">पद</th>
+                <th rowspan="2" style="width: 30px;">अ.क्र.</th>
+                <th rowspan="2" style="width: 170px;">कर्मचाऱ्याचे नाव</th>
+                <th rowspan="2" style="width: 120px;">पद</th>
         `;
         let row2 = `<tr>`;
 
         hraMonths.forEach((m, idx) => {
             row1 += `<th colspan="2" id="hra-month-th-${idx}" style="background: #eff6ff;">${m || 'महिना ' + (idx + 1)}</th>`;
             row2 += `
-                <th style="width:80px;">Basic</th>
-                <th style="width:65px;">Diff</th>
+                <th style="width:75px;">Basic</th>
+                <th style="width:60px;">Diff</th>
             `;
         });
 
-        row1 += `<th rowspan="2" style="width: 120px;">एकूण HRA फरक</th></tr>`;
+        row1 += `<th rowspan="2" style="width: 100px;">एकूण HRA फरक</th></tr>`;
         row2 += `</tr>`;
         thead.innerHTML = row1 + row2;
     }
@@ -1131,7 +1070,7 @@
 
                 rowHtml += `
                     <td>
-                        <input type="number" class="table-input" style="width:80px; text-align:center;" value="${basicVal === 0 ? '' : basicVal}" placeholder="0" 
+                        <input type="number" class="table-input" style="width:75px; text-align:center;" value="${basicVal === 0 ? '' : basicVal}" placeholder="0" 
                                oninput="onHRABasicChange(${eIdx}, ${mIdx}, this.value)">
                     </td>
                     <td id="hra-diff-cell-${eIdx}-${mIdx}" style="color:#e11d48; font-weight:700;">₹${monthDiff}</td>
@@ -1321,10 +1260,10 @@
         }
         if (type === 'photo') {
             photoCounter++;
-            createBoxElement('photo', photoCounter, 50, 50, 115, 140);
+            createBoxElement('photo', photoCounter, 30, 30, 100, 125);
         } else if (type === 'sign') {
             signCounter++;
-            createBoxElement('sign', signCounter, 50, 50, 115, 45);
+            createBoxElement('sign', signCounter, 30, 30, 100, 40);
         }
     }
 
@@ -1338,7 +1277,7 @@
         const displayH = scannedDoc.clientHeight;
 
         const colRatios = [0.08, 0.38, 0.68];
-        const rowRatios = [0.14, 0.35, 0.56, 0.77];
+        const rowRatios = [0.14, 0.35, 0.56];
 
         const photoW = displayW * 0.14;
         const photoH = photoW * 1.25; 
@@ -1351,7 +1290,7 @@
                 if (pCount >= 9) break;
                 const left = displayW * colRatios[c];
                 const topP = displayH * rowRatios[r];
-                const topS = topP + photoH + 10;
+                const topS = topP + photoH + 8;
                 pCount++;
                 sCount++;
                 createBoxElement('photo', pCount, topP, left, photoW, photoH);
@@ -1560,7 +1499,7 @@
         const file = input.files[0];
         const originalSizeMB = (file.size / (1024 * 1024)).toFixed(2);
         btn.disabled = true;
-        status.innerText = `⏳ प्रक्रिया चालू आहे... (मूळ: ${originalSizeMB} MB)`;
+        status.innerText = `⏳ कॉम्प्रेस होत आहे... (${originalSizeMB} MB)`;
 
         try {
             const fileData = await file.arrayBuffer();
