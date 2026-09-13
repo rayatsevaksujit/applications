@@ -3,47 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>रयत सेवक डिजिटल पोर्टल | Rayat Sevak Portal</title>
+    <title>रयत सेवक डिजिटल पोर्टल | अधिकृत शिक्षक व कर्मचारी सेवा प्रणाली</title>
     
-    <!-- फॉन्ट्स -->
+    <!-- SEO Meta Tags for Google Search -->
+    <meta name="description" content="महाराष्ट्र शासन DA फरक कॅल्क्युलेटर, HRA फरक तक्ता, SSC HSC 9 फोटो व सही कटर आणि PDF टूल्स - रयत सेवक सुजित पाटील.">
+    <meta name="keywords" content="DA Difference Calculator, HRA Difference Chart Maharashtra, SSC HSC Photo Cutter, PDF Compress, Rayat Sevak Sujit Patil">
+    <meta name="author" content="Rayat Sevak Sujit Patil">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Khand:wght@500;600;700&family=Mukta:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Mukta:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- JSZip आणि FileSaver लायब्ररी -->
+    <!-- Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+    </script>
 
     <style>
         :root {
-            --primary-color: #1e3a8a;
-            --secondary-color: #0d9488;
-            --bg-color: #f1f5f9;
-            --card-bg: #ffffff;
-            --text-color: #1e293b;
-            --border-color: #cbd5e1;
+            --primary: #0f172a;          /* Slate 900 */
+            --primary-accent: #1e40af;   /* Blue 800 */
+            --secondary: #0284c7;        /* Sky 600 */
+            --surface: #ffffff;
+            --background: #f8fafc;       /* Slate 50 */
+            --border: #e2e8f0;          /* Slate 200 */
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --success: #059669;
+            --danger: #e11d48;
+            --warning: #d97706;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Mukta', 'Poppins', sans-serif;
+            font-family: 'Inter', 'Mukta', sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: var(--background);
+            color: var(--text-main);
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
 
-        /* टॉप नेव्हिगेशन बार */
+        /* Top Government / Enterprise Header */
+        .top-masthead {
+            background: #020617;
+            color: #94a3b8;
+            padding: 5px 30px;
+            font-size: 11px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1e293b;
+        }
+
         .portal-nav {
-            background: #ffffff;
-            padding: 10px 25px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            background: var(--surface);
+            padding: 12px 30px;
+            border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -54,52 +81,102 @@
             z-index: 1000;
         }
 
-        .brand-title {
-            font-family: 'Khand', sans-serif;
-            font-size: 26px;
-            font-weight: 700;
-            color: var(--primary-color);
+        .brand-block {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
+        }
+
+        .brand-logo-badge {
+            background: linear-gradient(135deg, #1e3a8a, #0284c7);
+            color: #fff;
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25);
+        }
+
+        .brand-text h1 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: -0.3px;
+            line-height: 1.2;
+        }
+
+        .brand-text p {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
         .nav-tabs {
             display: flex;
-            gap: 8px;
-            background: #e2e8f0;
+            gap: 4px;
+            background: #f1f5f9;
             padding: 4px;
-            border-radius: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
         }
 
         .tab-btn {
             background: transparent;
             border: none;
-            padding: 8px 16px;
-            font-size: 14px;
-            font-weight: 700;
-            color: #475569;
-            border-radius: 8px;
+            padding: 7px 15px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            border-radius: 6px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.15s ease-in-out;
         }
 
         .tab-btn:hover {
-            color: var(--primary-color);
-            background: rgba(255,255,255,0.6);
+            color: var(--primary);
         }
 
         .tab-btn.active {
-            background: var(--primary-color);
-            color: #ffffff;
-            box-shadow: 0 2px 6px rgba(30, 58, 138, 0.3);
+            background: var(--surface);
+            color: var(--primary-accent);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.04);
         }
 
-        /* टॅब कंटेन्ट एरिया */
-        .main-wrapper {
+        .btn-wa-link {
+            background: #10b981;
+            color: #fff;
+            text-decoration: none;
+            padding: 7px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: opacity 0.2s;
+        }
+
+        .btn-wa-link:hover {
+            opacity: 0.9;
+        }
+
+        /* Container & Tabs */
+        .main-container {
             flex: 1;
-            padding: 18px;
-            max-width: 1450px;
+            padding: 24px 30px;
+            max-width: 1480px;
             margin: 0 auto;
             width: 100%;
         }
@@ -110,164 +187,167 @@
 
         .portal-tab.active {
             display: block;
-            animation: fadeIn 0.25s ease-in-out;
+            animation: modernFade 0.2s ease-out;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(4px); }
+        @keyframes modernFade {
+            from { opacity: 0; transform: translateY(3px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* कॉमन फॉर्म व बटनांच्या स्टाईल्स */
-        .grid {
+        /* Generic Card & Form Layout */
+        .panel-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 15px;
+            gap: 20px;
         }
 
-        @media (min-width: 1200px) {
-            .grid {
+        @media (min-width: 1180px) {
+            .panel-grid {
                 grid-template-columns: 340px 1fr;
             }
         }
 
-        .card {
-            background: var(--card-bg);
+        .panel-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
             border-radius: 10px;
-            padding: 16px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-            border: 1px solid rgba(0,0,0,0.05);
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
         }
 
-        .card h2 {
-            font-size: 17px;
+        .panel-title {
+            font-size: 15px;
             font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 12px;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 6px;
+            color: var(--primary);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
         }
 
         .form-group {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 3px;
+            margin-bottom: 5px;
+            font-size: 12px;
             font-weight: 600;
-            font-size: 13px;
+            color: #334155;
         }
 
         .form-control {
             width: 100%;
-            padding: 6px 10px;
-            border: 1px solid var(--border-color);
+            padding: 8px 12px;
+            border: 1px solid var(--border);
             border-radius: 6px;
-            font-size: 14px;
+            font-size: 13.5px;
+            color: var(--text-main);
+            background: #fff;
+            outline: none;
+            transition: border-color 0.2s;
         }
 
-        .btn {
-            display: inline-block;
-            background-color: var(--primary-color);
-            color: white;
-            padding: 9px 12px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
+        .form-control:focus {
+            border-color: var(--primary-accent);
+            box-shadow: 0 0 0 2px rgba(30, 64, 175, 0.1);
+        }
+
+        .btn-ui {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 8px 14px;
+            font-size: 13px;
             font-weight: 600;
-            font-size: 14px;
-            text-align: center;
-            transition: 0.2s;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.15s ease;
         }
 
-        .btn:hover { opacity: 0.95; }
-        .btn-success { background-color: #059669; }
-        .btn-danger { background-color: #ef4444; }
-        .btn-sm { width: auto; padding: 4px 10px; font-size: 12px; }
-        .btn-outline { background: white; border: 1px solid var(--border-color); color: #334155; }
-        .btn-outline:hover { background: #f1f5f9; }
+        .btn-primary { background: var(--primary-accent); color: white; }
+        .btn-primary:hover { background: #1d4ed8; }
+        .btn-success { background: var(--success); color: white; }
+        .btn-success:hover { background: #047857; }
+        .btn-danger { background: var(--danger); color: white; }
+        .btn-danger:hover { background: #be123c; }
+        .btn-outline { background: white; border: 1px solid var(--border); color: #334155; }
+        .btn-outline:hover { background: #f8fafc; }
 
-        /* टेबल्स */
-        table {
+        /* Professional Tables */
+        .table-responsive {
+            overflow-x: auto;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            max-height: 75vh;
+        }
+
+        table.portal-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 14px;
+            font-size: 13px;
             white-space: nowrap;
         }
 
-        th, td {
-            border: 1px solid var(--border-color);
-            padding: 6px 4px;
+        table.portal-table th, table.portal-table td {
+            border: 1px solid var(--border);
+            padding: 8px 6px;
             text-align: center;
         }
 
-        th {
-            background-color: #f1f5f9;
-            color: var(--primary-color);
-            font-weight: 700;
+        table.portal-table th {
+            background: #f8fafc;
+            color: #475569;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
 
-        .text-input {
+        .table-input {
             width: 100%;
-            min-width: 130px;
-            padding: 5px 6px;
-            border: 1px solid #cbd5e1;
+            padding: 6px 8px;
+            border: 1px solid var(--border);
             border-radius: 4px;
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 500;
         }
 
-        .inline-input {
-            width: 80px;
-            padding: 5px;
-            border: 1px solid #cbd5e1;
-            border-radius: 4px;
-            text-align: center;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .select-input {
-            width: 100%;
-            min-width: 60px;
-            padding: 5px;
-            border: 1px solid #cbd5e1;
-            border-radius: 4px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 13px;
-        }
-
-        /* ==================== कटर टूल स्टाईल्स ==================== */
-        .cutter-toolbar {
-            background: #fff;
-            padding: 12px 18px;
+        /* Image Cutter Toolbar & Workspace */
+        .cutter-bar {
+            background: var(--surface);
+            padding: 14px 20px;
+            border: 1px solid var(--border);
             border-radius: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 14px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            gap: 12px;
+            margin-bottom: 16px;
         }
 
-        .workspace-cutter {
+        .cutter-viewport {
+            background: #1e293b;
+            padding: 24px;
+            border-radius: 10px;
             display: flex;
             justify-content: center;
-            background: #343a40;
-            padding: 20px;
-            border-radius: 10px;
             overflow: auto;
-            min-height: 72vh;
-            border: 1px solid #495057;
+            min-height: 75vh;
+            border: 1px solid #334155;
         }
 
         #canvasWrapper {
             position: relative;
             background: white;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             display: inline-block;
         }
 
@@ -289,31 +369,31 @@
             user-select: none;
             box-sizing: border-box;
             padding: 2px;
-            border-radius: 3px;
+            border-radius: 4px;
         }
 
         .crop-box.photo-box {
-            border-color: #0d6efd;
-            background: rgba(13, 110, 253, 0.2);
+            border-color: #2563eb;
+            background: rgba(37, 99, 235, 0.22);
         }
 
         .crop-box.sign-box {
-            border-color: #198754;
-            background: rgba(25, 135, 84, 0.2);
+            border-color: #059669;
+            background: rgba(5, 150, 105, 0.22);
         }
 
         .box-label {
-            background: rgba(0, 0, 0, 0.8);
-            color: #ffffff;
+            background: #0f172a;
+            color: #fff;
             font-size: 11px;
             font-weight: 600;
-            padding: 1px 5px;
+            padding: 1px 6px;
             border-radius: 3px;
             pointer-events: none;
         }
 
         .box-close {
-            background: #dc3545;
+            background: #e11d48;
             color: white;
             border: none;
             border-radius: 50%;
@@ -331,76 +411,98 @@
             width: 11px;
             height: 11px;
             background: #ffffff;
-            border: 2px solid #000000;
+            border: 2px solid #0f172a;
             bottom: -5px;
             right: -5px;
             cursor: se-resize;
         }
 
-        /* फुटर */
-        .footer {
+        /* PDF Grid */
+        .pdf-features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .pdf-action-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        /* Footer */
+        .portal-footer {
             margin-top: auto;
-            background: #ffffff;
-            padding: 10px 25px;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 14px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            font-size: 12.5px;
+            color: var(--text-muted);
             flex-wrap: wrap;
             gap: 10px;
         }
 
-        .footer-author {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--primary-color);
-            background: #e0f2fe;
-            padding: 5px 16px;
-            border-radius: 20px;
-            border: 1px solid #bae6fd;
+        .author-tag {
+            font-weight: 600;
+            color: var(--primary);
+            background: #f1f5f9;
+            padding: 4px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
         }
 
-        /* ==================== A4 लँडस्केप प्रिंटिंग ==================== */
-        #print-area {
-            display: none;
+        /* Floating WA */
+        .wa-float {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #10b981;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+            z-index: 9999;
+            transition: transform 0.2s;
         }
+
+        .wa-float:hover {
+            transform: scale(1.08);
+        }
+
+        /* Print Area */
+        #print-area { display: none; }
 
         @media print {
-            @page {
-                size: A4 landscape;
-                margin: 6mm 6mm 4mm 6mm;
-            }
-            html, body {
-                width: 100%;
-                background: white !important;
-                padding: 0 !important;
-                margin: 0 !important;
-            }
-            .portal-nav, .main-wrapper, .footer {
-                display: none !important;
-            }
-            #print-area {
-                display: block !important;
-                width: 100%;
-            }
+            @page { size: A4 landscape; margin: 6mm 6mm 4mm 6mm; }
+            html, body { background: white !important; padding: 0 !important; margin: 0 !important; }
+            .top-masthead, .portal-nav, .main-container, .portal-footer, .wa-float { display: none !important; }
+            #print-area { display: block !important; width: 100%; }
             .a4-page {
                 position: relative;
                 width: 285mm;
                 height: 198mm;
                 max-height: 198mm;
                 page-break-after: always;
-                box-sizing: border-box;
                 background: white;
                 overflow: hidden;
                 padding-bottom: 7mm;
             }
             .emp-chart-block {
-                border: 1.1px solid #000;
+                border: 1px solid #000;
                 margin-bottom: 2mm;
-                padding: 3px 6px;
-                box-sizing: border-box;
+                padding: 4px 6px;
                 page-break-inside: avoid !important;
-                break-inside: avoid !important;
                 background: #fff;
             }
             .page-footer {
@@ -410,44 +512,34 @@
                 width: 100%;
                 display: flex;
                 justify-content: space-between;
-                align-items: center;
                 padding: 0 4mm;
                 font-size: 11px;
                 font-weight: 600;
-            }
-            .page-bottom-watermark {
-                font-style: italic;
-                color: #000000;
-                opacity: 0.3;
             }
             .emp-chart-block table {
                 font-size: 12px;
                 margin-top: 2px;
                 width: 100%;
                 border-collapse: collapse;
-                font-weight: 600;
             }
             .emp-chart-block th, .emp-chart-block td {
                 padding: 2px 4px;
                 border: 1px solid #000;
                 text-align: center;
-                line-height: 1.15;
             }
             .print-title {
                 text-align: center;
                 font-weight: 700;
-                font-size: 13.5px;
-                margin-bottom: 2px;
-                background-color: #f2f2f2 !important;
-                padding: 2px;
+                font-size: 13px;
+                background-color: #f1f5f9 !important;
+                padding: 3px;
                 border: 1px solid #000;
             }
             .meta-info {
                 display: flex;
                 justify-content: space-between;
                 margin-bottom: 2px;
-                font-weight: 600;
-                font-size: 12px;
+                font-size: 11.5px;
                 border-bottom: 1px solid #000;
                 padding-bottom: 1px;
             }
@@ -456,43 +548,65 @@
 </head>
 <body>
 
-    <!-- टॉप नेव्हिगेशन -->
+    <div class="top-masthead">
+        <span>शालेय व कार्यालयीन ऑटोमेशन पोर्टल (Maharashtra Education & Staff Automation)</span>
+        <span>सुरक्षित क्लायंट-साइड डेटा प्रक्रिया</span>
+    </div>
+
+    <!-- Main Navigation Bar -->
     <header class="portal-nav">
-        <div class="brand-title">🏛️ रयत सेवक डिजिटल पोर्टल</div>
-        <nav class="nav-tabs">
-            <button class="tab-btn active" onclick="switchPortalTab('tab-cutter', this)">✂️ फोटो व सही कटर</button>
-            <button class="tab-btn" onclick="switchPortalTab('tab-da', this)">📊 DA फरक कॅल्क्युलेटर</button>
-            <button class="tab-btn" onclick="switchPortalTab('tab-hra', this)">🏠 HRA फरक कॅल्क्युलेटर</button>
-        </nav>
+        <div class="brand-block">
+            <div class="brand-logo-badge">र</div>
+            <div class="brand-text">
+                <h1>रयत सेवक डिजिटल पोर्टल</h1>
+                <p>Rayat Sevak Digital Utilities & Office Automation</p>
+            </div>
+        </div>
+        
+        <div class="nav-actions">
+            <nav class="nav-tabs">
+                <button class="tab-btn active" onclick="switchPortalTab('tab-cutter', this)">फोटो व सही कटर</button>
+                <button class="tab-btn" onclick="switchPortalTab('tab-da', this)">DA फरक कॅल्क्युलेटर</button>
+                <button class="tab-btn" onclick="switchPortalTab('tab-hra', this)">HRA फरक कॅल्क्युलेटर</button>
+                <button class="tab-btn" onclick="switchPortalTab('tab-pdf', this)">PDF टूल्स</button>
+            </nav>
+
+            <a href="https://wa.me/?text=नमस्कार%20रयत%20सेवक%20पोर्टल%20पहा:%20https://sujitjpatil-dada.github.io/applications/" target="_blank" class="btn-wa-link">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                WhatsApp संपर्क
+            </a>
+        </div>
     </header>
 
-    <main class="main-wrapper">
+    <main class="main-container">
 
         <!-- ==================== टॅब १: कटर टूल ==================== -->
         <section id="tab-cutter" class="portal-tab active">
-            <div class="cutter-toolbar">
-                <div style="font-family:'Khand',sans-serif; font-size: 21px; font-weight:700; color:var(--primary-color);">
-                    इयत्ता १०वी / १२वी फॉर्म स्कॅनिंग व क्रॉपिंग
+            <div class="cutter-bar">
+                <div>
+                    <div style="font-size: 15px; font-weight: 700; color: var(--primary);">SSC / HSC परीक्षा फॉर्म - फोटो व सही क्रॉपिंग प्रणाली</div>
+                    <div style="font-size: 12px; color: var(--text-muted);">बोर्डाच्या २२५x२८५ व आवश्यक २५ ते ४० KB साईजमध्ये थेट रूपांतरण</div>
                 </div>
+                
                 <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
                     <input type="file" id="cutterFileInput" accept="image/*" style="display:none;">
-                    <button class="btn" style="background:#6f42c1;" onclick="document.getElementById('cutterFileInput').click()">📁 फॉर्म अपलोड</button>
-                    <button class="btn" style="background:#e83e8c;" onclick="autoDetectBoxes()">🤖 ऑटो डिटेक्ट</button>
-                    <button class="btn" style="background:#0d6efd;" onclick="addNewBox('photo')">➕ फोटो</button>
-                    <button class="btn" style="background:#198754;" onclick="addNewBox('sign')">➕ सही</button>
-                    <button class="btn btn-danger" onclick="clearAllBoxes()">🗑️ क्लिअर</button>
+                    <button class="btn-ui btn-primary" onclick="document.getElementById('cutterFileInput').click()">📁 ९ फोटो आणि सही नमुना अपलोड करा</button>
+                    <button class="btn-ui btn-outline" onclick="autoDetectBoxes()">🤖 ऑटो डिटेक्ट</button>
+                    <button class="btn-ui btn-outline" onclick="addNewBox('photo')">+ फोटो</button>
+                    <button class="btn-ui btn-outline" onclick="addNewBox('sign')">+ सही</button>
+                    <button class="btn-ui btn-danger" onclick="clearAllBoxes()">रिसेट</button>
 
-                    <span style="background:#f8f9fa; border:1px solid #dee2e6; padding:5px 12px; border-radius:6px; font-size:13px; font-weight:700;">
-                        फोटो: <span id="photoCount" style="color:#0d6efd;">0</span> | सह्या: <span id="signCount" style="color:#198754;">0</span>
+                    <span style="font-size:12px; font-weight:600; padding:6px 10px; background:#f1f5f9; border-radius:6px;">
+                        फोटो: <span id="photoCount" style="color:#2563eb;">0</span> | सह्या: <span id="signCount" style="color:#059669;">0</span>
                     </span>
 
-                    <button class="btn" style="background:#fd7e14; font-weight:700;" onclick="cropAndDownloadAll()">📦 ZIP डाऊनलोड</button>
+                    <button class="btn-ui btn-success" onclick="cropAndDownloadAll()">📦 सर्व ZIP डाऊनलोड करा</button>
                 </div>
             </div>
 
-            <div class="workspace-cutter">
+            <div class="cutter-viewport">
                 <div id="canvasWrapper">
-                    <img id="scannedDoc" src="" alt="कृपया आधी 'फॉर्म अपलोड' वर क्लिक करून स्कॅन प्रत निवडा">
+                    <img id="scannedDoc" src="" alt="कृपया आधी '९ फोटो आणि सही नमुना अपलोड करा' वर क्लिक करा">
                     <div id="boxesContainer"></div>
                 </div>
             </div>
@@ -500,11 +614,11 @@
 
         <!-- ==================== टॅब २: DA फरक कॅल्क्युलेटर ==================== -->
         <section id="tab-da" class="portal-tab">
-            <div class="grid">
-                <div class="card">
-                    <h2>१. DA निकष व महिने सेटिंग</h2>
+            <div class="panel-grid">
+                <div class="panel-card">
+                    <div class="panel-title">१. निकष व महिने सेटिंग</div>
                     <div class="form-group">
-                        <label>शाळेचे / आस्थापनेचे नाव</label>
+                        <label>शाळा / आस्थापनेचे नाव</label>
                         <input type="text" id="da-school-name" class="form-control" value="स्वामी रामानंद विद्यालय व ज्युनियर कॉलेज, तासगावकर">
                     </div>
 
@@ -519,30 +633,27 @@
                         </div>
                     </div>
                     
-                    <div style="background: #f1f5f9; padding: 10px; border-radius: 6px; margin-top: 5px; border: 1px solid #e2e8f0;">
+                    <div style="background: #f8fafc; padding: 12px; border-radius: 6px; border: 1px solid var(--border); margin-top: 6px;">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
-                            <label style="font-weight: 700; font-size: 13px; margin:0;">लागू महिने:</label>
+                            <label style="font-weight: 700; font-size: 12px; margin:0;">लागू महिने:</label>
                             <div style="display:flex; gap:4px;">
-                                <button type="button" class="btn btn-sm btn-outline" onclick="removeDAMonth()">➖ कमी</button>
-                                <button type="button" class="btn btn-sm btn-success" onclick="addDAMonth()">➕ वाढवा</button>
+                                <button type="button" class="btn-ui btn-outline" style="padding:2px 8px; font-size:11px;" onclick="removeDAMonth()">- कमी</button>
+                                <button type="button" class="btn-ui btn-primary" style="padding:2px 8px; font-size:11px;" onclick="addDAMonth()">+ वाढवा</button>
                             </div>
                         </div>
                         <div id="da-months-container"></div>
                     </div>
 
-                    <div style="margin-top: 15px; display:flex; flex-direction:column; gap:8px;">
-                        <button class="btn btn-success" onclick="printA4DACharts()">🖨️ DA सविस्तर फरक चार्ट प्रिंट करा</button>
-                        <button class="btn btn-danger" onclick="addNewDARow()">➕ नवीन कर्मचारी जोडा</button>
+                    <div style="margin-top: 16px; display:flex; flex-direction:column; gap:8px;">
+                        <button class="btn-ui btn-success" onclick="printA4DACharts()">🖨️ A4 लँडस्केप प्रिंट काढा</button>
+                        <button class="btn-ui btn-outline" onclick="addNewDARow()">+ कर्मचारी नोंद जोडा</button>
                     </div>
                 </div>
 
-                <div class="card">
-                    <h2>२. महागाई भत्ता (DA) फरक पत्रक</h2>
-                    <p style="font-size: 13px; color: #dc2626; margin-bottom: 8px; font-weight: 600;">
-                        * बेसिक टाकताना अंक सहज टाईप करता येतील आणि फरक त्वरित समोर दिसेल.
-                    </p>
-                    <div style="overflow-x: auto; max-height: 75vh;">
-                        <table>
+                <div class="panel-card">
+                    <div class="panel-title">२. महागाई भत्ता (DA) फरक पत्रक</div>
+                    <div class="table-responsive">
+                        <table class="portal-table">
                             <thead id="da-master-thead"></thead>
                             <tbody id="da-master-table-body"></tbody>
                         </table>
@@ -553,11 +664,11 @@
 
         <!-- ==================== टॅब ३: HRA फरक कॅल्क्युलेटर ==================== -->
         <section id="tab-hra" class="portal-tab">
-            <div class="grid">
-                <div class="card">
-                    <h2>१. HRA निकष व महिने सेटिंग</h2>
+            <div class="panel-grid">
+                <div class="panel-card">
+                    <div class="panel-title">१. निकष व महिने सेटिंग</div>
                     <div class="form-group">
-                        <label>शाळेचे / आस्थापनेचे नाव</label>
+                        <label>शाळा / आस्थापनेचे नाव</label>
                         <input type="text" id="hra-school-name" class="form-control" value="शाळेचे नाव">
                     </div>
 
@@ -572,30 +683,27 @@
                         </div>
                     </div>
                     
-                    <div style="background: #f1f5f9; padding: 10px; border-radius: 6px; margin-top: 5px; border: 1px solid #e2e8f0;">
+                    <div style="background: #f8fafc; padding: 12px; border-radius: 6px; border: 1px solid var(--border); margin-top: 6px;">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
-                            <label style="font-weight: 700; font-size: 13px; margin:0;">लागू महिने:</label>
+                            <label style="font-weight: 700; font-size: 12px; margin:0;">लागू महिने:</label>
                             <div style="display:flex; gap:4px;">
-                                <button type="button" class="btn btn-sm btn-outline" onclick="removeHRAMonth()">➖ कमी</button>
-                                <button type="button" class="btn btn-sm btn-success" onclick="addHRAMonth()">➕ वाढवा</button>
+                                <button type="button" class="btn-ui btn-outline" style="padding:2px 8px; font-size:11px;" onclick="removeHRAMonth()">- कमी</button>
+                                <button type="button" class="btn-ui btn-primary" style="padding:2px 8px; font-size:11px;" onclick="addHRAMonth()">+ वाढवा</button>
                             </div>
                         </div>
                         <div id="hra-months-container"></div>
                     </div>
 
-                    <div style="margin-top: 15px; display:flex; flex-direction:column; gap:8px;">
-                        <button class="btn btn-success" onclick="printA4HRACharts()">🖨️ HRA सविस्तर फरक चार्ट प्रिंट करा</button>
-                        <button class="btn btn-danger" onclick="addNewHRARow()">➕ नवीन कर्मचारी जोडा</button>
+                    <div style="margin-top: 16px; display:flex; flex-direction:column; gap:8px;">
+                        <button class="btn-ui btn-success" onclick="printA4HRACharts()">🖨️ A4 लँडस्केप प्रिंट काढा</button>
+                        <button class="btn-ui btn-outline" onclick="addNewHRARow()">+ कर्मचारी नोंद जोडा</button>
                     </div>
                 </div>
 
-                <div class="card">
-                    <h2>२. घरभाडे भत्ता (HRA) फरक पत्रक</h2>
-                    <p style="font-size: 13px; color: #dc2626; margin-bottom: 8px; font-weight: 600;">
-                        * बेसिक टाकताना अंक सहज टाईप करता येतील आणि फरक त्वरित समोर दिसेल.
-                    </p>
-                    <div style="overflow-x: auto; max-height: 75vh;">
-                        <table>
+                <div class="panel-card">
+                    <div class="panel-title">२. घरभाडे भत्ता (HRA) फरक पत्रक</div>
+                    <div class="table-responsive">
+                        <table class="portal-table">
                             <thead id="hra-master-thead"></thead>
                             <tbody id="hra-master-table-body"></tbody>
                         </table>
@@ -604,28 +712,91 @@
             </div>
         </section>
 
+        <!-- ==================== टॅब ४: PDF टूल्स ==================== -->
+        <section id="tab-pdf" class="portal-tab">
+            <div class="pdf-features-grid">
+                
+                <!-- १. Merge PDF -->
+                <div class="pdf-action-card">
+                    <div>
+                        <div class="panel-title">🔗 PDF एकत्र करा (Merge PDF)</div>
+                        <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:14px;">दोन किंवा अधिक PDF फाईल्स निवडून एकाच PDF मध्ये समाविष्ट करा.</p>
+                        <div class="form-group">
+                            <label>PDF फाईल्स निवडा:</label>
+                            <input type="file" id="pdfMergeInput" class="form-control" accept="application/pdf" multiple>
+                        </div>
+                    </div>
+                    <button class="btn-ui btn-primary" style="width:100%; margin-top:14px;" onclick="mergePDFFiles()">एकत्र जोडून डाऊनलोड करा</button>
+                </div>
+
+                <!-- २. Split PDF -->
+                <div class="pdf-action-card">
+                    <div>
+                        <div class="panel-title">✂️ PDF पाने वेगळी करा (Split PDF)</div>
+                        <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:14px;">विशिष्ट पानांची रेंज टाकून स्वतंत्र फाईल काढा.</p>
+                        <div class="form-group">
+                            <label>मूळ PDF निवडा:</label>
+                            <input type="file" id="pdfSplitInput" class="form-control" accept="application/pdf">
+                        </div>
+                        <div class="form-group">
+                            <label>पानांची रेंज (उदा. 1-3 किंवा 1,4):</label>
+                            <input type="text" id="pdfSplitRange" class="form-control" placeholder="उदा. 1-2">
+                        </div>
+                    </div>
+                    <button class="btn-ui btn-primary" style="width:100%; margin-top:14px;" onclick="splitPDFFile()">पाने वेगळी करा</button>
+                </div>
+
+                <!-- ३. Compress PDF -->
+                <div class="pdf-action-card">
+                    <div>
+                        <div class="panel-title">🗜️ PDF साईझ कमी करा (Compress PDF)</div>
+                        <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:14px;">मोठ्या आकाराची फाईल (उदा. 10 MB) 5 MB किंवा 2 MB मध्ये कॉम्प्रेस करा.</p>
+                        <div class="form-group">
+                            <label>PDF फाईल निवडा:</label>
+                            <input type="file" id="pdfCompressInput" class="form-control" accept="application/pdf">
+                        </div>
+                        <div class="form-group">
+                            <label>कॉम्प्रेशन दर्जा:</label>
+                            <select id="pdfQualitySelect" class="form-control">
+                                <option value="0.7">मध्यम कॉम्प्रेशन (सुमारे 50% कमी - 10MB to ~5MB)</option>
+                                <option value="0.5">जास्त कॉम्प्रेशन (सुमारे 70% कमी - 10MB to ~3MB)</option>
+                                <option value="0.3">अतिउच्च कॉम्प्रेशन (10MB to ~1.5MB)</option>
+                            </select>
+                        </div>
+                        <p id="compressStatus" style="font-size:12px; color:var(--primary-accent); font-weight:600; min-height:18px;"></p>
+                    </div>
+                    <button class="btn-ui btn-success" style="width:100%; margin-top:14px;" id="btnCompress" onclick="compressPDFFile()">कॉम्प्रेस करून डाऊनलोड करा</button>
+                </div>
+
+            </div>
+        </section>
+
     </main>
 
-    <!-- फुटर -->
-    <footer class="footer">
-        <div style="font-size: 13px; color: #64748b;">📌 शिक्षक व शिक्षकेतर कर्मचाऱ्यांच्या कामातील सुलभतेसाठी विकसित.</div>
-        <div class="footer-author">Developed by : Rayat Sevak Sujit Patil</div>
+    <!-- Professional Footer -->
+    <footer class="portal-footer">
+        <div>© 2026 रयत सेवक डिजिटल प्रणाली | सर्व हक्क सुरक्षित.</div>
+        <div class="author-tag">संकल्पना व निर्मिती : Rayat Sevak Sujit Patil</div>
     </footer>
 
-    <!-- प्रिंटिंग कंटेनर -->
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/?text=नमस्कार%20रयत%20सेवक%20पोर्टल%20पहा:%20https://sujitjpatil-dada.github.io/applications/" target="_blank" class="wa-float" title="WhatsApp वर शेअर करा">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+    </a>
+
+    <!-- A4 Print Layout Container -->
     <div id="print-area"></div>
 
 <script>
-    // ==================== टॅब स्विच लॉजिक ====================
-    function switchPortalTab(tabId, btnElement) {
+    // Navigation Logic
+    function switchPortalTab(tabId, btn) {
         document.querySelectorAll('.portal-tab').forEach(t => t.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-
         document.getElementById(tabId).classList.add('active');
-        btnElement.classList.add('active');
+        btn.classList.add('active');
     }
 
-    // ==================== १. DA फरक कॅल्क्युलेटर लॉजिक ====================
+    // ==================== DA Calculator Logic ====================
     let daMonths = ["नोव्हेंबर २०२५", "डिसेंबर २०२५"];
     let daEmployees = [
         { name: "", desig: "", basics: [0, 0], nps: "No" },
@@ -638,9 +809,8 @@
         container.innerHTML = '';
         daMonths.forEach((m, idx) => {
             container.innerHTML += `
-                <div class="form-group" style="margin-bottom:6px;">
-                    <label style="font-size:12px; font-weight:600;">महिना ${idx + 1}</label>
-                    <input type="text" class="form-control" style="padding:4px 8px; font-size:13px;" value="${m}" oninput="updateDAMonthName(${idx}, this.value)">
+                <div style="margin-bottom:5px;">
+                    <input type="text" class="form-control" style="padding:4px 8px; font-size:12.5px;" value="${m}" oninput="updateDAMonthName(${idx}, this.value)">
                 </div>
             `;
         });
@@ -660,10 +830,7 @@
     }
 
     function removeDAMonth() {
-        if (daMonths.length <= 1) {
-            alert("किमान १ महिना असणे आवश्यक आहे!");
-            return;
-        }
+        if (daMonths.length <= 1) return;
         daMonths.pop();
         daEmployees.forEach(emp => emp.basics.pop());
         renderDAMonthInputs();
@@ -686,10 +853,10 @@
         let row2 = `<tr>`;
 
         daMonths.forEach((m, idx) => {
-            row1 += `<th colspan="2" id="da-month-th-${idx}" style="background: #e0f2fe; border-left: 2px solid #94a3b8;">${m || 'महिना ' + (idx + 1)}</th>`;
+            row1 += `<th colspan="2" id="da-month-th-${idx}" style="background: #eff6ff;">${m || 'महिना ' + (idx + 1)}</th>`;
             row2 += `
-                <th style="background: #f8fafc; font-size:11px; width:75px; border-left: 2px solid #94a3b8;">Basic</th>
-                <th style="background: #fdf2f8; font-size:11px; width:60px;">Diff</th>
+                <th style="width:75px;">Basic</th>
+                <th style="width:60px;">Diff</th>
             `;
         });
 
@@ -716,8 +883,8 @@
             let tr = document.createElement('tr');
             let rowHtml = `
                 <td>${eIdx + 1}</td>
-                <td><input type="text" class="text-input" value="${emp.name}" placeholder="नाव टाका" oninput="daEmployees[${eIdx}].name = this.value"></td>
-                <td><input type="text" class="text-input" value="${emp.desig}" placeholder="पद टाका" oninput="daEmployees[${eIdx}].desig = this.value"></td>
+                <td><input type="text" class="table-input" value="${emp.name}" placeholder="नाव टाका" oninput="daEmployees[${eIdx}].name = this.value"></td>
+                <td><input type="text" class="table-input" value="${emp.desig}" placeholder="पद टाका" oninput="daEmployees[${eIdx}].desig = this.value"></td>
             `;
 
             let totalGross = 0;
@@ -727,11 +894,11 @@
                 totalGross += monthDiff;
 
                 rowHtml += `
-                    <td style="border-left: 2px solid #cbd5e1;">
-                        <input type="number" class="inline-input" value="${basicVal === 0 ? '' : basicVal}" placeholder="0" 
+                    <td>
+                        <input type="number" class="table-input" style="width:75px; text-align:center;" value="${basicVal === 0 ? '' : basicVal}" placeholder="0" 
                                oninput="onDABasicChange(${eIdx}, ${mIdx}, this.value)">
                     </td>
-                    <td id="da-diff-cell-${eIdx}-${mIdx}" style="color:#be185d; font-weight:700;">₹${monthDiff}</td>
+                    <td id="da-diff-cell-${eIdx}-${mIdx}" style="color:#e11d48; font-weight:700;">₹${monthDiff}</td>
                 `;
             });
 
@@ -739,12 +906,12 @@
 
             rowHtml += `
                 <td>
-                    <select class="select-input" onchange="onDANpsChange(${eIdx}, this.value)">
+                    <select class="table-input" style="width:60px;" onchange="onDANpsChange(${eIdx}, this.value)">
                         <option value="No" ${emp.nps === 'No' ? 'selected' : ''}>No</option>
                         <option value="Yes" ${emp.nps === 'Yes' ? 'selected' : ''}>Yes</option>
                     </select>
                 </td>
-                <td><strong id="da-gross-cell-${eIdx}" style="color:#1e3a8a;">₹${totalGross}</strong></td>
+                <td><strong id="da-gross-cell-${eIdx}" style="color:#1e40af;">₹${totalGross}</strong></td>
                 <td id="da-nps-cell-${eIdx}" style="color:#059669; font-weight:700;">₹${npsAmt}</td>
             `;
             tr.innerHTML = rowHtml;
@@ -798,7 +965,7 @@
 
         let validEmps = daEmployees.filter(e => e.name.trim() !== "" || e.basics.some(b => b > 0));
         if (validEmps.length === 0) {
-            alert("कृपया आधी कमीत कमी एका कर्मचाऱ्याची माहिती भरा!");
+            alert("कृपया आधी किमान एका कर्मचाऱ्याची माहिती भरा!");
             return;
         }
 
@@ -828,13 +995,13 @@
 
                     rowsHTML += `
                         <tr>
-                            <td style="font-weight:600;">${m || 'महिना ' + (mIdx + 1)}</td>
+                            <td>${m || 'महिना ' + (mIdx + 1)}</td>
                             <td>₹${currentBasic}</td>
                             <td>${newDa}%</td>
                             <td><strong>₹${dueDaAmt}</strong></td>
                             <td>${oldDa}%</td>
                             <td><strong>₹${drawnDaAmt}</strong></td>
-                            <td style="background:#f0fdf4; font-weight:700;">₹${diff}</td>
+                            <td style="font-weight:700;">₹${diff}</td>
                             <td>₹${npsContr}</td>
                         </tr>
                     `;
@@ -846,48 +1013,45 @@
                     <div class="emp-chart-block">
                         <div class="print-title">${schoolName} - महागाई भत्ता (DA) वाढ फरक तक्ता</div>
                         <div class="meta-info">
-                            <span>कर्मचाऱ्याचे नाव: ${emp.name || '-----------'}</span>
+                            <span>नाव: ${emp.name || '-----------'}</span>
                             <span>पद: ${emp.desig || '-----------'}</span>
                             <span>NPS कपात: ${emp.nps}</span>
                         </div>
                         <table>
                             <thead>
                                 <tr>
-                                    <th style="width: 15%;">महिना</th>
-                                    <th style="width: 12%;">मूळ वेतन (Basic)</th>
-                                    <th style="width: 10%;">देय DA (%)</th>
-                                    <th style="width: 13%;">देय DA रक्कम (${newDa}%)</th>
-                                    <th style="width: 10%;">आकारलेला DA (%)</th>
-                                    <th style="width: 13%;">आकारलेला DA रक्कम (${oldDa}%)</th>
-                                    <th style="width: 14%; background:#e2f0d9;">मासिक फरक रक्कम</th>
-                                    <th style="width: 13%;">NPS कपात (10%)</th>
+                                    <th>महिना</th>
+                                    <th>मूळ वेतन</th>
+                                    <th>देय DA%</th>
+                                    <th>देय DA रक्कम</th>
+                                    <th>आकारलेला DA%</th>
+                                    <th>आकारलेला DA रक्कम</th>
+                                    <th>मासिक फरक</th>
+                                    <th>NPS (10%)</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 ${rowsHTML}
-                                <tr style="background:#f2f2f2; font-weight:700; border-top: 1px solid #000;">
-                                    <td>एकूण (Total)</td>
+                                <tr style="background:#f8fafc; font-weight:700;">
+                                    <td>एकूण</td>
                                     <td>-</td>
                                     <td>-</td>
                                     <td>₹${totalDueDaSum}</td>
                                     <td>-</td>
                                     <td>₹${totalDrawnDaSum}</td>
-                                    <td style="background:#dcfce7;">₹${totalDiffSum}</td>
+                                    <td>₹${totalDiffSum}</td>
                                     <td>₹${finalNpsSum}</td>
                                 </tr>
                             </tbody>
                         </table>
-                        <div style="margin-top:2px; text-align:right; font-weight:700; font-size:12px;">
-                            निव्वळ देय DA फरक रक्कम: <span style="background:#fffbb5; padding:1px 6px; border:1px solid #000;">₹${totalDiffSum}/-</span>
-                        </div>
                     </div>
                 `;
             });
 
             pageHTML += `
                 <div class="page-footer">
-                    <span>पान ${pageNum} पैकी ${totalPages} (Page ${pageNum} of ${totalPages})</span>
-                    <span class="page-bottom-watermark">Developed by : रयत सेवक सुजित पाटील</span>
+                    <span>पान ${pageNum} पैकी ${totalPages}</span>
+                    <span>रयत सेवक सुजित पाटील</span>
                 </div>
             </div>`;
             finalHTML += pageHTML;
@@ -897,7 +1061,7 @@
         window.print();
     }
 
-    // ==================== २. HRA फरक कॅल्क्युलेटर लॉजिक ====================
+    // ==================== HRA Calculator Logic ====================
     let hraMonths = ["नोव्हेंबर २०२५", "डिसेंबर २०२५"];
     let hraEmployees = [
         { name: "", desig: "", basics: [0, 0] },
@@ -910,9 +1074,8 @@
         container.innerHTML = '';
         hraMonths.forEach((m, idx) => {
             container.innerHTML += `
-                <div class="form-group" style="margin-bottom:6px;">
-                    <label style="font-size:12px; font-weight:600;">महिना ${idx + 1}</label>
-                    <input type="text" class="form-control" style="padding:4px 8px; font-size:13px;" value="${m}" oninput="updateHRAMonthName(${idx}, this.value)">
+                <div style="margin-bottom:5px;">
+                    <input type="text" class="form-control" style="padding:4px 8px; font-size:12.5px;" value="${m}" oninput="updateHRAMonthName(${idx}, this.value)">
                 </div>
             `;
         });
@@ -932,10 +1095,7 @@
     }
 
     function removeHRAMonth() {
-        if (hraMonths.length <= 1) {
-            alert("किमान १ महिना असणे आवश्यक आहे!");
-            return;
-        }
+        if (hraMonths.length <= 1) return;
         hraMonths.pop();
         hraEmployees.forEach(emp => emp.basics.pop());
         renderHRAMonthInputs();
@@ -958,10 +1118,10 @@
         let row2 = `<tr>`;
 
         hraMonths.forEach((m, idx) => {
-            row1 += `<th colspan="2" id="hra-month-th-${idx}" style="background: #e0f2fe; border-left: 2px solid #94a3b8;">${m || 'महिना ' + (idx + 1)}</th>`;
+            row1 += `<th colspan="2" id="hra-month-th-${idx}" style="background: #eff6ff;">${m || 'महिना ' + (idx + 1)}</th>`;
             row2 += `
-                <th style="background: #f8fafc; font-size:11px; width:80px; border-left: 2px solid #94a3b8;">Basic</th>
-                <th style="background: #fdf2f8; font-size:11px; width:65px;">Diff</th>
+                <th style="width:80px;">Basic</th>
+                <th style="width:65px;">Diff</th>
             `;
         });
 
@@ -983,8 +1143,8 @@
             let tr = document.createElement('tr');
             let rowHtml = `
                 <td>${eIdx + 1}</td>
-                <td><input type="text" class="text-input" value="${emp.name}" placeholder="नाव टाका" oninput="hraEmployees[${eIdx}].name = this.value"></td>
-                <td><input type="text" class="text-input" value="${emp.desig}" placeholder="पद टाका" oninput="hraEmployees[${eIdx}].desig = this.value"></td>
+                <td><input type="text" class="table-input" value="${emp.name}" placeholder="नाव टाका" oninput="hraEmployees[${eIdx}].name = this.value"></td>
+                <td><input type="text" class="table-input" value="${emp.desig}" placeholder="पद टाका" oninput="hraEmployees[${eIdx}].desig = this.value"></td>
             `;
 
             let totalGross = 0;
@@ -994,15 +1154,15 @@
                 totalGross += monthDiff;
 
                 rowHtml += `
-                    <td style="border-left: 2px solid #cbd5e1;">
-                        <input type="number" class="inline-input" value="${basicVal === 0 ? '' : basicVal}" placeholder="0" 
+                    <td>
+                        <input type="number" class="table-input" style="width:80px; text-align:center;" value="${basicVal === 0 ? '' : basicVal}" placeholder="0" 
                                oninput="onHRABasicChange(${eIdx}, ${mIdx}, this.value)">
                     </td>
-                    <td id="hra-diff-cell-${eIdx}-${mIdx}" style="color:#be185d; font-weight:700;">₹${monthDiff}</td>
+                    <td id="hra-diff-cell-${eIdx}-${mIdx}" style="color:#e11d48; font-weight:700;">₹${monthDiff}</td>
                 `;
             });
 
-            rowHtml += `<td><strong id="hra-gross-cell-${eIdx}" style="color:#1e3a8a; font-size:15px;">₹${totalGross}</strong></td>`;
+            rowHtml += `<td><strong id="hra-gross-cell-${eIdx}" style="color:#1e40af;">₹${totalGross}</strong></td>`;
             tr.innerHTML = rowHtml;
             tbody.appendChild(tr);
         });
@@ -1045,7 +1205,7 @@
 
         let validEmps = hraEmployees.filter(e => e.name.trim() !== "" || e.basics.some(b => b > 0));
         if (validEmps.length === 0) {
-            alert("कृपया आधी कमीत कमी एका कर्मचाऱ्याची माहिती भरा!");
+            alert("कृपया आधी किमान एका कर्मचाऱ्याची माहिती भरा!");
             return;
         }
 
@@ -1074,13 +1234,13 @@
 
                     rowsHTML += `
                         <tr>
-                            <td style="font-weight:600;">${m || 'महिना ' + (mIdx + 1)}</td>
+                            <td>${m || 'महिना ' + (mIdx + 1)}</td>
                             <td>₹${currentBasic}</td>
                             <td>${newHra}%</td>
                             <td><strong>₹${dueHraAmt}</strong></td>
                             <td>${oldHra}%</td>
                             <td><strong>₹${drawnHraAmt}</strong></td>
-                            <td style="background:#f0fdf4; font-weight:700;">₹${diff}</td>
+                            <td style="font-weight:700;">₹${diff}</td>
                         </tr>
                     `;
                 });
@@ -1089,45 +1249,42 @@
                     <div class="emp-chart-block">
                         <div class="print-title">${schoolName} - घरभाडे भत्ता (HRA) वाढ फरक तक्ता</div>
                         <div class="meta-info">
-                            <span>कर्मचाऱ्याचे नाव: ${emp.name || '-----------'}</span>
+                            <span>नाव: ${emp.name || '-----------'}</span>
                             <span>पद: ${emp.desig || '-----------'}</span>
                         </div>
                         <table>
                             <thead>
                                 <tr>
-                                    <th style="width: 18%;">महिना</th>
-                                    <th style="width: 15%;">मूळ वेतन (Basic)</th>
-                                    <th style="width: 12%;">देय HRA (%)</th>
-                                    <th style="width: 15%;">देय HRA रक्कम (${newHra}%)</th>
-                                    <th style="width: 12%;">आकारलेला HRA (%)</th>
-                                    <th style="width: 15%;">आकारलेला HRA रक्कम (${oldHra}%)</th>
-                                    <th style="width: 13%; background:#e2f0d9;">मासिक फरक रक्कम</th>
+                                    <th>महिना</th>
+                                    <th>मूळ वेतन</th>
+                                    <th>देय HRA%</th>
+                                    <th>देय HRA रक्कम</th>
+                                    <th>आकारलेला HRA%</th>
+                                    <th>आकारलेला HRA रक्कम</th>
+                                    <th>मासिक फरक</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 ${rowsHTML}
-                                <tr style="background:#f2f2f2; font-weight:700; border-top: 1px solid #000;">
-                                    <td>एकूण (Total)</td>
+                                <tr style="background:#f8fafc; font-weight:700;">
+                                    <td>एकूण</td>
                                     <td>-</td>
                                     <td>-</td>
                                     <td>₹${totalDueHraSum}</td>
                                     <td>-</td>
                                     <td>₹${totalDrawnHraSum}</td>
-                                    <td style="background:#dcfce7;">₹${totalDiffSum}</td>
+                                    <td>₹${totalDiffSum}</td>
                                 </tr>
                             </tbody>
                         </table>
-                        <div style="margin-top:2px; text-align:right; font-weight:700; font-size:12px;">
-                            निव्वळ देय HRA फरक रक्कम: <span style="background:#fffbb5; padding:1px 6px; border:1px solid #000;">₹${totalDiffSum}/-</span>
-                        </div>
                     </div>
                 `;
             });
 
             pageHTML += `
                 <div class="page-footer">
-                    <span>पान ${pageNum} पैकी ${totalPages} (Page ${pageNum} of ${totalPages})</span>
-                    <span class="page-bottom-watermark">Developed by : रयत सेवक सुजित पाटील</span>
+                    <span>पान ${pageNum} पैकी ${totalPages}</span>
+                    <span>रयत सेवक सुजित पाटील</span>
                 </div>
             </div>`;
             finalHTML += pageHTML;
@@ -1137,7 +1294,7 @@
         window.print();
     }
 
-    // ==================== ३. कटर टूल लॉजिक ====================
+    // ==================== SSC/HSC Photo Cutter Logic ====================
     let photoCounter = 0;
     let signCounter = 0;
     const boxesContainer = document.getElementById('boxesContainer');
@@ -1183,7 +1340,7 @@
 
     function addNewBox(type) {
         if (!scannedDoc.src || scannedDoc.naturalWidth === 0) {
-            alert("कृपया आधी फॉर्म अपलोड करा!");
+            alert("कृपया आधी '९ फोटो आणि सही नमुना' अपलोड करा!");
             return;
         }
         if (type === 'photo') {
@@ -1197,7 +1354,7 @@
 
     function autoDetectBoxes() {
         if (!scannedDoc.src || scannedDoc.naturalWidth === 0) {
-            alert("कृपया आधी फॉर्म अपलोड करा!");
+            alert("कृपया आधी '९ फोटो आणि सही नमुना' अपलोड करा!");
             return;
         }
         clearAllBoxes();
@@ -1215,7 +1372,7 @@
         let pCount = 0, sCount = 0;
         for (let r = 0; r < rowRatios.length; r++) {
             for (let c = 0; c < colRatios.length; c++) {
-                if (pCount >= 10) break;
+                if (pCount >= 9) break; // ९ विद्यार्थ्यांचे प्रमाणित फॉरमॅट
                 const left = displayW * colRatios[c];
                 const topP = displayH * rowRatios[r];
                 const topS = topP + photoH + 10;
@@ -1315,6 +1472,7 @@
             canvas.width = bWidth;
             canvas.height = bHeight;
             const ctx = canvas.getContext('2d');
+
             ctx.drawImage(originalImg, bLeft, bTop, bWidth, bHeight, 0, 0, bWidth, bHeight);
 
             let blob = await compressToTargetSize(canvas, 25, 40);
@@ -1323,7 +1481,7 @@
         }
 
         zip.generateAsync({ type: "blob" }).then(function(content) {
-            saveAs(content, "Board_Photos_and_Signs.zip");
+            saveAs(content, "SSC_HSC_Board_Photos_Signs.zip");
         });
     }
 
@@ -1345,7 +1503,137 @@
         });
     }
 
-    // इनिशिएलायझेशन
+    // ==================== PDF Tools Logic ====================
+    async function mergePDFFiles() {
+        const input = document.getElementById('pdfMergeInput');
+        if (!input.files || input.files.length < 2) {
+            alert("कृपया किमान २ PDF फाईल्स निवडा!");
+            return;
+        }
+
+        const mergedPdf = await PDFLib.PDFDocument.create();
+        for (let file of input.files) {
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
+            const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+            copiedPages.forEach(page => mergedPdf.addPage(page));
+        }
+
+        const pdfBytes = await mergedPdf.save();
+        const blob = new Blob([pdfBytes], { type: "application/pdf" });
+        saveAs(blob, "Merged_Document.pdf");
+    }
+
+    async function splitPDFFile() {
+        const input = document.getElementById('pdfSplitInput');
+        const rangeText = document.getElementById('pdfSplitRange').value.trim();
+
+        if (!input.files || input.files.length === 0) {
+            alert("कृपया PDF फाईल निवडा!");
+            return;
+        }
+        if (!rangeText) {
+            alert("कृपया पानांची रेंज टाका!");
+            return;
+        }
+
+        const file = input.files[0];
+        const arrayBuffer = await file.arrayBuffer();
+        const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
+        const totalPages = pdf.getPageCount();
+
+        let pagesToExtract = [];
+        let parts = rangeText.split(',');
+        for (let part of parts) {
+            if (part.includes('-')) {
+                let [start, end] = part.split('-').map(num => parseInt(num.trim()));
+                for (let i = start; i <= end; i++) {
+                    if (i >= 1 && i <= totalPages) pagesToExtract.push(i - 1);
+                }
+            } else {
+                let pageNum = parseInt(part.trim());
+                if (pageNum >= 1 && pageNum <= totalPages) pagesToExtract.push(pageNum - 1);
+            }
+        }
+
+        if (pagesToExtract.length === 0) {
+            alert("अवैध पानांचा क्रमांक!");
+            return;
+        }
+
+        const newPdf = await PDFLib.PDFDocument.create();
+        const copiedPages = await newPdf.copyPages(pdf, pagesToExtract);
+        copiedPages.forEach(page => newPdf.addPage(page));
+
+        const pdfBytes = await newPdf.save();
+        const blob = new Blob([pdfBytes], { type: "application/pdf" });
+        saveAs(blob, `Split_${rangeText}.pdf`);
+    }
+
+    async function compressPDFFile() {
+        const input = document.getElementById('pdfCompressInput');
+        const quality = parseFloat(document.getElementById('pdfQualitySelect').value) || 0.7;
+        const status = document.getElementById('compressStatus');
+        const btn = document.getElementById('btnCompress');
+
+        if (!input.files || input.files.length === 0) {
+            alert("कृपया आधी PDF फाईल निवडा!");
+            return;
+        }
+
+        const file = input.files[0];
+        const originalSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+        btn.disabled = true;
+        status.innerText = `⏳ प्रक्रिया चालू आहे... (मूळ: ${originalSizeMB} MB)`;
+
+        try {
+            const fileData = await file.arrayBuffer();
+            const pdfDoc = await pdfjsLib.getDocument({ data: fileData }).promise;
+            const numPages = pdfDoc.numPages;
+
+            const newPdf = await PDFLib.PDFDocument.create();
+
+            for (let i = 1; i <= numPages; i++) {
+                status.innerText = `पान ${i}/${numPages} कॉम्प्रेस होत आहे...`;
+                const page = await pdfDoc.getPage(i);
+                const viewport = page.getViewport({ scale: 1.5 });
+
+                const canvas = document.createElement('canvas');
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+                const ctx = canvas.getContext('2d');
+
+                await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+
+                const imgDataUrl = canvas.toDataURL('image/jpeg', quality);
+                const imgBytes = await fetch(imgDataUrl).then(res => res.arrayBuffer());
+
+                const embeddedImg = await newPdf.embedJpg(imgBytes);
+                const newPage = newPdf.addPage([viewport.width, viewport.height]);
+
+                newPage.drawImage(embeddedImg, {
+                    x: 0,
+                    y: 0,
+                    width: viewport.width,
+                    height: viewport.height,
+                });
+            }
+
+            const compressedBytes = await newPdf.save();
+            const compressedBlob = new Blob([compressedBytes], { type: "application/pdf" });
+            const newSizeMB = (compressedBlob.size / (1024 * 1024)).toFixed(2);
+
+            status.innerText = `पूर्ण झाले! (${originalSizeMB} MB ➔ ${newSizeMB} MB)`;
+            saveAs(compressedBlob, `Compressed_${file.name}`);
+        } catch (err) {
+            alert("त्रुटी आली: " + err.message);
+            status.innerText = "प्रक्रियेत त्रुटी आली.";
+        } finally {
+            btn.disabled = false;
+        }
+    }
+
+    // Initialization
     window.onload = function() {
         renderDAMonthInputs();
         buildDATable();
