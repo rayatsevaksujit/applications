@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>डिजिटल दोस्त | Digital Dost</title>
+    <title>डिजिटल साथीदार | Digital Sathidar</title>
     <meta name="google-site-verification" content="QjhwRJu_wPt_UMxfRdq9Gv-dXJaXKkw6peFIkLs4Tt0" />
     <meta name="description" content="महाराष्ट्र शासन DA फरक कॅल्क्युलेटर, HRA फरक तक्ता, SSC HSC 9 फोटो व सही कटर, नॅचरल हस्तलिखित आणि PDF टूल्स - डिजिटल साथीदार.">
-    <meta name="keywords" content="Digital Dost, डिजिटल दोस्त, DA Difference Calculator, HRA Difference Chart Maharashtra, SSC HSC Photo Cutter, PDF Compress, Text to Handwriting">
+    <meta name="keywords" content="Digital Sathidar, डिजिटल साथीदार, DA Difference Calculator, HRA Difference Chart Maharashtra, SSC HSC Photo Cutter, PDF Compress, Text to Handwriting">
     <meta name="author" content="Sujit Patil (SP)">
 
     <!-- Fonts (DVOT Surekh, Kokila, Mukta Fallbacks + Handwriting fonts Kalam, Dekko, Caveat) -->
@@ -158,7 +158,7 @@
             height: 100%;
         }
 
-        /* Cutter Viewport Compact */
+        /* Cutter Viewport Compact & Zoomed */
         .cutter-bar {
             background: var(--surface);
             padding: 6px 12px;
@@ -193,10 +193,12 @@
 
         #scannedDoc {
             display: block;
-            max-height: calc(100vh - 180px);
-            width: auto;
+            width: 850px;
+            max-width: none;
+            height: auto;
             user-select: none;
             pointer-events: none;
+            transition: width 0.15s ease;
         }
 
         .crop-box {
@@ -720,6 +722,8 @@
                     <button class="btn-ui btn-outline" onclick="autoDetectBoxes()">🤖 ऑटो डिटेक्ट</button>
                     <button class="btn-ui btn-outline" onclick="addNewBox('photo')">+ फोटो</button>
                     <button class="btn-ui btn-outline" onclick="addNewBox('sign')">+ सही</button>
+                    <button class="btn-ui btn-outline" onclick="zoomCutter(1.15)">🔍+ मोठे करा</button>
+                    <button class="btn-ui btn-outline" onclick="zoomCutter(0.85)">🔍- लहान करा</button>
                     <button class="btn-ui btn-danger" onclick="clearAllBoxes()">रिसेट</button>
 
                     <span style="font-size:12px; font-weight:700; padding:4px 8px; background:#f1f5f9; border-radius:4px;">
@@ -997,7 +1001,9 @@
         btn.classList.add('active');
     }
 
+    // ==========================================
     // DA Calculator Logic
+    // ==========================================
     let daMonths = ["नोव्हेंबर २०२५", "डिसेंबर २०२५"];
     let daEmployees = [
         { name: "", desig: "", basics: [0, 0], nps: "No" },
@@ -1262,7 +1268,9 @@
         window.print();
     }
 
+    // ==========================================
     // HRA Calculator Logic
+    // ==========================================
     let hraMonths = ["नोव्हेंबर २०२५", "डिसेंबर २०२५"];
     let hraEmployees = [
         { name: "", desig: "", basics: [0, 0] },
@@ -1495,7 +1503,17 @@
         window.print();
     }
 
-    // SSC/HSC Cutter Logic
+    // ==========================================
+    // SSC/HSC Cutter Logic (Zoom & Size Fixes)
+    // ==========================================
+    let currentCutterWidth = 850;
+    function zoomCutter(factor) {
+        const doc = document.getElementById('scannedDoc');
+        if (!doc.src || doc.naturalWidth === 0) return;
+        currentCutterWidth = Math.max(500, Math.min(2200, currentCutterWidth * factor));
+        doc.style.width = currentCutterWidth + 'px';
+    }
+
     let photoCounter = 0;
     let signCounter = 0;
     const boxesContainer = document.getElementById('boxesContainer');
@@ -1704,7 +1722,9 @@
         });
     }
 
+    // ==========================================
     // ✍️ नॅचरल हस्तलिखित कन्व्हर्टर Logic
+    // ==========================================
     const hwRichInput = document.getElementById('hwRichInput');
     const hwPdfUpload = document.getElementById('hwPdfUpload');
     const hwFontStyle = document.getElementById('hwFontStyle');
@@ -1842,7 +1862,9 @@
         }
     });
 
+    // ==========================================
     // PDF Tools Logic (Merge + Split to ZIP + Compress)
+    // ==========================================
     
     // १. Merge PDF
     async function mergePDFFiles() {
