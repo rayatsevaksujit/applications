@@ -3,2010 +3,415 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>डिजिटल साथीदार | Digital Sathidar</title>
+    <title>डिजिटल साथीदार | Digital Sathidar Dashboard</title>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">    
-    <meta name="google-site-verification" content="QjhwRJu_wPt_UMxfRdq9Gv-dXJaXKkw6peFIkLs4Tt0" />
-    <meta name="description" content="महाराष्ट्र शासन DA फरक कॅल्क्युलेटर, HRA फरक तक्ता, SSC HSC 9 फोटो व सही कटर, नॅचरल हस्तलिखित आणि PDF टूल्स - डिजिटल साथीदार.">
-    <meta name="keywords" content="Digital Sathidar, डिजिटल साथीदार, DA Difference Calculator, HRA Difference Chart Maharashtra, SSC HSC Photo Cutter, PDF Compress, Text to Handwriting">
+    <meta http-equiv="Expires" content="0">
+    <meta name="description" content="डिजिटल साथीदार - महाराष्ट्र शासन कर्मचारी, शिक्षक व विद्यार्थ्यांसाठी डिजिटल उपयुक्तता पोर्टल.">
     <meta name="author" content="Sujit Patil (SP)">
-
-    <!-- Fonts (DVOT Surekh, Kokila, Mukta Fallbacks + Handwriting fonts Kalam, Dekko, Caveat) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Dekko&family=Kalam:wght@300;400;700&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
-
-    <!-- Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script>
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
-    </script>
-
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #0f172a;
             --primary-accent: #1e40af;
-            --secondary: #0284c7;
             --surface: #ffffff;
             --background: #f8fafc;
             --border: #e2e8f0;
             --text-main: #0f172a;
             --text-muted: #64748b;
-            --success: #059669;
-            --danger: #e11d48;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.06), 0 2px 4px -2px rgba(0,0,0,0.04);
+            --shadow-hover: 0 12px 20px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.05);
         }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'DVOT-Surekh', 'DV-Surekh', 'Surekh', 'Kokila', 'Mukta', sans-serif;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        body {
-            background-color: var(--background);
-            color: var(--text-main);
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
-            font-size: 14px;
-        }
-
-        /* Compact Header */
-        .portal-nav {
-            background: var(--surface);
-            padding: 6px 18px;
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Mukta', sans-serif; -webkit-font-smoothing: antialiased; }
+        body { background-color: var(--background); color: var(--text-main); display: flex; flex-direction: column; min-height: 100vh; font-size: 14px; }
+        
+        .portal-header {
+            background: #ffffff;
+            padding: 14px 24px;
             border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-shrink: 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
         }
-
-        .brand-block {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
+        .brand-block { display: flex; align-items: center; gap: 14px; }
         .brand-logo-badge {
             background: linear-gradient(135deg, #1e3a8a, #0284c7);
             color: #ffffff;
-            width: 34px;
-            height: 34px;
-            border-radius: 7px;
+            width: 46px;
+            height: 46px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 800;
-            font-size: 15px;
-            letter-spacing: 0.5px;
-            font-family: 'Segoe UI', Tahoma, sans-serif;
+            font-size: 20px;
+            box-shadow: 0 4px 10px rgba(30, 58, 138, 0.25);
         }
+        .brand-text h1 { font-size: 22px; font-weight: 800; color: var(--primary); line-height: 1.1; }
+        .brand-text p { font-size: 12px; color: var(--text-muted); font-weight: 600; }
+        .badge-portal { background: #eff6ff; color: var(--primary-accent); border: 1px solid #bfdbfe; padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 12px; }
 
-        .brand-text h1 {
-            font-size: 17px;
-            font-weight: 700;
-            color: var(--primary);
-            line-height: 1.1;
-        }
-
-        .brand-text p {
-            font-size: 11px;
-            color: var(--text-muted);
-        }
-
-        .nav-tabs {
-            display: flex;
-            gap: 4px;
-            background: #f1f5f9;
-            padding: 3px;
-            border-radius: 6px;
-            border: 1px solid var(--border);
-            flex-wrap: wrap;
-        }
-
-        .tab-btn {
-            background: transparent;
-            border: none;
-            padding: 5px 12px;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-muted);
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.15s ease-in-out;
-            white-space: nowrap;
-        }
-
-        .tab-btn:hover {
-            color: var(--primary);
-        }
-
-        .tab-btn.active {
+        .main-container { max-width: 1200px; margin: 0 auto; padding: 24px 20px; flex: 1; width: 100%; }
+        .section-title { font-size: 18px; font-weight: 800; color: var(--primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+        
+        /* Grid of Tools */
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 18px; margin-bottom: 32px; }
+        .tool-card {
             background: var(--surface);
-            color: var(--primary-accent);
-            box-shadow: 0 1px 2px rgba(0,0,0,0.08);
-        }
-
-        /* Screen Fit Container */
-        .main-container {
-            flex: 1;
-            padding: 8px 16px;
-            width: 100%;
-            height: calc(100vh - 85px);
-            box-sizing: border-box;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px;
+            text-decoration: none;
+            color: inherit;
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
+            box-shadow: var(--shadow);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
             overflow: hidden;
         }
-
-        .portal-tab {
-            display: none;
-            height: 100%;
-            overflow-y: auto;
-        }
-
-        .portal-tab.active {
+        .tool-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); border-color: #3b82f6; }
+        .tool-top { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+        .tool-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            background: #f1f5f9;
             display: flex;
-            flex-direction: column;
-            gap: 8px;
-            height: 100%;
-        }
-
-        /* Cutter Viewport Compact & Zoomed */
-        .cutter-bar {
-            background: var(--surface);
-            padding: 6px 12px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: center;
+            font-size: 24px;
             flex-shrink: 0;
-            gap: 8px;
-            flex-wrap: wrap;
+            transition: 0.2s;
         }
+        .tool-card:hover .tool-icon { background: #dbeafe; transform: scale(1.05); }
+        .tool-name { font-size: 16px; font-weight: 700; color: var(--primary); line-height: 1.2; }
+        .tool-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.4; margin-bottom: 12px; }
+        .tool-action { font-size: 12.5px; font-weight: 700; color: #2563eb; display: flex; align-items: center; gap: 4px; }
 
-        .cutter-viewport {
-            background: #1e293b;
-            padding: 10px;
-            border-radius: 6px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            overflow: auto;
-            flex: 1;
-            border: 1px solid #334155;
-        }
-
-        #canvasWrapper {
-            position: relative;
-            background: white;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-            display: inline-block;
-        }
-
-        #scannedDoc {
-            display: block;
-            width: 850px;
-            max-width: none;
-            height: auto;
-            user-select: none;
-            pointer-events: none;
-            transition: width 0.15s ease;
-        }
-
-        .crop-box {
-            position: absolute;
-            border: 2px solid;
-            cursor: move;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            user-select: none;
-            box-sizing: border-box;
-            padding: 2px;
-            border-radius: 3px;
-        }
-
-        .crop-box.photo-box {
-            border-color: #2563eb;
-            background: rgba(37, 99, 235, 0.22);
-        }
-
-        .crop-box.sign-box {
-            border-color: #059669;
-            background: rgba(5, 150, 105, 0.22);
-        }
-
-        .box-label {
-            background: #0f172a;
-            color: #fff;
-            font-size: 11px;
-            font-weight: 600;
-            padding: 1px 4px;
-            border-radius: 2px;
-            pointer-events: none;
-        }
-
-        .box-close {
-            background: #e11d48;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 15px;
-            height: 15px;
-            font-size: 9px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .resize-handle {
-            position: absolute;
-            width: 9px;
-            height: 9px;
-            background: #ffffff;
-            border: 2px solid #0f172a;
-            bottom: -4px;
-            right: -4px;
-            cursor: se-resize;
-        }
-
-        /* Buttons & Forms */
-        .btn-ui {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-            padding: 5px 10px;
-            font-size: 12.5px;
-            font-weight: 600;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-            transition: 0.15s ease;
-        }
-
-        .btn-primary { background: var(--primary-accent); color: white; }
+        /* Review Section */
+        .review-section { background: #ffffff; border: 1px solid var(--border); border-radius: 12px; padding: 20px; box-shadow: var(--shadow); }
+        .review-container { display: grid; grid-template-columns: 320px 1fr; gap: 24px; }
+        .form-group { margin-bottom: 10px; }
+        .form-group label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 4px; color: #334155; }
+        .form-control { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; outline: none; }
+        .form-control:focus { border-color: var(--primary-accent); }
+        .btn-ui { padding: 7px 14px; border-radius: 6px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; transition: 0.2s; }
+        .btn-primary { background: var(--primary-accent); color: #fff; }
         .btn-primary:hover { background: #1d4ed8; }
-        .btn-success { background: var(--success); color: white; }
-        .btn-success:hover { background: #047857; }
-        .btn-danger { background: var(--danger); color: white; }
-        .btn-danger:hover { background: #be123c; }
-        .btn-outline { background: white; border: 1px solid var(--border); color: #334155; }
-        .btn-outline:hover { background: #f8fafc; }
+        .btn-outline { background: #fff; border: 1px solid var(--border); color: #334155; }
+        .btn-danger { background: #e11d48; color: #fff; }
+        .review-list { display: flex; flex-direction: column; gap: 10px; max-height: 280px; overflow-y: auto; }
+        .review-item { background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; }
+        .review-header { display: flex; justify-content: space-between; font-size: 12.5px; font-weight: 700; margin-bottom: 4px; }
+        .review-reply { background: #e0f2fe; border-left: 3px solid #0284c7; padding: 4px 8px; font-size: 12px; color: #0369a1; border-radius: 0 4px 4px 0; margin-top: 5px; }
 
-        .panel-grid {
-            display: grid;
-            grid-template-columns: 290px 1fr;
-            gap: 12px;
-            height: 100%;
-        }
-
-        .panel-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 12px;
+        /* Footer */
+        .portal-footer {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 14px 24px;
             display: flex;
-            flex-direction: column;
-            overflow: auto;
-        }
-
-        .panel-title {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 8px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 4px;
-        }
-
-        .form-group {
-            margin-bottom: 8px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 3px;
-            font-size: 12px;
-            font-weight: 600;
-            color: #334155;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 5px 8px;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            font-size: 13px;
-            outline: none;
-        }
-
-        .table-responsive {
-            overflow: auto;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            flex: 1;
-        }
-
-        table.portal-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-            white-space: nowrap;
-        }
-
-        table.portal-table th, table.portal-table td {
-            border: 1px solid var(--border);
-            padding: 5px 4px;
-            text-align: center;
-        }
-
-        table.portal-table th {
-            background: #f8fafc;
-            font-weight: 700;
-            font-size: 12px;
-        }
-
-        .table-input {
-            width: 100%;
-            padding: 4px 6px;
-            border: 1px solid var(--border);
-            border-radius: 3px;
-            font-size: 12.5px;
-            font-weight: 600;
-        }
-
-        /* PDF Selection Base Layout */
-        .pdf-selection-wrapper {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            gap: 10px;
-        }
-
-        .pdf-subnav {
-            display: flex;
-            gap: 8px;
-            background: #ffffff;
-            padding: 8px 12px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            flex-shrink: 0;
-            flex-wrap: wrap;
-        }
-
-        .pdf-sub-btn {
-            background: #f1f5f9;
-            border: 1px solid var(--border);
-            padding: 6px 14px;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-main);
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.15s;
-        }
-
-        .pdf-sub-btn.active {
-            background: var(--primary-accent);
-            color: white;
-            border-color: var(--primary-accent);
-        }
-
-        .pdf-tool-view {
-            display: none;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 16px;
-            max-width: 550px;
-        }
-
-        .pdf-tool-view.active {
-            display: flex;
-            flex-direction: column;
             justify-content: space-between;
-        }
-
-        /* हस्तलिखित कन्व्हर्टर CSS */
-        .hw-container {
-            display: flex;
-            gap: 16px;
-            height: 100%;
-            overflow-y: auto;
-        }
-
-        .hw-controls {
-            flex: 1;
-            min-width: 320px;
-            max-width: 420px;
-            background: #ffffff;
-            padding: 14px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            overflow-y: auto;
-        }
-
-        .editor-toolbar {
-            display: flex;
+            align-items: center;
+            font-size: 12.5px;
             flex-wrap: wrap;
-            gap: 5px;
-            background: #f1f5f9;
-            padding: 6px;
-            border: 1px solid #cbd5e1;
-            border-bottom: none;
-            border-radius: 6px 6px 0 0;
+            gap: 10px;
         }
-
-        .tool-btn {
-            padding: 5px 9px;
-            border-radius: 4px;
-            border: 1px solid #94a3b8;
-            cursor: pointer;
-            font-size: 11.5px;
-            font-weight: 600;
-            color: #fff;
+        .visitor-badge {
+            background: #1e293b;
+            border: 1px solid #334155;
+            padding: 5px 14px;
+            border-radius: 20px;
             display: inline-flex;
             align-items: center;
-            gap: 3px;
+            gap: 8px;
+            font-weight: 700;
+            color: #38bdf8;
         }
-
-        .btn-blue { background: #154580; }
-        .btn-red { background: #b91c1c; }
-        .btn-green { background: #15803d; }
-        .btn-black { background: #1e293b; }
-        .btn-bold { background: #475569; }
-
-        .rich-input {
-            width: 100%;
-            min-height: 130px;
-            max-height: 220px;
-            overflow-y: auto;
-            padding: 8px 10px;
-            border: 1px solid #cbd5e1;
-            border-radius: 0 0 6px 6px;
-            font-size: 13.5px;
-            line-height: 1.5;
-            background: #fff;
-            outline: none;
-        }
-
-        .hw-checkbox-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 6px;
-            background: #f8fafc;
-            padding: 8px;
-            border-radius: 6px;
-            border: 1px solid var(--border);
-        }
-
-        .hw-checkbox-label {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            font-size: 12.5px;
-            color: #374151;
-            cursor: pointer;
-        }
-
-        .hw-preview-wrapper {
-            flex: 1.5;
-            background: #e2e8f0;
-            padding: 10px;
-            border-radius: 8px;
-            overflow: auto;
-            display: flex;
-            justify-content: center;
-        }
-
-        .paper {
-            width: 100%;
-            max-width: 650px;
-            min-height: 520px;
-            background-color: #fffefb;
-            border: 1px solid #dcdcdc;
-            padding: 38px 20px 30px 46px;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-size: 20px;
-            position: relative;
-            border-radius: 3px;
-            box-shadow: 2px 3px 10px rgba(0,0,0,0.08);
-            letter-spacing: 0.8px;
-            word-spacing: 2px;
-        }
-
-        .paper::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 36px;
-            width: 1.5px;
-            background-color: #f87171;
-        }
-
-        .ruled-paper {
-            background-image: repeating-linear-gradient(
-                transparent,
-                transparent 31px,
-                #cbd5e1 31px,
-                #cbd5e1 32px
-            );
-            line-height: 32px;
-            padding-top: 36px;
-        }
-
-        .font-kalam, .font-kalam * { font-family: 'Kalam', cursive !important; }
-        .font-dekko, .font-dekko * { font-family: 'Dekko', cursive !important; }
-        .font-caveat, .font-caveat * { font-family: 'Caveat', cursive !important; }
-        .paper b, .paper strong { font-family: inherit !important; font-weight: 700 !important; }
-
-        .ink-blue, [color="#154580"] { color: #154580 !important; text-shadow: 0 0 0.3px rgba(21, 69, 128, 0.45); }
-        .ink-red, [color="#b91c1c"] { color: #b91c1c !important; text-shadow: 0 0 0.3px rgba(185, 28, 28, 0.45); }
-        .ink-green, [color="#15803d"] { color: #15803d !important; text-shadow: 0 0 0.3px rgba(21, 128, 61, 0.45); }
-        .ink-black, [color="#1e293b"] { color: #1e293b !important; text-shadow: 0 0 0.3px rgba(30, 41, 59, 0.45); }
-
-        .natural-slant { transform: rotate(-0.25deg); }
-        .natural-slant * { display: inline-block; }
-        .crooked-shaky { filter: url(#paper-ink-displacement); }
-
-        .jitter-word {
-            display: inline-block;
-            margin-right: 5px;
-            transition: transform 0.1s;
-        }
-        .jitter-word:nth-child(2n) { transform: rotate(0.8deg) translateY(-0.8px); }
-        .jitter-word:nth-child(3n) { transform: rotate(-0.5deg) translateY(0.5px); }
-        .jitter-word:nth-child(5n) { transform: rotate(1.2deg) translateY(-1.2px) scale(0.98); }
-        .jitter-word:nth-child(7n) { transform: rotate(-1deg) translateY(1px) scale(1.02); }
-
-        /* Compact Footer */
-        .portal-footer {
-            background: var(--surface);
-            border-top: 1px solid var(--border);
-            padding: 4px 18px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 12px;
-            color: var(--text-muted);
-            flex-shrink: 0;
-        }
-
-        /* WhatsApp Floating Icon */
         .wa-float {
             position: fixed;
-            bottom: 18px;
-            right: 18px;
+            bottom: 20px;
+            right: 20px;
             background: #10b981;
-            width: 44px;
-            height: 44px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 3px 10px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
             z-index: 9999;
             transition: transform 0.2s;
         }
+        .wa-float:hover { transform: scale(1.1); }
 
-        .wa-float:hover {
-            transform: scale(1.08);
-        }
-
-        #print-area { display: none; }
-
-        @media print {
-            @page { size: A4 landscape; margin: 6mm 6mm 4mm 6mm; }
-            html, body { background: white !important; padding: 0 !important; margin: 0 !important; overflow: visible !important; height: auto !important; }
-            .portal-nav, .main-container, .portal-footer, .wa-float { display: none !important; }
-            #print-area { display: block !important; width: 100%; }
-            .a4-page {
-                position: relative;
-                width: 285mm;
-                height: 198mm;
-                max-height: 198mm;
-                page-break-after: always;
-                background: white;
-                overflow: hidden;
-                padding-bottom: 7mm;
-            }
-            .emp-chart-block {
-                border: 1px solid #000;
-                margin-bottom: 2mm;
-                padding: 4px 6px;
-                page-break-inside: avoid !important;
-                background: #fff;
-            }
-            .page-footer {
-                position: absolute;
-                bottom: 1mm;
-                left: 0;
-                width: 100%;
-                display: flex;
-                justify-content: space-between;
-                padding: 0 4mm;
-                font-size: 12px;
-                font-weight: 600;
-            }
-            .emp-chart-block table {
-                font-size: 13px;
-                margin-top: 2px;
-                width: 100%;
-                border-collapse: collapse;
-            }
-            .emp-chart-block th, .emp-chart-block td {
-                padding: 3px 5px;
-                border: 1px solid #000;
-                text-align: center;
-            }
-            .print-title {
-                text-align: center;
-                font-weight: 700;
-                font-size: 14px;
-                background-color: #f1f5f9 !important;
-                padding: 3px;
-                border: 1px solid #000;
-            }
-            .meta-info {
-                display: flex;
-                justify-content: space-between;
-                margin-bottom: 2px;
-                font-size: 12px;
-                border-bottom: 1px solid #000;
-                padding-bottom: 1px;
-            }
+        @media(max-width: 768px) {
+            .review-container { grid-template-columns: 1fr; }
+            .portal-header { flex-direction: column; gap: 8px; align-items: stretch; }
         }
     </style>
 </head>
 <body>
 
-    <!-- SVG Distort/Warp Filter -->
-    <svg style="display: none;">
-        <defs>
-            <filter id="paper-ink-displacement">
-                <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" result="noise" />
-                <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" xChannelSelector="R" yChannelSelector="G" />
-            </filter>
-        </defs>
-    </svg>
-
-    <!-- Main Navigation Bar -->
-    <header class="portal-nav">
+    <header class="portal-header">
         <div class="brand-block">
             <div class="brand-logo-badge">SP</div>
             <div class="brand-text">
                 <h1>डिजिटल साथीदार</h1>
-                <p>Digital Sathidar Utilities</p>
+                <p>Digital Sathidar Administrative Utilities</p>
             </div>
         </div>
-        
-        <div class="nav-actions">
-            <nav class="nav-tabs">
-                <button class="tab-btn active" onclick="switchPortalTab('tab-cutter', this)">फोटो व सही कटर</button>
-                <button class="tab-btn" onclick="switchPortalTab('tab-da', this)">DA फरक कॅल्क्युलेटर</button>
-                <button class="tab-btn" onclick="switchPortalTab('tab-hra', this)">HRA फरक कॅल्क्युलेटर</button>
-                <button class="tab-btn" onclick="switchPortalTab('tab-handwriting', this)">✍️ हस्तलिखित कन्व्हर्टर</button>
-                <button class="tab-btn" onclick="switchPortalTab('tab-pdf', this)">PDF टूल्स</button>
-                <button class="tab-btn" onclick="window.location.href='Chachani7A.html?t=' + new Date().getTime()">📊 ७ वी (अ) निकाल</button>
-            </nav>
-        </div>
+        <div class="badge-portal">महाराष्ट्र शासन सेवा पोर्टल</div>
     </header>
 
     <main class="main-container">
-
-        <!-- टॅब १: कटर टूल -->
-        <section id="tab-cutter" class="portal-tab active">
-            <div class="cutter-bar">
+        
+        <div class="section-title">📂 सर्व डिजिटल टूल्स व सेवा</div>
+        <div class="tools-grid">
+            
+            <a href="cutter.html" class="tool-card">
                 <div>
-                    <div style="font-size: 14px; font-weight: 700; color: var(--primary);">SSC / HSC परीक्षा फॉर्म - फोटो व सही क्रॉपिंग प्रणाली</div>
-                    <div style="font-size: 11px; color: var(--text-muted);">२२५x२८५ व आवश्यक २५ ते ४० KB साईज</div>
+                    <div class="tool-top">
+                        <div class="tool-icon">✂️</div>
+                        <div class="tool-name">फोटो व सही कटर</div>
+                    </div>
+                    <div class="tool-desc">SSC / HSC परीक्षा फॉर्मसाठी ९ फोटो व सह्या एका क्लिकवर स्वयंचलित क्रॉप करा (२५-४० KB).</div>
                 </div>
-                
-                <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
-                    <input type="file" id="cutterFileInput" accept="image/*" style="display:none;">
-                    <button class="btn-ui btn-primary" onclick="document.getElementById('cutterFileInput').click()">📁 ९ फोटो आणि सही नमुना अपलोड करा</button>
-                    <button class="btn-ui btn-outline" onclick="autoDetectBoxes()">🤖 ऑटो डिटेक्ट</button>
-                    <button class="btn-ui btn-outline" onclick="addNewBox('photo')">+ फोटो</button>
-                    <button class="btn-ui btn-outline" onclick="addNewBox('sign')">+ सही</button>
-                    <button class="btn-ui btn-outline" onclick="zoomCutter(1.15)">🔍+ मोठे करा</button>
-                    <button class="btn-ui btn-outline" onclick="zoomCutter(0.85)">🔍- लहान करा</button>
-                    <button class="btn-ui btn-danger" onclick="clearAllBoxes()">रिसेट</button>
+                <div class="tool-action">सुरू करा ➔</div>
+            </a>
 
-                    <span style="font-size:12px; font-weight:700; padding:4px 8px; background:#f1f5f9; border-radius:4px;">
-                        फोटो: <span id="photoCount" style="color:#2563eb;">0</span> | सह्या: <span id="signCount" style="color:#059669;">0</span>
-                    </span>
-
-                    <button class="btn-ui btn-success" onclick="cropAndDownloadAll()">📦 सर्व ZIP डाऊनलोड करा</button>
+            <a href="anki-to-akshari.html" class="tool-card">
+                <div>
+                    <div class="tool-top">
+                        <div class="tool-icon">🔢</div>
+                        <div class="tool-name">अंकी ते अक्षरी व वय</div>
+                    </div>
+                    <div class="tool-desc">कोणतीही संख्या/रक्कम मराठी अक्षरी रूपांतरित करा, जन्मदिनांक अक्षरी व अचूक वय मोजा.</div>
                 </div>
-            </div>
+                <div class="tool-action">सुरू करा ➔</div>
+            </a>
 
-            <div class="cutter-viewport">
-                <div id="canvasWrapper">
-                    <img id="scannedDoc" src="" alt="कृपया आधी '९ फोटो आणि सही नमुना अपलोड करा' वर क्लिक करा">
-                    <div id="boxesContainer"></div>
+            <a href="da-calculator.html" class="tool-card">
+                <div>
+                    <div class="tool-top">
+                        <div class="tool-icon">📈</div>
+                        <div class="tool-name">DA फरक कॅल्क्युलेटर</div>
+                    </div>
+                    <div class="tool-desc">महागाई भत्ता वाढ फरक पत्रक, NPS कपात आणि A4 लँडस्केप प्रिंट तक्ता.</div>
                 </div>
-            </div>
-        </section>
+                <div class="tool-action">सुरू करा ➔</div>
+            </a>
 
-        <!-- टॅब २: DA फरक कॅल्क्युलेटर -->
-        <section id="tab-da" class="portal-tab">
-            <div class="panel-grid">
-                <div class="panel-card">
-                    <div class="panel-title">१. निकष व महिने सेटिंग</div>
+            <a href="hra-calculator.html" class="tool-card">
+                <div>
+                    <div class="tool-top">
+                        <div class="tool-icon">🏠</div>
+                        <div class="tool-name">HRA फरक कॅल्क्युलेटर</div>
+                    </div>
+                    <div class="tool-desc">घरभाडे भत्ता वाढ फरक पत्रक व अधिकृत A4 लँडस्केप प्रिंट लेआउट.</div>
+                </div>
+                <div class="tool-action">सुरू करा ➔</div>
+            </a>
+
+            <a href="handwriting.html" class="tool-card">
+                <div>
+                    <div class="tool-top">
+                        <div class="tool-icon">✍️</div>
+                        <div class="tool-name">हस्तलिखित कन्व्हर्टर</div>
+                    </div>
+                    <div class="tool-desc">टाईप केलेला मजकूर खरोखर हाताने वहीवर लिहिल्यासारखा बनवा (PDF व प्रिंट).</div>
+                </div>
+                <div class="tool-action">सुरू करा ➔</div>
+            </a>
+
+            <a href="pdf-tools.html" class="tool-card">
+                <div>
+                    <div class="tool-top">
+                        <div class="tool-icon">📄</div>
+                        <div class="tool-name">PDF टूल्स</div>
+                    </div>
+                    <div class="tool-desc">PDF एकत्र करा (Merge), प्रत्येक पान वेगळे करा (Split to ZIP) व साईझ कमी करा (Compress).</div>
+                </div>
+                <div class="tool-action">सुरू करा ➔</div>
+            </a>
+
+            <a href="Chachani7A.html" class="tool-card">
+                <div>
+                    <div class="tool-top">
+                        <div class="tool-icon">📊</div>
+                        <div class="tool-name">७ वी (अ) निकाल</div>
+                    </div>
+                    <div class="tool-desc">विद्यार्थी चाचणी निकाल, गुणपत्रक व विश्लेषण तक्ता.</div>
+                </div>
+                <div class="tool-action">सुरू करा ➔</div>
+            </a>
+
+        </div>
+
+        <!-- Review Section -->
+        <div class="section-title">💬 अभिप्राय व प्रतिक्रिया</div>
+        <div class="review-section">
+            <div class="review-container">
+                <div>
                     <div class="form-group">
-                        <label>शाळा / आस्थापनेचे नाव</label>
-                        <input type="text" id="da-school-name" class="form-control" value="शाळेचे नाव लिहा">
+                        <label>आपले नाव / पद:</label>
+                        <input type="text" id="revAuthor" class="form-control" placeholder="उदा. सुजित पाटील">
                     </div>
-
-                    <div style="display: flex; gap: 6px;">
-                        <div class="form-group" style="flex:1;">
-                            <label>जुना DA (%)</label>
-                            <input type="number" id="old-da" class="form-control" value="55" step="0.1" oninput="recalculateAllDARows()">
-                        </div>
-                        <div class="form-group" style="flex:1;">
-                            <label>नवीन DA (%)</label>
-                            <input type="number" id="new-da" class="form-control" value="58" step="0.1" oninput="recalculateAllDARows()">
-                        </div>
-                    </div>
-                    
-                    <div style="background: #f8fafc; padding: 8px; border-radius: 5px; border: 1px solid var(--border);">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px;">
-                            <label style="font-weight: 700; font-size: 12px; margin:0;">लागू महिने:</label>
-                            <div style="display:flex; gap:4px;">
-                                <button type="button" class="btn-ui btn-outline" style="padding:2px 6px; font-size:11px;" onclick="removeDAMonth()">- कमी</button>
-                                <button type="button" class="btn-ui btn-primary" style="padding:2px 6px; font-size:11px;" onclick="addDAMonth()">+ वाढवा</button>
-                            </div>
-                        </div>
-                        <div id="da-months-container"></div>
-                    </div>
-
-                    <div style="margin-top: 10px; display:flex; flex-direction:column; gap:6px;">
-                        <button class="btn-ui btn-success" onclick="printA4DACharts()">🖨️ A4 लँडस्केप प्रिंट काढा</button>
-                        <button class="btn-ui btn-outline" onclick="addNewDARow()">+ कर्मचारी नोंद जोडा</button>
-                    </div>
-                </div>
-
-                <div class="panel-card">
-                    <div class="panel-title">२. महागाई भत्ता (DA) फरक पत्रक</div>
-                    <div class="table-responsive">
-                        <table class="portal-table">
-                            <thead id="da-master-thead"></thead>
-                            <tbody id="da-master-table-body"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- टॅब ३: HRA फरक कॅल्क्युलेटर -->
-        <section id="tab-hra" class="portal-tab">
-            <div class="panel-grid">
-                <div class="panel-card">
-                    <div class="panel-title">१. निकष व महिने सेटिंग</div>
                     <div class="form-group">
-                        <label>शाळा / आस्थापनेचे नाव</label>
-                        <input type="text" id="hra-school-name" class="form-control" value="शाळेचे नाव">
+                        <label>संस्था / शाळा / गाव:</label>
+                        <input type="text" id="revPlace" class="form-control" placeholder="उदा. रयत सेवक">
                     </div>
-
-                    <div style="display: flex; gap: 6px;">
-                        <div class="form-group" style="flex:1;">
-                            <label>जुना HRA (%)</label>
-                            <input type="number" id="old-hra" class="form-control" value="9" step="0.1" oninput="recalculateAllHRARows()">
-                        </div>
-                        <div class="form-group" style="flex:1;">
-                            <label>नवीन HRA (%)</label>
-                            <input type="number" id="new-hra" class="form-control" value="10" step="0.1" oninput="recalculateAllHRARows()">
-                        </div>
-                    </div>
-                    
-                    <div style="background: #f8fafc; padding: 8px; border-radius: 5px; border: 1px solid var(--border);">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px;">
-                            <label style="font-weight: 700; font-size: 12px; margin:0;">लागू महिने:</label>
-                            <div style="display:flex; gap:4px;">
-                                <button type="button" class="btn-ui btn-outline" style="padding:2px 6px; font-size:11px;" onclick="removeHRAMonth()">- कमी</button>
-                                <button type="button" class="btn-ui btn-primary" style="padding:2px 6px; font-size:11px;" onclick="addHRAMonth()">+ वाढवा</button>
-                            </div>
-                        </div>
-                        <div id="hra-months-container"></div>
-                    </div>
-
-                    <div style="margin-top: 10px; display:flex; flex-direction:column; gap:6px;">
-                        <button class="btn-ui btn-success" onclick="printA4HRACharts()">🖨️ A4 लँडस्केप प्रिंट काढा</button>
-                        <button class="btn-ui btn-outline" onclick="addNewHRARow()">+ कर्मचारी नोंद जोडा</button>
-                    </div>
-                </div>
-
-                <div class="panel-card">
-                    <div class="panel-title">२. घरभाडे भत्ता (HRA) फरक पत्रक</div>
-                    <div class="table-responsive">
-                        <table class="portal-table">
-                            <thead id="hra-master-thead"></thead>
-                            <tbody id="hra-master-table-body"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- टॅब ४: ✍️ नॅचरल हस्तलिखित कन्व्हर्टर -->
-        <section id="tab-handwriting" class="portal-tab">
-            <div class="hw-container">
-                <div class="hw-controls">
-                    <div class="panel-title">✍️ हस्तलिखित सेटिंग्स</div>
-                    
                     <div class="form-group">
-                        <label>मजकूर लिहा आणि रंग/बोल्ड सिलेक्ट करा:</label>
-                        <div class="editor-toolbar">
-                            <button type="button" class="tool-btn btn-blue" onmousedown="event.preventDefault()" onclick="applyHwStyle('foreColor', '#154580')">🔵 निळा</button>
-                            <button type="button" class="tool-btn btn-red" onmousedown="event.preventDefault()" onclick="applyHwStyle('foreColor', '#b91c1c')">🔴 लाल</button>
-                            <button type="button" class="tool-btn btn-green" onmousedown="event.preventDefault()" onclick="applyHwStyle('foreColor', '#15803d')">🟢 हिरवा</button>
-                            <button type="button" class="tool-btn btn-black" onmousedown="event.preventDefault()" onclick="applyHwStyle('foreColor', '#1e293b')">⚫ काळा</button>
-                            <button type="button" class="tool-btn btn-bold" onmousedown="event.preventDefault()" onclick="applyHwStyle('bold', null)"><b>B</b> बोल्ड</button>
-                        </div>
-                        <div id="hwRichInput" class="rich-input" contenteditable="true">हा मजकूर <font color="#154580">निळ्या पेनने</font> लिहिलेला आहे, तर हा शब्द <font color="#b91c1c"><b>लाल रंगात ठळक</b></font> आहे. खाली काही ओळी <font color="#15803d">हिरव्या शाईत</font> आणि महत्वाच्या नोंदी <font color="#1e293b">काळ्या पेनने</font> करता येतात.</div>
-                        <div style="font-size:11px; color:var(--text-muted); margin-top:3px;">💡 शब्द निवडून (Select) वरील रंगावर क्लिक करा.</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>किंवा PDF फाईल अपलोड करा:</label>
-                        <input type="file" id="hwPdfUpload" class="form-control" accept=".pdf">
-                    </div>
-
-                    <div class="form-group">
-                        <label>हस्ताक्षर फॉन्ट शैली:</label>
-                        <select id="hwFontStyle" class="form-control">
-                            <option value="font-kalam" selected>शैली १: Kalam (देवनागरी अस्खलित)</option>
-                            <option value="font-dekko">शैली २: Dekko (देवनागरी सुटसुटीत)</option>
-                            <option value="font-caveat">शैली ३: Caveat (इंग्रजी कर्सिव्ह)</option>
+                        <label>रेटिंग:</label>
+                        <select id="revRating" class="form-control">
+                            <option value="⭐⭐⭐⭐⭐">⭐⭐⭐⭐⭐ (उत्कृष्ट ५/५)</option>
+                            <option value="⭐⭐⭐⭐">⭐⭐⭐⭐ (छान ४/५)</option>
+                            <option value="⭐⭐⭐">⭐⭐⭐ (चांगले ३/५)</option>
                         </select>
                     </div>
-
-                    <div class="hw-checkbox-grid">
-                        <label class="hw-checkbox-label">
-                            <input type="checkbox" id="hwShakyCheck" checked>
-                            <strong>वेडेवाकडे अक्षर (Imperfect & Shaky lines)</strong>
-                        </label>
-                        <label class="hw-checkbox-label">
-                            <input type="checkbox" id="hwUnevenWordsCheck" checked>
-                            शब्दांचा वर-खाली अस्ताव्यस्तपणा (Jitter Alignment)
-                        </label>
-                        <label class="hw-checkbox-label">
-                            <input type="checkbox" id="hwSlantCheck" checked>
-                            हात वळवून लिहिलेला तिरपेपणा (Natural Slant)
-                        </label>
-                        <label class="hw-checkbox-label">
-                            <input type="checkbox" id="hwRuledCheck" checked>
-                            वहीच्या निळ्या रेषा (Ruled Lines)
-                        </label>
+                    <div class="form-group">
+                        <label>आपला संदेश:</label>
+                        <textarea id="revMessage" class="form-control" rows="2" placeholder="पोर्टलबद्दल आपले मत लिहा..."></textarea>
                     </div>
-
-                    <button class="btn-ui btn-primary" style="width:100%; margin-top:6px; padding:9px;" id="hwDownloadBtn">📥 हस्तलिखित PDF डाऊनलोड करा</button>
+                    <button class="btn-ui btn-primary" style="width:100%;" onclick="submitUserReview()">अभिप्राय सबमिट करा</button>
                 </div>
 
-                <div class="hw-preview-wrapper">
-                    <div id="hwPaperSheet" class="paper ruled-paper font-kalam natural-slant crooked-shaky">
-                        येथे मजकूर दिसेल...
+                <div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; border-bottom:1px solid var(--border); padding-bottom:6px;">
+                        <span style="font-weight:700; color:#334155;">ताजी युझर मते</span>
+                        <button id="adminToggleBtn" class="btn-ui btn-outline" style="padding:2px 8px; font-size:11px;" onclick="toggleAdminPrompt()">🔐 ॲडमिन (Pin)</button>
                     </div>
+                    <div id="reviewsContainer" class="review-list"></div>
                 </div>
             </div>
-        </section>
-
-        <!-- टॅब ५: PDF टूल्स -->
-        <section id="tab-pdf" class="portal-tab">
-            <div class="pdf-selection-wrapper">
-                
-                <div class="pdf-subnav">
-                    <button class="pdf-sub-btn active" onclick="switchPdfSubTool('view-merge', this)">🔗 PDF एकत्र करा (Merge)</button>
-                    <button class="pdf-sub-btn" onclick="switchPdfSubTool('view-split', this)">✂️ सर्व पाने वेगळी करा (Split to ZIP)</button>
-                    <button class="pdf-sub-btn" onclick="switchPdfSubTool('view-compress', this)">🗜️ PDF साईझ कमी करा (Compress)</button>
-                </div>
-
-                <!-- १. Merge PDF -->
-                <div id="view-merge" class="pdf-tool-view active">
-                    <div>
-                        <div class="panel-title">🔗 PDF एकत्र करा (Merge PDF)</div>
-                        <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">दोन किंवा अधिक PDF फाईल्स जोडून एकच PDF बनवा.</p>
-                        <div class="form-group">
-                            <label>PDF फाईल्स निवडा (दोन किंवा अधिक):</label>
-                            <input type="file" id="pdfMergeInput" class="form-control" accept="application/pdf" multiple>
-                        </div>
-                    </div>
-                    <button class="btn-ui btn-primary" style="width:100%; margin-top:14px; padding:8px;" onclick="mergePDFFiles()">एकत्र जोडून डाऊनलोड करा</button>
-                </div>
-
-                <!-- २. Split to ZIP -->
-                <div id="view-split" class="pdf-tool-view">
-                    <div>
-                        <div class="panel-title">✂️ PDF ची सर्व पाने वेगळी करा (Split to ZIP)</div>
-                        <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">PDF मधील प्रत्येक पान (Page 1, Page 2, Page 3...) आपोआप वेगळे होऊन एकाच ZIP फाईलमध्ये मिळेल.</p>
-                        <div class="form-group">
-                            <label>PDF फाईल निवडा:</label>
-                            <input type="file" id="pdfSplitInput" class="form-control" accept="application/pdf">
-                        </div>
-                        <p id="splitStatus" style="font-size:11.5px; color:var(--primary-accent); font-weight:700; min-height:16px; margin-top:5px;"></p>
-                    </div>
-                    <button class="btn-ui btn-primary" style="width:100%; margin-top:14px; padding:8px;" id="btnSplit" onclick="splitAllPagesToZip()">सर्व पाने वेगळी करून ZIP डाऊनलोड करा</button>
-                </div>
-
-                <!-- ३. Compress PDF -->
-                <div id="view-compress" class="pdf-tool-view">
-                    <div>
-                        <div class="panel-title">🗜️ PDF साईझ कमी करा (Compress PDF)</div>
-                        <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">PDF फाईलचा आकार आवश्यकतेनुसार कमी करा.</p>
-                        <div class="form-group">
-                            <label>PDF फाईल निवडा:</label>
-                            <input type="file" id="pdfCompressInput" class="form-control" accept="application/pdf">
-                        </div>
-                        <div class="form-group">
-                            <label>कॉम्प्रेशन प्रकार निवडा:</label>
-                            <select id="pdfQualitySelect" class="form-control">
-                                <option value="0.75">Regular Compress (साधारण कॉम्प्रेस - सर्वोत्तम गुणवत्ता)</option>
-                                <option value="0.55" selected>Medium Compress (मध्यम कॉम्प्रेस - संतुलित आकार व दर्जा)</option>
-                                <option value="0.30">High Compress (जास्त कॉम्प्रेस - सर्वात लहान फाईल साईज)</option>
-                            </select>
-                        </div>
-                        <p id="compressStatus" style="font-size:11.5px; color:var(--primary-accent); font-weight:700; min-height:16px; margin-top:5px;"></p>
-                    </div>
-                    <button class="btn-ui btn-success" style="width:100%; margin-top:14px; padding:8px;" id="btnCompress" onclick="compressPDFFile()">कॉम्प्रेस करून डाऊनलोड करा</button>
-                </div>
-
-            </div>
-        </section>
+        </div>
 
     </main>
 
-    <!-- Footer -->
     <footer class="portal-footer">
         <div>© 2026 डिजिटल साथीदार (Digital Sathidar) | सर्व हक्क सुरक्षित.</div>
-        <div style="font-weight:700; color:var(--primary);">संकल्पना व निर्मिती : Sujit Patil (SP)</div>
+        <div class="visitor-badge">
+            <span>👁️ एकूण भेट देणारे:</span>
+            <span id="visitorCountDisplay">२,८४२</span>
+        </div>
+        <div style="font-weight:700; color:#38bdf8;">संकल्पना व निर्मिती : Sujit Patil (SP)</div>
     </footer>
 
-    <!-- Floating WhatsApp -->
     <a href="https://wa.me/?text=नमस्कार%20डिजिटल%20साथीदार%20पोर्टल%20पहा:%20https://sujitjpatil-dada.github.io/applications/" target="_blank" class="wa-float" title="WhatsApp वर शेअर करा">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
     </a>
 
-    <div id="print-area"></div>
-
 <script>
-    function switchPortalTab(tabId, btn) {
-        document.querySelectorAll('.portal-tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(tabId).classList.add('active');
-        btn.classList.add('active');
-        if (tabId === 'tab-handwriting') {
-            updateHwSheet();
-        }
+    const ADMIN_PIN = "7339";
+    let isAdminLoggedIn = false;
+
+    let reviewsData = JSON.parse(localStorage.getItem('digital_sathidar_reviews') || '[]');
+    if (reviewsData.length === 0 || (reviewsData[0] && reviewsData[0].place === "रामानंदनगर")) {
+        reviewsData = [
+            { id: 1, author: "सुजित पाटील", place: "रयत सेवक", rating: "⭐⭐⭐⭐⭐", msg: "शासकीय कामांसाठी आणि DA/HRA फरकासाठी अत्यंत उपयुक्त पोर्टल!", reply: "धन्यवाद सर! सहकार्य लाभो." },
+            { id: 2, author: "रयत सेवक", place: "सातारा", rating: "⭐⭐⭐⭐⭐", msg: "SSC / HSC कटरमुळे शाळेतील कर्मचाऱ्यांचे तासनतास वाचले.", reply: "" }
+        ];
+        localStorage.setItem('digital_sathidar_reviews', JSON.stringify(reviewsData));
     }
 
-    // PDF Sub Tool Switcher
-    function switchPdfSubTool(viewId, btn) {
-        document.querySelectorAll('.pdf-tool-view').forEach(v => v.classList.remove('active'));
-        document.querySelectorAll('.pdf-sub-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(viewId).classList.add('active');
-        btn.classList.add('active');
-    }
-
-    // ==========================================
-    // DA Calculator Logic
-    // ==========================================
-    let daMonths = ["नोव्हेंबर २०२५", "डिसेंबर २०२५"];
-    let daEmployees = [
-        { name: "", desig: "", basics: [0, 0], nps: "No" },
-        { name: "", desig: "", basics: [0, 0], nps: "No" },
-        { name: "", desig: "", basics: [0, 0], nps: "No" }
-    ];
-
-    function renderDAMonthInputs() {
-        const container = document.getElementById('da-months-container');
-        container.innerHTML = '';
-        daMonths.forEach((m, idx) => {
-            container.innerHTML += `
-                <div style="margin-bottom:4px;">
-                    <input type="text" class="form-control" style="padding:3px 6px; font-size:12px;" value="${m}" oninput="updateDAMonthName(${idx}, this.value)">
-                </div>
-            `;
-        });
-    }
-
-    function updateDAMonthName(index, val) {
-        daMonths[index] = val;
-        const th = document.getElementById(`da-month-th-${index}`);
-        if(th) th.innerText = val || `महिना ${index + 1}`;
-    }
-
-    function addDAMonth() {
-        daMonths.push(`महिना ${daMonths.length + 1}`);
-        daEmployees.forEach(emp => emp.basics.push(0));
-        renderDAMonthInputs();
-        buildDATable();
-    }
-
-    function removeDAMonth() {
-        if (daMonths.length <= 1) return;
-        daMonths.pop();
-        daEmployees.forEach(emp => emp.basics.pop());
-        renderDAMonthInputs();
-        buildDATable();
-    }
-
-    function addNewDARow() {
-        daEmployees.push({ name: "", desig: "", basics: new Array(daMonths.length).fill(0), nps: "No" });
-        buildDATable();
-    }
-
-    function renderDATableHeaders() {
-        const thead = document.getElementById('da-master-thead');
-        let row1 = `
-            <tr>
-                <th rowspan="2" style="width: 30px;">अ.क्र.</th>
-                <th rowspan="2" style="width: 150px;">कर्मचाऱ्याचे नाव</th>
-                <th rowspan="2" style="width: 110px;">पद</th>
-        `;
-        let row2 = `<tr>`;
-
-        daMonths.forEach((m, idx) => {
-            row1 += `<th colspan="2" id="da-month-th-${idx}" style="background: #eff6ff;">${m || 'महिना ' + (idx + 1)}</th>`;
-            row2 += `
-                <th style="width:70px;">Basic</th>
-                <th style="width:55px;">Diff</th>
-            `;
-        });
-
-        row1 += `
-                <th rowspan="2" style="width: 50px;">NPS?</th>
-                <th rowspan="2" style="width: 85px;">एकूण फरक</th>
-                <th rowspan="2" style="width: 75px;">NPS (10%)</th>
-            </tr>
-        `;
-        row2 += `</tr>`;
-        thead.innerHTML = row1 + row2;
-    }
-
-    function buildDATable() {
-        renderDATableHeaders();
-        const tbody = document.getElementById('da-master-table-body');
-        tbody.innerHTML = '';
-
-        const oldDa = parseFloat(document.getElementById('old-da').value) || 0;
-        const newDa = parseFloat(document.getElementById('new-da').value) || 0;
-        const diffRate = (newDa - oldDa) / 100;
-
-        daEmployees.forEach((emp, eIdx) => {
-            let tr = document.createElement('tr');
-            let rowHtml = `
-                <td>${eIdx + 1}</td>
-                <td><input type="text" class="table-input" value="${emp.name}" placeholder="नाव टाका" oninput="daEmployees[${eIdx}].name = this.value"></td>
-                <td><input type="text" class="table-input" value="${emp.desig}" placeholder="पद टाका" oninput="daEmployees[${eIdx}].desig = this.value"></td>
-            `;
-
-            let totalGross = 0;
-            daMonths.forEach((m, mIdx) => {
-                let basicVal = emp.basics[mIdx] || 0;
-                let monthDiff = Math.round(basicVal * diffRate);
-                totalGross += monthDiff;
-
-                rowHtml += `
-                    <td>
-                        <input type="number" class="table-input" style="width:70px; text-align:center;" value="${basicVal === 0 ? '' : basicVal}" placeholder="0" 
-                               oninput="onDABasicChange(${eIdx}, ${mIdx}, this.value)">
-                    </td>
-                    <td id="da-diff-cell-${eIdx}-${mIdx}" style="color:#e11d48; font-weight:700;">₹${monthDiff}</td>
-                `;
-            });
-
-            let npsAmt = emp.nps === "Yes" ? Math.floor(totalGross * 0.10) : 0;
-
-            rowHtml += `
-                <td>
-                    <select class="table-input" style="width:50px;" onchange="onDANpsChange(${eIdx}, this.value)">
-                        <option value="No" ${emp.nps === 'No' ? 'selected' : ''}>No</option>
-                        <option value="Yes" ${emp.nps === 'Yes' ? 'selected' : ''}>Yes</option>
-                    </select>
-                </td>
-                <td><strong id="da-gross-cell-${eIdx}" style="color:#1e40af;">₹${totalGross}</strong></td>
-                <td id="da-nps-cell-${eIdx}" style="color:#059669; font-weight:700;">₹${npsAmt}</td>
-            `;
-            tr.innerHTML = rowHtml;
-            tbody.appendChild(tr);
-        });
-    }
-
-    function onDABasicChange(empIdx, monthIdx, val) {
-        daEmployees[empIdx].basics[monthIdx] = parseFloat(val) || 0;
-        const diffRate = (parseFloat(document.getElementById('new-da').value) - parseFloat(document.getElementById('old-da').value)) / 100;
-        const monthDiff = Math.round((daEmployees[empIdx].basics[monthIdx] || 0) * diffRate);
-        const cell = document.getElementById(`da-diff-cell-${empIdx}-${monthIdx}`);
-        if(cell) cell.innerText = `₹${monthDiff}`;
-        updateDARowTotals(empIdx, diffRate);
-    }
-
-    function onDANpsChange(empIdx, val) {
-        daEmployees[empIdx].nps = val;
-        const diffRate = (parseFloat(document.getElementById('new-da').value) - parseFloat(document.getElementById('old-da').value)) / 100;
-        updateDARowTotals(empIdx, diffRate);
-    }
-
-    function updateDARowTotals(empIdx, diffRate) {
-        let totalGross = 0;
-        daEmployees[empIdx].basics.forEach(b => totalGross += Math.round((b || 0) * diffRate));
-        const npsAmt = daEmployees[empIdx].nps === "Yes" ? Math.floor(totalGross * 0.10) : 0;
-        const grossCell = document.getElementById(`da-gross-cell-${empIdx}`);
-        const npsCell = document.getElementById(`da-nps-cell-${empIdx}`);
-        if (grossCell) grossCell.innerText = `₹${totalGross}`;
-        if (npsCell) npsCell.innerText = `₹${npsAmt}`;
-    }
-
-    function recalculateAllDARows() {
-        const diffRate = (parseFloat(document.getElementById('new-da').value) - parseFloat(document.getElementById('old-da').value)) / 100;
-        daEmployees.forEach((emp, eIdx) => {
-            daMonths.forEach((m, mIdx) => {
-                const monthDiff = Math.round((emp.basics[mIdx] || 0) * diffRate);
-                const cell = document.getElementById(`da-diff-cell-${eIdx}-${mIdx}`);
-                if(cell) cell.innerText = `₹${monthDiff}`;
-            });
-            updateDARowTotals(eIdx, diffRate);
-        });
-    }
-
-    function printA4DACharts() {
-        const printArea = document.getElementById('print-area');
-        printArea.innerHTML = '';
-        const schoolName = document.getElementById('da-school-name').value;
-        const oldDa = parseFloat(document.getElementById('old-da').value) || 0;
-        const newDa = parseFloat(document.getElementById('new-da').value) || 0;
-
-        let validEmps = daEmployees.filter(e => e.name.trim() !== "" || e.basics.some(b => b > 0));
-        if (validEmps.length === 0) {
-            alert("कृपया आधी किमान एका कर्मचाऱ्याची माहिती भरा!");
-            return;
-        }
-
-        let blocksPerPage = daMonths.length <= 3 ? 4 : (daMonths.length <= 6 ? 3 : 2);
-        const totalPages = Math.ceil(validEmps.length / blocksPerPage);
-        let finalHTML = '';
-
-        for (let p = 0; p < totalPages; p++) {
-            let pageEmps = validEmps.slice(p * blocksPerPage, (p + 1) * blocksPerPage);
-            let pageNum = p + 1;
-            let pageHTML = `<div class="a4-page">`;
-
-            pageEmps.forEach(emp => {
-                let rowsHTML = '';
-                let totalDueDaSum = 0, totalDrawnDaSum = 0, totalDiffSum = 0;
-
-                daMonths.forEach((m, mIdx) => {
-                    let currentBasic = emp.basics[mIdx] || 0;
-                    let dueDaAmt = Math.round(currentBasic * (newDa / 100));
-                    let drawnDaAmt = Math.round(currentBasic * (oldDa / 100));
-                    let diff = dueDaAmt - drawnDaAmt;
-                    let npsContr = emp.nps === "Yes" ? Math.floor(diff * 0.1) : 0;
-
-                    totalDueDaSum += dueDaAmt;
-                    totalDrawnDaSum += drawnDaAmt;
-                    totalDiffSum += diff;
-
-                    rowsHTML += `
-                        <tr>
-                            <td>${m || 'महिना ' + (mIdx + 1)}</td>
-                            <td>₹${currentBasic}</td>
-                            <td>${newDa}%</td>
-                            <td><strong>₹${dueDaAmt}</strong></td>
-                            <td>${oldDa}%</td>
-                            <td><strong>₹${drawnDaAmt}</strong></td>
-                            <td style="font-weight:700;">₹${diff}</td>
-                            <td>₹${npsContr}</td>
-                        </tr>
-                    `;
-                });
-
-                let finalNpsSum = emp.nps === "Yes" ? Math.floor(totalDiffSum * 0.10) : 0;
-
-                pageHTML += `
-                    <div class="emp-chart-block">
-                        <div class="print-title">${schoolName} - महागाई भत्ता (DA) वाढ फरक तक्ता</div>
-                        <div class="meta-info">
-                            <span>नाव: ${emp.name || '-----------'}</span>
-                            <span>पद: ${emp.desig || '-----------'}</span>
-                            <span>NPS कपात: ${emp.nps}</span>
-                        </div>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>महिना</th>
-                                    <th>मूळ वेतन</th>
-                                    <th>देय DA%</th>
-                                    <th>देय DA रक्कम</th>
-                                    <th>आकारलेला DA%</th>
-                                    <th>आकारलेला DA रक्कम</th>
-                                    <th>मासिक फरक</th>
-                                    <th>NPS (10%)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${rowsHTML}
-                                <tr style="background:#f8fafc; font-weight:700;">
-                                    <td>एकूण</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>₹${totalDueDaSum}</td>
-                                    <td>-</td>
-                                    <td>₹${totalDrawnDaSum}</td>
-                                    <td>₹${totalDiffSum}</td>
-                                    <td>₹${finalNpsSum}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+    function renderReviews() {
+        const list = document.getElementById('reviewsContainer');
+        list.innerHTML = '';
+        reviewsData.forEach((rev, idx) => {
+            const item = document.createElement('div');
+            item.className = 'review-item';
+            let adminActions = '';
+            if (isAdminLoggedIn) {
+                adminActions = `
+                    <div style="margin-top:6px; display:flex; gap:6px;">
+                        <button class="btn-ui btn-outline" style="padding:2px 6px; font-size:11px;" onclick="promptAdminReply(${idx})">💬 उत्तर द्या</button>
+                        <button class="btn-ui btn-danger" style="padding:2px 6px; font-size:11px;" onclick="deleteReview(${idx})">🗑️ हटवा</button>
                     </div>
                 `;
-            });
-
-            pageHTML += `
-                <div class="page-footer">
-                    <span>पान ${pageNum} पैकी ${totalPages}</span>
-                    <span>डिजिटल साथीदार | Sujit Patil (SP)</span>
+            }
+            let replyHtml = rev.reply ? `<div class="review-reply"><strong>SP (ॲडमिन):</strong> ${rev.reply}</div>` : '';
+            item.innerHTML = `
+                <div class="review-header">
+                    <span>${rev.author} <small style="color:var(--text-muted); font-weight:normal;">(${rev.place || 'रयत सेवक'})</small></span>
+                    <span style="color:#f59e0b;">${rev.rating}</span>
                 </div>
-            </div>`;
-            finalHTML += pageHTML;
-        }
-
-        printArea.innerHTML = finalHTML;
-        window.print();
-    }
-
-    // ==========================================
-    // HRA Calculator Logic
-    // ==========================================
-    let hraMonths = ["नोव्हेंबर २०२५", "डिसेंबर २०२५"];
-    let hraEmployees = [
-        { name: "", desig: "", basics: [0, 0] },
-        { name: "", desig: "", basics: [0, 0] },
-        { name: "", desig: "", basics: [0, 0] }
-    ];
-
-    function renderHRAMonthInputs() {
-        const container = document.getElementById('hra-months-container');
-        container.innerHTML = '';
-        hraMonths.forEach((m, idx) => {
-            container.innerHTML += `
-                <div style="margin-bottom:4px;">
-                    <input type="text" class="form-control" style="padding:3px 6px; font-size:12px;" value="${m}" oninput="updateHRAMonthName(${idx}, this.value)">
-                </div>
+                <div style="font-size:13px; color:#334155;">${rev.msg}</div>
+                ${replyHtml}
+                ${adminActions}
             `;
+            list.appendChild(item);
         });
     }
 
-    function updateHRAMonthName(index, val) {
-        hraMonths[index] = val;
-        const th = document.getElementById(`hra-month-th-${index}`);
-        if(th) th.innerText = val || `महिना ${index + 1}`;
+    function submitUserReview() {
+        const author = document.getElementById('revAuthor').value.trim();
+        const place = document.getElementById('revPlace').value.trim();
+        const rating = document.getElementById('revRating').value;
+        const msg = document.getElementById('revMessage').value.trim();
+        if (!author || !msg) { alert("कृपया आपले नाव आणि अभिप्राय संदेश प्रविष्ट करा!"); return; }
+        reviewsData.unshift({ id: Date.now(), author: author, place: place || "रयत सेवक", rating: rating, msg: msg, reply: "" });
+        localStorage.setItem('digital_sathidar_reviews', JSON.stringify(reviewsData));
+        document.getElementById('revAuthor').value = '';
+        document.getElementById('revPlace').value = '';
+        document.getElementById('revMessage').value = '';
+        renderReviews();
+        alert("✅ आपला अभिप्राय यशस्वीरीत्या नोंदवला गेला आहे!");
     }
 
-    function addHRAMonth() {
-        hraMonths.push(`महिना ${hraMonths.length + 1}`);
-        hraEmployees.forEach(emp => emp.basics.push(0));
-        renderHRAMonthInputs();
-        buildHRATable();
-    }
-
-    function removeHRAMonth() {
-        if (hraMonths.length <= 1) return;
-        hraMonths.pop();
-        hraEmployees.forEach(emp => emp.basics.pop());
-        renderHRAMonthInputs();
-        buildHRATable();
-    }
-
-    function addNewHRARow() {
-        hraEmployees.push({ name: "", desig: "", basics: new Array(hraMonths.length).fill(0) });
-        buildHRATable();
-    }
-
-    function renderHRATableHeaders() {
-        const thead = document.getElementById('hra-master-thead');
-        let row1 = `
-            <tr>
-                <th rowspan="2" style="width: 30px;">अ.क्र.</th>
-                <th rowspan="2" style="width: 170px;">कर्मचाऱ्याचे नाव</th>
-                <th rowspan="2" style="width: 120px;">पद</th>
-        `;
-        let row2 = `<tr>`;
-
-        hraMonths.forEach((m, idx) => {
-            row1 += `<th colspan="2" id="hra-month-th-${idx}" style="background: #eff6ff;">${m || 'महिना ' + (idx + 1)}</th>`;
-            row2 += `
-                <th style="width:75px;">Basic</th>
-                <th style="width:60px;">Diff</th>
-            `;
-        });
-
-        row1 += `<th rowspan="2" style="width: 100px;">एकूण HRA फरक</th></tr>`;
-        row2 += `</tr>`;
-        thead.innerHTML = row1 + row2;
-    }
-
-    function buildHRATable() {
-        renderHRATableHeaders();
-        const tbody = document.getElementById('hra-master-table-body');
-        tbody.innerHTML = '';
-
-        const oldHra = parseFloat(document.getElementById('old-hra').value) || 0;
-        const newHra = parseFloat(document.getElementById('new-hra').value) || 0;
-        const diffRate = (newHra - oldHra) / 100;
-
-        hraEmployees.forEach((emp, eIdx) => {
-            let tr = document.createElement('tr');
-            let rowHtml = `
-                <td>${eIdx + 1}</td>
-                <td><input type="text" class="table-input" value="${emp.name}" placeholder="नाव टाका" oninput="hraEmployees[${eIdx}].name = this.value"></td>
-                <td><input type="text" class="table-input" value="${emp.desig}" placeholder="पद टाका" oninput="hraEmployees[${eIdx}].desig = this.value"></td>
-            `;
-
-            let totalGross = 0;
-            hraMonths.forEach((m, mIdx) => {
-                let basicVal = emp.basics[mIdx] || 0;
-                let monthDiff = Math.round(basicVal * diffRate);
-                totalGross += monthDiff;
-
-                rowHtml += `
-                    <td>
-                        <input type="number" class="table-input" style="width:75px; text-align:center;" value="${basicVal === 0 ? '' : basicVal}" placeholder="0" 
-                               oninput="onHRABasicChange(${eIdx}, ${mIdx}, this.value)">
-                    </td>
-                    <td id="hra-diff-cell-${eIdx}-${mIdx}" style="color:#e11d48; font-weight:700;">₹${monthDiff}</td>
-                `;
-            });
-
-            rowHtml += `<td><strong id="hra-gross-cell-${eIdx}" style="color:#1e40af;">₹${totalGross}</strong></td>`;
-            tr.innerHTML = rowHtml;
-            tbody.appendChild(tr);
-        });
-    }
-
-    function onHRABasicChange(empIdx, monthIdx, val) {
-        hraEmployees[empIdx].basics[monthIdx] = parseFloat(val) || 0;
-        const diffRate = (parseFloat(document.getElementById('new-hra').value) - parseFloat(document.getElementById('old-hra').value)) / 100;
-        const monthDiff = Math.round((hraEmployees[empIdx].basics[monthIdx] || 0) * diffRate);
-        const cell = document.getElementById(`hra-diff-cell-${empIdx}-${monthIdx}`);
-        if(cell) cell.innerText = `₹${monthDiff}`;
-        updateHRARowTotals(empIdx, diffRate);
-    }
-
-    function updateHRARowTotals(empIdx, diffRate) {
-        let totalGross = 0;
-        hraEmployees[empIdx].basics.forEach(b => totalGross += Math.round((b || 0) * diffRate));
-        const cell = document.getElementById(`hra-gross-cell-${empIdx}`);
-        if(cell) cell.innerText = `₹${totalGross}`;
-    }
-
-    function recalculateAllHRARows() {
-        const diffRate = (parseFloat(document.getElementById('new-hra').value) - parseFloat(document.getElementById('old-hra').value)) / 100;
-        hraEmployees.forEach((emp, eIdx) => {
-            hraMonths.forEach((m, mIdx) => {
-                const monthDiff = Math.round((emp.basics[mIdx] || 0) * diffRate);
-                const cell = document.getElementById(`hra-diff-cell-${eIdx}-${mIdx}`);
-                if(cell) cell.innerText = `₹${monthDiff}`;
-            });
-            updateHRARowTotals(eIdx, diffRate);
-        });
-    }
-
-    function printA4HRACharts() {
-        const printArea = document.getElementById('print-area');
-        printArea.innerHTML = '';
-        const schoolName = document.getElementById('hra-school-name').value;
-        const oldHra = parseFloat(document.getElementById('old-hra').value) || 0;
-        const newHra = parseFloat(document.getElementById('new-hra').value) || 0;
-
-        let validEmps = hraEmployees.filter(e => e.name.trim() !== "" || e.basics.some(b => b > 0));
-        if (validEmps.length === 0) {
-            alert("कृपया आधी किमान एका कर्मचाऱ्याची माहिती भरा!");
+    function toggleAdminPrompt() {
+        if (isAdminLoggedIn) {
+            isAdminLoggedIn = false;
+            document.getElementById('adminToggleBtn').innerText = "🔐 ॲडमिन (Pin)";
+            renderReviews();
+            alert("ॲडमिन मोड बंद झाला.");
             return;
         }
-
-        let blocksPerPage = hraMonths.length <= 3 ? 4 : (hraMonths.length <= 6 ? 3 : 2);
-        const totalPages = Math.ceil(validEmps.length / blocksPerPage);
-        let finalHTML = '';
-
-        for (let p = 0; p < totalPages; p++) {
-            let pageEmps = validEmps.slice(p * blocksPerPage, (p + 1) * blocksPerPage);
-            let pageNum = p + 1;
-            let pageHTML = `<div class="a4-page">`;
-
-            pageEmps.forEach(emp => {
-                let rowsHTML = '';
-                let totalDueHraSum = 0, totalDrawnHraSum = 0, totalDiffSum = 0;
-
-                hraMonths.forEach((m, mIdx) => {
-                    let currentBasic = emp.basics[mIdx] || 0;
-                    let dueHraAmt = Math.round(currentBasic * (newHra / 100));
-                    let drawnHraAmt = Math.round(currentBasic * (oldHra / 100));
-                    let diff = dueHraAmt - drawnHraAmt;
-
-                    totalDueHraSum += dueHraAmt;
-                    totalDrawnHraSum += drawnHraAmt;
-                    totalDiffSum += diff;
-
-                    rowsHTML += `
-                        <tr>
-                            <td>${m || 'महिना ' + (mIdx + 1)}</td>
-                            <td>₹${currentBasic}</td>
-                            <td>${newHra}%</td>
-                            <td><strong>₹${dueHraAmt}</strong></td>
-                            <td>${oldHra}%</td>
-                            <td><strong>₹${drawnHraAmt}</strong></td>
-                            <td style="font-weight:700;">₹${diff}</td>
-                        </tr>
-                    `;
-                });
-
-                pageHTML += `
-                    <div class="emp-chart-block">
-                        <div class="print-title">${schoolName} - घरभाडे भत्ता (HRA) वाढ फरक तक्ता</div>
-                        <div class="meta-info">
-                            <span>नाव: ${emp.name || '-----------'}</span>
-                            <span>पद: ${emp.desig || '-----------'}</span>
-                        </div>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>महिना</th>
-                                    <th>मूळ वेतन</th>
-                                    <th>देय HRA%</th>
-                                    <th>देय HRA रक्कम</th>
-                                    <th>आकारलेला HRA%</th>
-                                    <th>आकारलेला HRA रक्कम</th>
-                                    <th>मासिक फरक</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${rowsHTML}
-                                <tr style="background:#f8fafc; font-weight:700;">
-                                    <td>एकूण</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>₹${totalDueHraSum}</td>
-                                    <td>-</td>
-                                    <td>₹${totalDrawnHraSum}</td>
-                                    <td>₹${totalDiffSum}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                `;
-            });
-
-            pageHTML += `
-                <div class="page-footer">
-                    <span>पान ${pageNum} पैकी ${totalPages}</span>
-                    <span>डिजिटल साथीदार | Sujit Patil (SP)</span>
-                </div>
-            </div>`;
-            finalHTML += pageHTML;
-        }
-
-        printArea.innerHTML = finalHTML;
-        window.print();
-    }
-
-    // ==========================================
-    // SSC/HSC Cutter Logic (Zoom & Size Fixes)
-    // ==========================================
-    let currentCutterWidth = 850;
-    function zoomCutter(factor) {
-        const doc = document.getElementById('scannedDoc');
-        if (!doc.src || doc.naturalWidth === 0) return;
-        currentCutterWidth = Math.max(500, Math.min(2200, currentCutterWidth * factor));
-        doc.style.width = currentCutterWidth + 'px';
-    }
-
-    let photoCounter = 0;
-    let signCounter = 0;
-    const boxesContainer = document.getElementById('boxesContainer');
-    const scannedDoc = document.getElementById('scannedDoc');
-    const photoCountSpan = document.getElementById('photoCount');
-    const signCountSpan = document.getElementById('signCount');
-
-    document.getElementById('cutterFileInput').addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            scannedDoc.src = event.target.result;
-            scannedDoc.onload = function() {
-                clearAllBoxes();
-            };
-        };
-        reader.readAsDataURL(file);
-    });
-
-    function createBoxElement(type, idNumber, top, left, width, height) {
-        const box = document.createElement('div');
-        box.className = `crop-box ${type}-box`;
-        box.dataset.type = type;
-        box.dataset.id = idNumber;
-        box.style.top = top + 'px';
-        box.style.left = left + 'px';
-        box.style.width = width + 'px';
-        box.style.height = height + 'px';
-
-        const labelName = type === 'photo' ? `Photo ${idNumber}` : `Sign ${idNumber}`;
-        box.innerHTML = `
-            <span class="box-label">${labelName}</span>
-            <button class="box-close" title="काढा" onclick="removeSpecificBox(this)">✕</button>
-            <div class="resize-handle"></div>
-        `;
-
-        const handle = box.querySelector('.resize-handle');
-        makeDraggableAndResizable(box, handle);
-        boxesContainer.appendChild(box);
-        updateCounters();
-    }
-
-    function addNewBox(type) {
-        if (!scannedDoc.src || scannedDoc.naturalWidth === 0) {
-            alert("कृपया आधी '९ फोटो आणि सही नमुना' अपलोड करा!");
-            return;
-        }
-        if (type === 'photo') {
-            photoCounter++;
-            createBoxElement('photo', photoCounter, 30, 30, 100, 125);
-        } else if (type === 'sign') {
-            signCounter++;
-            createBoxElement('sign', signCounter, 30, 30, 100, 40);
+        const enteredPin = prompt("कृपया ॲडमिन पिन (Admin PIN) प्रविष्ट करा:");
+        if (enteredPin === ADMIN_PIN) {
+            isAdminLoggedIn = true;
+            document.getElementById('adminToggleBtn').innerText = "🔓 ॲडमिन लॉगआउट";
+            renderReviews();
+            alert("✅ ॲडमिन प्रवेश यशस्वी! आता तुम्ही रिव्ह्यू हटवू शकता किंवा उत्तर देऊ शकता.");
+        } else if (enteredPin !== null) {
+            alert("❌ चुकीचा पिन! प्रवेश नाकारला.");
         }
     }
 
-    function autoDetectBoxes() {
-        if (!scannedDoc.src || scannedDoc.naturalWidth === 0) {
-            alert("कृपया आधी '९ फोटो आणि सही नमुना' अपलोड करा!");
-            return;
-        }
-        clearAllBoxes();
-        const displayW = scannedDoc.clientWidth;
-        const displayH = scannedDoc.clientHeight;
-
-        const colRatios = [0.08, 0.38, 0.68];
-        const rowRatios = [0.14, 0.35, 0.56];
-
-        const photoW = displayW * 0.14;
-        const photoH = photoW * 1.25; 
-        const signW = photoW;
-        const signH = photoW * 0.45;  
-
-        let pCount = 0, sCount = 0;
-        for (let r = 0; r < rowRatios.length; r++) {
-            for (let c = 0; c < colRatios.length; c++) {
-                if (pCount >= 9) break;
-                const left = displayW * colRatios[c];
-                const topP = displayH * rowRatios[r];
-                const topS = topP + photoH + 8;
-                pCount++;
-                sCount++;
-                createBoxElement('photo', pCount, topP, left, photoW, photoH);
-                createBoxElement('sign', sCount, topS, left, signW, signH);
-            }
+    function promptAdminReply(index) {
+        const currentReply = reviewsData[index].reply || "";
+        const replyText = prompt("या अभिप्रायाला आपले उत्तर प्रविष्ट करा:", currentReply);
+        if (replyText !== null) {
+            reviewsData[index].reply = replyText.trim();
+            localStorage.setItem('digital_sathidar_reviews', JSON.stringify(reviewsData));
+            renderReviews();
         }
     }
 
-    window.removeSpecificBox = function(btn) {
-        btn.closest('.crop-box').remove();
-        updateCounters();
-    };
-
-    function clearAllBoxes() {
-        boxesContainer.innerHTML = '';
-        photoCounter = 0;
-        signCounter = 0;
-        updateCounters();
-    }
-
-    function updateCounters() {
-        photoCountSpan.innerText = document.querySelectorAll('.crop-box.photo-box').length;
-        signCountSpan.innerText = document.querySelectorAll('.crop-box.sign-box').length;
-    }
-
-    function makeDraggableAndResizable(el, handle) {
-        let isDragging = false, isResizing = false;
-        let startX, startY, startWidth, startHeight, startLeft, startTop;
-
-        el.addEventListener('mousedown', function(e) {
-            if (e.target === handle || e.target.classList.contains('box-close')) return;
-            isDragging = true;
-            startX = e.clientX;
-            startY = e.clientY;
-            startLeft = el.offsetLeft;
-            startTop = el.offsetTop;
-            e.preventDefault();
-        });
-
-        handle.addEventListener('mousedown', function(e) {
-            isResizing = true;
-            startX = e.clientX;
-            startY = e.clientY;
-            startWidth = parseInt(document.defaultView.getComputedStyle(el).width, 10);
-            startHeight = parseInt(document.defaultView.getComputedStyle(el).height, 10);
-            e.stopPropagation();
-            e.preventDefault();
-        });
-
-        window.addEventListener('mousemove', function(e) {
-            if (isDragging) {
-                el.style.left = (startLeft + (e.clientX - startX)) + 'px';
-                el.style.top = (startTop + (e.clientY - startY)) + 'px';
-            }
-            if (isResizing) {
-                el.style.width = Math.max(30, (startWidth + (e.clientX - startX))) + 'px';
-                el.style.height = Math.max(20, (startHeight + (e.clientY - startY))) + 'px';
-            }
-        });
-
-        window.addEventListener('mouseup', function() {
-            isDragging = false;
-            isResizing = false;
-        });
-    }
-
-    async function cropAndDownloadAll() {
-        const boxes = document.querySelectorAll('.crop-box');
-        if (boxes.length === 0) {
-            alert("क्रॉप करण्यासाठी एकही बॉक्स उपलब्ध नाही!");
-            return;
-        }
-
-        const zip = new JSZip();
-        const scaleX = scannedDoc.naturalWidth / scannedDoc.clientWidth;
-        const scaleY = scannedDoc.naturalHeight / scannedDoc.clientHeight;
-
-        const originalImg = new Image();
-        originalImg.src = scannedDoc.src;
-        await originalImg.decode();
-
-        let index = 1;
-        for (let box of boxes) {
-            const type = box.dataset.type;
-            const id = box.dataset.id || index;
-            const fileName = `${type}_${id}.jpg`;
-
-            const bLeft = box.offsetLeft * scaleX;
-            const bTop = box.offsetTop * scaleY;
-            const bWidth = box.offsetWidth * scaleX;
-            const bHeight = box.offsetHeight * scaleY;
-
-            const canvas = document.createElement('canvas');
-            canvas.width = bWidth;
-            canvas.height = bHeight;
-            const ctx = canvas.getContext('2d');
-
-            ctx.drawImage(originalImg, bLeft, bTop, bWidth, bHeight, 0, 0, bWidth, bHeight);
-
-            let blob = await compressToTargetSize(canvas, 25, 40);
-            zip.file(fileName, blob);
-            index++;
-        }
-
-        zip.generateAsync({ type: "blob" }).then(function(content) {
-            saveAs(content, "SSC_HSC_Board_Photos_Signs.zip");
-        });
-    }
-
-    function compressToTargetSize(canvas, minKB, maxKB) {
-        return new Promise((resolve) => {
-            let quality = 0.90;
-            function attempt() {
-                canvas.toBlob((blob) => {
-                    let sizeKB = blob.size / 1024;
-                    if (sizeKB > maxKB && quality > 0.1) {
-                        quality -= 0.08;
-                        attempt();
-                    } else {
-                        resolve(blob);
-                    }
-                }, 'image/jpeg', quality);
-            }
-            attempt();
-        });
-    }
-
-    // ==========================================
-    // ✍️ नॅचरल हस्तलिखित कन्व्हर्टर Logic
-    // ==========================================
-    const hwRichInput = document.getElementById('hwRichInput');
-    const hwPdfUpload = document.getElementById('hwPdfUpload');
-    const hwFontStyle = document.getElementById('hwFontStyle');
-    const hwShakyCheck = document.getElementById('hwShakyCheck');
-    const hwUnevenWordsCheck = document.getElementById('hwUnevenWordsCheck');
-    const hwSlantCheck = document.getElementById('hwSlantCheck');
-    const hwRuledCheck = document.getElementById('hwRuledCheck');
-    const hwPaperSheet = document.getElementById('hwPaperSheet');
-    const hwDownloadBtn = document.getElementById('hwDownloadBtn');
-
-    function applyHwStyle(command, value) {
-        document.execCommand(command, false, value);
-        updateHwSheet();
-    }
-
-    function applyHwIrregularity(htmlContent) {
-        if (!hwUnevenWordsCheck.checked) return htmlContent;
-
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = htmlContent;
-
-        function wrapTextNodes(element) {
-            let child = element.firstChild;
-            while (child) {
-                if (child.nodeType === Node.TEXT_NODE) {
-                    const text = child.textContent;
-                    if (text.trim() !== '') {
-                        const fragment = document.createDocumentFragment();
-                        const words = text.split(/(\s+)/);
-                        
-                        words.forEach(word => {
-                            if (word.trim() !== '') {
-                                const span = document.createElement('span');
-                                span.className = 'jitter-word';
-                                span.textContent = word;
-                                fragment.appendChild(span);
-                            } else {
-                                fragment.appendChild(document.createTextNode(word));
-                            }
-                        });
-                        
-                        const next = child.nextSibling;
-                        element.replaceChild(fragment, child);
-                        child = next;
-                        continue;
-                    }
-                } else if (child.nodeType === Node.ELEMENT_NODE) {
-                    wrapTextNodes(child);
-                }
-                child = child.nextSibling;
-            }
-        }
-
-        wrapTextNodes(tempDiv);
-        return tempDiv.innerHTML;
-    }
-
-    function updateHwSheet() {
-        let contentHtml = hwRichInput.innerHTML || "येथे मजकूर दिसेल...";
-        hwPaperSheet.innerHTML = applyHwIrregularity(contentHtml);
-
-        hwPaperSheet.classList.remove('font-kalam', 'font-dekko', 'font-caveat');
-        hwPaperSheet.classList.add(hwFontStyle.value);
-
-        if (hwShakyCheck.checked) {
-            hwPaperSheet.classList.add('crooked-shaky');
-        } else {
-            hwPaperSheet.classList.remove('crooked-shaky');
-        }
-
-        if (hwSlantCheck.checked) {
-            hwPaperSheet.classList.add('natural-slant');
-        } else {
-            hwPaperSheet.classList.remove('natural-slant');
-        }
-
-        if (hwRuledCheck.checked) {
-            hwPaperSheet.classList.add('ruled-paper');
-        } else {
-            hwPaperSheet.classList.remove('ruled-paper');
+    function deleteReview(index) {
+        if (confirm("खात्री आहे? हा अभिप्राय हटवायचा आहे का?")) {
+            reviewsData.splice(index, 1);
+            localStorage.setItem('digital_sathidar_reviews', JSON.stringify(reviewsData));
+            renderReviews();
         }
     }
 
-    hwRichInput.addEventListener('input', updateHwSheet);
-    hwFontStyle.addEventListener('change', updateHwSheet);
-    hwShakyCheck.addEventListener('change', updateHwSheet);
-    hwUnevenWordsCheck.addEventListener('change', updateHwSheet);
-    hwSlantCheck.addEventListener('change', updateHwSheet);
-    hwRuledCheck.addEventListener('change', updateHwSheet);
-
-    hwPdfUpload.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (!file) return;
-
-        const reader = new FileReader();
-        reader.onload = function() {
-            const typedarray = new Uint8Array(this.result);
-            if (window.pdfjsLib) {
-                pdfjsLib.getDocument(typedarray).promise.then(function(pdf) {
-                    let countPromises = [];
-                    for (let i = 1; i <= pdf.numPages; i++) {
-                        countPromises.push(
-                            pdf.getPage(i).then(function(page) {
-                                return page.getTextContent().then(function(textContent) {
-                                    return textContent.items.map(item => item.str).join(" ");
-                                });
-                            })
-                        );
-                    }
-
-                    Promise.all(countPromises).then(function(pagesText) {
-                        hwRichInput.innerText = pagesText.join("\n\n");
-                        updateHwSheet();
-                    });
-                }).catch(err => {
-                    alert("PDF वाचताना त्रुटी आली: " + err.message);
-                });
-            }
-        };
-        reader.readAsArrayBuffer(file);
-    });
-
-    hwDownloadBtn.addEventListener('click', function() {
-        if (window.html2pdf) {
-            const opt = {
-                margin:       8,
-                filename:     'Natural_Handwritten.pdf',
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-            html2pdf().set(opt).from(hwPaperSheet).save();
-        } else {
-            window.print();
-        }
-    });
-
-    // ==========================================
-    // PDF Tools Logic (Merge + Split to ZIP + Compress)
-    // ==========================================
-    
-    // १. Merge PDF
-    async function mergePDFFiles() {
-        const input = document.getElementById('pdfMergeInput');
-        if (!input.files || input.files.length < 2) {
-            alert("कृपया किमान २ PDF फाईल्स निवडा!");
-            return;
-        }
-
-        const mergedPdf = await PDFLib.PDFDocument.create();
-        for (let file of input.files) {
-            const arrayBuffer = await file.arrayBuffer();
-            const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
-            const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
-            copiedPages.forEach(page => mergedPdf.addPage(page));
-        }
-
-        const pdfBytes = await mergedPdf.save();
-        const blob = new Blob([pdfBytes], { type: "application/pdf" });
-        saveAs(blob, "Merged_Document.pdf");
-    }
-
-    // २. Split All Pages to ZIP
-    async function splitAllPagesToZip() {
-        const input = document.getElementById('pdfSplitInput');
-        const status = document.getElementById('splitStatus');
-        const btn = document.getElementById('btnSplit');
-
-        if (!input.files || input.files.length === 0) {
-            alert("कृपया आधी PDF फाईल निवडा!");
-            return;
-        }
-
-        const file = input.files[0];
-        btn.disabled = true;
-        status.innerText = "⏳ PDF पाने वेगळी केली जात आहेत...";
-
-        try {
-            const arrayBuffer = await file.arrayBuffer();
-            const originalPdf = await PDFLib.PDFDocument.load(arrayBuffer);
-            const totalPages = originalPdf.getPageCount();
-
-            const zip = new JSZip();
-
-            for (let i = 0; i < totalPages; i++) {
-                status.innerText = `पान ${i + 1}/${totalPages} वेगळे केले जात आहे...`;
-                const singlePdf = await PDFLib.PDFDocument.create();
-                const [copiedPage] = await singlePdf.copyPages(originalPdf, [i]);
-                singlePdf.addPage(copiedPage);
-
-                const pdfBytes = await singlePdf.save();
-                zip.file(`Page_${i + 1}.pdf`, pdfBytes);
-            }
-
-            status.innerText = "📦 ZIP तयार होत आहे...";
-            const zipBlob = await zip.generateAsync({ type: "blob" });
-            saveAs(zipBlob, `${file.name.replace(".pdf", "")}_All_Pages.zip`);
-            status.innerText = `पूर्ण झाले! एकूण ${totalPages} पाने ZIP मध्ये सेव्ह झाली.`;
-        } catch (err) {
-            alert("त्रुटी आली: " + err.message);
-            status.innerText = "प्रक्रियेत त्रुटी आली.";
-        } finally {
-            btn.disabled = false;
-        }
-    }
-
-    // ३. Compress PDF (Regular, Medium, High)
-    async function compressPDFFile() {
-        const input = document.getElementById('pdfCompressInput');
-        const quality = parseFloat(document.getElementById('pdfQualitySelect').value) || 0.55;
-        const status = document.getElementById('compressStatus');
-        const btn = document.getElementById('btnCompress');
-
-        if (!input.files || input.files.length === 0) {
-            alert("कृपया आधी PDF फाईल निवडा!");
-            return;
-        }
-
-        const file = input.files[0];
-        const originalSizeMB = (file.size / (1024 * 1024)).toFixed(2);
-        btn.disabled = true;
-        status.innerText = `⏳ कॉम्प्रेस होत आहे... (${originalSizeMB} MB)`;
-
-        try {
-            const fileData = await file.arrayBuffer();
-            const pdfDoc = await pdfjsLib.getDocument({ data: fileData }).promise;
-            const numPages = pdfDoc.numPages;
-
-            const newPdf = await PDFLib.PDFDocument.create();
-
-            for (let i = 1; i <= numPages; i++) {
-                status.innerText = `पान ${i}/${numPages} कॉम्प्रेस होत आहे...`;
-                const page = await pdfDoc.getPage(i);
-                const viewport = page.getViewport({ scale: 1.5 });
-
-                const canvas = document.createElement('canvas');
-                canvas.width = viewport.width;
-                canvas.height = viewport.height;
-                const ctx = canvas.getContext('2d');
-
-                await page.render({ canvasContext: ctx, viewport: viewport }).promise;
-
-                const imgDataUrl = canvas.toDataURL('image/jpeg', quality);
-                const imgBytes = await fetch(imgDataUrl).then(res => res.arrayBuffer());
-
-                const embeddedImg = await newPdf.embedJpg(imgBytes);
-                const newPage = newPdf.addPage([viewport.width, viewport.height]);
-
-                newPage.drawImage(embeddedImg, {
-                    x: 0,
-                    y: 0,
-                    width: viewport.width,
-                    height: viewport.height,
-                });
-            }
-
-            const compressedBytes = await newPdf.save();
-            const compressedBlob = new Blob([compressedBytes], { type: "application/pdf" });
-            const newSizeMB = (compressedBlob.size / (1024 * 1024)).toFixed(2);
-
-            status.innerText = `पूर्ण झाले! (${originalSizeMB} MB ➔ ${newSizeMB} MB)`;
-            saveAs(compressedBlob, `Compressed_${file.name}`);
-        } catch (err) {
-            alert("त्रुटी आली: " + err.message);
-            status.innerText = "प्रक्रियेत त्रुटी आली.";
-        } finally {
-            btn.disabled = false;
-        }
+    function initVisitorCounter() {
+        const display = document.getElementById('visitorCountDisplay');
+        let visits = parseInt(localStorage.getItem('ds_portal_visits') || '2842', 10);
+        visits += 1;
+        localStorage.setItem('ds_portal_visits', visits);
+        display.innerText = visits.toLocaleString('mr-IN');
     }
 
     window.onload = function() {
-        renderDAMonthInputs();
-        buildDATable();
-        renderHRAMonthInputs();
-        buildHRATable();
-        updateHwSheet();
+        renderReviews();
+        initVisitorCounter();
     };
 </script>
-
 </body>
 </html>
