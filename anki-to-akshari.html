@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>अंकी ते अक्षरी व वय कॅल्क्युलेटर | डिजिटल साथीदार</title>
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Mukta', sans-serif; }
+        body { background: #f8fafc; color: #0f172a; padding: 16px; font-size: 14px; }
+        .top-bar { max-width: 900px; margin: 0 auto 16px auto; display: flex; justify-content: space-between; align-items: center; }
+        .back-btn { text-decoration: none; background: #ffffff; border: 1px solid #cbd5e1; padding: 6px 14px; border-radius: 6px; font-weight: 700; color: #1e40af; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .back-btn:hover { background: #eff6ff; }
+        .container { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; }
+        .card { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 10px; padding: 18px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        .title { font-size: 16px; font-weight: 800; color: #1e3a8a; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; margin-bottom: 12px; }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-weight: 700; font-size: 12.5px; color: #334155; margin-bottom: 4px; }
+        .form-control { width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; outline: none; }
+        .form-control:focus { border-color: #2563eb; }
+        .result-box { background: #f1f5f9; border: 1px dashed #94a3b8; border-radius: 6px; padding: 12px; font-size: 15px; font-weight: 700; color: #1e3a8a; min-height: 52px; display: flex; justify-content: space-between; align-items: center; word-break: break-word; gap: 8px; }
+        .copy-btn { background: #ffffff; border: 1px solid #cbd5e1; padding: 5px 10px; border-radius: 5px; font-size: 12px; font-weight: 700; cursor: pointer; }
+        .copy-btn:hover { background: #f8fafc; border-color: #2563eb; }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <a href="index.html" class="back-btn">⬅️ मुख्य पानावर परत जा (Home)</a>
+        <div style="font-weight: 800; font-size: 16px; color: #1e3a8a;">डिजिटल साथीदार</div>
+    </div>
+
+    <div class="container">
+        
+        <!-- कार्ड १: अंकी ते अक्षरी -->
+        <div class="card">
+            <div class="title">🔢 अंकी ते अक्षरी कन्व्हर्टर (Marathi Words)</div>
+            <div class="form-group">
+                <label>संख्या किंवा रक्कम टाका:</label>
+                <input type="number" id="numInput" class="form-control" placeholder="उदा. 125000" oninput="convertNumberToMarathiWords()">
+            </div>
+            <div class="form-group">
+                <label>प्रकार निवडा:</label>
+                <select id="numTypeSelect" class="form-control" onchange="convertNumberToMarathiWords()">
+                    <option value="amount">रक्कम (उदा. रुपये ... फक्त /-)</option>
+                    <option value="number">केवळ संख्या (उदा. एक लाख पंचवीस हजार)</option>
+                </select>
+            </div>
+            <div class="form-group" style="margin-top: 14px;">
+                <label>अक्षरी निकाल:</label>
+                <div class="result-box">
+                    <span id="numWordsOutput">येथे अक्षरी रूपांतर दिसेल...</span>
+                    <button class="copy-btn" onclick="copyToClipboard('numWordsOutput')">📋 कॉपी</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- कार्ड २: वय कॅल्क्युलेटर व जन्मदिनांक अक्षरी -->
+        <div class="card">
+            <div class="title">📅 वय व जन्मदिनांक अक्षरी कॅल्क्युलेटर</div>
+            <div style="display: flex; gap: 8px;">
+                <div class="form-group" style="flex:1;">
+                    <label>जन्मदिनांक:</label>
+                    <input type="date" id="dobInput" class="form-control" onchange="calculateAgeAndDateWords()">
+                </div>
+                <div class="form-group" style="flex:1;">
+                    <label>कोणत्या तारखेपर्यंत:</label>
+                    <input type="date" id="asOnDateInput" class="form-control" onchange="calculateAgeAndDateWords()">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>अचूक वय (वर्षे, महिने, दिवस):</label>
+                <div class="result-box">
+                    <span id="ageResultOutput">वय येथे दिसेल...</span>
+                    <button class="copy-btn" onclick="copyToClipboard('ageResultOutput')">📋 कॉपी</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>जन्मदिनांक मराठी अक्षरी:</label>
+                <div class="result-box">
+                    <span id="dobWordsOutput">जन्मदिनांक अक्षरी येथे दिसेल...</span>
+                    <button class="copy-btn" onclick="copyToClipboard('dobWordsOutput')">📋 कॉपी</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+<script>
+    function copyToClipboard(id) {
+        const text = document.getElementById(id).innerText;
+        if (!text || text.includes('दिसेल')) return;
+        navigator.clipboard.writeText(text).then(() => alert("📋 कॉपी झाले!"));
+    }
+
+    const onesMarathi = ['', 'एक', 'दोन', 'तीन', 'चार', 'पाच', 'सहा', 'सात', 'आठ', 'नऊ', 'दहा', 'अकरा', 'बारा', 'तेरा', 'चौदा', 'पंधरा', 'सोळा', 'सतरा', 'अठरा', 'एकोणीस'];
+    const tensMarathi = ['', '', 'वीस', 'तीस', 'चाळीस', 'पन्नास', 'साठ', 'सत्तर', 'ऐंशी', 'नव्वद'];
+    const marathiNumbers = {
+        21: 'एकवीस', 22: 'बावीस', 23: 'तेवीस', 24: 'चोवीस', 25: 'पंचवीस', 26: 'सव्वीस', 27: 'सत्तावीस', 28: 'अठ्ठावीस', 29: 'एकोणतीस',
+        31: 'एकतीस', 32: 'बत्तीस', 33: 'तेहतीस', 34: 'चौतीस', 35: 'पस्तीस', 36: 'छत्तीस', 37: 'सदतीस', 38: 'अडतीस', 39: 'एकोणचाळीस',
+        41: 'एक्केचाळीस', 42: 'बेचाळीस', 43: 'त्रेचाळीस', 44: 'चव्वेचाळीस', 45: 'पंचेचाळीस', 46: 'शेहेचाळीस', 47: 'सत्तेचाळीस', 48: 'अठ्ठेचाळीस', 49: 'एकोणपन्नास',
+        51: 'एक्कावन्न', 52: 'बावन्न', 53: 'त्रेपन्न', 54: 'चोपन्न', 55: 'पंचावन्न', 56: 'छप्पन्न', 57: 'सत्तावन्न', 58: 'अठ्ठावन्न', 59: 'एकोणसाठ',
+        61: 'एकसष्ठ', 62: 'बासष्ठ', 63: 'त्रेसष्ठ', 64: 'चौसष्ठ', 65: 'पासष्ठ', 66: 'सहासष्ठ', 67: 'सदुसष्ठ', 68: 'अडुसष्ठ', 69: 'एकोणसत्तर',
+        71: 'एकाहत्तर', 72: 'बाहत्तर', 73: 'त्र्याहत्तर', 74: 'चौऱ्याहत्तर', 75: 'पंच्याहत्तर', 76: 'शहात्तर', 77: 'सत्त्याहत्तर', 78: 'अठ्ठ्याहत्तर', 79: 'एकोणऐंशी',
+        81: 'एक्याऐंशी', 82: 'ब्याऐंशी', 83: 'त्र्याऐंशी', 84: 'चौऱ्याऐंशी', 85: 'पंच्याऐंशी', 86: 'शहाऐंशी', 87: 'सत्त्याऐंशी', 88: 'अठ्ठाऐंशी', 89: 'एकोणनव्वद',
+        91: 'एक्याण्णव', 92: 'ब्याण्णव', 93: 'त्र्याण्णव', 94: 'चौऱ्याण्णव', 95: 'पंच्याण्णव', 96: 'शहाण्णव', 97: 'सत्त्याण्णव', 98: 'अठ्ठ्याण्णव', 99: 'नव्याण्णव'
+    };
+
+    function twoDigitsToMarathi(num) {
+        if (num === 0) return '';
+        if (num < 20) return onesMarathi[num];
+        if (marathiNumbers[num]) return marathiNumbers[num];
+        return tensMarathi[Math.floor(num / 10)] + ' ' + onesMarathi[num % 10];
+    }
+
+    function numberToMarathiWordsRaw(num) {
+        if (num === 0) return 'शून्य';
+        let words = '';
+        const crore = Math.floor(num / 10000000); num %= 10000000;
+        const lakh = Math.floor(num / 100000); num %= 100000;
+        const thousand = Math.floor(num / 1000); num %= 1000;
+        const hundred = Math.floor(num / 100); const rem = num % 100;
+        if (crore > 0) words += twoDigitsToMarathi(crore) + ' कोटी ';
+        if (lakh > 0) words += twoDigitsToMarathi(lakh) + ' लाख ';
+        if (thousand > 0) words += twoDigitsToMarathi(thousand) + ' हजार ';
+        if (hundred > 0) words += twoDigitsToMarathi(hundred) + 'शे ';
+        if (rem > 0) words += twoDigitsToMarathi(rem);
+        return words.trim().replace(/\s+/g, ' ');
+    }
+
+    function convertNumberToMarathiWords() {
+        const val = parseInt(document.getElementById('numInput').value, 10);
+        const type = document.getElementById('numTypeSelect').value;
+        const out = document.getElementById('numWordsOutput');
+        if (isNaN(val)) { out.innerText = "येथे अक्षरी रूपांतर दिसेल..."; return; }
+        let words = numberToMarathiWordsRaw(val);
+        out.innerText = type === 'amount' ? `रुपये ${words} फक्त /-` : words;
+    }
+
+    const marathiMonths = ['जानेवारी', 'फेब्रुवारी', 'मार्च', 'एप्रिल', 'मे', 'जून', 'जुलै', 'ऑगस्ट', 'सप्टेंबर', 'ऑक्टोबर', 'नोव्हेंबर', 'डिसेंबर'];
+
+    function calculateAgeAndDateWords() {
+        const dobVal = document.getElementById('dobInput').value;
+        const asOnVal = document.getElementById('asOnDateInput').value;
+        const ageOut = document.getElementById('ageResultOutput');
+        const dobOut = document.getElementById('dobWordsOutput');
+
+        if (!dobVal) {
+            dobOut.innerText = "जन्मदिनांक अक्षरी येथे दिसेल...";
+            ageOut.innerText = "वय येथे दिसेल...";
+            return;
+        }
+
+        const dob = new Date(dobVal);
+        const asOn = asOnVal ? new Date(asOnVal) : new Date();
+
+        const day = dob.getDate();
+        const monthIndex = dob.getMonth();
+        const year = dob.getFullYear();
+
+        dobOut.innerText = `${twoDigitsToMarathi(day)} ${marathiMonths[monthIndex]} ${numberToMarathiWordsRaw(year)}`;
+
+        let y = asOn.getFullYear() - dob.getFullYear();
+        let m = asOn.getMonth() - dob.getMonth();
+        let d = asOn.getDate() - dob.getDate();
+
+        if (d < 0) {
+            m -= 1;
+            const prevMonthLastDay = new Date(asOn.getFullYear(), asOn.getMonth(), 0).getDate();
+            d += prevMonthLastDay;
+        }
+        if (m < 0) { y -= 1; m += 12; }
+
+        if (y < 0) {
+            ageOut.innerText = "तारीख चुकीची आहे (जन्मदिनांक पुढील असू शकत नाही)";
+        } else {
+            ageOut.innerText = `${y} वर्षे, ${m} महिने, ${d} दिवस`;
+        }
+    }
+
+    window.onload = function() {
+        document.getElementById('asOnDateInput').value = new Date().toISOString().split('T')[0];
+    };
+</script>
+</body>
+</html>
