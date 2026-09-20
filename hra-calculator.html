@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRA फरक कॅल्क्युलेटर | डिजिटल साथीदार</title>
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Mukta', sans-serif; }
+        body { background: #f8fafc; color: #0f172a; padding: 14px; font-size: 14px; }
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .back-btn { text-decoration: none; background: #ffffff; border: 1px solid #cbd5e1; padding: 5px 12px; border-radius: 6px; font-weight: 700; color: #1e40af; }
+        .back-btn:hover { background: #eff6ff; }
+        .panel-grid { display: grid; grid-template-columns: 310px 1fr; gap: 14px; }
+        .panel-card { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .panel-title { font-size: 15px; font-weight: 800; color: #1e3a8a; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; margin-bottom: 10px; }
+        .form-group { margin-bottom: 8px; }
+        .form-group label { display: block; font-weight: 700; font-size: 12px; color: #334155; margin-bottom: 3px; }
+        .form-control { width: 100%; padding: 6px 8px; border: 1px solid #cbd5e1; border-radius: 5px; font-size: 13px; }
+        .btn-ui { padding: 6px 12px; font-size: 12.5px; font-weight: 700; border-radius: 5px; border: none; cursor: pointer; }
+        .btn-success { background: #059669; color: #fff; }
+        .btn-outline { background: #fff; border: 1px solid #cbd5e1; color: #334155; }
+        .btn-primary { background: #1e40af; color: #fff; }
+        .table-responsive { overflow: auto; border: 1px solid #cbd5e1; border-radius: 6px; max-height: 520px; }
+        table.portal-table { width: 100%; border-collapse: collapse; font-size: 13px; white-space: nowrap; }
+        table.portal-table th, table.portal-table td { border: 1px solid #cbd5e1; padding: 6px; text-align: center; }
+        table.portal-table th { background: #f1f5f9; font-weight: 700; }
+        .table-input { width: 100%; padding: 4px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 12.5px; font-weight: 600; }
+        #print-area { display: none; }
+        @media print {
+            @page { size: A4 landscape; margin: 6mm; }
+            body { background: white !important; padding: 0 !important; }
+            .top-bar, .panel-grid { display: none !important; }
+            #print-area { display: block !important; }
+            .a4-page { width: 285mm; height: 198mm; page-break-after: always; position: relative; background: white; }
+            .emp-chart-block { border: 1px solid #000; margin-bottom: 2mm; padding: 4px 6px; }
+            .emp-chart-block table { width: 100%; border-collapse: collapse; font-size: 13px; }
+            .emp-chart-block th, .emp-chart-block td { border: 1px solid #000; padding: 3px 5px; text-align: center; }
+            .print-title { text-align: center; font-weight: 700; background: #f1f5f9; padding: 3px; border: 1px solid #000; }
+            .meta-info { display: flex; justify-content: space-between; border-bottom: 1px solid #000; font-size: 12px; margin-bottom: 2px; }
+            .page-footer { position: absolute; bottom: 1mm; left: 0; width: 100%; display: flex; justify-content: space-between; padding: 0 4mm; font-size: 12px; font-weight: 600; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <a href="index.html" class="back-btn">⬅️ मुख्य पानावर परत जा (Home)</a>
+        <div style="font-weight: 800; font-size: 16px; color: #1e40af;">घरभाडे भत्ता (HRA) फरक कॅल्क्युलेटर</div>
+    </div>
+
+    <div class="panel-grid">
+        <div class="panel-card">
+            <div class="panel-title">१. निकष व महिने सेटिंग</div>
+            <div class="form-group">
+                <label>शाळा / आस्थापनेचे नाव:</label>
+                <input type="text" id="hra-school-name" class="form-control" value="शाळेचे नाव लिहा">
+            </div>
+            <div style="display: flex; gap: 6px;">
+                <div class="form-group" style="flex:1;">
+                    <label>जुना HRA (%):</label>
+                    <input type="number" id="old-hra" class="form-control" value="9" step="0.1" oninput="recalculateAllHRARows()">
+                </div>
+                <div class="form-group" style="flex:1;">
+                    <label>नवीन HRA (%):</label>
+                    <input type="number" id="new-hra" class="form-control" value="10" step="0.1" oninput="recalculateAllHRARows()">
+                </div>
+            </div>
+            <div style="background: #f8fafc; padding: 8px; border-radius: 6px; border: 1px solid #cbd5e1; margin-top: 6px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <label style="font-weight:700; font-size:12px; margin:0;">लागू महिने:</label>
+                    <div style="display:flex; gap:4px;">
+                        <button class="btn-ui btn-outline" style="padding:2px 6px; font-size:11px;" onclick="removeHRAMonth()">- कमी</button>
+                        <button class="btn-ui btn-primary" style="padding:2px 6px; font-size:11px;" onclick="addHRAMonth()">+ वाढवा</button>
+                    </div>
+                </div>
+                <div id="hra-months-container"></div>
+            </div>
+            <div style="margin-top: 12px; display:flex; flex-direction:column; gap:6px;">
+                <button class="btn-ui btn-success" onclick="printA4HRACharts()">🖨️ A4 लँडस्केप प्रिंट काढा</button>
+                <button class="btn-ui btn-outline" onclick="addNewHRARow()">+ कर्मचारी नोंद जोडा</button>
+            </div>
+        </div>
+
+        <div class="panel-card">
+            <div class="panel-title">२. घरभाडे भत्ता फरक पत्रक</div>
+            <div class="table-responsive">
+                <table class="portal-table">
+                    <thead id="hra-master-thead"></thead>
+                    <tbody id="hra-master-table-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="print-area"></div>
+
+<script>
+    let hraMonths = ["नोव्हेंबर २०२५", "डिसेंबर २०२५"];
+    let hraEmployees = [
+        { name: "", desig: "", basics: [0, 0] },
+        { name: "", desig: "", basics: [0, 0] },
+        { name: "", desig: "", basics: [0, 0] }
+    ];
+
+    function renderHRAMonthInputs() {
+        const container = document.getElementById('hra-months-container');
+        container.innerHTML = '';
+        hraMonths.forEach((m, idx) => {
+            container.innerHTML += `<input type="text" class="form-control" style="margin-bottom:4px; padding:3px 6px; font-size:12px;" value="${m}" oninput="updateHRAMonthName(${idx}, this.value)">`;
+        });
+    }
+    function updateHRAMonthName(index, val) { hraMonths[index] = val; buildHRATable(); }
+    function addHRAMonth() { hraMonths.push(`महिना ${hraMonths.length + 1}`); hraEmployees.forEach(emp => emp.basics.push(0)); renderHRAMonthInputs(); buildHRATable(); }
+    function removeHRAMonth() { if (hraMonths.length <= 1) return; hraMonths.pop(); hraEmployees.forEach(emp => emp.basics.pop()); renderHRAMonthInputs(); buildHRATable(); }
+    function addNewHRARow() { hraEmployees.push({ name: "", desig: "", basics: new Array(hraMonths.length).fill(0) }); buildHRATable(); }
+
+    function buildHRATable() {
+        const thead = document.getElementById('hra-master-thead');
+        let r1 = `<tr><th rowspan="2" style="width:30px;">अ.क्र.</th><th rowspan="2" style="width:160px;">कर्मचाऱ्याचे नाव</th><th rowspan="2" style="width:110px;">पद</th>`;
+        let r2 = `<tr>`;
+        hraMonths.forEach((m, idx) => {
+            r1 += `<th colspan="2" style="background:#eff6ff;">${m || 'महिना ' + (idx + 1)}</th>`;
+            r2 += `<th style="width:75px;">Basic</th><th style="width:60px;">Diff</th>`;
+        });
+        r1 += `<th rowspan="2" style="width:100px;">एकूण HRA फरक</th></tr>`;
+        thead.innerHTML = r1 + r2 + `</tr>`;
+
+        const tbody = document.getElementById('hra-master-table-body');
+        tbody.innerHTML = '';
+        const oldHra = parseFloat(document.getElementById('old-hra').value) || 0;
+        const newHra = parseFloat(document.getElementById('new-hra').value) || 0;
+        const diffRate = (newHra - oldHra) / 100;
+
+        hraEmployees.forEach((emp, eIdx) => {
+            let tr = document.createElement('tr');
+            let rowHtml = `<td>${eIdx + 1}</td>
+                <td><input type="text" class="table-input" value="${emp.name}" placeholder="नाव" oninput="hraEmployees[${eIdx}].name=this.value"></td>
+                <td><input type="text" class="table-input" value="${emp.desig}" placeholder="पद" oninput="hraEmployees[${eIdx}].desig=this.value"></td>`;
+            let totalGross = 0;
+            hraMonths.forEach((m, mIdx) => {
+                let basicVal = emp.basics[mIdx] || 0;
+                let monthDiff = Math.round(basicVal * diffRate);
+                totalGross += monthDiff;
+                rowHtml += `<td><input type="number" class="table-input" style="width:75px; text-align:center;" value="${basicVal || ''}" placeholder="0" oninput="onHRABasicChange(${eIdx}, ${mIdx}, this.value)"></td>
+                    <td id="hra-diff-cell-${eIdx}-${mIdx}" style="color:#e11d48; font-weight:700;">₹${monthDiff}</td>`;
+            });
+            rowHtml += `<td><strong id="hra-gross-cell-${eIdx}" style="color:#1e40af;">₹${totalGross}</strong></td>`;
+            tr.innerHTML = rowHtml;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function onHRABasicChange(eIdx, mIdx, val) {
+        hraEmployees[eIdx].basics[mIdx] = parseFloat(val) || 0;
+        const diffRate = (parseFloat(document.getElementById('new-hra').value) - parseFloat(document.getElementById('old-hra').value)) / 100;
+        document.getElementById(`hra-diff-cell-${eIdx}-${mIdx}`).innerText = `₹${Math.round((hraEmployees[eIdx].basics[mIdx] || 0) * diffRate)}`;
+        updateHRARowTotals(eIdx, diffRate);
+    }
+    function updateHRARowTotals(eIdx, diffRate) {
+        let total = 0; hraEmployees[eIdx].basics.forEach(b => total += Math.round((b || 0) * diffRate));
+        document.getElementById(`hra-gross-cell-${eIdx}`).innerText = `₹${total}`;
+    }
+    function recalculateAllHRARows() {
+        const diffRate = (parseFloat(document.getElementById('new-hra').value) - parseFloat(document.getElementById('old-hra').value)) / 100;
+        hraEmployees.forEach((emp, eIdx) => {
+            hraMonths.forEach((m, mIdx) => {
+                document.getElementById(`hra-diff-cell-${eIdx}-${mIdx}`).innerText = `₹${Math.round((emp.basics[mIdx] || 0) * diffRate)}`;
+            });
+            updateHRARowTotals(eIdx, diffRate);
+        });
+    }
+
+    function printA4HRACharts() {
+        const printArea = document.getElementById('print-area');
+        printArea.innerHTML = '';
+        const schoolName = document.getElementById('hra-school-name').value;
+        const oldHra = parseFloat(document.getElementById('old-hra').value) || 0;
+        const newHra = parseFloat(document.getElementById('new-hra').value) || 0;
+        let validEmps = hraEmployees.filter(e => e.name.trim() !== "" || e.basics.some(b => b > 0));
+        if (validEmps.length === 0) { alert("कृपया आधी कर्मचाऱ्यांची माहिती भरा!"); return; }
+
+        let blocksPerPage = hraMonths.length <= 3 ? 4 : (hraMonths.length <= 6 ? 3 : 2);
+        const totalPages = Math.ceil(validEmps.length / blocksPerPage);
+        let finalHTML = '';
+
+        for (let p = 0; p < totalPages; p++) {
+            let pageEmps = validEmps.slice(p * blocksPerPage, (p + 1) * blocksPerPage);
+            let pageHTML = `<div class="a4-page">`;
+            pageEmps.forEach(emp => {
+                let rowsHTML = '', dueSum = 0, drawnSum = 0, diffSum = 0;
+                hraMonths.forEach((m, mIdx) => {
+                    let basic = emp.basics[mIdx] || 0;
+                    let due = Math.round(basic * (newHra / 100)), drawn = Math.round(basic * (oldHra / 100)), diff = due - drawn;
+                    dueSum += due; drawnSum += drawn; diffSum += diff;
+                    rowsHTML += `<tr><td>${m}</td><td>₹${basic}</td><td>${newHra}%</td><td>₹${due}</td><td>${oldHra}%</td><td>₹${drawn}</td><td style="font-weight:700;">₹${diff}</td></tr>`;
+                });
+                pageHTML += `<div class="emp-chart-block">
+                    <div class="print-title">${schoolName} - घरभाडे भत्ता (HRA) फरक तक्ता</div>
+                    <div class="meta-info"><span>नाव: ${emp.name || '---'}</span><span>पद: ${emp.desig || '---'}</span></div>
+                    <table><thead><tr><th>महिना</th><th>मूळ वेतन</th><th>देय HRA%</th><th>देय HRA</th><th>आकारलेला HRA%</th><th>आकारलेला HRA</th><th>फरक</th></tr></thead>
+                    <tbody>${rowsHTML}<tr style="background:#f8fafc; font-weight:700;"><td>एकूण</td><td>-</td><td>-</td><td>₹${dueSum}</td><td>-</td><td>₹${drawnSum}</td><td>₹${diffSum}</td></tr></tbody></table></div>`;
+            });
+            pageHTML += `<div class="page-footer"><span>पान ${p + 1} पैकी ${totalPages}</span><span>डिजिटल साथीदार | Sujit Patil (SP)</span></div></div>`;
+            finalHTML += pageHTML;
+        }
+        printArea.innerHTML = finalHTML;
+        window.print();
+    }
+
+    window.onload = function() { renderHRAMonthInputs(); buildHRATable(); };
+</script>
+</body>
+</html>
