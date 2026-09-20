@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>हस्तलिखित कन्व्हर्टर | डिजिटल साथीदार</title>
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&family=Dekko&family=Kalam:wght@300;400;700&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';</script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Mukta', sans-serif; }
+        body { background: #f8fafc; color: #0f172a; padding: 14px; font-size: 14px; }
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .back-btn { text-decoration: none; background: #ffffff; border: 1px solid #cbd5e1; padding: 5px 12px; border-radius: 6px; font-weight: 700; color: #1e40af; }
+        .back-btn:hover { background: #eff6ff; }
+        .hw-container { display: flex; gap: 16px; min-height: 520px; flex-wrap: wrap; }
+        .hw-controls { flex: 1; min-width: 320px; max-width: 420px; background: #ffffff; padding: 14px; border: 1px solid #cbd5e1; border-radius: 8px; display: flex; flex-direction: column; gap: 10px; }
+        .editor-toolbar { display: flex; flex-wrap: wrap; gap: 5px; background: #f1f5f9; padding: 6px; border: 1px solid #cbd5e1; border-bottom: none; border-radius: 6px 6px 0 0; }
+        .tool-btn { padding: 5px 9px; border-radius: 4px; border: 1px solid #94a3b8; cursor: pointer; font-size: 11.5px; font-weight: 600; color: #fff; }
+        .btn-blue { background: #154580; } .btn-red { background: #b91c1c; } .btn-green { background: #15803d; } .btn-black { background: #1e293b; } .btn-bold { background: #475569; }
+        .rich-input { width: 100%; min-height: 120px; max-height: 220px; overflow-y: auto; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 0 0 6px 6px; font-size: 13.5px; outline: none; background: #fff; }
+        .hw-checkbox-grid { display: grid; gap: 6px; background: #f8fafc; padding: 8px; border-radius: 6px; border: 1px solid #cbd5e1; }
+        .hw-checkbox-label { display: flex; align-items: center; gap: 7px; font-size: 12.5px; cursor: pointer; }
+        .hw-preview-wrapper { flex: 1.5; background: #cbd5e1; padding: 14px; border-radius: 8px; overflow: auto; display: flex; justify-content: center; }
+        .paper { width: 100%; max-width: 650px; min-height: 540px; background-color: #fffefb; border: 1px solid #dcdcdc; padding: 38px 20px 30px 46px; white-space: pre-wrap; word-wrap: break-word; font-size: 20px; position: relative; border-radius: 3px; box-shadow: 2px 4px 15px rgba(0,0,0,0.12); line-height: 32px; }
+        .paper::before { content: ''; position: absolute; top: 0; bottom: 0; left: 36px; width: 1.5px; background-color: #f87171; }
+        .ruled-paper { background-image: repeating-linear-gradient(transparent, transparent 31px, #cbd5e1 31px, #cbd5e1 32px); padding-top: 36px; }
+        .font-kalam, .font-kalam * { font-family: 'Kalam', cursive !important; }
+        .font-dekko, .font-dekko * { font-family: 'Dekko', cursive !important; }
+        .font-caveat, .font-caveat * { font-family: 'Caveat', cursive !important; }
+        .natural-slant { transform: rotate(-0.25deg); }
+        .jitter-word { display: inline-block; margin-right: 5px; }
+        .jitter-word:nth-child(2n) { transform: rotate(0.8deg) translateY(-0.8px); }
+        .jitter-word:nth-child(3n) { transform: rotate(-0.5deg) translateY(0.5px); }
+    </style>
+</head>
+<body>
+
+    <svg style="display: none;">
+        <defs>
+            <filter id="paper-ink-displacement">
+                <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" result="noise" />
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+        </defs>
+    </svg>
+
+    <div class="top-bar">
+        <a href="index.html" class="back-btn">⬅️ मुख्य पानावर परत जा (Home)</a>
+        <div style="font-weight: 800; font-size: 16px; color: #1e40af;">✍️ नॅचरल हस्तलिखित कन्व्हर्टर</div>
+    </div>
+
+    <div class="hw-container">
+        <div class="hw-controls">
+            <div style="font-weight: 700; font-size: 14px; color: #1e3a8a;">मजकूर लिहा आणि रंग निवडा:</div>
+            <div class="editor-toolbar">
+                <button type="button" class="tool-btn btn-blue" onmousedown="event.preventDefault()" onclick="applyHwStyle('foreColor', '#154580')">🔵 निळा</button>
+                <button type="button" class="tool-btn btn-red" onmousedown="event.preventDefault()" onclick="applyHwStyle('foreColor', '#b91c1c')">🔴 लाल</button>
+                <button type="button" class="tool-btn btn-green" onmousedown="event.preventDefault()" onclick="applyHwStyle('foreColor', '#15803d')">🟢 हिरवा</button>
+                <button type="button" class="tool-btn btn-black" onmousedown="event.preventDefault()" onclick="applyHwStyle('foreColor', '#1e293b')">⚫ काळा</button>
+                <button type="button" class="tool-btn btn-bold" onmousedown="event.preventDefault()" onclick="applyHwStyle('bold', null)"><b>B</b> बोल्ड</button>
+            </div>
+            <div id="hwRichInput" class="rich-input" contenteditable="true">हा मजकूर <font color="#154580">निळ्या पेनने</font> लिहिलेला आहे, तर हा शब्द <font color="#b91c1c"><b>लाल रंगात ठळक</b></font> आहे. महत्वाच्या नोंदी <font color="#1e293b">काळ्या पेनने</font> करता येतात.</div>
+
+            <div>
+                <label style="font-weight:700; font-size:12px;">किंवा PDF फाईल अपलोड करा:</label>
+                <input type="file" id="hwPdfUpload" class="form-control" style="width:100%;" accept=".pdf">
+            </div>
+
+            <div>
+                <label style="font-weight:700; font-size:12px;">हस्ताक्षर फॉन्ट शैली:</label>
+                <select id="hwFontStyle" class="form-control" style="width:100%; padding:6px;">
+                    <option value="font-kalam" selected>शैली १: Kalam (देवनागरी अस्खलित)</option>
+                    <option value="font-dekko">शैली २: Dekko (देवनागरी सुटसुटीत)</option>
+                    <option value="font-caveat">शैली ३: Caveat (इंग्रजी कर्सिव्ह)</option>
+                </select>
+            </div>
+
+            <div class="hw-checkbox-grid">
+                <label class="hw-checkbox-label"><input type="checkbox" id="hwShakyCheck" checked> <strong>वेडेवाकडे अक्षर (Imperfect & Shaky lines)</strong></label>
+                <label class="hw-checkbox-label"><input type="checkbox" id="hwUnevenWordsCheck" checked> शब्दांचा वर-खाली अस्ताव्यस्तपणा (Jitter Alignment)</label>
+                <label class="hw-checkbox-label"><input type="checkbox" id="hwSlantCheck" checked> हात वळवून लिहिलेला तिरपेपणा (Natural Slant)</label>
+                <label class="hw-checkbox-label"><input type="checkbox" id="hwRuledCheck" checked> वहीच्या निळ्या रेषा (Ruled Lines)</label>
+            </div>
+
+            <button id="hwDownloadBtn" style="background:#1e40af; color:#fff; border:none; padding:9px; border-radius:6px; font-weight:700; cursor:pointer;">📥 हस्तलिखित PDF डाऊनलोड करा</button>
+        </div>
+
+        <div class="hw-preview-wrapper">
+            <div id="hwPaperSheet" class="paper ruled-paper font-kalam natural-slant" style="filter: url(#paper-ink-displacement);">येथे मजकूर दिसेल...</div>
+        </div>
+    </div>
+
+<script>
+    const hwRichInput = document.getElementById('hwRichInput');
+    const hwPdfUpload = document.getElementById('hwPdfUpload');
+    const hwFontStyle = document.getElementById('hwFontStyle');
+    const hwShakyCheck = document.getElementById('hwShakyCheck');
+    const hwUnevenWordsCheck = document.getElementById('hwUnevenWordsCheck');
+    const hwSlantCheck = document.getElementById('hwSlantCheck');
+    const hwRuledCheck = document.getElementById('hwRuledCheck');
+    const hwPaperSheet = document.getElementById('hwPaperSheet');
+
+    function applyHwStyle(command, value) { document.execCommand(command, false, value); updateHwSheet(); }
+
+    function applyHwIrregularity(htmlContent) {
+        if (!hwUnevenWordsCheck.checked) return htmlContent;
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = htmlContent;
+        function wrapTextNodes(element) {
+            let child = element.firstChild;
+            while (child) {
+                if (child.nodeType === Node.TEXT_NODE) {
+                    const text = child.textContent;
+                    if (text.trim() !== '') {
+                        const fragment = document.createDocumentFragment();
+                        text.split(/(\s+)/).forEach(word => {
+                            if (word.trim() !== '') {
+                                const span = document.createElement('span');
+                                span.className = 'jitter-word'; span.textContent = word;
+                                fragment.appendChild(span);
+                            } else { fragment.appendChild(document.createTextNode(word)); }
+                        });
+                        const next = child.nextSibling;
+                        element.replaceChild(fragment, child);
+                        child = next; continue;
+                    }
+                } else if (child.nodeType === Node.ELEMENT_NODE) { wrapTextNodes(child); }
+                child = child.nextSibling;
+            }
+        }
+        wrapTextNodes(tempDiv);
+        return tempDiv.innerHTML;
+    }
+
+    function updateHwSheet() {
+        let contentHtml = hwRichInput.innerHTML || "येथे मजकूर दिसेल...";
+        hwPaperSheet.innerHTML = applyHwIrregularity(contentHtml);
+        hwPaperSheet.className = `paper ${hwFontStyle.value} ${hwSlantCheck.checked ? 'natural-slant' : ''} ${hwRuledCheck.checked ? 'ruled-paper' : ''}`;
+        hwPaperSheet.style.filter = hwShakyCheck.checked ? 'url(#paper-ink-displacement)' : 'none';
+    }
+
+    hwRichInput.addEventListener('input', updateHwSheet);
+    hwFontStyle.addEventListener('change', updateHwSheet);
+    hwShakyCheck.addEventListener('change', updateHwSheet);
+    hwUnevenWordsCheck.addEventListener('change', updateHwSheet);
+    hwSlantCheck.addEventListener('change', updateHwSheet);
+    hwRuledCheck.addEventListener('change', updateHwSheet);
+
+    hwPdfUpload.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function() {
+            pdfjsLib.getDocument(new Uint8Array(this.result)).promise.then(pdf => {
+                let promises = [];
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    promises.push(pdf.getPage(i).then(page => page.getTextContent().then(tc => tc.items.map(it => it.str).join(" "))));
+                }
+                Promise.all(promises).then(pages => { hwRichInput.innerText = pages.join("\n\n"); updateHwSheet(); });
+            });
+        };
+        reader.readAsArrayBuffer(file);
+    });
+
+    document.getElementById('hwDownloadBtn').addEventListener('click', function() {
+        html2pdf().set({ margin: 8, filename: 'Handwritten.pdf', image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2 }, jsPDF: { unit: 'mm', format: 'a4' } }).from(hwPaperSheet).save();
+    });
+
+    window.onload = updateHwSheet;
+</script>
+</body>
+</html>
