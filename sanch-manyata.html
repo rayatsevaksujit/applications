@@ -3,157 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>संच मान्यता पद गणक | डिजिटल साथीदार</title>
+    <title>विद्यार्थीसंख्येनुसार शिक्षकसंख्या व पदसंरक्षण कॅल्क्युलेटर | डिजिटल साथीदार</title>
     <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Mukta', sans-serif; }
-        body { background: #f8fafc; color: #0f172a; padding: 15px; }
+        body { background: #f1f5f9; color: #0f172a; padding: 15px; }
         .top-bar { max-width: 850px; margin: 0 auto 15px auto; display: flex; justify-content: space-between; align-items: center; }
-        .back-btn { text-decoration: none; background: #fff; border: 1px solid #cbd5e1; padding: 6px 14px; border-radius: 6px; font-weight: 700; color: #1e40af; }
-        .container { max-width: 850px; margin: 0 auto; background: #fff; padding: 22px; border-radius: 10px; border: 1px solid #cbd5e1; box-shadow: 0 4px 6px rgba(0,0,0,0.04); }
-        .title { font-size: 18px; font-weight: 800; color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; margin-bottom: 14px; }
+        .back-btn { text-decoration: none; background: #fff; border: 1px solid #cbd5e1; padding: 6px 14px; border-radius: 6px; font-weight: 700; color: #1e40af; font-size: 14px; }
+        .container { max-width: 850px; margin: 0 auto; background: #fff; padding: 22px; border-radius: 12px; border: 1px solid #cbd5e1; box-shadow: 0 4px 6px rgba(0,0,0,0.04); }
+        .title { font-size: 19px; font-weight: 800; color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; margin-bottom: 12px; }
         .notice-box { background: #eff6ff; border-left: 4px solid #2563eb; padding: 10px 14px; border-radius: 4px; font-size: 13px; color: #1e40af; margin-bottom: 18px; line-height: 1.5; }
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 15px; }
+        .input-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; margin-bottom: 14px; }
+        .card-label { font-weight: 800; font-size: 14px; color: #1e40af; margin-bottom: 8px; display: block; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
         .form-group label { display: block; font-weight: 700; font-size: 13px; margin-bottom: 4px; }
         .form-control { width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; }
-        .btn-calc { background: #1e40af; color: #fff; border: none; padding: 10px 18px; font-weight: 700; border-radius: 6px; cursor: pointer; width: 100%; font-size: 15px; }
+        .btn-calc { background: #1e40af; color: #fff; border: none; padding: 12px 18px; font-weight: 700; border-radius: 6px; cursor: pointer; width: 100%; font-size: 16px; margin-top: 10px; }
         .btn-calc:hover { background: #1e3a8a; }
-        .result-box { margin-top: 20px; display: none; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 16px; }
-        .result-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; background: #fff; }
-        .result-table th, .result-table td { border: 1px solid #cbd5e1; padding: 8px 12px; text-align: left; }
-        .result-table th { background: #f1f5f9; color: #1e293b; }
-        .deficit-badge { background: #fef2f2; border: 1px solid #fecaca; color: #b91c1c; padding: 10px; border-radius: 6px; font-weight: 700; margin-top: 14px; font-size: 13.5px; }
+        .result-box { margin-top: 20px; display: none; background: #fff; border: 2px solid #2563eb; border-radius: 10px; padding: 18px; }
+        .result-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 14px; }
+        .result-table th, .result-table td { border: 1px solid #cbd5e1; padding: 9px 12px; text-align: left; }
+        .result-table th { background: #f8fafc; color: #1e293b; }
+        .protect-box { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; padding: 12px; border-radius: 6px; font-weight: 700; margin-top: 14px; font-size: 14px; line-height: 1.5; }
+        .next-box { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; padding: 12px; border-radius: 6px; font-weight: 700; margin-top: 10px; font-size: 14px; }
     </style>
 </head>
 <body>
 
     <div class="top-bar">
         <a href="index.html" class="back-btn">⬅️ मुख्य पानावर परत जा</a>
-        <div style="font-weight: 800; font-size: 17px; color: #1e40af;">शाळा संच मान्यता गणक</div>
+        <div style="font-weight: 800; font-size: 17px; color: #1e40af;">संच मान्यता व पदसंरक्षण गणक</div>
     </div>
 
     <div class="container">
-        <div class="title">शाळा माहिती व आधार प्रमाणीत पटसंख्या</div>
+        <div class="title">विद्यार्थीसंख्येनुसार शिक्षकसंख्या व पदसंरक्षण कॅल्क्युलेटर</div>
 
         <div class="notice-box">
-            📌 <strong>महत्त्वाची नोंद:</strong> हा हिशोब शालेय शिक्षण विभागाच्या <strong>१५ मार्च २०२४</strong> रोजीच्या सुधारित शासन निर्णयानुसार (GR) केवळ तात्विक व मार्गदर्शक माहितीसाठी आहे. संच मान्यतेसाठी <strong>केवळ आधार प्रमाणीत (Aadhaar Validated)</strong> विद्यार्थी पटसंख्याच ग्राह्य धरली जाते.
+            📌 <strong>१५ मार्च २०२४ सुधारित शासन निर्णयानुसार:</strong> संच मान्यतेसाठी केवळ <strong>आधार प्रमाणित (Aadhaar Validated)</strong> विद्यार्थी संख्या ग्राह्य धरली जाईल. खालील रकान्यांमध्ये फक्त आधार प्रमाणीत पटसंख्या भरावी.
         </div>
 
-        <div class="form-grid">
-            <div class="form-group">
-                <label>शाळेचा प्रकार निवडा:</label>
-                <select id="schoolType" class="form-control" onchange="calculatePosts()">
-                    <option value="pri">प्राथमिक (१ ली ते ५ वी)</option>
-                    <option value="upri">उच्च प्राथमिक (६ वी ते ८ वी)</option>
-                    <option value="sec">माध्यमिक (९ वी ते १० वी)</option>
-                    <option value="comp">संयुक्त माध्यमिक (६ वी ते १० वी)</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>आधार व्हॅलिडेट पटसंख्या (Aadhaar Validated):</label>
-                <input type="number" id="studentCount" class="form-control" placeholder="उदा. १५०" min="0" oninput="calculatePosts()">
+        <!-- १. प्राथमिक / ५ वी -->
+        <div class="input-card">
+            <span class="card-label">१. इयत्ता ५ वी (किंवा १ ली ते ५ वी प्राथमिक गट)</span>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>इ. ५ वी आधार पटसंख्या:</label>
+                    <input type="number" id="p5" class="form-control" placeholder="उदा. २५" min="0" oninput="calculateSanch()">
+                </div>
             </div>
         </div>
 
-        <button class="btn-calc" onclick="calculatePosts()">📊 पदे व कमतरता मोजा</button>
+        <!-- २. उच्च प्राथमिक ६ ते ८ -->
+        <div class="input-card">
+            <span class="card-label">२. उच्च प्राथमिक गट (इयत्ता ६ वी ते ८ वी)</span>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>इ. ६ वी ते ८ वी आधार पटसंख्या:</label>
+                    <input type="number" id="p6to8" class="form-control" placeholder="उदा. ८५" min="0" oninput="calculateSanch()">
+                </div>
+            </div>
+        </div>
 
-        <div class="result-box" id="resultArea">
-            <h3 style="font-size: 16px; color: #1e40af; margin-bottom: 6px;">अनुज्ञेय पदांचा तपशील:</h3>
+        <!-- ३. माध्यमिक ९ ते १० -->
+        <div class="input-card">
+            <span class="card-label">३. माध्यमिक गट (इयत्ता ९ वी ते १० वी)</span>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>इ. ९ वी ते १० वी आधार पटसंख्या:</label>
+                    <input type="number" id="p9to10" class="form-control" placeholder="उदा. ९०" min="0" oninput="calculateSanch()">
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-calc" onclick="calculateSanch()">📊 शिक्षक पदे व पदसंरक्षण तपासा</button>
+
+        <!-- निकाल -->
+        <div class="result-box" id="resBox">
+            <h3 style="color: #1e40af; font-size: 16px; margin-bottom: 8px;">✅ अनुज्ञेय शिक्षक पदे (मंजूर पदे):</h3>
             <table class="result-table">
                 <thead>
                     <tr>
-                        <th>पदाचे नाव / प्रवर्ग</th>
-                        <th>अनुज्ञेय पदे (Approved)</th>
+                        <th>शाळा विभाग / पद प्रकार</th>
+                        <th>एकूण पटसंख्या</th>
+                        <th>मंजूर शिक्षक संख्या</th>
                     </tr>
                 </thead>
-                <tbody id="resultBody"></tbody>
+                <tbody id="resTbody"></tbody>
             </table>
 
-            <div id="deficitBox" class="deficit-badge"></div>
+            <!-- पदसंरक्षण व नवीन पद माहिती -->
+            <div id="protectDiv" class="protect-box"></div>
+            <div id="nextDiv" class="next-box"></div>
         </div>
     </div>
 
 <script>
-function calculatePosts() {
-    const count = parseInt(document.getElementById('studentCount').value) || 0;
-    const type = document.getElementById('schoolType').value;
-    const resultArea = document.getElementById('resultArea');
-    const resultBody = document.getElementById('resultBody');
-    const deficitBox = document.getElementById('deficitBox');
+function calculateSanch() {
+    const p5 = parseInt(document.getElementById('p5').value) || 0;
+    const p68 = parseInt(document.getElementById('p6to8').value) || 0;
+    const p910 = parseInt(document.getElementById('p9to10').value) || 0;
+    const total = p5 + p68 + p910;
 
-    if (count <= 0) {
-        resultArea.style.display = 'none';
+    const resBox = document.getElementById('resBox');
+    const resTbody = document.getElementById('resTbody');
+    const protectDiv = document.getElementById('protectDiv');
+    const nextDiv = document.getElementById('nextDiv');
+
+    if (total <= 0) {
+        resBox.style.display = 'none';
         return;
     }
 
-    resultArea.style.display = 'block';
-    resultBody.innerHTML = '';
+    resBox.style.display = 'block';
+    resTbody.innerHTML = '';
 
-    let hm = 0;
-    let teachers = 0;
-    let specialTeachers = 0;
-    let artSports = 0;
-    let deficitText = '';
-
-    if (type === 'pri') {
-        if (count <= 30) teachers = 1;
-        else if (count <= 60) teachers = 2;
-        else if (count <= 90) teachers = 3;
-        else if (count <= 120) teachers = 4;
-        else if (count <= 150) teachers = 5;
-        else {
-            teachers = 5 + Math.ceil((count - 150) / 30);
-            hm = 1;
-        }
-
-        if (count < 151) {
-            deficitText = `मुख्याध्यापक पदासाठी अजून ${151 - count} आधार प्रमाणीत विद्यार्थी कमी पडत आहेत.`;
-        } else {
-            let nextSlot = count + (30 - ((count - 150) % 30 || 30)) + 1;
-            deficitText = `पुढील शिक्षक पदासाठी अजून ${nextSlot - count} विद्यार्थी हवे आहेत.`;
-        }
-    } else if (type === 'upri') {
-        if (count <= 35) teachers = 1;
-        else if (count <= 70) teachers = 2;
-        else if (count <= 100) teachers = 3;
-        else {
-            teachers = 3 + Math.ceil((count - 100) / 35);
-            hm = 1;
-        }
-
-        // Special / Art / Sports criteria on U.Primary
-        if (count > 100) {
-            artSports = 1;
-            specialTeachers = 1;
-        }
-
-        if (count <= 100) {
-            deficitText = `मुख्याध्यापक व कला/क्रीडा/विशेष शिक्षकांसाठी अजून ${101 - count} विद्यार्थी कमी पडत आहेत.`;
-        }
-    } else if (type === 'sec' || type === 'comp') {
-        let secClasses = Math.ceil(count / 40);
-        teachers = Math.max(secClasses, 2);
-        if (count >= 100) hm = 1;
-        if (count >= 150) artSports = 1;
-        if (count >= 200) specialTeachers = 1;
-
-        if (count < 100) {
-            deficitText = `स्वतंत्र मुख्याध्यापक पदासाठी अजून ${100 - count} विद्यार्थी हवे आहेत.`;
-        } else if (count < 150) {
-            deficitText = `कला / क्रीडा शिक्षकासाठी अजून ${150 - count} विद्यार्थी कमी पडत आहेत.`;
-        } else if (count < 200) {
-            deficitText = `विशेष शिक्षकासाठी अजून ${200 - count} विद्यार्थी कमी पडत आहेत.`;
-        } else {
-            deficitText = `शाळेचा पट समाधानकारक आहे. पुढील तुकडीसाठी पटसंख्या तपासा.`;
-        }
+    // प्राथमिक (५ वी) गणना
+    let t_pri = 0;
+    if (p5 > 0) {
+        if (p5 <= 30) t_pri = 1;
+        else if (p5 <= 60) t_pri = 2;
+        else t_pri = 2 + Math.ceil((p5 - 60) / 30);
     }
 
-    resultBody.innerHTML += `<tr><td>मुख्याध्यापक (Headmaster)</td><td><strong>${hm}</strong></td></tr>`;
-    resultBody.innerHTML += `<tr><td>सहाय्यक शिक्षक (Teachers)</td><td><strong>${teachers}</strong></td></tr>`;
-    resultBody.innerHTML += `<tr><td>कला / शारीरिक शिक्षण शिक्षक (Art & Sports)</td><td><strong>${artSports}</strong></td></tr>`;
-    resultBody.innerHTML += `<tr><td>विशेष शिक्षक (Special Teacher)</td><td><strong>${specialTeachers}</strong></td></tr>`;
+    // उच्च प्राथमिक (६ ते ८) गणना
+    let t_upri = 0;
+    if (p68 > 0) {
+        if (p68 <= 35) t_upri = 1;
+        else if (p68 <= 70) t_upri = 2;
+        else if (p68 <= 100) t_upri = 3;
+        else t_upri = 3 + Math.ceil((p68 - 100) / 35);
+    }
 
-    deficitBox.innerHTML = `⚠️ <strong>कमतरता विश्लेषण:</strong> ${deficitText}`;
+    // माध्यमिक (९ ते १०) गणना
+    let t_sec = 0;
+    if (p910 > 0) {
+        let batches = Math.ceil(p910 / 40);
+        t_sec = Math.max(batches, 2);
+    }
+
+    // मुख्याध्यापक
+    let hm = (p68 + p910 >= 100 || total >= 150) ? 1 : 0;
+
+    // टेबल भरणे
+    if (p5 > 0) resTbody.innerHTML += `<tr><td>इ. ५ वी (प्राथमिक गट)</td><td>${p5}</td><td><strong>${t_pri}</strong> शिक्षक</td></tr>`;
+    if (p68 > 0) resTbody.innerHTML += `<tr><td>इ. ६ वी ते ८ वी (उच्च प्राथमिक)</td><td>${p68}</td><td><strong>${t_upri}</strong> शिक्षक</td></tr>`;
+    if (p910 > 0) resTbody.innerHTML += `<tr><td>इ. ९ वी ते १० वी (माध्यमिक)</td><td>${p910}</td><td><strong>${t_sec}</strong> शिक्षक</td></tr>`;
+    resTbody.innerHTML += `<tr style="background:#f1f5f9;"><td><strong>मुख्याध्यापक (HM)</strong></td><td>-</td><td><strong>${hm}</strong> पद</td></tr>`;
+    resTbody.innerHTML += `<tr style="background:#e0f2fe; font-weight:800;"><td>एकूण मंजूर पदे</td><td>${total}</td><td>${t_pri + t_upri + t_sec + hm} पदे</td></tr>`;
+
+    // पदसंरक्षण ॲनालिसिस
+    let protectNotes = [];
+    if (p68 > 0 && p68 < 35) protectNotes.push(`६ ते ८ गटात १ शिक्षक टिकवण्यासाठी किमान पट आवश्यक आहे.`);
+    if (hm === 0 && (p68 + p910 > 0)) {
+        let needHm = 100 - (p68 + p910);
+        protectNotes.push(`स्वतंत्र मुख्याध्यापक पद मान्यतेसाठी ६ ते १० गटात अजून <strong>${needHm}</strong> आधार पट कमी पडत आहे.`);
+    }
+    if (p910 > 0 && p910 < 40) {
+        protectNotes.push(`माध्यमिक गटात पूर्ण पदांच्या संरक्षणासाठी किमान पट राखणे आवश्यक आहे.`);
+    }
+
+    protectDiv.innerHTML = protectNotes.length > 0 
+        ? `🛡️ <strong>पदसंरक्षण व कमतरता सूचना:</strong><br>• ` + protectNotes.join('<br>• ')
+        : `🛡️ <strong>पदसंरक्षण:</strong> सर्व मंजूर पदांसाठी सध्याचा आधार पट सुरक्षित आहे.`;
+
+    // पुढील पद मिळण्यासाठी
+    let nextSecNeed = (p910 > 0) ? (40 - (p910 % 40)) : 0;
+    nextDiv.innerHTML = `📈 <strong>पुढील वाढीव पद:</strong> माध्यमिक गटात पुढील तुकडी/शिक्षकासाठी अजून अंदाजे <strong>${nextSecNeed === 40 ? 1 : nextSecNeed}</strong> विद्यार्थी वाढवणे गरजेचे आहे.`;
 }
 </script>
 </body>
