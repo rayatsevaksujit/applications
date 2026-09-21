@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>संच मान्यता पद गणक | डिजिटल साथीदार</title>
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Mukta', sans-serif; }
+        body { background: #f8fafc; color: #0f172a; padding: 15px; }
+        .top-bar { max-width: 850px; margin: 0 auto 15px auto; display: flex; justify-content: space-between; align-items: center; }
+        .back-btn { text-decoration: none; background: #fff; border: 1px solid #cbd5e1; padding: 6px 14px; border-radius: 6px; font-weight: 700; color: #1e40af; }
+        .container { max-width: 850px; margin: 0 auto; background: #fff; padding: 22px; border-radius: 10px; border: 1px solid #cbd5e1; box-shadow: 0 4px 6px rgba(0,0,0,0.04); }
+        .title { font-size: 18px; font-weight: 800; color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; margin-bottom: 14px; }
+        .notice-box { background: #eff6ff; border-left: 4px solid #2563eb; padding: 10px 14px; border-radius: 4px; font-size: 13px; color: #1e40af; margin-bottom: 18px; line-height: 1.5; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: 700; font-size: 13px; margin-bottom: 4px; }
+        .form-control { width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; }
+        .btn-calc { background: #1e40af; color: #fff; border: none; padding: 10px 18px; font-weight: 700; border-radius: 6px; cursor: pointer; width: 100%; font-size: 15px; }
+        .btn-calc:hover { background: #1e3a8a; }
+        .result-box { margin-top: 20px; display: none; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 16px; }
+        .result-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; background: #fff; }
+        .result-table th, .result-table td { border: 1px solid #cbd5e1; padding: 8px 12px; text-align: left; }
+        .result-table th { background: #f1f5f9; color: #1e293b; }
+        .deficit-badge { background: #fef2f2; border: 1px solid #fecaca; color: #b91c1c; padding: 10px; border-radius: 6px; font-weight: 700; margin-top: 14px; font-size: 13.5px; }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <a href="index.html" class="back-btn">⬅️ मुख्य पानावर परत जा</a>
+        <div style="font-weight: 800; font-size: 17px; color: #1e40af;">शाळा संच मान्यता गणक</div>
+    </div>
+
+    <div class="container">
+        <div class="title">शाळा माहिती व आधार प्रमाणीत पटसंख्या</div>
+
+        <div class="notice-box">
+            📌 <strong>महत्त्वाची नोंद:</strong> हा हिशोब शालेय शिक्षण विभागाच्या <strong>१५ मार्च २०२४</strong> रोजीच्या सुधारित शासन निर्णयानुसार (GR) केवळ तात्विक व मार्गदर्शक माहितीसाठी आहे. संच मान्यतेसाठी <strong>केवळ आधार प्रमाणीत (Aadhaar Validated)</strong> विद्यार्थी पटसंख्याच ग्राह्य धरली जाते.
+        </div>
+
+        <div class="form-grid">
+            <div class="form-group">
+                <label>शाळेचा प्रकार निवडा:</label>
+                <select id="schoolType" class="form-control" onchange="calculatePosts()">
+                    <option value="pri">प्राथमिक (१ ली ते ५ वी)</option>
+                    <option value="upri">उच्च प्राथमिक (६ वी ते ८ वी)</option>
+                    <option value="sec">माध्यमिक (९ वी ते १० वी)</option>
+                    <option value="comp">संयुक्त माध्यमिक (६ वी ते १० वी)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>आधार व्हॅलिडेट पटसंख्या (Aadhaar Validated):</label>
+                <input type="number" id="studentCount" class="form-control" placeholder="उदा. १५०" min="0" oninput="calculatePosts()">
+            </div>
+        </div>
+
+        <button class="btn-calc" onclick="calculatePosts()">📊 पदे व कमतरता मोजा</button>
+
+        <div class="result-box" id="resultArea">
+            <h3 style="font-size: 16px; color: #1e40af; margin-bottom: 6px;">अनुज्ञेय पदांचा तपशील:</h3>
+            <table class="result-table">
+                <thead>
+                    <tr>
+                        <th>पदाचे नाव / प्रवर्ग</th>
+                        <th>अनुज्ञेय पदे (Approved)</th>
+                    </tr>
+                </thead>
+                <tbody id="resultBody"></tbody>
+            </table>
+
+            <div id="deficitBox" class="deficit-badge"></div>
+        </div>
+    </div>
+
+<script>
+function calculatePosts() {
+    const count = parseInt(document.getElementById('studentCount').value) || 0;
+    const type = document.getElementById('schoolType').value;
+    const resultArea = document.getElementById('resultArea');
+    const resultBody = document.getElementById('resultBody');
+    const deficitBox = document.getElementById('deficitBox');
+
+    if (count <= 0) {
+        resultArea.style.display = 'none';
+        return;
+    }
+
+    resultArea.style.display = 'block';
+    resultBody.innerHTML = '';
+
+    let hm = 0;
+    let teachers = 0;
+    let specialTeachers = 0;
+    let artSports = 0;
+    let deficitText = '';
+
+    if (type === 'pri') {
+        if (count <= 30) teachers = 1;
+        else if (count <= 60) teachers = 2;
+        else if (count <= 90) teachers = 3;
+        else if (count <= 120) teachers = 4;
+        else if (count <= 150) teachers = 5;
+        else {
+            teachers = 5 + Math.ceil((count - 150) / 30);
+            hm = 1;
+        }
+
+        if (count < 151) {
+            deficitText = `मुख्याध्यापक पदासाठी अजून ${151 - count} आधार प्रमाणीत विद्यार्थी कमी पडत आहेत.`;
+        } else {
+            let nextSlot = count + (30 - ((count - 150) % 30 || 30)) + 1;
+            deficitText = `पुढील शिक्षक पदासाठी अजून ${nextSlot - count} विद्यार्थी हवे आहेत.`;
+        }
+    } else if (type === 'upri') {
+        if (count <= 35) teachers = 1;
+        else if (count <= 70) teachers = 2;
+        else if (count <= 100) teachers = 3;
+        else {
+            teachers = 3 + Math.ceil((count - 100) / 35);
+            hm = 1;
+        }
+
+        // Special / Art / Sports criteria on U.Primary
+        if (count > 100) {
+            artSports = 1;
+            specialTeachers = 1;
+        }
+
+        if (count <= 100) {
+            deficitText = `मुख्याध्यापक व कला/क्रीडा/विशेष शिक्षकांसाठी अजून ${101 - count} विद्यार्थी कमी पडत आहेत.`;
+        }
+    } else if (type === 'sec' || type === 'comp') {
+        let secClasses = Math.ceil(count / 40);
+        teachers = Math.max(secClasses, 2);
+        if (count >= 100) hm = 1;
+        if (count >= 150) artSports = 1;
+        if (count >= 200) specialTeachers = 1;
+
+        if (count < 100) {
+            deficitText = `स्वतंत्र मुख्याध्यापक पदासाठी अजून ${100 - count} विद्यार्थी हवे आहेत.`;
+        } else if (count < 150) {
+            deficitText = `कला / क्रीडा शिक्षकासाठी अजून ${150 - count} विद्यार्थी कमी पडत आहेत.`;
+        } else if (count < 200) {
+            deficitText = `विशेष शिक्षकासाठी अजून ${200 - count} विद्यार्थी कमी पडत आहेत.`;
+        } else {
+            deficitText = `शाळेचा पट समाधानकारक आहे. पुढील तुकडीसाठी पटसंख्या तपासा.`;
+        }
+    }
+
+    resultBody.innerHTML += `<tr><td>मुख्याध्यापक (Headmaster)</td><td><strong>${hm}</strong></td></tr>`;
+    resultBody.innerHTML += `<tr><td>सहाय्यक शिक्षक (Teachers)</td><td><strong>${teachers}</strong></td></tr>`;
+    resultBody.innerHTML += `<tr><td>कला / शारीरिक शिक्षण शिक्षक (Art & Sports)</td><td><strong>${artSports}</strong></td></tr>`;
+    resultBody.innerHTML += `<tr><td>विशेष शिक्षक (Special Teacher)</td><td><strong>${specialTeachers}</strong></td></tr>`;
+
+    deficitBox.innerHTML = `⚠️ <strong>कमतरता विश्लेषण:</strong> ${deficitText}`;
+}
+</script>
+</body>
+</html>
