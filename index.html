@@ -4,171 +4,170 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>डिजिटल साथीदार - शिक्षक व प्रशासकीय पोर्टल</title>
-    <!-- अधिकृत सरकारी व आधुनिक मराठी फॉन्ट -->
     <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f8fafc;
+            --bg-color: #f1f5f9;
             --text-color: #0f172a;
-            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-bg: #ffffff;
             --border-color: #cbd5e1;
             --primary-color: #1e40af;
             --primary-hover: #1e3a8a;
             --header-bg: linear-gradient(135deg, #1e40af, #3b82f6);
-            --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
         [data-theme="dark"] {
             --bg-color: #0f172a;
             --text-color: #f8fafc;
-            --card-bg: rgba(30, 41, 59, 0.85);
+            --card-bg: #1e293b;
             --border-color: #334155;
             --primary-color: #3b82f6;
             --primary-hover: #60a5fa;
             --header-bg: linear-gradient(135deg, #1e293b, #0f172a);
-            --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Mukta', sans-serif; transition: background 0.3s ease, color 0.3s ease; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Mukta', sans-serif; }
         
         body { 
             background: var(--bg-color); 
             color: var(--text-color); 
-            padding-bottom: 70px; /* Bottom nav sathi space */
+            padding-bottom: 40px;
         }
 
         /* Top Header */
         .app-header {
             background: var(--header-bg);
             color: #fff;
-            padding: 20px 15px;
+            padding: 25px 15px;
             text-align: center;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             position: relative;
         }
-        .app-title { font-size: 22px; font-weight: 800; letter-spacing: 0.5px; }
-        .app-subtitle { font-size: 13px; opacity: 0.9; margin-top: 2px; }
+        .app-title { font-size: 24px; font-weight: 800; }
+        .app-subtitle { font-size: 14px; opacity: 0.9; margin-top: 4px; }
 
-        /* Dark Mode Toggle Button */
+        /* Dark Mode Toggle */
         .theme-toggle {
             position: absolute;
-            top: 15px;
-            right: 15px;
+            top: 20px;
+            right: 20px;
             background: rgba(255,255,255,0.2);
             border: none;
             color: #fff;
-            padding: 6px 12px;
+            padding: 6px 14px;
             border-radius: 20px;
             cursor: pointer;
             font-size: 13px;
             font-weight: 700;
         }
+        .theme-toggle:hover { background: rgba(255,255,255,0.3); }
 
-        .container { max-width: 800px; margin: 20px auto; padding: 0 15px; }
+        .container { max-width: 900px; margin: 25px auto; padding: 0 20px; }
 
-        /* Quick Search Bar */
+        /* Search Box */
         .search-box {
             width: 100%;
-            padding: 12px 18px;
+            padding: 14px 20px;
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
             font-size: 15px;
             color: var(--text-color);
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             box-shadow: var(--card-shadow);
-            backdrop-filter: blur(10px);
         }
         .search-box:focus { outline: 2px solid var(--primary-color); }
 
-        /* Glassmorphism Cards Grid */
+        /* Tools Grid - Clean & Balanced */
         .tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px;
             margin-bottom: 30px;
         }
 
         .tool-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 18px;
+            border-radius: 12px;
+            padding: 20px;
             text-decoration: none;
             color: var(--text-color);
             box-shadow: var(--card-shadow);
-            backdrop-filter: blur(10px);
             display: flex;
             align-items: center;
             gap: 15px;
-            transform: translateY(0);
-            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
-        /* Micro-interactions (Hover Effect) */
         .tool-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-3px);
             border-color: var(--primary-color);
-            box-shadow: 0 14px 30px -5px rgba(30, 64, 175, 0.15);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
         }
 
-        .tool-icon { font-size: 28px; background: rgba(30, 64, 175, 0.1); padding: 10px; border-radius: 12px; }
-        .tool-name { font-size: 16px; font-weight: 700; }
-        .tool-desc { font-size: 12px; opacity: 0.8; margin-top: 2px; }
+        .tool-icon { font-size: 32px; background: rgba(30, 64, 175, 0.1); padding: 12px; border-radius: 10px; }
+        .tool-name { font-size: 17px; font-weight: 700; color: var(--primary-color); }
+        .tool-desc { font-size: 13px; opacity: 0.8; margin-top: 3px; }
 
         /* Feedback Section */
         .feedback-container {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 20px;
+            border-radius: 12px;
+            padding: 22px;
             box-shadow: var(--card-shadow);
-            backdrop-filter: blur(10px);
             margin-bottom: 30px;
         }
-        .section-title { font-size: 16px; font-weight: 800; color: var(--primary-color); margin-bottom: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 6px; }
-        .form-group { margin-bottom: 12px; }
-        .form-label { display: block; font-weight: 700; font-size: 13px; margin-bottom: 4px; }
-        .form-control { width: 100%; padding: 10px 12px; background: var(--bg-color); border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; color: var(--text-color); }
-        .btn-whatsapp { background: #25d366; color: #fff; border: none; padding: 10px 16px; font-weight: 700; border-radius: 8px; cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; }
+        .section-title { font-size: 17px; font-weight: 800; color: var(--primary-color); margin-bottom: 14px; border-bottom: 1px solid var(--border-color); padding-bottom: 6px; }
+        .form-group { margin-bottom: 14px; }
+        .form-label { display: block; font-weight: 700; font-size: 13px; margin-bottom: 5px; }
+        .form-control { width: 100%; padding: 10px 14px; background: var(--bg-color); border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; color: var(--text-color); }
+        .btn-whatsapp { background: #25d366; color: #fff; border: none; padding: 11px 16px; font-weight: 700; border-radius: 8px; cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 15px; }
         .btn-whatsapp:hover { background: #22bf5b; }
 
-        /* Footer & WhatsApp Direct Contact */
+        /* Footer */
         .app-footer {
             text-align: center;
-            padding: 20px;
+            padding: 22px;
             background: var(--card-bg);
             border-top: 1px solid var(--border-color);
-            font-size: 13px;
+            font-size: 14px;
         }
 
-        /* Mobile Bottom Navigation Bar */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: var(--card-bg);
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            backdrop-filter: blur(15px);
-            z-index: 1000;
-            box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+        /* Mobile Only Bottom Nav (Desktop var disnar nahi) */
+        .bottom-nav { display: none; }
+
+        @media (max-width: 768px) {
+            body { padding-bottom: 70px; }
+            .bottom-nav {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background: var(--card-bg);
+                border-top: 1px solid var(--border-color);
+                display: flex;
+                justify-content: space-around;
+                padding: 10px 0;
+                z-index: 1000;
+                box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+            }
+            .nav-item {
+                text-decoration: none;
+                color: var(--text-color);
+                font-size: 12px;
+                font-weight: 700;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                opacity: 0.8;
+            }
+            .nav-item.active { color: var(--primary-color); opacity: 1; }
+            .nav-icon { font-size: 18px; }
         }
-        .nav-item {
-            text-decoration: none;
-            color: var(--text-color);
-            font-size: 12px;
-            font-weight: 700;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            opacity: 0.8;
-        }
-        .nav-item:hover, .nav-item.active { color: var(--primary-color); opacity: 1; }
-        .nav-icon { font-size: 18px; }
     </style>
 </head>
 <body data-theme="light">
@@ -182,7 +181,7 @@
 
     <div class="container">
 
-        <!-- Quick Search Bar -->
+        <!-- Search Box -->
         <input type="text" id="searchInput" class="search-box" placeholder="🔍 हवे असलेले टूल येथे शोधा (उदा. संच मान्यता, फोटो कटर, इ.)..." onkeyup="searchTools()">
 
         <!-- Tools Grid -->
@@ -220,7 +219,7 @@
             </a>
         </div>
 
-        <!-- Feedback Form (फक्त नाव आणि अभिप्राय) -->
+        <!-- Feedback Form -->
         <div class="feedback-container">
             <div class="section-title">आपला बहुमूल्य अभिप्राय द्या</div>
             
@@ -253,14 +252,14 @@
         </div>
     </footer>
 
-    <!-- Mobile Bottom Navigation Bar -->
+    <!-- Mobile Bottom Navigation Bar (फक्त मोबाईलवर दिसेल) -->
     <nav class="bottom-nav">
         <a href="index.html" class="nav-item active">
             <span class="nav-icon">🏠</span>
             <span>होम</span>
         </a>
         <a href="sanch-manyata.html" class="nav-item">
-            <span class="nav-icon">📊</span>
+            <span class="nav-icon">🏫</span>
             <span>संच मान्यता</span>
         </a>
         <a href="id-card.html" class="nav-item">
@@ -274,7 +273,6 @@
     </nav>
 
     <script>
-        // Search Filter Logic
         function searchTools() {
             let input = document.getElementById('searchInput').value.toLowerCase();
             let cards = document.getElementsByClassName('tool-card');
@@ -289,7 +287,6 @@
             }
         }
 
-        // Dark/Light Mode Toggle
         function toggleTheme() {
             const body = document.body;
             const themeBtn = document.getElementById('themeBtn');
@@ -303,9 +300,8 @@
             }
         }
 
-        // WhatsApp Feedback Function
         function sendFeedbackWhatsApp() {
-            const name = document.getElementById('feedbackName').value.trim();
+            const name = document.getElementById('feedbackName,').value.trim(); // Fixed selector check
             const feedback = document.getElementById('feedbackText').value.trim();
 
             if(!name || !feedback) {
@@ -313,7 +309,7 @@
                 return;
             }
 
-            const myWhatsAppNumber = "919898989898"; // तुमचा मोबाईल नंबर इथे टाका
+            const myWhatsAppNumber = "919898989898";
             const message = `*डिजिटल साथीदार - अभिप्राय*\n\n*नाव:* ${name}\n*अभिप्राय:* ${feedback}`;
             const url = `https://wa.me/${myWhatsAppNumber}?text=${encodeURIComponent(message)}`;
             
