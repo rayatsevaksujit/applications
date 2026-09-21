@@ -28,7 +28,6 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
         }
 
-        /* Header Bar */
         .top-bar { 
             display: flex; 
             justify-content: space-between; 
@@ -49,7 +48,6 @@
             font-size: 12.5px; 
         }
 
-        /* GR Reference & Notice */
         .gr-badge {
             background: #f0fdf4;
             border-left: 3.5px solid #16a34a;
@@ -72,7 +70,6 @@
             border-radius: 3px;
         }
 
-        /* Inputs Grid */
         .class-grid { 
             display: grid; 
             grid-template-columns: repeat(3, 1fr); 
@@ -108,7 +105,6 @@
             color: #0f172a;
         }
 
-        /* Outputs Grid */
         .output-container {
             display: grid;
             grid-template-columns: 1.15fr 1.25fr;
@@ -116,7 +112,6 @@
             margin-top: 4px;
         }
 
-        /* Tables */
         .result-table { 
             width: 100%; 
             border-collapse: collapse; 
@@ -134,7 +129,6 @@
             font-weight: 800; 
         }
 
-        /* Analysis Card */
         .analysis-card { 
             background: #f8fafc; 
             border: 1px solid #cbd5e1; 
@@ -151,9 +145,7 @@
         }
         .highlight-red { color: #b91c1c; font-weight: 800; }
         .highlight-blue { color: #1d4ed8; font-weight: 800; }
-        .highlight-green { color: #15803d; font-weight: 800; }
 
-        /* Footer */
         .footer {
             margin-top: 10px;
             text-align: center;
@@ -180,23 +172,19 @@
 <body>
 
     <div class="container">
-        <!-- Top Bar -->
         <div class="top-bar">
             <span class="page-title">शाळा संच मान्यता, कला-क्रीडा व शिक्षक वाढ गणक</span>
             <a href="index.html" class="back-btn">⬅️ मुख्य मेनू</a>
         </div>
 
-        <!-- शासन निर्णय संदर्भ -->
         <div class="gr-badge">
-            📋 <strong>आधारभूत शासन निर्णय:</strong> शालेय शिक्षण व क्रीडा विभाग, शासन निर्णय क्र. संकीर्ण-२०२३/प्र.क्र.२२९/टीएनटी-१, <strong>दिनांक १५ मार्च २०२४</strong>.
+            📋 <strong>आधारभूत शासन निर्णय:</strong> शालेय शिक्षण व क्रीडा विभाग, शासन निर्णय क्र. संकीर्ण-२०२३/प्र.क्र.२२९/टीएनटी-१, <strong>दिनांक १५ मार्च २०२४</strong>[span_1](start_span)[span_1](end_span).
         </div>
 
-        <!-- महत्त्वाची सूचना व डिस्क्लेमर -->
         <div class="notice-bar">
-            ⚠️ <strong>महत्त्वाची नोंद:</strong> हे गणक केवळ मार्गदर्शक माहितीकरिता आहे. प्रत्यक्ष संच मान्यता करताना संबंधित <strong>अधिकृत शासन निर्णय (GR) व शासन परिपत्रकांचे सखोल वाचन करूनच</strong> अंतिम निर्णय घ्यावा. संच मान्यतेसाठी केवळ <strong>आधार व्हॅलिडेट</strong> पटसंख्याच ग्राह्य धरली जाते.
+            ⚠️ <strong>महत्त्वाची नोंद:</strong> हे गणक केवळ मार्गदर्शक माहितीकरिता आहे. प्रत्यक्ष संच मान्यता करताना संबंधित <strong>अधिकृत शासन निर्णय (GR) व शासन परिपत्रकांचे सखोल वाचन करूनच</strong> अंतिम निर्णय घ्यावा. संच मान्यतेसाठी केवळ <strong>आधार व्हॅलिडेट</strong> पटसंख्याच ग्राह्य धरली जाते[span_2](start_span)[span_2](end_span).
         </div>
 
-        <!-- Inputs Grid -->
         <div class="class-grid">
             <div class="class-card">
                 <h4>१ ली ते ५ वी (प्राथमिक गट)</h4>
@@ -217,9 +205,7 @@
             </div>
         </div>
 
-        <!-- Output Grid -->
         <div class="output-container" id="outputSection">
-            <!-- Table -->
             <div>
                 <table class="result-table">
                     <thead>
@@ -235,7 +221,6 @@
                 </table>
             </div>
 
-            <!-- Analysis -->
             <div class="analysis-card">
                 <div class="analysis-title">📊 शिक्षक वाढ व कला/क्रीडा/क्राफ्ट विश्लेषण:</div>
                 <div id="deficitList" style="font-size: 11.5px; color: #1e293b; line-height: 1.5;">
@@ -244,7 +229,6 @@
             </div>
         </div>
 
-        <!-- Footer -->
         <footer class="footer">
             संकल्पना आणि निर्मिती: <span class="footer-brand">सुजित पाटील (रयत सेवक)</span>
         </footer>
@@ -272,7 +256,6 @@ function calculateRealtime() {
     let art68 = 0;
     let craftSec = 0, compSec = 0, sportsSec = 0;
 
-    // १. प्राथमिक गट (१ ली ते ५ वी)
     if (c15 > 0) {
         if (c15 <= 20) t15 = 1;
         else if (c15 <= 60) t15 = 2;
@@ -295,20 +278,18 @@ function calculateRealtime() {
         resTbody.innerHTML += `<tr><td>१ ली ते ५ वी (प्राथमिक)</td><td>${c15}</td><td><strong>${t15}</strong> शिक्षक</td></tr>`;
     }
 
-    // २. उच्च प्राथमिक गट (६ वी ते ८ वी)
     if (c68 > 0) {
         if (c68 <= 35) t68 = 1;
         else if (c68 <= 70) t68 = 2;
         else if (c68 <= 100) t68 = 3;
         else t68 = 3 + Math.ceil((c68 - 100) / 35);
 
-        // कला / कार्यानुभव / शारीरिक शिक्षण (१०० पेक्षा जास्त पटसंख्या असल्यास)
         if (c68 > 100) {
             art68 = 1;
-            deficitNotes.push(`• 🎨 <strong>६ वी ते ८ वी कला/शारीरिक शिक्षण:</strong> पटसंख्या १०० पेक्षा जास्त असल्याने १ कला/क्रीडा शिक्षक पद अनुज्ञेय ठरते.`);
+            deficitNotes.push(`• 🎨 <strong>६ ते ८ वी कला/शारीरिक शिक्षण:</strong> पटसंख्या १०० पेक्षा जास्त असल्याने १ कला/क्रीडा शिक्षक पद अनुज्ञेय ठरते.`);
         } else {
             let needArt = 101 - c68;
-            deficitNotes.push(`• 🎨 <strong>६ वी ते ८ वी कला शिक्षक:</strong> कला/कार्यानुभव शिक्षकासाठी अजून किमान <span class="highlight-red">${needArt}</span> विद्यार्थी आवश्यक आहेत (किमान पट: १०१).`);
+            deficitNotes.push(`• 🎨 <strong>६ ते ८ वी कला शिक्षक:</strong> कला/कार्यानुभव शिक्षकासाठी अजून किमान <span class="highlight-red">${needArt}</span> विद्यार्थी आवश्यक आहेत (किमान पट: १०१).`);
         }
 
         let nextTarget68 = 0;
@@ -318,65 +299,47 @@ function calculateRealtime() {
         else nextTarget68 = c68 + (35 - ((c68 - 100) % 35 || 35)) + 1;
 
         let diff68 = nextTarget68 - c68;
-        deficitNotes.push(`• <strong>६ वी ते ८ वी विषय शिक्षक:</strong> पुढील १ वाढीव शिक्षकासाठी अजून <span class="highlight-red">${diff68}</span> विद्यार्थी हवेत (लक्ष्य पट: ${nextTarget68}).`);
-        resTbody.innerHTML += `<tr><td>६ वी ते ८ वी (उच्च प्राथमिक)</td><td>${c68}</td><td><strong>${t68}</strong> शिक्षक</td></tr>`;
+        deficitNotes.push(`• <strong>६ ते ८ वी विषय शिक्षक:</strong> पुढील १ वाढीव शिक्षकासाठी अजून <span class="highlight-red">${diff68}</span> विद्यार्थी हवेत (लक्ष्य पट: ${nextTarget68}).`);
+        resTbody.innerHTML += `<tr><td>६ ते ८ वी (उच्च प्राथमिक)</td><td>${c68}</td><td><strong>${t68}</strong> शिक्षक</td></tr>`;
     }
 
-    // ३. माध्यमिक गट (९ वी ते १० वी)
     if (c910 > 0) {
         let batches = Math.ceil(c910 / 40);
         t910 = Math.max(batches, 2);
 
-        // क्राफ्ट (कार्यानुभव), संगणक निर्देशक व क्रीडा शिक्षक निकष
-        if (c910 >= 100) {
-            compSec = 1; // संगणक निर्देशक / शिक्षक
-        }
-        if (c910 >= 150) {
-            sportsSec = 1; // क्रीडा / शारीरिक शिक्षण शिक्षक
-        }
-        if (c910 >= 160) {
-            craftSec = 1; // क्राफ्ट / कार्यानुभव शिक्षक
-        }
+        if (c910 >= 100) compSec = 1;
+        if (c910 >= 150) sportsSec = 1;
+        if (c910 >= 160) craftSec = 1;
 
         let nextTarget910 = (t910 * 40) + 1;
         let diff910 = nextTarget910 - c910;
-        deficitNotes.push(`• <strong>९ वी ते १० वी विषय शिक्षक:</strong> पुढील १ शिक्षकासाठी अजून <span class="highlight-red">${diff910}</span> विद्यार्थी हवेत (लक्ष्य पट: ${nextTarget910}).`);
+        deficitNotes.push(`• <strong>९ ते १० वी विषय शिक्षक:</strong> पुढील १ शिक्षकासाठी अजून <span class="highlight-red">${diff910}</span> विद्यार्थी हवेत (लक्ष्य पट: ${nextTarget910}).`);
 
-        // माध्यमिक विशेष पद विश्लेषण
         if (sportsSec === 0) {
             deficitNotes.push(`• 🏃 <strong>क्रीडा शिक्षक (माध्यमिक):</strong> पदासाठी अजून <span class="highlight-red">${150 - c910}</span> विद्यार्थी आवश्यक आहेत (किमान पट: १५०).`);
         } else {
-            deficitNotes.push(`• 🏃 <strong>क्रीडा शिक्षक (माध्यमिक):</strong> <span class="highlight-green">अनुज्ञेय (१ पद)</span>.`);
+            deficitNotes.push(`• 🏃 <strong>क्रीडा शिक्षक (माध्यमिक):</strong> अनुज्ञेय (१ पद).`);
         }
 
         if (craftSec === 0) {
             deficitNotes.push(`• ✂️ <strong>क्राफ्ट / कार्यानुभव शिक्षक:</strong> पदासाठी अजून <span class="highlight-red">${160 - c910}</span> विद्यार्थी आवश्यक आहेत (किमान पट: १६०).`);
         } else {
-            deficitNotes.push(`• ✂️ <strong>क्राफ्ट / कार्यानुभव शिक्षक:</strong> <span class="highlight-green">अनुज्ञेय (१ पद)</span>.`);
+            deficitNotes.push(`• ✂️ <strong>क्राफ्ट / कार्यानुभव शिक्षक:</strong> अनुज्ञेय (१ पद).`);
         }
 
         if (compSec === 0) {
             deficitNotes.push(`• 💻 <strong>संगणक शिक्षक / निर्देशक:</strong> पदासाठी अजून <span class="highlight-red">${100 - c910}</span> विद्यार्थी आवश्यक आहेत (किमान पट: १००).`);
         } else {
-            deficitNotes.push(`• 💻 <strong>संगणक शिक्षक / निर्देशक:</strong> <span class="highlight-green">अनुज्ञेय (१ पद)</span>.`);
+            deficitNotes.push(`• 💻 <strong>संगणक शिक्षक / निर्देशक:</strong> अनुज्ञेय (१ पद).`);
         }
 
-        resTbody.innerHTML += `<tr><td>९ वी ते १० वी (माध्यमिक)</td><td>${c910}</td><td><strong>${t910}</strong> शिक्षक</td></tr>`;
+        resTbody.innerHTML += `<tr><td>९ ते १० वी (माध्यमिक)</td><td>${c910}</td><td><strong>${t910}</strong> शिक्षक</td></tr>`;
     }
 
-    // स्वतंत्र पदे तक्त्यात जोडणे
-    if (art68 > 0) {
-        resTbody.innerHTML += `<tr style="background:#f0fdf4;"><td>कला / क्रीडा (६ ते ८)</td><td>-</td><td><strong>${art68}</strong> पद</td></tr>`;
-    }
-    if (craftSec > 0) {
-        resTbody.innerHTML += `<tr style="background:#f0fdf4;"><td>क्राफ्ट शिक्षक (माध्यमिक)</td><td>-</td><td><strong>${craftSec}</strong> पद</td></tr>`;
-    }
-    if (compSec > 0) {
-        resTbody.innerHTML += `<tr style="background:#f0fdf4;"><td>संगणक शिक्षक (माध्यमिक)</td><td>-</td><td><strong>${compSec}</strong> पद</td></tr>`;
-    }
-    if (sportsSec > 0) {
-        resTbody.innerHTML += `<tr style="background:#f0fdf4;"><td>शारीरिक शिक्षण / क्रीडा</td><td>-</td><td><strong>${sportsSec}</strong> पद</td></tr>`;
-    }
+    if (art68 > 0) resTbody.innerHTML += `<tr style="background:#f0fdf4;"><td>कला / क्रीडा (६ ते ८)</td><td>-</td><td><strong>${art68}</strong> पद</td></tr>`;
+    if (craftSec > 0) resTbody.innerHTML += `<tr style="background:#f0fdf4;"><td>क्राफ्ट शिक्षक (माध्यमिक)</td><td>-</td><td><strong>${craftSec}</strong> पद</td></tr>`;
+    if (compSec > 0) resTbody.innerHTML += `<tr style="background:#f0fdf4;"><td>संगणक शिक्षक (माध्यमिक)</td><td>-</td><td><strong>${compSec}</strong> पद</td></tr>`;
+    if (sportsSec > 0) resTbody.innerHTML += `<tr style="background:#f0fdf4;"><td>शारीरिक शिक्षण / क्रीडा</td><td>-</td><td><strong>${sportsSec}</strong> पद</td></tr>`;
 
     let totalAll = t15 + t68 + t910 + art68 + craftSec + compSec + sportsSec;
     resTbody.innerHTML += `<tr style="background:#e0f2fe; font-weight:800;"><td>एकूण अनुज्ञेय शिक्षक</td><td>${totalStudents}</td><td><span class="highlight-blue">${totalAll}</span> पदे</td></tr>`;
