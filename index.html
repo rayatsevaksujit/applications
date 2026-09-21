@@ -3,413 +3,322 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>डिजिटल साथीदार | Digital Sathidar Dashboard</title>
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    <meta name="description" content="डिजिटल साथीदार - कर्मचारी, शिक्षक व विद्यार्थ्यांसाठी डिजिटल उपयुक्तता पोर्टल.">
-    <meta name="author" content="Sujit Patil (SP)">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>डिजिटल साथीदार - शिक्षक व प्रशासकीय पोर्टल</title>
+    <!-- अधिकृत सरकारी व आधुनिक मराठी फॉन्ट -->
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #0f172a;
-            --primary-accent: #1e40af;
-            --surface: #ffffff;
-            --background: #f8fafc;
-            --border: #e2e8f0;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --shadow: 0 4px 6px -1px rgba(0,0,0,0.06), 0 2px 4px -2px rgba(0,0,0,0.04);
-            --shadow-hover: 0 12px 20px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.05);
+            --bg-color: #f8fafc;
+            --text-color: #0f172a;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --border-color: #cbd5e1;
+            --primary-color: #1e40af;
+            --primary-hover: #1e3a8a;
+            --header-bg: linear-gradient(135deg, #1e40af, #3b82f6);
+            --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Mukta', sans-serif; -webkit-font-smoothing: antialiased; }
-        body { background-color: var(--background); color: var(--text-main); display: flex; flex-direction: column; min-height: 100vh; font-size: 14px; }
-        
-        .portal-header {
-            background: #ffffff;
-            padding: 14px 24px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
-        }
-        .brand-block { display: flex; align-items: center; gap: 14px; }
-        .brand-logo-badge {
-            background: linear-gradient(135deg, #1e3a8a, #0284c7);
-            color: #ffffff;
-            width: 46px;
-            height: 46px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 20px;
-            box-shadow: 0 4px 10px rgba(30, 58, 138, 0.25);
-        }
-        .brand-text h1 { font-size: 22px; font-weight: 800; color: var(--primary); line-height: 1.1; }
-        .brand-text p { font-size: 12px; color: var(--text-muted); font-weight: 600; }
 
-        .main-container { max-width: 1200px; margin: 0 auto; padding: 24px 20px; flex: 1; width: 100%; }
-        .section-title { font-size: 18px; font-weight: 800; color: var(--primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+        [data-theme="dark"] {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --card-bg: rgba(30, 41, 59, 0.85);
+            --border-color: #334155;
+            --primary-color: #3b82f6;
+            --primary-hover: #60a5fa;
+            --header-bg: linear-gradient(135deg, #1e293b, #0f172a);
+            --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Mukta', sans-serif; transition: background 0.3s ease, color 0.3s ease; }
         
-        /* Grid of Tools */
-        .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 18px; margin-bottom: 32px; }
-        .tool-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
+        body { 
+            background: var(--bg-color); 
+            color: var(--text-color); 
+            padding-bottom: 70px; /* Bottom nav sathi space */
+        }
+
+        /* Top Header */
+        .app-header {
+            background: var(--header-bg);
+            color: #fff;
+            padding: 20px 15px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        .app-title { font-size: 22px; font-weight: 800; letter-spacing: 0.5px; }
+        .app-subtitle { font-size: 13px; opacity: 0.9; margin-top: 2px; }
+
+        /* Dark Mode Toggle Button */
+        .theme-toggle {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .container { max-width: 800px; margin: 20px auto; padding: 0 15px; }
+
+        /* Quick Search Bar */
+        .search-box {
+            width: 100%;
+            padding: 12px 18px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
             border-radius: 12px;
+            font-size: 15px;
+            color: var(--text-color);
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+            backdrop-filter: blur(10px);
+        }
+        .search-box:focus { outline: 2px solid var(--primary-color); }
+
+        /* Glassmorphism Cards Grid */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .tool-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
             padding: 18px;
             text-decoration: none;
-            color: inherit;
+            color: var(--text-color);
+            box-shadow: var(--card-shadow);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transform: translateY(0);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        /* Micro-interactions (Hover Effect) */
+        .tool-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary-color);
+            box-shadow: 0 14px 30px -5px rgba(30, 64, 175, 0.15);
+        }
+
+        .tool-icon { font-size: 28px; background: rgba(30, 64, 175, 0.1); padding: 10px; border-radius: 12px; }
+        .tool-name { font-size: 16px; font-weight: 700; }
+        .tool-desc { font-size: 12px; opacity: 0.8; margin-top: 2px; }
+
+        /* Feedback Section */
+        .feedback-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: var(--card-shadow);
+            backdrop-filter: blur(10px);
+            margin-bottom: 30px;
+        }
+        .section-title { font-size: 16px; font-weight: 800; color: var(--primary-color); margin-bottom: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 6px; }
+        .form-group { margin-bottom: 12px; }
+        .form-label { display: block; font-weight: 700; font-size: 13px; margin-bottom: 4px; }
+        .form-control { width: 100%; padding: 10px 12px; background: var(--bg-color); border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; color: var(--text-color); }
+        .btn-whatsapp { background: #25d366; color: #fff; border: none; padding: 10px 16px; font-weight: 700; border-radius: 8px; cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; }
+        .btn-whatsapp:hover { background: #22bf5b; }
+
+        /* Footer & WhatsApp Direct Contact */
+        .app-footer {
+            text-align: center;
+            padding: 20px;
+            background: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            font-size: 13px;
+        }
+
+        /* Mobile Bottom Navigation Bar */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+        }
+        .nav-item {
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 12px;
+            font-weight: 700;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            box-shadow: var(--shadow);
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-        .tool-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); border-color: #3b82f6; }
-        .tool-top { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
-        .tool-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 10px;
-            background: #f1f5f9;
-            display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            flex-shrink: 0;
-            transition: 0.2s;
+            opacity: 0.8;
         }
-        .tool-card:hover .tool-icon { background: #dbeafe; transform: scale(1.05); }
-        .tool-name { font-size: 16px; font-weight: 700; color: var(--primary); line-height: 1.2; }
-        .tool-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.4; margin-bottom: 12px; }
-        .tool-action { font-size: 12.5px; font-weight: 700; color: #2563eb; display: flex; align-items: center; gap: 4px; }
-
-        /* Review Section */
-        .review-section { background: #ffffff; border: 1px solid var(--border); border-radius: 12px; padding: 20px; box-shadow: var(--shadow); }
-        .review-container { display: grid; grid-template-columns: 320px 1fr; gap: 24px; }
-        .form-group { margin-bottom: 10px; }
-        .form-group label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 4px; color: #334155; }
-        .form-control { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; outline: none; }
-        .form-control:focus { border-color: var(--primary-accent); }
-        .btn-ui { padding: 7px 14px; border-radius: 6px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; transition: 0.2s; }
-        .btn-primary { background: var(--primary-accent); color: #fff; }
-        .btn-primary:hover { background: #1d4ed8; }
-        .btn-outline { background: #fff; border: 1px solid var(--border); color: #334155; }
-        .btn-danger { background: #e11d48; color: #fff; }
-        .review-list { display: flex; flex-direction: column; gap: 10px; max-height: 280px; overflow-y: auto; }
-        .review-item { background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; }
-        .review-header { display: flex; justify-content: space-between; font-size: 12.5px; font-weight: 700; margin-bottom: 4px; }
-        .review-reply { background: #e0f2fe; border-left: 3px solid #0284c7; padding: 4px 8px; font-size: 12px; color: #0369a1; border-radius: 0 4px 4px 0; margin-top: 5px; }
-
-        /* Footer */
-        .portal-footer {
-            background: #0f172a;
-            color: #e2e8f0;
-            padding: 14px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 12.5px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .visitor-badge {
-            background: #1e293b;
-            border: 1px solid #334155;
-            padding: 5px 14px;
-            border-radius: 20px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 700;
-            color: #38bdf8;
-        }
-        .wa-float {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #10b981;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
-            z-index: 9999;
-            transition: transform 0.2s;
-        }
-        .wa-float:hover { transform: scale(1.1); }
-
-        @media(max-width: 768px) {
-            .review-container { grid-template-columns: 1fr; }
-            .portal-header { flex-direction: column; gap: 8px; align-items: flex-start; }
-        }
+        .nav-item:hover, .nav-item.active { color: var(--primary-color); opacity: 1; }
+        .nav-icon { font-size: 18px; }
     </style>
 </head>
-<body>
+<body data-theme="light">
 
-    <header class="portal-header">
-        <div class="brand-block">
-            <div class="brand-logo-badge">SP</div>
-            <div class="brand-text">
-                <h1>डिजिटल साथीदार</h1>
-                <p>Digital Sathidar Administrative Utilities</p>
-            </div>
-        </div>
+    <!-- Header -->
+    <header class="app-header">
+        <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙 डार्क मोड</button>
+        <div class="app-title">डिजिटल साथीदार</div>
+        <div class="app-subtitle">शिक्षक व प्रशासकीय डिजिटल सेवा पोर्टल</div>
     </header>
 
-    <main class="main-container">
-        
-        <div class="section-title">📂 सर्व डिजिटल टूल्स व सेवा</div>
-        <div class="tools-grid">
+    <div class="container">
+
+        <!-- Quick Search Bar -->
+        <input type="text" id="searchInput" class="search-box" placeholder="🔍 हवे असलेले टूल येथे शोधा (उदा. संच मान्यता, फोटो कटर, इ.)..." onkeyup="searchTools()">
+
+        <!-- Tools Grid -->
+        <div class="tools-grid" id="toolsContainer">
+            <a href="sanch-manyata.html" class="tool-card" data-name="संच मान्यता पद गणक sanch manyata">
+                <div class="tool-icon">🏫</div>
+                <div>
+                    <div class="tool-name">संच मान्यता पद गणक</div>
+                    <div class="tool-desc">१५ मार्च २०२४ GR नुसार पदनियोजन</div>
+                </div>
+            </a>
+
+            <a href="id-card.html" class="tool-card" data-name="शाळा ओळखपत्र जनरेटर school id card">
+                <div class="tool-icon">🪪</div>
+                <div>
+                    <div class="tool-name">शाळा ओळखपत्र जनरेटर</div>
+                    <div class="tool-desc">एक्सेल इम्पोर्ट व प्रिंट सुविधा</div>
+                </div>
+            </a>
+
+            <a href="photo-cutter.html" class="tool-card" data-name="फोटो व सही कटर photo signature cutter">
+                <div class="tool-icon">✂️</div>
+                <div>
+                    <div class="tool-name">फोटो व सही कटर</div>
+                    <div class="tool-desc">SSC / HSC फॉर्मसाठी अचूक साईझ</div>
+                </div>
+            </a>
+
+            <a href="da-calculator.html" class="tool-card" data-name="DA HRA फरक कॅल्क्युलेटर salary calculator">
+                <div class="tool-icon">📈</div>
+                <div>
+                    <div class="tool-name">DA & HRA फरक कॅल्क्युलेटर</div>
+                    <div class="tool-desc">NPS कपातीसह A4 प्रिंट तक्ता</div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Feedback Form (फक्त नाव आणि अभिप्राय) -->
+        <div class="feedback-container">
+            <div class="section-title">आपला बहुमूल्य अभिप्राय द्या</div>
             
-            <a href="cutter.html" class="tool-card">
-                <div>
-                    <div class="tool-top">
-                        <div class="tool-icon">✂️</div>
-                        <div class="tool-name">फोटो व सही कटर</div>
-                    </div>
-                    <div class="tool-desc">SSC / HSC परीक्षा फॉर्मसाठी ९ फोटो व सह्या एका क्लिकवर स्वयंचलित क्रॉप करा (२५-४० KB).</div>
-                </div>
-                <div class="tool-action">सुरू करा ➔</div>
-            </a>
-
-            <a href="anki-to-akshari.html" class="tool-card">
-                <div>
-                    <div class="tool-top">
-                        <div class="tool-icon">🔢</div>
-                        <div class="tool-name">अंकी ते अक्षरी व वय</div>
-                    </div>
-                    <div class="tool-desc">कोणतीही संख्या/रक्कम मराठी अक्षरी रूपांतरित करा, जन्मदिनांक अक्षरी व अचूक वय मोजा.</div>
-                </div>
-                <div class="tool-action">सुरू करा ➔</div>
-            </a>
-
-            <a href="da-calculator.html" class="tool-card">
-                <div>
-                    <div class="tool-top">
-                        <div class="tool-icon">📈</div>
-                        <div class="tool-name">DA फरक कॅल्क्युलेटर</div>
-                    </div>
-                    <div class="tool-desc">महागाई भत्ता वाढ फरक पत्रक, NPS कपात आणि A4 लँडस्केप प्रिंट तक्ता.</div>
-                </div>
-                <div class="tool-action">सुरू करा ➔</div>
-            </a>
-
-            <a href="hra-calculator.html" class="tool-card">
-                <div>
-                    <div class="tool-top">
-                        <div class="tool-icon">🏠</div>
-                        <div class="tool-name">HRA फरक कॅल्क्युलेटर</div>
-                    </div>
-                    <div class="tool-desc">घरभाडे भत्ता वाढ फरक पत्रक व अधिकृत A4 लँडस्केप प्रिंट लेआउट.</div>
-                </div>
-                <div class="tool-action">सुरू करा ➔</div>
-            </a>
-
-            <a href="handwriting.html" class="tool-card">
-                <div>
-                    <div class="tool-top">
-                        <div class="tool-icon">✍️</div>
-                        <div class="tool-name">हस्तलिखित कन्व्हर्टर</div>
-                    </div>
-                    <div class="tool-desc">टाईप केलेला मजकूर खरोखर हाताने वहीवर लिहिल्यासारखा बनवा (PDF व प्रिंट).</div>
-                </div>
-                <div class="tool-action">सुरू करा ➔</div>
-            </a>
-
-            <a href="pdf-tools.html" class="tool-card">
-                <div>
-                    <div class="tool-top">
-                        <div class="tool-icon">📄</div>
-                        <div class="tool-name">PDF टूल्स</div>
-                    </div>
-                    <div class="tool-desc">PDF एकत्र करा (Merge), प्रत्येक पान वेगळे करा (Split to ZIP) व साईझ कमी करा (Compress).</div>
-                </div>
-                <div class="tool-action">सुरू करा ➔</div>
-            </a>
-
-            <a href="Chachani7A.html" class="tool-card">
-                <div>
-                    <div class="tool-top">
-                        <div class="tool-icon">📊</div>
-                        <div class="tool-name">७ वी (अ) निकाल</div>
-                    </div>
-                    <div class="tool-desc">विद्यार्थी चाचणी निकाल, गुणपत्रक व विश्लेषण तक्ता.</div>
-                </div>
-                <div class="tool-action">सुरू करा ➔</div>
-            </a>
-
-        </div>
-
-        <!-- Review Section -->
-        <div class="section-title">💬 अभिप्राय व प्रतिक्रिया</div>
-        <div class="review-section">
-            <div class="review-container">
-                <div>
-                    <div class="form-group">
-                        <label>आपले नाव / पद:</label>
-                        <input type="text" id="revAuthor" class="form-control" placeholder="उदा. सुजित पाटील">
-                    </div>
-                    <div class="form-group">
-                        <label>संस्था / शाळा / गाव:</label>
-                        <input type="text" id="revPlace" class="form-control" placeholder="उदा. रयत सेवक">
-                    </div>
-                    <div class="form-group">
-                        <label>रेटिंग:</label>
-                        <select id="revRating" class="form-control">
-                            <option value="⭐⭐⭐⭐⭐">⭐⭐⭐⭐⭐ (उत्कृष्ट ५/५)</option>
-                            <option value="⭐⭐⭐⭐">⭐⭐⭐⭐ (छान ४/५)</option>
-                            <option value="⭐⭐⭐">⭐⭐⭐ (चांगले ३/५)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>आपला संदेश:</label>
-                        <textarea id="revMessage" class="form-control" rows="2" placeholder="पोर्टलबद्दल आपले मत लिहा..."></textarea>
-                    </div>
-                    <button class="btn-ui btn-primary" style="width:100%;" onclick="submitUserReview()">अभिप्राय सबमिट करा</button>
-                </div>
-
-                <div>
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; border-bottom:1px solid var(--border); padding-bottom:6px;">
-                        <span style="font-weight:700; color:#334155;">ताजी युझर मते</span>
-                        <button id="adminToggleBtn" class="btn-ui btn-outline" style="padding:2px 8px; font-size:11px;" onclick="toggleAdminPrompt()">🔐 ॲडमिन (Pin)</button>
-                    </div>
-                    <div id="reviewsContainer" class="review-list"></div>
-                </div>
+            <div class="form-group">
+                <label class="form-label">आपले नाव:</label>
+                <input type="text" id="feedbackName" class="form-control" placeholder="उदा. सुजित पाटील">
             </div>
+
+            <div class="form-group">
+                <label class="form-label">अभिप्राय / सूचना:</label>
+                <textarea id="feedbackText" rows="3" class="form-control" placeholder="पोर्टलबाबत आपला अभिप्राय येथे लिहा..."></textarea>
+            </div>
+
+            <button onclick="sendFeedbackWhatsApp()" class="btn-whatsapp">
+                💬 WhatsApp वर अभिप्राय पाठवा
+            </button>
         </div>
 
-    </main>
+    </div>
 
-    <footer class="portal-footer">
-        <div>© 2026 डिजिटल साथीदार (Digital Sathidar) | सर्व हक्क सुरक्षित.</div>
-        <div class="visitor-badge">
-            <span>👁️ एकूण भेट देणारे:</span>
-            <span id="visitorCountDisplay">२,८४२</span>
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div style="margin-bottom: 8px;">
+            <a href="https://wa.me/919898989898?text=नमस्कार,%20मला%20डिजिटल%20साथीदार%20पोर्टलबाबत%20माहिती%20हवी%20आहे." target="_blank" style="display: inline-flex; align-items: center; gap: 6px; color: #25d366; text-decoration: none; font-weight: 700;">
+                🟢 WhatsApp वर संपर्क करा
+            </a>
         </div>
-        <div style="font-weight:700; color:#38bdf8;">संकल्पना व निर्मिती : Sujit Patil (SP)</div>
+        <div style="font-weight: 600; opacity: 0.8;">
+            संकल्पना व निर्मिती: <span style="color: var(--primary-color); font-weight: 700;">सुजित पाटील (रयत सेवक)</span>
+        </div>
     </footer>
 
-    <a href="https://wa.me/?text=नमस्कार%20डिजिटल%20साथीदार%20पोर्टल%20पहा:%20https://sujitjpatil-dada.github.io/applications/" target="_blank" class="wa-float" title="WhatsApp वर शेअर करा">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-    </a>
+    <!-- Mobile Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item active">
+            <span class="nav-icon">🏠</span>
+            <span>होम</span>
+        </a>
+        <a href="sanch-manyata.html" class="nav-item">
+            <span class="nav-icon">📊</span>
+            <span>संच मान्यता</span>
+        </a>
+        <a href="id-card.html" class="nav-item">
+            <span class="nav-icon">🪪</span>
+            <span>ओळखपत्र</span>
+        </a>
+        <a href="https://wa.me/919898989898" target="_blank" class="nav-item">
+            <span class="nav-icon">💬</span>
+            <span>संपर्क</span>
+        </a>
+    </nav>
 
-<script>
-    const ADMIN_PIN = "7339";
-    let isAdminLoggedIn = false;
+    <script>
+        // Search Filter Logic
+        function searchTools() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.getElementsByClassName('tool-card');
 
-    let reviewsData = JSON.parse(localStorage.getItem('digital_sathidar_reviews') || '[]');
-    if (reviewsData.length === 0 || (reviewsData[0] && reviewsData[0].place === "रामानंदनगर")) {
-        reviewsData = [
-            { id: 1, author: "सुजित पाटील", place: "रयत सेवक", rating: "⭐⭐⭐⭐⭐", msg: "शासकीय कामांसाठी आणि DA/HRA फरकासाठी अत्यंत उपयुक्त पोर्टल!", reply: "धन्यवाद सर! सहकार्य लाभो." },
-            { id: 2, author: "रयत सेवक", place: "सातारा", rating: "⭐⭐⭐⭐⭐", msg: "SSC / HSC कटरमुळे शाळेतील कर्मचाऱ्यांचे तासनतास वाचले.", reply: "" }
-        ];
-        localStorage.setItem('digital_sathidar_reviews', JSON.stringify(reviewsData));
-    }
-
-    function renderReviews() {
-        const list = document.getElementById('reviewsContainer');
-        list.innerHTML = '';
-        reviewsData.forEach((rev, idx) => {
-            const item = document.createElement('div');
-            item.className = 'review-item';
-            let adminActions = '';
-            if (isAdminLoggedIn) {
-                adminActions = `
-                    <div style="margin-top:6px; display:flex; gap:6px;">
-                        <button class="btn-ui btn-outline" style="padding:2px 6px; font-size:11px;" onclick="promptAdminReply(${idx})">💬 उत्तर द्या</button>
-                        <button class="btn-ui btn-danger" style="padding:2px 6px; font-size:11px;" onclick="deleteReview(${idx})">🗑️ हटवा</button>
-                    </div>
-                `;
+            for (let i = 0; i < cards.length; i++) {
+                let name = cards[i].getAttribute('data-name');
+                if (name.includes(input)) {
+                    cards[i].style.display = "flex";
+                } else {
+                    cards[i].style.display = "none";
+                }
             }
-            let replyHtml = rev.reply ? `<div class="review-reply"><strong>SP (ॲडमिन):</strong> ${rev.reply}</div>` : '';
-            item.innerHTML = `
-                <div class="review-header">
-                    <span>${rev.author} <small style="color:var(--text-muted); font-weight:normal;">(${rev.place || 'रयत सेवक'})</small></span>
-                    <span style="color:#f59e0b;">${rev.rating}</span>
-                </div>
-                <div style="font-size:13px; color:#334155;">${rev.msg}</div>
-                ${replyHtml}
-                ${adminActions}
-            `;
-            list.appendChild(item);
-        });
-    }
-
-    function submitUserReview() {
-        const author = document.getElementById('revAuthor').value.trim();
-        const place = document.getElementById('revPlace').value.trim();
-        const rating = document.getElementById('revRating').value;
-        const msg = document.getElementById('revMessage').value.trim();
-        if (!author || !msg) { alert("कृपया आपले नाव आणि अभिप्राय संदेश प्रविष्ट करा!"); return; }
-        reviewsData.unshift({ id: Date.now(), author: author, place: place || "रयत सेवक", rating: rating, msg: msg, reply: "" });
-        localStorage.setItem('digital_sathidar_reviews', JSON.stringify(reviewsData));
-        document.getElementById('revAuthor').value = '';
-        document.getElementById('revPlace').value = '';
-        document.getElementById('revMessage').value = '';
-        renderReviews();
-        alert("✅ आपला अभिप्राय यशस्वीरीत्या नोंदवला गेला आहे!");
-    }
-
-    function toggleAdminPrompt() {
-        if (isAdminLoggedIn) {
-            isAdminLoggedIn = false;
-            document.getElementById('adminToggleBtn').innerText = "🔐 ॲडमिन (Pin)";
-            renderReviews();
-            alert("ॲडमिन मोड बंद झाला.");
-            return;
         }
-        const enteredPin = prompt("कृपया ॲडमिन पिन (Admin PIN) प्रविष्ट करा:");
-        if (enteredPin === ADMIN_PIN) {
-            isAdminLoggedIn = true;
-            document.getElementById('adminToggleBtn').innerText = "🔓 ॲडमिन लॉगआउट";
-            renderReviews();
-            alert("✅ ॲडमिन प्रवेश यशस्वी! आता तुम्ही रिव्ह्यू हटवू शकता किंवा उत्तर देऊ शकता.");
-        } else if (enteredPin !== null) {
-            alert("❌ चुकीचा पिन! प्रवेश नाकारला.");
+
+        // Dark/Light Mode Toggle
+        function toggleTheme() {
+            const body = document.body;
+            const themeBtn = document.getElementById('themeBtn');
+            
+            if (body.getAttribute('data-theme') === 'light') {
+                body.setAttribute('data-theme', 'dark');
+                themeBtn.innerText = '☀️ लाईट मोड';
+            } else {
+                body.setAttribute('data-theme', 'light');
+                themeBtn.innerText = '🌙 डार्क मोड';
+            }
         }
-    }
 
-    function promptAdminReply(index) {
-        const currentReply = reviewsData[index].reply || "";
-        const replyText = prompt("या अभिप्रायाला आपले उत्तर प्रविष्ट करा:", currentReply);
-        if (replyText !== null) {
-            reviewsData[index].reply = replyText.trim();
-            localStorage.setItem('digital_sathidar_reviews', JSON.stringify(reviewsData));
-            renderReviews();
+        // WhatsApp Feedback Function
+        function sendFeedbackWhatsApp() {
+            const name = document.getElementById('feedbackName').value.trim();
+            const feedback = document.getElementById('feedbackText').value.trim();
+
+            if(!name || !feedback) {
+                alert('कृपया आपले नाव आणि अभिप्राय दोन्ही भरा!');
+                return;
+            }
+
+            const myWhatsAppNumber = "919898989898"; // तुमचा मोबाईल नंबर इथे टाका
+            const message = `*डिजिटल साथीदार - अभिप्राय*\n\n*नाव:* ${name}\n*अभिप्राय:* ${feedback}`;
+            const url = `https://wa.me/${myWhatsAppNumber}?text=${encodeURIComponent(message)}`;
+            
+            window.open(url, '_blank');
         }
-    }
-
-    function deleteReview(index) {
-        if (confirm("खात्री आहे? हा अभिप्राय हटवायचा आहे का?")) {
-            reviewsData.splice(index, 1);
-            localStorage.setItem('digital_sathidar_reviews', JSON.stringify(reviewsData));
-            renderReviews();
-        }
-    }
-
-    function initVisitorCounter() {
-        const display = document.getElementById('visitorCountDisplay');
-        let visits = parseInt(localStorage.getItem('ds_portal_visits') || '2842', 10);
-        visits += 1;
-        localStorage.setItem('ds_portal_visits', visits);
-        display.innerText = visits.toLocaleString('mr-IN');
-    }
-
-    window.onload = function() {
-        renderReviews();
-        initVisitorCounter();
-    };
-</script>
+    </script>
 </body>
 </html>
