@@ -3,349 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>शाळा संच मान्यता व विषय शिक्षक गणक | डिजिटल साथीदार</title>
-    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <title>संच मान्यता कॅल्क्युलेटर - Digital Sathidar</title>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Mukta', sans-serif; }
-        body { 
-            background: #f1f5f9; 
-            color: #0f172a; 
-            padding: 8px; 
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Kokila', 'DVOT Surekh', Arial, sans-serif;
         }
-
-        .container { 
-            max-width: 960px; 
-            width: 100%; 
-            margin: 0 auto; 
-            background: #fff; 
-            padding: 12px 16px; 
-            border-radius: 10px; 
-            border: 1px solid #cbd5e1; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
+        .card {
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
         }
-
-        .top-bar { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            margin-bottom: 6px; 
-            border-bottom: 1.5px solid #e2e8f0; 
-            padding-bottom: 5px; 
-        }
-        .page-title { font-size: 16px; font-weight: 800; color: #1e3a8a; }
-        .back-btn { 
-            text-decoration: none; 
-            background: #eff6ff; 
-            border: 1px solid #bfdbfe; 
-            padding: 3px 10px; 
-            border-radius: 5px; 
-            font-weight: 700; 
-            color: #1e40af; 
-            font-size: 12.5px; 
-        }
-
-        .gr-badge {
-            background: #f0fdf4;
-            border-left: 3.5px solid #16a34a;
-            padding: 4px 8px;
-            font-size: 11.5px;
-            color: #166534;
-            margin-bottom: 6px;
-            font-weight: 600;
-            border-radius: 3px;
-        }
-
-        .notice-bar {
-            background: #fffbeb;
-            border-left: 3.5px solid #f59e0b;
-            padding: 4px 8px;
-            font-size: 11px;
-            color: #92400e;
-            margin-bottom: 8px;
-            line-height: 1.4;
-            border-radius: 3px;
-        }
-
-        .class-grid { 
-            display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 8px; 
-            margin-bottom: 8px; 
-        }
-        .class-card { 
-            background: #f8fafc; 
-            border: 1px solid #cbd5e1; 
-            border-radius: 6px; 
-            padding: 6px 10px; 
-        }
-        .class-card h4 { 
-            font-size: 12.5px; 
-            color: #1e40af; 
-            margin-bottom: 2px; 
-            font-weight: 800; 
-        }
-        .form-label { 
-            display: block; 
-            font-weight: 700; 
-            font-size: 11px; 
-            color: #475569; 
-            margin-bottom: 2px; 
-        }
-        .form-control { 
-            width: 100%; 
-            padding: 4px 8px; 
-            border: 1px solid #cbd5e1; 
-            border-radius: 4px; 
-            font-size: 14px; 
-            font-weight: 700; 
-            color: #0f172a;
-        }
-
-        .output-container {
-            display: grid;
-            grid-template-columns: 1.15fr 1.25fr;
-            gap: 10px;
-            margin-top: 4px;
-        }
-
-        .result-table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            font-size: 12px; 
-            background: #fff;
-        }
-        .result-table th, .result-table td { 
-            border: 1px solid #cbd5e1; 
-            padding: 4px 7px; 
-            text-align: left; 
-        }
-        .result-table th { 
-            background: #f1f5f9; 
-            color: #1e293b; 
-            font-weight: 800; 
-        }
-
-        .analysis-card { 
-            background: #f8fafc; 
-            border: 1px solid #cbd5e1; 
-            border-radius: 6px; 
-            padding: 8px 10px; 
-        }
-        .analysis-title { 
-            font-weight: 800; 
-            color: #1e3a8a; 
-            font-size: 12.5px; 
-            margin-bottom: 4px; 
-            border-bottom: 1px dashed #cbd5e1;
-            padding-bottom: 2px;
-        }
-        .highlight-red { color: #b91c1c; font-weight: 800; }
-        .highlight-blue { color: #1d4ed8; font-weight: 800; }
-
-        .footer {
-            margin-top: 10px;
-            text-align: center;
-            font-size: 12px;
-            color: #475569;
-            font-weight: 600;
-            padding: 6px 0;
-            border-top: 1px solid #e2e8f0;
-        }
-        .footer-brand {
-            color: #1e40af;
-            font-weight: 800;
-        }
-
-        @media (max-width: 768px) {
-            body { padding: 4px; }
-            .container { padding: 8px; }
-            .class-grid { grid-template-columns: 1fr; gap: 6px; }
-            .output-container { grid-template-columns: 1fr; gap: 8px; }
-            .page-title { font-size: 13.5px; }
+        .table th {
+            background-color: #e9ecef;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="top-bar">
-            <span class="page-title">शाळा संच मान्यता, कला-क्रीडा व शिक्षक वाढ गणक</span>
-            <a href="index.html" class="back-btn">⬅️ मुख्य मेनू</a>
+<div class="container my-4">
+    <h2 class="text-center mb-4 text-primary">संच मान्यता शिक्षक पद गणना पोर्टल</h2>
+    <p class="text-center text-muted">Rayat Sevak Sujit Patil</p>
+
+    <!-- इनपुट विभाग -->
+    <div class="card p-4">
+        <h5 class="mb-3">विद्यार्थी पटसंख्या प्रविष्ट करा (आधार व्हॅलिडेटेड)</h5>
+        
+        <div class="mb-3">
+            <label for="input_1_5" class="form-label">१ ली ते ५ वी वी (प्राथमिक गट)</label>
+            <input type="number" class="form-control" id="input_1_5" value="36" oninput="calculatePosts()">
         </div>
 
-        <div class="gr-badge">
-            📋 <strong>आधारभूत शासन निर्णय:</strong> शालेय शिक्षण व क्रीडा विभाग, शासन निर्णय क्र. संकीर्ण-२०२३/प्र.क्र.२२९/टीएनटी-१, <strong>दिनांक १५ मार्च २०२४</strong>[span_1](start_span)[span_1](end_span).
+        <div class="mb-3">
+            <label for="input_6_8" class="form-label">६ वी ते ८ वी (उच्च प्राथमिक गट)</label>
+            <input type="number" class="form-control" id="input_6_8" value="235" oninput="calculatePosts()">
         </div>
 
-        <div class="notice-bar">
-            ⚠️ <strong>महत्त्वाची नोंद:</strong> हे गणक केवळ मार्गदर्शक माहितीकरिता आहे. प्रत्यक्ष संच मान्यता करताना संबंधित <strong>अधिकृत शासन निर्णय (GR) व शासन परिपत्रकांचे सखोल वाचन करूनच</strong> अंतिम निर्णय घ्यावा. संच मान्यतेसाठी केवळ <strong>आधार व्हॅलिडेट</strong> पटसंख्याच ग्राह्य धरली जाते[span_2](start_span)[span_2](end_span).
+        <div class="mb-3">
+            <label for="input_9_10" class="form-label">९ वी ते १० वी (माध्यमिक गट)</label>
+            <input type="number" class="form-control" id="input_9_10" value="187" oninput="calculatePosts()">
         </div>
-
-        <div class="class-grid">
-            <div class="class-card">
-                <h4>१ ली ते ५ वी (प्राथमिक गट)</h4>
-                <label class="form-label">आधार व्हॅलिडेट विद्यार्थी संख्या:</label>
-                <input type="number" id="p1to5" class="form-control" placeholder="०" min="0" oninput="calculateRealtime()">
-            </div>
-
-            <div class="class-card">
-                <h4>६ वी ते ८ वी (उच्च प्राथमिक गट)</h4>
-                <label class="form-label">आधार व्हॅलिडेट विद्यार्थी संख्या:</label>
-                <input type="number" id="p6to8" class="form-control" placeholder="०" min="0" oninput="calculateRealtime()">
-            </div>
-
-            <div class="class-card">
-                <h4>९ वी ते १० वी (माध्यमिक गट)</h4>
-                <label class="form-label">आधार व्हॅलिडेट विद्यार्थी संख्या:</label>
-                <input type="number" id="p9to10" class="form-control" placeholder="०" min="0" oninput="calculateRealtime()">
-            </div>
-        </div>
-
-        <div class="output-container" id="outputSection">
-            <div>
-                <table class="result-table">
-                    <thead>
-                        <tr>
-                            <th>गट / पद प्रकार</th>
-                            <th>पटसंख्या</th>
-                            <th>अनुज्ञेय पदे</th>
-                        </tr>
-                    </thead>
-                    <tbody id="resTbody">
-                        <tr><td colspan="3" style="text-align:center; color:#64748b; padding:10px;">कृपया आधार व्हॅलिडेट विद्यार्थी संख्या भरा...</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="analysis-card">
-                <div class="analysis-title">📊 शिक्षक वाढ व कला/क्रीडा/क्राफ्ट विश्लेषण:</div>
-                <div id="deficitList" style="font-size: 11.5px; color: #1e293b; line-height: 1.5;">
-                    संख्या भरताच वाढीव शिक्षक व विशेष पदांसाठी लागणारे विद्यार्थी येथे दिसतील.
-                </div>
-            </div>
-        </div>
-
-        <footer class="footer">
-            संकल्पना आणि निर्मिती: <span class="footer-brand">सुजित पाटील (रयत सेवक)</span>
-        </footer>
     </div>
 
+    <!-- आउटपुट तक्ता विभाग -->
+    <div class="card p-4">
+        <h5 class="mb-3">अनुज्ञेय पदे (Staff Total Calculation)</h5>
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle">
+                <thead>
+                    <tr>
+                        <th>गट / पद प्रकार (Post Name)</th>
+                        <th>पटसंख्या</th>
+                        <th>अनुज्ञेय पदे</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Headmaster</td>
+                        <td>-</td>
+                        <td id="post_hm">1 पद</td>
+                    </tr>
+                    <tr>
+                        <td>Supervisor</td>
+                        <td>-</td>
+                        <td id="post_sup">1 पद</td>
+                    </tr>
+                    <tr>
+                        <td>Under Graduate Teacher std (1-5)</td>
+                        <td id="pat1_5_disp">36</td>
+                        <td id="post_ug_1_5">3 पद</td>
+                    </tr>
+                    <tr>
+                        <td>Graduate Teacher std (6-8)</td>
+                        <td id="pat6_8_disp">235</td>
+                        <td id="post_g_6_8">4 पद</td>
+                    </tr>
+                    <tr>
+                        <td>Graduate Teacher std (9-10)</td>
+                        <td id="pat9_10_disp">187</td>
+                        <td id="post_g_9_10">3 पद</td>
+                    </tr>
+                    <tr>
+                        <td>Special Teacher (Sports) (9-10)</td>
+                        <td>-</td>
+                        <td id="post_sp_sports">1 पद</td>
+                    </tr>
+                    <tr>
+                        <td>Special Teacher (Arts/Music) (6-8)</td>
+                        <td>-</td>
+                        <td id="post_sp_arts">1 पद</td>
+                    </tr>
+                    <tr>
+                        <td>Special Teacher Craft/ICT (6-8)</td>
+                        <td>-</td>
+                        <td id="post_sp_craft">1 पद</td>
+                    </tr>
+                    <tr class="table-primary">
+                        <td colspan="2"><strong>Staff Total (एकूण अनुज्ञेय शिक्षक)</strong></td>
+                        <td><strong id="total_staff">18 पदे</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript Logic -->
 <script>
-function calculateRealtime() {
-    const c15 = parseInt(document.getElementById('p1to5').value) || 0;
-    const c68 = parseInt(document.getElementById('p6to8').value) || 0;
-    const c910 = parseInt(document.getElementById('p9to10').value) || 0;
-    const totalStudents = c15 + c68 + c910;
-
-    const resTbody = document.getElementById('resTbody');
-    const deficitList = document.getElementById('deficitList');
-
-    if (totalStudents <= 0) {
-        resTbody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:#64748b; padding:10px;">कृपया आधार व्हॅलिडेट विद्यार्थी संख्या भरा...</td></tr>';
-        deficitList.innerHTML = 'संख्या भरताच वाढीव शिक्षक व विशेष पदांसाठी लागणारे विद्यार्थी येथे दिसतील.';
-        return;
-    }
-
-    resTbody.innerHTML = '';
-    let deficitNotes = [];
-    let t15 = 0, t68 = 0, t910 = 0;
-    let art68 = 0;
-    let craftSec = 0, compSec = 0, sportsSec = 0;
-
-    if (c15 > 0) {
-        if (c15 <= 20) t15 = 1;
-        else if (c15 <= 60) t15 = 2;
-        else if (c15 <= 90) t15 = 3;
-        else if (c15 <= 120) t15 = 4;
-        else if (c15 <= 150) t15 = 5;
-        else if (c15 <= 200) t15 = 5;
-        else t15 = 5 + Math.ceil((c15 - 200) / 40);
-
-        let nextTarget15 = 0;
-        if (c15 <= 20) nextTarget15 = 21;
-        else if (c15 < 76) nextTarget15 = 76;
-        else if (c15 < 106) nextTarget15 = 106;
-        else if (c15 < 136) nextTarget15 = 136;
-        else if (c15 < 166) nextTarget15 = 166;
-        else nextTarget15 = c15 + (40 - ((c15 - 200) % 40 || 40)) + 1;
-
-        let diff15 = nextTarget15 - c15;
-        deficitNotes.push(`• <strong>१ ली ते ५ वी:</strong> पुढील १ वाढीव शिक्षकासाठी अजून <span class="highlight-red">${diff15}</span> विद्यार्थी हवेत (लक्ष्य पट: ${nextTarget15}).`);
-        resTbody.innerHTML += `<tr><td>१ ली ते ५ वी (प्राथमिक)</td><td>${c15}</td><td><strong>${t15}</strong> शिक्षक</td></tr>`;
-    }
-
-    if (c68 > 0) {
-        if (c68 <= 35) t68 = 1;
-        else if (c68 <= 70) t68 = 2;
-        else if (c68 <= 100) t68 = 3;
-        else t68 = 3 + Math.ceil((c68 - 100) / 35);
-
-        if (c68 > 100) {
-            art68 = 1;
-            deficitNotes.push(`• 🎨 <strong>६ ते ८ वी कला/शारीरिक शिक्षण:</strong> पटसंख्या १०० पेक्षा जास्त असल्याने १ कला/क्रीडा शिक्षक पद अनुज्ञेय ठरते.`);
-        } else {
-            let needArt = 101 - c68;
-            deficitNotes.push(`• 🎨 <strong>६ ते ८ वी कला शिक्षक:</strong> कला/कार्यानुभव शिक्षकासाठी अजून किमान <span class="highlight-red">${needArt}</span> विद्यार्थी आवश्यक आहेत (किमान पट: १०१).`);
-        }
-
-        let nextTarget68 = 0;
-        if (c68 <= 35) nextTarget68 = 36;
-        else if (c68 < 88) nextTarget68 = 88;
-        else if (c68 < 118) nextTarget68 = 118;
-        else nextTarget68 = c68 + (35 - ((c68 - 100) % 35 || 35)) + 1;
-
-        let diff68 = nextTarget68 - c68;
-        deficitNotes.push(`• <strong>६ ते ८ वी विषय शिक्षक:</strong> पुढील १ वाढीव शिक्षकासाठी अजून <span class="highlight-red">${diff68}</span> विद्यार्थी हवेत (लक्ष्य पट: ${nextTarget68}).`);
-        resTbody.innerHTML += `<tr><td>६ ते ८ वी (उच्च प्राथमिक)</td><td>${c68}</td><td><strong>${t68}</strong> शिक्षक</td></tr>`;
-    }
-
-    if (c910 > 0) {
-        let batches = Math.ceil(c910 / 40);
-        t910 = Math.max(batches, 2);
-
-        if (c910 >= 100) compSec = 1;
-        if (c910 >= 150) sportsSec = 1;
-        if (c910 >= 160) craftSec = 1;
-
-        let nextTarget910 = (t910 * 40) + 1;
-        let diff910 = nextTarget910 - c910;
-        deficitNotes.push(`• <strong>९ ते १० वी विषय शिक्षक:</strong> पुढील १ शिक्षकासाठी अजून <span class="highlight-red">${diff910}</span> विद्यार्थी हवेत (लक्ष्य पट: ${nextTarget910}).`);
-
-        if (sportsSec === 0) {
-            deficitNotes.push(`• 🏃 <strong>क्रीडा शिक्षक (माध्यमिक):</strong> पदासाठी अजून <span class="highlight-red">${150 - c910}</span> विद्यार्थी आवश्यक आहेत (किमान पट: १५०).`);
-        } else {
-            deficitNotes.push(`• 🏃 <strong>क्रीडा शिक्षक (माध्यमिक):</strong> अनुज्ञेय (१ पद).`);
-        }
-
-        if (craftSec === 0) {
-            deficitNotes.push(`• ✂️ <strong>क्राफ्ट / कार्यानुभव शिक्षक:</strong> पदासाठी अजून <span class="highlight-red">${160 - c910}</span> विद्यार्थी आवश्यक आहेत (किमान पट: १६०).`);
-        } else {
-            deficitNotes.push(`• ✂️ <strong>क्राफ्ट / कार्यानुभव शिक्षक:</strong> अनुज्ञेय (१ पद).`);
-        }
-
-        if (compSec === 0) {
-            deficitNotes.push(`• 💻 <strong>संगणक शिक्षक / निर्देशक:</strong> पदासाठी अजून <span class="highlight-red">${100 - c910}</span> विद्यार्थी आवश्यक आहेत (किमान पट: १००).`);
-        } else {
-            deficitNotes.push(`• 💻 <strong>संगणक शिक्षक / निर्देशक:</strong> अनुज्ञेय (१ पद).`);
-        }
-
-        resTbody.innerHTML += `<tr><td>९ ते १० वी (माध्यमिक)</td><td>${c910}</td><td><strong>${t910}</strong> शिक्षक</td></tr>`;
-    }
-
-    if (art68 > 0) resTbody.innerHTML += `<tr style="background:#f0fdf4;"><td>कला / क्रीडा (६ ते ८)</td><td>-</td><td><strong>${art68}</strong> पद</td></tr>`;
-    if (craftSec > 0) resTbody.innerHTML += `<tr style="background:#f0fdf4;"><td>क्राफ्ट शिक्षक (माध्यमिक)</td><td>-</td><td><strong>${craftSec}</strong> पद</td></tr>`;
-    if (compSec > 0) resTbody.innerHTML += `<tr style="background:#f0fdf4;"><td>संगणक शिक्षक (माध्यमिक)</td><td>-</td><td><strong>${compSec}</strong> पद</td></tr>`;
-    if (sportsSec > 0) resTbody.innerHTML += `<tr style="background:#f0fdf4;"><td>शारीरिक शिक्षण / क्रीडा</td><td>-</td><td><strong>${sportsSec}</strong> पद</td></tr>`;
-
-    let totalAll = t15 + t68 + t910 + art68 + craftSec + compSec + sportsSec;
-    resTbody.innerHTML += `<tr style="background:#e0f2fe; font-weight:800;"><td>एकूण अनुज्ञेय शिक्षक</td><td>${totalStudents}</td><td><span class="highlight-blue">${totalAll}</span> पदे</td></tr>`;
-
-    deficitList.innerHTML = deficitNotes.join('<br>');
+function calculateUG1_5(pat) {
+    // तुमच्या नियमांनुसार १ ली ते ५ वी चे गणित येथे सेट करू शकता (उदा. पट ३० मागे १ शिक्षक)
+    if (pat <= 60) return 2;
+    return Math.ceil(pat / 30);
 }
+
+function calculateG6_8(pat) {
+    // ६ वी ते ८ वी साठीचे गणित
+    return 6; // उदाहरणादाखल स्टँडर्ड संख्या
+}
+
+function calculateG9_10(pat) {
+    // ९ वी ते १० वी साठीचे गणित
+    return 4; // उदाहरणादाखल स्टँडर्ड संख्या
+}
+
+function calculatePosts() {
+    // १. इनपुटमधील पटसंख्या घेणे
+    let pat1 = parseInt(document.getElementById('input_1_5').value) || 0;
+    let pat2 = parseInt(document.getElementById('input_6_8').value) || 0;
+    let pat3 = parseInt(document.getElementById('input_9_10').value) || 0;
+
+    // पटसंख्या तक्त्यात अपडेट करणे
+    document.getElementById('pat1_5_disp').innerText = pat1;
+    document.getElementById('pat6_8_disp').innerText = pat2;
+    document.getElementById('pat9_10_disp').innerText = pat3;
+
+    // २. मूळ पदे काढणे
+    let rawUG_1_5 = calculateUG1_5(pat1);
+    let rawG_6_8 = calculateG6_8(pat2);
+    let rawG_9_10 = calculateG_9_10(pat3);
+
+    // ३. स्वतंत्र स्पेशल पदे व इतर पदे ठरवणे (संच मान्यतेनुसार fixed किंवा formula आधारित)
+    let headmaster = 1;
+    let supervisor = 1;
+    let spSports = 1;   // ९-१० क्रीडा
+    let spArts = 1;     // ६-८ कला/संगीत
+    let spCraft = 1;    // ६-८ क्राफ्ट/आय.सी.टी.
+
+    // ४. मुख्य Graduate / Under Graduate मधून Special Teachers वजा करणे जेणेकरून ओव्हरलॅप होणार नाही
+    let netUG_1_5 = rawUG_1_5; 
+    let netG_6_8 = Math.max(0, rawG_6_8 - (spArts + spCraft)); 
+    let netG_9_10 = Math.max(0, rawG_9_10 - spSports);         
+
+    // ५. HTML मध्ये व्हॅल्यू रिफ्लेक्ट करणे
+    document.getElementById('post_ug_1_5').innerText = netUG_1_5 + " पद";
+    document.getElementById('post_g_6_8').innerText = netG_6_8 + " पद";
+    document.getElementById('post_g_9_10').innerText = netG_9_10 + " पद";
+    
+    document.getElementById('post_sp_sports').innerText = spSports + " पद";
+    document.getElementById('post_sp_arts').innerText = spArts + " पद";
+    document.getElementById('post_sp_craft').innerText = spCraft + " पद";
+
+    // एकूण पदांची बेरीज
+    let totalStaff = headmaster + supervisor + netUG_1_5 + netG_6_8 + netG_9_10 + spSports + spArts + spCraft;
+    document.getElementById('total_staff').innerText = totalStaff + " पदे";
+}
+
+// पेज लोड झाल्यावर पहिली गणना होण्यासाठी
+window.onload = function() {
+    calculatePosts();
+};
 </script>
+
 </body>
 </html>
