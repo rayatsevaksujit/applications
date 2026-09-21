@@ -19,13 +19,27 @@
         .table th {
             background-color: #e9ecef;
         }
+        .disclaimer-box {
+            font-size: 0.9rem;
+            color: #6c757d;
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
 
 <div class="container my-4">
-    <h2 class="text-center mb-4 text-primary">संच मान्यता शिक्षक पद गणना पोर्टल</h2>
+    <h2 class="text-center mb-2 text-primary">संच मान्यता शिक्षक पद गणना पोर्टल</h2>
     <p class="text-center text-muted">Rayat Sevak Sujit Patil</p>
+
+    <!-- नियम व शासन निर्णय संदर्भ टीप -->
+    <div class="disclaimer-box text-center">
+        <strong>टीप:</strong> ही माहिती केवळ संच मान्यता नियमांच्या व शासन निर्णयांच्या आधारे अंदाजित पदांच्या अभ्यासासाठी आणि मार्गदर्शनाकरिता आहे.
+    </div>
 
     <!-- इनपुट विभाग -->
     <div class="card p-4">
@@ -47,9 +61,9 @@
         </div>
     </div>
 
-    <!-- आउटपुट तक्ता विभाग -->
+    <!-- आउटपुट तक्ता विभाग (फक्त शिक्षक पदे) -->
     <div class="card p-4">
-        <h5 class="mb-3">अनुज्ञेय पदे (Staff Total Calculation)</h5>
+        <h5 class="mb-3">अनुज्ञेय शिक्षक पदे (Staff Total Calculation)</h5>
         <div class="table-responsive">
             <table class="table table-bordered align-middle">
                 <thead>
@@ -60,16 +74,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Headmaster</td>
-                        <td>-</td>
-                        <td id="post_hm">1 पद</td>
-                    </tr>
-                    <tr>
-                        <td>Supervisor</td>
-                        <td>-</td>
-                        <td id="post_sup">1 पद</td>
-                    </tr>
                     <tr>
                         <td>Under Graduate Teacher std(1-4/5)</td>
                         <td id="pat1_5_disp">36</td>
@@ -102,7 +106,7 @@
                     </tr>
                     <tr class="table-primary">
                         <td colspan="2"><strong>Staff Total (एकूण अनुज्ञेय शिक्षक)</strong></td>
-                        <td><strong id="total_staff">18 पदे</strong></td>
+                        <td><strong id="total_staff">13 पदे</strong></td>
                     </tr>
                 </tbody>
             </table>
@@ -138,13 +142,12 @@ function calculatePosts() {
     let rawG_6_8 = calculateG6_8(pat2);
     let rawG_9_10 = calculateG9_10(pat3);
 
-    let headmaster = 1;
-    let supervisor = 1;
+    // केवळ स्पेशल शिक्षक पदे
     let spSports = 1;   
     let spArts = 1;     
     let spCraft = 1;    
 
-    // मुख्य पदांमधून स्पेशल शिक्षक वजा करणे जेणेकरून दुहेरी गणना होणार नाही
+    // मुख्य पदांमधून स्पेशल शिक्षक वजा करणे
     let netUG_1_5 = rawUG_1_5; 
     let netG_6_8 = Math.max(0, rawG_6_8 - (spArts + spCraft)); 
     let netG_9_10 = Math.max(0, rawG_9_10 - spSports);         
@@ -157,7 +160,8 @@ function calculatePosts() {
     document.getElementById('post_sp_arts').innerText = spArts + " पद";
     document.getElementById('post_sp_craft').innerText = spCraft + " पद";
 
-    let totalStaff = headmaster + supervisor + netUG_1_5 + netG_6_8 + netG_9_10 + spSports + spArts + spCraft;
+    // एकूण पदांची बेरीज (फक्त शिक्षक पदे)
+    let totalStaff = netUG_1_5 + netG_6_8 + netG_9_10 + spSports + spArts + spCraft;
     document.getElementById('total_staff').innerText = totalStaff + " पदे";
 }
 
