@@ -144,6 +144,7 @@
             font-size: 0.72rem;
             margin-top: 6px;
             color: var(--text-muted);
+            line-height: 1.4;
         }
         .footer-credit {
             text-align: center;
@@ -161,7 +162,7 @@
 
     <!-- शासन निर्णय संदर्भ व क्लिकेबल PDF डाऊनलोड लिंक -->
     <div class="gr-box">
-        संदर्भ: शासन निर्णय क्रमांक <a href="संच मान्यता शासन निर्णय १५ मार्च २०२४.pdf" download title="GR PDF डाऊनलोड करा">एस.एस.एन. २०१५/प्र.क्र.१६/टीएनटी-२</a> (क्लिक करून GR डाऊनलोड करा)[cite: 11]
+        संदर्भ: शासन निर्णय क्रमांक <a href="संच मान्यता शासन निर्णय १५ मार्च २०२४.pdf" download title="GR PDF डाऊनलोड करा">एस.एस.एन. २०१५/प्र.क्र.१६/टीएनटी-२</a> (क्लिक करून GR डाऊनलोड करा)
     </div>
 
     <!-- नियम व टीप -->
@@ -188,9 +189,9 @@
         </div>
     </div>
 
-    <!-- आउटपुट तक्ता विभाग -->
+    <!-- आउटपुट तक्ता विभाग (फक्त मुख्य शिक्षक पदे) -->
     <div class="card">
-        <h5>अनुज्ञेय शिक्षक पदे व विशेष शिक्षक गणना</h5>
+        <h5>अनुज्ञेय शिक्षक पदे (गटनिहाय गणना)</h5>
         <div class="table-responsive">
             <table>
                 <thead>
@@ -209,27 +210,12 @@
                     <tr>
                         <td>Graduate Teacher std(6-8)</td>
                         <td id="pat6_8_disp">235</td>
-                        <td id="post_g_6_8">5 पद</td>
+                        <td id="post_g_6_8">6 पद</td>
                     </tr>
                     <tr>
                         <td>Graduate Teacher std(9-10)</td>
                         <td id="pat9_10_disp">187</td>
                         <td id="post_g_9_10">4 पद</td>
-                    </tr>
-                    <tr>
-                        <td>विशेष शिक्षक (क्रीडा)(९ वी ते १० वी)</td>
-                        <td>-</td>
-                        <td id="post_sp_sports">1 पद</td>
-                    </tr>
-                    <tr>
-                        <td>विशेष शिक्षक (कला/सांगीत)(६ वी ते ८ वी)</td>
-                        <td>-</td>
-                        <td id="post_sp_arts">0 पद</td>
-                    </tr>
-                    <tr>
-                        <td>विशेष शिक्षक (कार्यानुभव/आयसीटी) (६ वी ते ८ वी)</td>
-                        <td>-</td>
-                        <td id="post_sp_craft">0 पद</td>
                     </tr>
                     <tr class="table-primary">
                         <td colspan="2"><strong>Staff Total (एकूण पदे)</strong></td>
@@ -239,7 +225,7 @@
             </table>
         </div>
 
-        <!-- वाढीव विद्यार्थ्यांचे विश्लेषण -->
+        <!-- सर्व गटांचे शिक्षक वाढ विश्लेषण -->
         <div class="analysis-box" id="analysis_text">
             <strong>📊 शिक्षक वाढ विश्लेषण:</strong> गणना होत आहे...
         </div>
@@ -262,7 +248,7 @@ function calculatePosts() {
     document.getElementById('pat6_8_disp').innerText = pat2;
     document.getElementById('pat9_10_disp').innerText = pat3;
 
-    // प्राथमिक १ ली ते ५ वी गणना व पुढील पदासाठी लागणारे विद्यार्थी
+    // --- १ ली ते ५ वी गणना व पुढील पदासाठी लागणारे विद्यार्थी ---
     let posts1_5 = 0;
     let nextTarget1_5 = 20;
     if (pat1 <= 20) {
@@ -282,43 +268,36 @@ function calculatePosts() {
         posts1_5 = 7 + Math.ceil((pat1 - 210) / 40);
         nextTarget1_5 = 210 + ((posts1_5 - 7) * 40) + 1;
     }
-
     let diff1_5 = (pat1 < nextTarget1_5 && pat1 > 0) ? (nextTarget1_5 - pat1) : 0;
 
-    let posts6_8 = (pat2 > 0) ? 6 : 0;
-    let posts9_10 = (pat3 > 0) ? 5 : 0;
+    // --- ६ वी ते ८ वी गणना ---
+    let posts6_8 = 0;
+    if (pat2 > 0) {
+        if (pat2 <= 70) posts6_8 = 3;
+        else posts6_8 = 3 + Math.ceil((pat2 - 70) / 35);
+    }
+    let nextTarget6_8 = (pat2 > 0 && pat2 <= 70) ? 71 : pat2 + 35; 
 
-    let totalPat = pat1 + pat2 + pat3;
-    let spSports = 0;
-    let spArts = 0;
-    let spCraft = 0;
-
-    if (totalPat >= 251 && totalPat <= 500) {
-        spSports = 1; spArts = 0; spCraft = 0;
-    } else if (totalPat >= 501 && totalPat <= 750) {
-        spSports = 1; spArts = 1; spCraft = 1;
-    } else if (totalPat >= 751 && totalPat <= 1000) {
-        spSports = 2; spArts = 1; spCraft = 1;
-    } else if (totalPat >= 1001) {
-        spSports = 2; spArts = 2; spCraft = 1;
+    // --- ९ वी ते १० वी गणना ---
+    let posts9_10 = 0;
+    if (pat3 > 0) {
+        if (pat3 <= 100) posts9_10 = 3;
+        else posts9_10 = 3 + Math.ceil((pat3 - 100) / 40);
     }
 
-    let netUG_1_5 = posts1_5;
-    let netG_6_8 = Math.max(0, posts6_8 - (spArts + spCraft));
-    let netG_9_10 = Math.max(0, posts9_10 - spSports);
+    // HTML मध्ये व्हॅल्यू अपडेट करणे
+    document.getElementById('post_ug_1_5').innerText = posts1_5 + " पद";
+    document.getElementById('post_g_6_8').innerText = posts6_8 + " पद";
+    document.getElementById('post_g_9_10').innerText = posts9_10 + " पद";
 
-    document.getElementById('post_ug_1_5').innerText = netUG_1_5 + " पद";
-    document.getElementById('post_g_6_8').innerText = netG_6_8 + " पद";
-    document.getElementById('post_g_9_10').innerText = netG_9_10 + " पद";
-    
-    document.getElementById('post_sp_sports').innerText = spSports + " पद";
-    document.getElementById('post_sp_arts').innerText = spArts + " पद";
-    document.getElementById('post_sp_craft').innerText = spCraft + " पद";
-
-    let totalStaff = netUG_1_5 + netG_6_8 + netG_9_10 + spSports + spArts + spCraft;
+    let totalStaff = posts1_5 + posts6_8 + posts9_10;
     document.getElementById('total_staff').innerText = totalStaff + " पदे";
 
-    let analysisText = `<strong>📊 शिक्षक वाढ विश्लेषण:</strong> प्राथमिक गटात (१ ली ते ५ वी) पुढील १ पदासाठी आणखी <strong>${diff1_5}</strong> विद्यार्थी आवश्यक आहेत (लक्ष्य पट: ${nextTarget1_5}).`;
+    // विश्लेषण मजकूर
+    let analysisText = `<strong>📊 शिक्षक वाढ विश्लेषण:</strong><br>` +
+        `• प्राथ. (१-५): पुढील १ पदासाठी आणखी <strong>${diff1_5}</strong> विद्यार्थी हवेт (लक्ष्य पट: ${nextTarget1_5}).<br>` +
+        `• उच्च प्राथ. (६-८) व माध्यमिक (९-१०): नियम व टप्प्यांनुसार पदे निर्धारित.`;
+    
     document.getElementById('analysis_text').innerHTML = analysisText;
 }
 
