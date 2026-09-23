@@ -4,13 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>संच मान्यता शिक्षक पद गणना पोर्टल</title>
+    <!-- Google Fonts for Professional Look -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #2563eb;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+        }
         body {
-            background-color: #f4f7f6;
-            font-family: Arial, sans-serif;
-            color: #333;
+            background-color: var(--bg-color);
+            font-family: 'Poppins', Arial, sans-serif;
+            color: var(--text-main);
             margin: 0;
-            padding: 5px;
+            padding: 8px;
             font-size: 13px;
         }
         .container {
@@ -18,56 +28,60 @@
             margin: 0 auto;
         }
         h2 {
-            color: #0d6efd;
+            color: var(--primary-color);
             text-align: center;
-            margin: 2px 0;
-            font-size: 18px;
+            margin: 0 0 2px 0;
+            font-size: 17px;
+            font-weight: 600;
         }
         .subtitle {
             text-align: center;
-            color: #6c757d;
-            font-size: 0.8rem;
-            margin-bottom: 5px;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            margin-bottom: 6px;
         }
         .gr-box {
-            background-color: #e8f4fd;
-            border: 1px solid #b6d4fe;
-            color: #084298;
-            padding: 5px;
-            border-radius: 6px;
-            font-size: 0.78rem;
-            text-align: center;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        .gr-box a {
-            color: #0d6efd;
-            text-decoration: underline;
-            cursor: pointer;
-        }
-        .disclaimer-box {
-            background-color: #fff3cd;
-            border: 1px solid #ffeeba;
-            color: #856404;
-            padding: 5px;
+            background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: #1e40af;
+            padding: 6px;
             border-radius: 6px;
             font-size: 0.75rem;
             text-align: center;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+        .gr-box a {
+            color: var(--primary-color);
+            text-decoration: underline;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .disclaimer-box {
+            background-color: #fefce8;
+            border: 1px solid #fef08a;
+            color: #854d0e;
+            padding: 5px;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            text-align: center;
+            margin-bottom: 6px;
         }
         .card {
-            background-color: #ffffff;
+            background-color: var(--card-bg);
             border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.1);
             padding: 10px;
             margin-bottom: 8px;
+            border: 1px solid var(--border-color);
         }
         .card h5 {
-            margin: 0 0 5px 0;
-            color: #2c3e50;
-            font-size: 0.85rem;
-            border-bottom: 1px solid #e9ecef;
-            padding-bottom: 3px;
+            margin: 0 0 6px 0;
+            color: #0f172a;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 4px;
         }
         .input-grid {
             display: flex;
@@ -81,18 +95,25 @@
         .form-label {
             display: block;
             margin-bottom: 2px;
-            font-weight: bold;
-            color: #495057;
-            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            font-size: 0.72rem;
         }
         .form-control {
             width: 100%;
             padding: 5px;
-            border: 1px solid #ced4da;
-            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
             box-sizing: border-box;
             font-size: 0.85rem;
             text-align: center;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background-color: #fff;
         }
         table {
             width: 100%;
@@ -100,24 +121,35 @@
             margin-top: 2px;
         }
         th, td {
-            border: 1px solid #dee2e6;
-            padding: 4px 6px;
+            border: 1px solid var(--border-color);
+            padding: 5px 8px;
             text-align: left;
             font-size: 0.75rem;
         }
         th {
-            background-color: #e9ecef;
-            color: #495057;
+            background-color: #f1f5f9;
+            color: #334155;
+            font-weight: 600;
         }
         .table-primary {
-            background-color: #cfe2ff;
-            font-weight: bold;
+            background-color: #e0f2fe;
+            color: #0369a1;
+            font-weight: 600;
+        }
+        .analysis-box {
+            background-color: #f8fafc;
+            border-left: 3px solid var(--primary-color);
+            padding: 6px;
+            border-radius: 4px;
+            font-size: 0.72rem;
+            margin-top: 6px;
+            color: var(--text-muted);
         }
         .footer-credit {
             text-align: center;
-            font-size: 0.75rem;
-            color: #6c757d;
-            margin-top: 5px;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-top: 4px;
         }
     </style>
 </head>
@@ -129,15 +161,15 @@
 
     <!-- शासन निर्णय संदर्भ व क्लिकेबल PDF डाऊनलोड लिंक -->
     <div class="gr-box">
-        संदर्भ: शासन निर्णय क्रमांक <a href="202403151729160621.pdf" download title="GR PDF डाऊनलोड करा">एस.एस.एन. २०१५/प्र.क्र.१६/१५/टीएनटी-२</a> (येथे क्लिक करून GR PDF डाऊनलोड करा)
+        संदर्भ: शासन निर्णय क्रमांक <a href="संच मान्यता शासन निर्णय १५ मार्च २०२४.pdf" download title="GR PDF डाऊनलोड करा">एस.एस.एन. २०१५/प्र.क्र.१६/टीएनटी-२</a> (क्लिक करून GR डाऊनलोड करा)[cite: 11]
     </div>
 
-    <!-- नियम वटीप -->
+    <!-- नियम व टीप -->
     <div class="disclaimer-box">
         <strong>टीप:</strong> ही माहिती केवळ संच मान्यता नियमांच्या आधारे अभ्यासासाठी आणि मार्गदर्शनाकरिता आहे (फक्त माहितीकरिता).
     </div>
 
-    <!-- इनपुट विभाग (एका ओळीत कॉम्पॅक्ट) -->
+    <!-- इनपुट विभाग -->
     <div class="card">
         <h5>विद्यार्थी पटसंख्या प्रविष्ट करा (आधार व्हॅलिडेटेड)</h5>
         <div class="input-grid">
@@ -195,7 +227,7 @@
                         <td id="post_sp_arts">1 पद</td>
                     </tr>
                     <tr>
-                        <td>विशेष शिक्षक (कायािुभव/आयसीटी) (६ वी ते ८ वी)</td>
+                        <td>विशेष शिक्षक (कार्यानुभव/आयसीटी) (६ वी ते ८ वी)</td>
                         <td>-</td>
                         <td id="post_sp_craft">1 पद</td>
                     </tr>
@@ -205,6 +237,11 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+
+        <!-- वाढीव विद्यार्थ्यांचे विश्लेषण -->
+        <div class="analysis-box" id="analysis_text">
+            <strong>📊 शिक्षक वाढ विश्लेषण:</strong> गणना होत आहे...
         </div>
     </div>
 
@@ -225,16 +262,31 @@ function calculatePosts() {
     document.getElementById('pat6_8_disp').innerText = pat2;
     document.getElementById('pat9_10_disp').innerText = pat3;
 
-    // प्राथमिक गणना
-    let posts1_5 = (pat1 <= 20) ? 1 : Math.floor((pat1 - 1) / 30) + 1;
-    if(posts1_5 < 2 && pat1 > 0) posts1_5 = 2;
-    if(pat1 === 0) posts1_5 = 0;
+    let posts1_5 = 0;
+    let nextTarget1_5 = 20;
+    if (pat1 <= 20) {
+        posts1_5 = (pat1 > 0) ? 1 : 0;
+        nextTarget1_5 = 21;
+    } else if (pat1 <= 210) {
+        posts1_5 = Math.floor((pat1 - 1) / 30) + 1;
+        if(posts1_5 < 2) posts1_5 = 2;
+        nextTarget1_5 = (posts1_5 * 30) + 1;
+        if (pat1 <= 60) nextTarget1_5 = 61;
+        else if (pat1 <= 90) nextTarget1_5 = 91;
+        else if (pat1 <= 120) nextTarget1_5 = 121;
+        else if (pat1 <= 150) nextTarget1_5 = 151;
+        else if (pat1 <= 180) nextTarget1_5 = 181;
+        else if (pat1 <= 210) nextTarget1_5 = 211;
+    } else {
+        posts1_5 = 7 + Math.ceil((pat1 - 210) / 40);
+        nextTarget1_5 = 210 + ((posts1_5 - 7) * 40) + 1;
+    }
 
-    // उच्च प्राथमिक व माध्यमिक मानक पदे
+    let diff1_5 = (pat1 < nextTarget1_5 && pat1 > 0) ? (nextTarget1_5 - pat1) : 0;
+
     let posts6_8 = (pat2 > 0) ? 6 : 0;
     let posts9_10 = (pat3 > 0) ? 5 : 0;
 
-    // शासन निर्णय तक्त्यानुसार विशेष शिक्षक पदे (एकूण पटसंख्येवरून)
     let totalPat = pat1 + pat2 + pat3;
     let spSports = 0;
     let spArts = 0;
@@ -264,6 +316,9 @@ function calculatePosts() {
 
     let totalStaff = netUG_1_5 + netG_6_8 + netG_9_10 + spSports + spArts + spCraft;
     document.getElementById('total_staff').innerText = totalStaff + " पदे";
+
+    let analysisText = `<strong>📊 शिक्षक वाढ विश्लेषण:</strong> प्राथमिक गटात (१ ली ते ५ वी) पुढील १ पदासाठी आणखी <strong>${diff1_5}</strong> विद्यार्थी आवश्यक आहेत (लक्ष्य पट: ${nextTarget1_5}).`;
+    document.getElementById('analysis_text').innerHTML = analysisText;
 }
 
 window.onload = function() {
