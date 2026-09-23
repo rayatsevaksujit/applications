@@ -224,16 +224,16 @@
                     <tr>
                         <td>विशेष शिक्षक (कला/सांगीत)(६ वी ते ८ वी)</td>
                         <td>-</td>
-                        <td id="post_sp_arts">1 पद</td>
+                        <td id="post_sp_arts">0 पद</td>
                     </tr>
                     <tr>
                         <td>विशेष शिक्षक (कार्यानुभव/आयसीटी) (६ वी ते ८ वी)</td>
                         <td>-</td>
-                        <td id="post_sp_craft">1 पद</td>
+                        <td id="post_sp_craft">0 पद</td>
                     </tr>
                     <tr class="table-primary">
                         <td colspan="2"><strong>Staff Total (एकूण पदे)</strong></td>
-                        <td><strong id="total_staff">14 पदे</strong></td>
+                        <td><strong id="total_staff">12 पदे</strong></td>
                     </tr>
                 </tbody>
             </table>
@@ -262,6 +262,7 @@ function calculatePosts() {
     document.getElementById('pat6_8_disp').innerText = pat2;
     document.getElementById('pat9_10_disp').innerText = pat3;
 
+    // प्राथमिक १ ली ते ५ वी गणना व पुढील पदासाठी लागणारे विद्यार्थी
     let posts1_5 = 0;
     let nextTarget1_5 = 20;
     if (pat1 <= 20) {
