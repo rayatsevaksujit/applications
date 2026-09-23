@@ -170,21 +170,21 @@
         <strong>टीप:</strong> ही माहिती केवळ संच मान्यता नियमांच्या आधारे अभ्यासासाठी आणि मार्गदर्शनाकरिता आहे (फक्त माहितीकरिता).
     </div>
 
-    <!-- इनपुट विभाग -->
+    <!-- इनपुट विभाग (सुरुवातीला मूल्य 0 ठेवले आहे) -->
     <div class="card">
         <h5>विद्यार्थी पटसंख्या प्रविष्ट करा (आधार व्हॅलिडेटेड)</h5>
         <div class="input-grid">
             <div class="form-group">
                 <label class="form-label">१ ली ते ५ वी</label>
-                <input type="number" class="form-control" id="input_1_5" value="36" oninput="calculatePosts()">
+                <input type="number" class="form-control" id="input_1_5" value="0" oninput="calculatePosts()">
             </div>
             <div class="form-group">
                 <label class="form-label">६ वी ते ८ वी</label>
-                <input type="number" class="form-control" id="input_6_8" value="235" oninput="calculatePosts()">
+                <input type="number" class="form-control" id="input_6_8" value="0" oninput="calculatePosts()">
             </div>
             <div class="form-group">
                 <label class="form-label">९ वी ते १० वी</label>
-                <input type="number" class="form-control" id="input_9_10" value="187" oninput="calculatePosts()">
+                <input type="number" class="form-control" id="input_9_10" value="0" oninput="calculatePosts()">
             </div>
         </div>
     </div>
@@ -204,37 +204,37 @@
                 <tbody>
                     <tr>
                         <td>Under Graduate Teacher std(1-4/5)</td>
-                        <td id="pat1_5_disp">36</td>
-                        <td id="post_ug_1_5">2 पद</td>
+                        <td id="pat1_5_disp">0</td>
+                        <td id="post_ug_1_5">0 पद</td>
                     </tr>
                     <tr>
                         <td>Graduate Teacher std(6-8)</td>
-                        <td id="pat6_8_disp">235</td>
-                        <td id="post_g_6_8">6 पद</td>
+                        <td id="pat6_8_disp">0</td>
+                        <td id="post_g_6_8">0 पद</td>
                     </tr>
                     <tr>
                         <td>Graduate Teacher std(9-10)</td>
-                        <td id="pat9_10_disp">187</td>
-                        <td id="post_g_9_10">4 पद</td>
+                        <td id="pat9_10_disp">0</td>
+                        <td id="post_g_9_10">0 पद</td>
                     </tr>
                     <tr>
                         <td>विशेष शिक्षक (क्रीडा)(९ वी ते १० वी)</td>
                         <td>-</td>
-                        <td id="post_sp_sports">1 पद</td>
+                        <td id="post_sp_sports">0 पद</td>
                     </tr>
                     <tr>
                         <td>विशेष शिक्षक (कला/सांगीत)(६ वी ते ८ वी)</td>
                         <td>-</td>
-                        <td id="post_sp_arts">1 पद</td>
+                        <td id="post_sp_arts">0 पद</td>
                     </tr>
                     <tr>
                         <td>विशेष शिक्षक (कार्यानुभव/आयसीटी) (६ वी ते ८ वी)</td>
                         <td>-</td>
-                        <td id="post_sp_craft">1 पद</td>
+                        <td id="post_sp_craft">0 पद</td>
                     </tr>
                     <tr class="table-primary">
                         <td colspan="2"><strong>Staff Total (एकूण पदे)</strong></td>
-                        <td><strong id="total_staff">15 पदे</strong></td>
+                        <td><strong id="total_staff">0 पदे</strong></td>
                     </tr>
                 </tbody>
             </table>
@@ -243,7 +243,7 @@
         <!-- तिन्ही गटांचे स्वतंत्र शिक्षक वाढ विश्लेषण -->
         <div class="analysis-box" id="analysis_text">
             <strong>📊 शिक्षक वाढ विश्लेषण (पुढील १ पदासाठी आवश्यक विद्यार्थी):</strong><br>
-             गणना होत आहे...
+             कृपया पटसंख्या प्रविष्ट करा...
         </div>
     </div>
 
@@ -284,7 +284,7 @@ function calculatePosts() {
         posts1_5 = 7 + Math.ceil((pat1 - 210) / 40);
         nextTarget1_5 = 210 + ((posts1_5 - 7) * 40) + 1;
     }
-    let diff1_5 = (pat1 < nextTarget1_5 && pat1 > 0) ? (nextTarget1_5 - pat1) : 0;
+    let diff1_5 = (pat1 < nextTarget1_5 && pat1 > 0) ? (nextTarget1_5 - pat1) : (pat1 === 0 ? 20 : 0);
 
     // --- ६ वी ते ८ वी गणना व पुढील पदासाठी लागणारे विद्यार्थी ---
     let posts6_8 = 0;
@@ -299,7 +299,7 @@ function calculatePosts() {
             nextTarget6_8 = 70 + (blocks * 35) + 1;
         }
     }
-    let diff6_8 = (pat2 > 0) ? (nextTarget6_8 - pat2) : 0;
+    let diff6_8 = (pat2 > 0) ? (nextTarget6_8 - pat2) : (pat2 === 0 ? 40 : 0);
 
     // --- ९ वी ते १० वी गणना व पुढील पदासाठी लागणारे विद्यार्थी ---
     let posts9_10 = 0;
@@ -324,7 +324,7 @@ function calculatePosts() {
             nextTarget9_10 = 220 + (blocks * 40) + 1;
         }
     }
-    let diff9_10 = (pat3 > 0) ? (nextTarget9_10 - pat3) : 0;
+    let diff9_10 = (pat3 > 0) ? (nextTarget9_10 - pat3) : (pat3 === 0 ? 40 : 0);
 
     // --- विशेष शिक्षक पदे (एकूण पटसंख्येवरून) ---
     let totalPat = pat1 + pat2 + pat3;
