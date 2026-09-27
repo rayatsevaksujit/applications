@@ -36,7 +36,7 @@
         .editor-btn,.editor-save,.editor-file{padding:7px 10px;border-radius:6px;border:1px solid #cbd5e1;background:#fff;color:#0f172a;font-weight:700;font-size:12px;cursor:pointer;width:auto}
         .editor-save{background:#059669;color:#fff;border-color:#059669}
         .editor-file input{display:none}
-        .editor-workspace{background:#64748b;padding:18px;border-radius:8px;overflow:auto;min-height:420px;display:flex;justify-content:center}
+        .editor-workspace{background:#64748b;padding:12px;border-radius:8px;overflow:auto;min-height:420px;display:flex;justify-content:center;align-items:flex-start}.editor-page-wrap{max-width:100%;margin:auto}.editor-page-wrap canvas{max-width:100%;height:auto}
         .editor-page-wrap{position:relative;background:#fff;box-shadow:0 3px 15px #0005;display:inline-block;line-height:0;touch-action:none}
         #editorCanvas{display:block;max-width:none}
         #editorLayer{position:absolute;inset:0;overflow:hidden}
@@ -206,7 +206,10 @@
         const data=await file.arrayBuffer();
         const pdf=await pdfjsLib.getDocument({data}).promise;
         const page=await pdf.getPage(1);
-        const base=page.getViewport({scale:1.35});
+        const wrapWidth=Math.max(280,Math.min(900,document.querySelector('.editor-workspace').clientWidth-24));
+        const raw=page.getViewport({scale:1});
+        const scale=Math.min(1.35,wrapWidth/raw.width);
+        const base=page.getViewport({scale});
         editorCanvas.width=base.width;editorCanvas.height=base.height;
         editorPageWrap.style.width=base.width+'px';editorPageWrap.style.height=base.height+'px';
         editorCtx.setTransform(1,0,0,1,0,0);editorCtx.clearRect(0,0,base.width,base.height);
