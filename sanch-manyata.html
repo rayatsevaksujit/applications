@@ -69,19 +69,18 @@ label{display:block;font-size:11px;font-weight:800;color:#4b5563;margin:13px 0 5
 </div>
 
 <section class="special">
-<div class="card-title"><div class="icon">🎨</div><h3 style="font:400 19px 'Tiro Devanagari Marathi',serif">विशेष शिक्षक</h3><span class="tag">६–८ • ९–१०</span></div>
-<p class="hint">फक्त ६–८ आणि ९–१० या दोन गटांची विद्यार्थी संख्या भरावी.</p>
+<div class="card-title"><div class="icon">🎨</div><h3 style="font:400 19px 'Tiro Devanagari Marathi',serif">विशेष शिक्षक</h3><span class="tag">१ ते १०</span></div>
+<p class="hint">इयत्ता १ ते १० मधील एकूण विद्यार्थी संख्या भरा. त्यानुसार विशेष शिक्षक पदांची गणना आपोआप होईल.</p>
 <div class="special-grid">
 <div class="mini">
-<h4>📗 इयत्ता ६ ते ८</h4>
-<label for="sp68">विद्यार्थी संख्या</label><input id="sp68" type="number" min="0" inputmode="numeric" placeholder="उदा. 500">
-<div class="result"><span>🎨 कला / संगीत</span><strong id="art">—</strong></div>
-<div class="result"><span>🛠️ कार्यानुभव / ICT</span><strong id="ict">—</strong></div>
+<h4>🏫 इयत्ता १ ते १०</h4>
+<label for="sp110">एकूण विद्यार्थी संख्या</label><input id="sp110" type="number" min="0" inputmode="numeric" placeholder="उदा. 500">
+<div class="result"><span>🎨 विशेष शिक्षक पदे</span><strong id="specialTotal">—</strong></div>
 </div>
 <div class="mini">
-<h4>📕 इयत्ता ९ ते १०</h4>
-<label for="sp910">विद्यार्थी संख्या</label><input id="sp910" type="number" min="0" inputmode="numeric" placeholder="उदा. 300">
-<div class="result"><span>🏃 क्रीडा</span><strong id="sport">—</strong></div>
+<h4>📌 गणनेचा सारांश</h4>
+<div class="result"><span>विद्यार्थी</span><strong id="specialStudents">—</strong></div>
+<div class="result"><span>देय विशेष शिक्षक</span><strong id="specialSummary">—</strong></div>
 </div>
 </div>
 </section>
@@ -106,13 +105,12 @@ label{display:block;font-size:11px;font-weight:800;color:#4b5563;margin:13px 0 5
 function p15(n){if(!n)return 0;if(n<=20)return 1;if(n<=60)return 2;if(n<=90)return 3;if(n<=120)return 4;if(n<=150)return 5;if(n<=180)return 6;if(n<=210)return 7;if(n<=250)return 8;return 8+Math.ceil((n-250)/40)}
 function p68(n){if(!n)return 0;if(n<20)return 0;if(n<=60)return 2;if(n<=105)return 3;if(n<=140)return 4;if(n<=175)return 5;return 5+Math.ceil((n-175)/35)}
 function p910(n){if(!n)return 0;if(n<40)return 0;if(n<=100)return 3;if(n<=140)return 4;if(n<=180)return 5;if(n<=220)return 6;return 6+Math.ceil((n-220)/40)}
-function special68(n){if(!n)return[0,0];if(n<501)return[0,0];if(n<=750)return[1,1];if(n<=1000)return[1,1];if(n<=1250)return[2,1];if(n<=1500)return[2,1];return[2,2]}
-function sport910(n){if(!n)return 0;if(n<251)return 0;if(n<=500)return 1;if(n<=750)return 1;if(n<=1000)return 2;if(n<=1250)return 2;if(n<=1500)return 3;return 3}
+function special110(n){if(!n)return 0;if(n<251)return 0;if(n<=1000)return 1;if(n<=1500)return 2;return 3}
 function setResult(id,val){const el=document.getElementById(id),box=el.closest('.result');if(el.textContent!==String(val))box.classList.remove('live'),void box.offsetWidth,box.classList.add('live');el.textContent=val}
 function calc(){
- const a=+document.getElementById('p15').value||0,b=+document.getElementById('p68').value||0,c=+document.getElementById('p910').value||0,x=+document.getElementById('sp68').value||0,y=+document.getElementById('sp910').value||0;
- const v15=a?p15(a):0,v68=b?p68(b):0,v910=c?p910(c):0,s=special68(x);
- setResult('r15',a?v15:'—');setResult('r68',b?v68:'—');setResult('r910',c?v910:'—');setResult('art',x?s[0]:'—');setResult('ict',x?s[1]:'—');setResult('sport',y?sport910(y):'—');
+ const a=+document.getElementById('p15').value||0,b=+document.getElementById('p68').value||0,c=+document.getElementById('p910').value||0,sn=+document.getElementById('sp110').value||0;
+ const v15=a?p15(a):0,v68=b?p68(b):0,v910=c?p910(c):0,special=sn?special110(sn):0;
+ setResult('r15',a?v15:'—');setResult('r68',b?v68:'—');setResult('r910',c?v910:'—');setResult('specialTotal',sn?special:'—');setResult('specialStudents',sn?sn:'—');setResult('specialSummary',sn?special:'—');
  document.getElementById('s15').textContent=a?v15:'—';document.getElementById('s68').textContent=b?v68:'—';document.getElementById('s910').textContent=c?v910:'—';document.getElementById('total').textContent=(a||b||c)?(v15+v68+v910):'—';
 }
 function resetAll(){document.querySelectorAll('input').forEach(e=>e.value='');calc()}
