@@ -2,40 +2,92 @@
 <html lang="mr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>संच मान्यता — सध्या बंद</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>संच मान्यता — माहितीकरिता</title>
 <style>
-body{
-  margin:0;
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#f8fafc;
-  font-family:Arial,sans-serif;
-  color:#1e293b;
-}
-.box{
-  width:min(90%,520px);
-  background:#fff;
-  border:1px solid #e2e8f0;
-  border-radius:16px;
-  padding:32px 24px;
-  text-align:center;
-  box-shadow:0 8px 30px rgba(0,0,0,.08);
-}
-.icon{font-size:48px;margin-bottom:12px}
-h1{margin:0 0 12px;color:#dc2626;font-size:24px}
-p{margin:8px 0;color:#64748b;line-height:1.6}
-.note{margin-top:20px;padding:12px;border-radius:8px;background:#fff7ed;color:#9a3412;font-size:14px}
+*{box-sizing:border-box}body{margin:0;background:#f4f7fb;color:#182235;font-family:"Noto Sans Devanagari","Nirmala UI",Mangal,sans-serif}
+.wrap{max-width:900px;margin:auto;padding:18px 12px 40px}.hero{background:linear-gradient(135deg,#173b87,#3265d6);color:#fff;border-radius:20px;padding:24px 20px;box-shadow:0 10px 28px #173b8726}
+h1{margin:0 0 5px;font-size:27px}.hero p{margin:0 0 16px;opacity:.92}
+.btn{display:inline-block;background:#fff;color:#173b87;text-decoration:none;font-weight:800;padding:11px 16px;border-radius:11px}
+.card{background:#fff;border:1px solid #e1e7f0;border-radius:18px;padding:18px;margin-top:15px;box-shadow:0 5px 18px #1822350b}
+h2{font-size:20px;margin:0 0 13px}label{display:block;font-weight:700;margin:10px 0 7px}
+input,select{width:100%;padding:13px 14px;border:1px solid #cdd6e4;border-radius:11px;font:inherit;font-size:17px;background:#fff}
+.result{margin-top:12px;padding:13px 15px;background:#eef4ff;border-radius:13px;display:flex;align-items:center;justify-content:space-between}
+.result span{font-weight:700}.result strong{font-size:25px;color:#2457c6}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}@media(max-width:650px){.grid{grid-template-columns:1fr}}
+.small{font-size:13px;color:#647084;line-height:1.65;margin:10px 0 0}
+.note{background:#fff8df;border:1px solid #ecd789;border-radius:13px;padding:14px;line-height:1.7}
+.rule{padding:10px 12px;border-left:4px solid #3265d6;background:#f7f9fc;margin:8px 0;border-radius:7px;line-height:1.65}
+.badge{font-size:12px;background:#e8f0ff;color:#2457c6;padding:4px 8px;border-radius:20px;font-weight:800}
+table{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px}th,td{border:1px solid #dde4ee;padding:9px;text-align:center}th{background:#f1f4f8}
 </style>
 </head>
 <body>
-<div class="box">
-  <div class="icon">⏸️</div>
-  <h1>संच मान्यता मॉड्यूल सध्या बंद आहे</h1>
-  <p>हे मॉड्यूल सध्या उपलब्ध नाही.</p>
-  <div class="note">दुरुस्ती / सुधारणा पूर्ण झाल्यानंतर हे मॉड्यूल पुन्हा सुरू केले जाईल.</div>
+<div class="wrap">
+<section class="hero">
+<h1>संच मान्यता — माहितीकरिता</h1>
+<p>विद्यार्थी संख्या टाका आणि शासन निर्णयानुसार देय शिक्षक पदांची माहिती पहा.</p>
+<a class="btn" href="संच मान्यता शासन निर्णय १५ मार्च २०२४.pdf" target="_blank" rel="noopener">📄 GR डाउनलोड करा</a>
+</section>
+
+<section class="card">
+<h2>📘 इयत्ता १ ते ५</h2>
+<label for="p15">विद्यार्थी संख्या</label><input id="p15" type="number" min="0" placeholder="उदा. 120" oninput="calc()">
+<div class="result"><span>देय / मंजूर शिक्षक पदे</span><strong id="r15">—</strong></div>
+<p class="small">1 ते 20 पटासाठी प्रथम 1 शिक्षक. 20 ते 210 पर्यंत GR मधील 30 विद्यार्थ्यांच्या निकषानुसार आणि 210 नंतर प्रत्येक 40 विद्यार्थ्यांमागे 1 पद.</p>
+</section>
+
+<section class="card">
+<h2>📗 इयत्ता ६ ते ८ <span class="badge">तिन्ही इयत्ता गट</span></h2>
+<label for="p68">एकूण विद्यार्थी संख्या</label><input id="p68" type="number" min="0" placeholder="उदा. 120" oninput="calc()">
+<div class="result"><span>देय / मंजूर शिक्षक पदे</span><strong id="r68">—</strong></div>
+<p class="small">तिन्ही इयत्ता असल्यास 20–60 = 2, 61–105 = 3, 106–140 = 4, 141–175 = 5; 175 नंतर प्रत्येक 35 विद्यार्थ्यांमागे 1 पद. संबंधित इयत्तांमध्ये लागू किमान विद्यार्थी अटी विचारात घ्याव्यात.</p>
+</section>
+
+<section class="card">
+<h2>📕 इयत्ता ९ ते १०</h2>
+<label for="p910">९ वी + १० वी एकूण विद्यार्थी संख्या</label><input id="p910" type="number" min="0" placeholder="उदा. 140" oninput="calc()">
+<div class="result"><span>देय / मंजूर शिक्षक पदे</span><strong id="r910">—</strong></div>
+<p class="small">दोन्ही इयत्ता असल्यास प्रत्येक इयत्तेत किमान 20 विद्यार्थी आवश्यक: 40–100 = 3, 101–140 = 4, 141–180 = 5, 181–220 = 6; 220 नंतर प्रत्येक 40 विद्यार्थ्यांमागे 1 पद.</p>
+</section>
+
+<section class="card">
+<h2>🎨 विशेष शिक्षक</h2>
+<label for="stype">लागू शाळेचा प्रकार</label>
+<select id="stype" onchange="calc()">
+<option value="1-10">इयत्ता १ ते १०</option>
+<option value="8-10">इयत्ता ८ ते १०</option>
+</select>
+<label for="sp">संबंधित एकूण विद्यार्थी संख्या</label>
+<input id="sp" type="number" min="0" placeholder="उदा. 600" oninput="calc()">
+<div class="grid">
+<div class="result"><span>🏃 क्रीडा<br><small>९–१० गट</small></span><strong id="sport">—</strong></div>
+<div class="result"><span>🎨 कला / संगीत<br><small>६–८ गट</small></span><strong id="art">—</strong></div>
+<div class="result"><span>🛠️ कार्यानुभव / ICT<br><small>६–८ गट</small></span><strong id="ict">—</strong></div>
 </div>
+<div class="result"><span>एकूण विशेष शिक्षक</span><strong id="stotal">—</strong></div>
+<p class="small">विशेष शिक्षकांची पदे शाळेच्या प्रकारानुसार व एकूण विद्यार्थी संख्येच्या GR तक्त्यानुसार दर्शविली आहेत. क्रीडा, कला/संगीत आणि कार्यानुभव/ICT यांचे कार्यभार-संबंधित स्वतंत्र नियम लागू राहतील.</p>
+</section>
+
+<section class="card">
+<h2>📋 नियम व सूचना</h2>
+<div class="rule"><b>१.</b> विद्यार्थी संख्या भरल्यानंतर संबंधित गटाची देय पदसंख्या आपोआप दाखवली जाते.</div>
+<div class="rule"><b>२.</b> इयत्ता १ ते ५, ६ ते ८ आणि ९ ते १० यांच्यासाठी शासन निर्णयातील स्वतंत्र निकष लागू आहेत.</div>
+<div class="rule"><b>३.</b> इयत्ता ६ ते ८ मध्ये तिन्ही इयत्ता असल्यास संबंधित तक्ता वापरला आहे. प्रत्यक्ष संचमान्यतेत इयत्तांची उपलब्धता/किमान विद्यार्थी संख्या यांचा विचार होतो.</div>
+<div class="rule"><b>४.</b> कला शिक्षक, संगीत शिक्षक, कार्यानुभव शिक्षक इत्यादी विषय शिक्षकांसाठी पूर्णवेळ विषयाचा कार्यभार आवश्यक आहे. कार्यभार गणनेत इयत्ता ६ वीपासून पुढील सर्व इयत्ता विचारात घेतल्या जातात.</div>
+<div class="rule"><b>५.</b> क्रीडा शिक्षकासाठी पूर्णवेळ शिक्षकाच्या किमान ५०% शारीरिक शिक्षण विषयाचा कार्यभार आवश्यक आहे; कार्यभार गणनेत इयत्ता ६ वीपासून पुढील इयत्ता विचारात घेतल्या जातात.</div>
+<div class="rule"><b>६.</b> GR नुसार 30 सप्टेंबर रोजीची आधार क्रमांक प्रमाणित विद्यार्थी संख्या संचमान्यतेतील पदांसाठी विचारात घेतली जाते.</div>
+<div class="note"><b>महत्त्वाची सूचना:</b> <b>वरील तक्ता व गणना फक्त माहितीकरिता आहे.</b> ही माहिती अधिकृत संचमान्यता / पदमान्यता आदेशाचा पर्याय नाही. अंतिम पदमान्यता संबंधित शासन निर्णय, लागू शासन निर्देश आणि अधिकृत संचमान्यतेनुसार ग्राह्य राहील.</div>
+<p class="small">संदर्भ: महाराष्ट्र शासन, शालेय शिक्षण व क्रीडा विभाग, शासन निर्णय क्र. एसएसएन २०१५/(प्र.क्र.१६/१५)/टीएनटी-२, दिनांक १५ मार्च २०२४.</p>
+</section>
+</div>
+
+<script>
+function p15(n){if(!n)return 0;if(n<=20)return 1;if(n<=60)return 2;if(n<=90)return 3;if(n<=120)return 4;if(n<=150)return 5;if(n<=180)return 6;if(n<=210)return 7;if(n<=250)return 8;return 8+Math.ceil((n-250)/40)}
+function p68(n){if(!n)return 0;if(n<20)return 0;if(n<=60)return 2;if(n<=105)return 3;if(n<=140)return 4;if(n<=175)return 5;return 5+Math.ceil((n-175)/35)}
+function p910(n){if(!n)return 0;if(n<40)return 0;if(n<=100)return 3;if(n<=140)return 4;if(n<=180)return 5;if(n<=220)return 6;return 6+Math.ceil((n-220)/40)}
+function special(n,type){if(!n)return[0,0,0];let t=type==="1-10";if(t){if(n<251)return[0,0,0];if(n<=500)return[1,0,0];if(n<=750)return[1,1,1];if(n<=1000)return[2,1,1];if(n<=1250)return[2,2,1];if(n<=1500)return[3,2,1];return[3,2,2]}else{if(n<151)return[0,0,0];if(n<=500)return[1,0,0];if(n<=750)return[1,1,1];if(n<=1000)return[2,1,1];if(n<=1250)return[2,2,1];if(n<=1500)return[3,2,1];return[3,2,2]}}
+function calc(){let a=+p15.value,b=+p68.value,c=+p910.value,s=+sp.value; r15.textContent=a?p15(a):"—";r68.textContent=b?p68(b):"—";r910.textContent=c?p910(c):"—";let x=special(s,stype.value),tot=x[0]+x[1]+x[2];sport.textContent=s?x[0]:"—";art.textContent=s?x[1]:"—";ict.textContent=s?x[2]:"—";stotal.textContent=s?tot:"—"}
+</script>
 </body>
 </html>
