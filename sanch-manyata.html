@@ -83,13 +83,44 @@ input{width:100%;padding:9px 11px;border:1px solid #cdd6e4;border-radius:11px;fo
 function p15(n){if(!n)return 0;if(n<=20)return 1;if(n<=60)return 2;if(n<=90)return 3;if(n<=120)return 4;if(n<=150)return 5;if(n<=180)return 6;if(n<=210)return 7;if(n<=250)return 8;return 8+Math.ceil((n-250)/40)}
 function p68(n){if(!n)return 0;if(n<20)return 0;if(n<=60)return 2;if(n<=105)return 3;if(n<=140)return 4;if(n<=175)return 5;return 5+Math.ceil((n-175)/35)}
 function p910(n){if(!n)return 0;if(n<40)return 0;if(n<=100)return 3;if(n<=140)return 4;if(n<=180)return 5;if(n<=220)return 6;return 6+Math.ceil((n-220)/40)}
-function special68(n){if(!n)return[0,0];if(n<251)return[0,0];if(n<=500)return[0,0];if(n<=750)return[1,1];if(n<=1000)return[1,1];if(n<=1250)return[2,1];if(n<=1500)return[2,1];return[2,2]}
-function sport910(n){if(!n)return 0;if(n<251)return 0;if(n<=500)return 1;if(n<=750)return 1;if(n<=1000)return 2;if(n<=1250)return 2;if(n<=1500)return 3;return 3}
-function calc(){
-let p15El=document.getElementById("p15"),p68El=document.getElementById("p68"),p910El=document.getElementById("p910"),sp68El=document.getElementById("sp68"),sp910El=document.getElementById("sp910");let r15El=document.getElementById("r15"),r68El=document.getElementById("r68"),r910El=document.getElementById("r910"),artEl=document.getElementById("art"),ictEl=document.getElementById("ict"),sportEl=document.getElementById("sport");let a=+p15El.value,b=+p68El.value,c=+p910El.value,s68=+sp68El.value,s910=+sp910El.value;
-r15El.textContent=a?p15(a):"—";r68El.textContent=b?p68(b):"—";r910El.textContent=c?p910(c):"—";
-let x=special68(s68);artEl.textContent=s68?x[0]:"—";ictEl.textContent=s68?x[1]:"—";sportEl.textContent=s910?sport910(s910):"—";
+function special68(n){
+ if(!n)return [0,0];
+ if(n<501)return [0,0];
+ if(n<=750)return [1,1];
+ if(n<=1000)return [1,1];
+ if(n<=1250)return [2,1];
+ if(n<=1500)return [2,1];
+ return [2,2];
 }
+function sport910(n){
+ if(!n)return 0;
+ if(n<251)return 0;
+ if(n<=500)return 1;
+ if(n<=750)return 1;
+ if(n<=1000)return 2;
+ if(n<=1250)return 2;
+ if(n<=1500)return 3;
+ return 3;
+}
+function calc(){
+ const p15El=document.getElementById("p15"),p68El=document.getElementById("p68"),p910El=document.getElementById("p910");
+ const sp68El=document.getElementById("sp68"),sp910El=document.getElementById("sp910");
+ const a=Number(p15El.value)||0,b=Number(p68El.value)||0,c=Number(p910El.value)||0,s68=Number(sp68El.value)||0,s910=Number(sp910El.value)||0;
+ document.getElementById("r15").textContent=a?p15(a):"—";
+ document.getElementById("r68").textContent=b?p68(b):"—";
+ document.getElementById("r910").textContent=c?p910(c):"—";
+ const x=special68(s68);
+ document.getElementById("art").textContent=s68?x[0]:"—";
+ document.getElementById("ict").textContent=s68?x[1]:"—";
+ document.getElementById("sport").textContent=s910?sport910(s910):"—";
+}
+document.addEventListener("DOMContentLoaded",function(){
+ ["p15","p68","p910","sp68","sp910"].forEach(function(id){
+   const el=document.getElementById(id);
+   if(el) el.addEventListener("input",calc);
+ });
+ calc();
+});
 </script>
 </body>
 </html>
