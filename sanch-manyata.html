@@ -6,15 +6,15 @@
 <title>संच मान्यता — माहितीकरिता</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f7fb;color:#182235;font-family:"Noto Sans Devanagari","Nirmala UI",Mangal,sans-serif}
-.wrap{max-width:900px;margin:auto;padding:18px 12px 40px}.hero{background:linear-gradient(135deg,#173b87,#3265d6);color:#fff;border-radius:20px;padding:24px 20px;box-shadow:0 10px 28px #173b8726}
-h1{margin:0 0 5px;font-size:27px}.hero p{margin:0 0 16px;opacity:.92}.btn{display:inline-block;background:#fff;color:#173b87;text-decoration:none;font-weight:800;padding:11px 16px;border-radius:11px}
-.card{background:#fff;border:1px solid #e1e7f0;border-radius:18px;padding:18px;margin-top:15px;box-shadow:0 5px 18px #1822350b}
-h2{font-size:20px;margin:0 0 13px}label{display:block;font-weight:700;margin:10px 0 7px}
-input{width:100%;padding:13px 14px;border:1px solid #cdd6e4;border-radius:11px;font:inherit;font-size:17px;background:#fff}
-.result{margin-top:12px;padding:13px 15px;background:#eef4ff;border-radius:13px;display:flex;align-items:center;justify-content:space-between}
-.result span{font-weight:700}.result strong{font-size:25px;color:#2457c6}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}@media(max-width:650px){.grid{grid-template-columns:1fr}}
-.small{font-size:13px;color:#647084;line-height:1.65;margin:10px 0 0}.note{background:#fff8df;border:1px solid #ecd789;border-radius:13px;padding:14px;line-height:1.7}
+.wrap{max-width:1000px;margin:auto;padding:10px 10px 24px}.hero{background:linear-gradient(135deg,#173b87,#3265d6);color:#fff;border-radius:16px;padding:15px 16px;box-shadow:0 10px 28px #173b8726}
+h1{margin:0 0 3px;font-size:23px}.hero p{margin:0 0 10px;opacity:.92}.btn{display:inline-block;background:#fff;color:#173b87;text-decoration:none;font-weight:800;padding:11px 16px;border-radius:11px}
+.card{background:#fff;border:1px solid #e1e7f0;border-radius:14px;padding:12px;margin-top:10px;box-shadow:0 5px 18px #1822350b}
+h2{font-size:18px;margin:0 0 8px}label{display:block;font-weight:700;margin:6px 0 4px}
+input{width:100%;padding:9px 11px;border:1px solid #cdd6e4;border-radius:11px;font:inherit;font-size:17px;background:#fff}
+.result{margin-top:7px;padding:8px 11px;background:#eef4ff;border-radius:13px;display:flex;align-items:center;justify-content:space-between}
+.result span{font-weight:700}.result strong{font-size:21px;color:#2457c6}
+.calc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}summary{cursor:pointer;font-weight:800;font-size:18px}@media(max-width:800px){.calc-grid{grid-template-columns:1fr 1fr}}@media(max-width:650px){.grid{grid-template-columns:1fr}}
+.small{font-size:12px;color:#647084;line-height:1.65;margin:10px 0 0}.note{background:#fff8df;border:1px solid #ecd789;border-radius:13px;padding:14px;line-height:1.7}
 .rule{padding:10px 12px;border-left:4px solid #3265d6;background:#f7f9fc;margin:8px 0;border-radius:7px;line-height:1.65}
 .badge{font-size:12px;background:#e8f0ff;color:#2457c6;padding:4px 8px;border-radius:20px;font-weight:800}
 </style>
@@ -86,9 +86,9 @@ function p910(n){if(!n)return 0;if(n<40)return 0;if(n<=100)return 3;if(n<=140)re
 function special68(n){if(!n)return[0,0];if(n<251)return[0,0];if(n<=500)return[0,0];if(n<=750)return[1,1];if(n<=1000)return[1,1];if(n<=1250)return[2,1];if(n<=1500)return[2,1];return[2,2]}
 function sport910(n){if(!n)return 0;if(n<251)return 0;if(n<=500)return 1;if(n<=750)return 1;if(n<=1000)return 2;if(n<=1250)return 2;if(n<=1500)return 3;return 3}
 function calc(){
-let a=+p15.value,b=+p68.value,c=+p910.value,s68=+sp68.value,s910=+sp910.value;
-r15.textContent=a?p15(a):"—";r68.textContent=b?p68(b):"—";r910.textContent=c?p910(c):"—";
-let x=special68(s68);art.textContent=s68?x[0]:"—";ict.textContent=s68?x[1]:"—";sport.textContent=s910?sport910(s910):"—";
+let p15El=document.getElementById("p15"),p68El=document.getElementById("p68"),p910El=document.getElementById("p910"),sp68El=document.getElementById("sp68"),sp910El=document.getElementById("sp910");let r15El=document.getElementById("r15"),r68El=document.getElementById("r68"),r910El=document.getElementById("r910"),artEl=document.getElementById("art"),ictEl=document.getElementById("ict"),sportEl=document.getElementById("sport");let a=+p15El.value,b=+p68El.value,c=+p910El.value,s68=+sp68El.value,s910=+sp910El.value;
+r15El.textContent=a?p15(a):"—";r68El.textContent=b?p68(b):"—";r910El.textContent=c?p910(c):"—";
+let x=special68(s68);artEl.textContent=s68?x[0]:"—";ictEl.textContent=s68?x[1]:"—";sportEl.textContent=s910?sport910(s910):"—";
 }
 </script>
 </body>
