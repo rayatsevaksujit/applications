@@ -3,124 +3,120 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>संच मान्यता — माहितीकरिता</title>
+<title>संच मान्यता | शिक्षक गणना</title>
+<meta name="description" content="विद्यार्थी संख्येनुसार संच मान्यता शिक्षक गणना">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box}body{margin:0;background:#f4f7fb;color:#182235;font-family:"Noto Sans Devanagari","Nirmala UI",Mangal,sans-serif}
-.wrap{max-width:1000px;margin:auto;padding:10px 10px 24px}.hero{background:linear-gradient(135deg,#173b87,#3265d6);color:#fff;border-radius:16px;padding:15px 16px;box-shadow:0 10px 28px #173b8726}
-h1{margin:0 0 3px;font-size:23px}.hero p{margin:0 0 10px;opacity:.92}.btn{display:inline-block;background:#fff;color:#173b87;text-decoration:none;font-weight:800;padding:11px 16px;border-radius:11px}
-.card{background:#fff;border:1px solid #e1e7f0;border-radius:14px;padding:12px;margin-top:10px;box-shadow:0 5px 18px #1822350b}
-h2{font-size:18px;margin:0 0 8px}label{display:block;font-weight:700;margin:6px 0 4px}
-input{width:100%;padding:9px 11px;border:1px solid #cdd6e4;border-radius:11px;font:inherit;font-size:17px;background:#fff}
-.result{margin-top:7px;padding:8px 11px;background:#eef4ff;border-radius:13px;display:flex;align-items:center;justify-content:space-between}
-.result span{font-weight:700}.result strong{font-size:21px;color:#2457c6}
-.calc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}summary{cursor:pointer;font-weight:800;font-size:18px}@media(max-width:800px){.calc-grid{grid-template-columns:1fr 1fr}}@media(max-width:650px){.grid{grid-template-columns:1fr}}
-.small{font-size:12px;color:#647084;line-height:1.65;margin:10px 0 0}.note{background:#fff8df;border:1px solid #ecd789;border-radius:13px;padding:14px;line-height:1.7}
-.rule{padding:10px 12px;border-left:4px solid #3265d6;background:#f7f9fc;margin:8px 0;border-radius:7px;line-height:1.65}
-.badge{font-size:12px;background:#e8f0ff;color:#2457c6;padding:4px 8px;border-radius:20px;font-weight:800}
+:root{--p:#5b21b6;--p2:#7c3aed;--blue:#2563eb;--ink:#182033;--muted:#667085;--bg:#f5f7ff;--card:#fff;--line:#e7eaf3;--green:#059669;--orange:#ea580c}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 10% 0%,#ede9fe 0,transparent 30%),radial-gradient(circle at 100% 10%,#dbeafe 0,transparent 28%),var(--bg);color:var(--ink);font-family:'Manrope','Nirmala UI',sans-serif}
+.wrap{max-width:1080px;margin:auto;padding:16px 14px 34px}
+.hero{position:relative;overflow:hidden;border-radius:24px;padding:24px;color:#fff;background:linear-gradient(135deg,#351070 0%,#6d28d9 52%,#2563eb 100%);box-shadow:0 18px 45px #4c1d9560}
+.hero:before,.hero:after{content:"";position:absolute;border-radius:50%;background:#ffffff18;animation:float 7s ease-in-out infinite}.hero:before{width:170px;height:170px;right:-45px;top:-75px}.hero:after{width:100px;height:100px;right:170px;bottom:-65px;animation-delay:1s}
+@keyframes float{50%{transform:translateY(12px) scale(1.05)}}.hero>*{position:relative;z-index:1}
+.kicker{font:600 13px 'Manrope';opacity:.88;letter-spacing:.3px}.hero h1{font:400 30px 'Tiro Devanagari Marathi',serif;margin:4px 0 2px}.hero p{margin:0;opacity:.9;font-size:13px}
+.top-actions{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}.btn{border:0;text-decoration:none;cursor:pointer;border-radius:12px;padding:9px 13px;font-weight:800;font-size:12px}.btn-light{background:#fff;color:#4c1d95}.btn-glass{background:#ffffff1c;color:#fff;border:1px solid #ffffff38}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}.stat{background:#ffffffc9;border:1px solid #fff;border-radius:16px;padding:12px;box-shadow:0 7px 24px #1725540c;backdrop-filter:blur(8px)}.stat small{display:block;color:var(--muted);font-size:11px}.stat b{font-size:20px;color:var(--p)}
+.section-head{display:flex;align-items:end;justify-content:space-between;margin:20px 2px 10px}.section-head h2{font:400 22px 'Tiro Devanagari Marathi',serif;margin:0}.section-head span{font-size:11px;color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.card{background:#ffffffea;border:1px solid var(--line);border-radius:18px;padding:15px;box-shadow:0 8px 25px #1725540a;transition:.25s;position:relative;overflow:hidden}.card:hover{transform:translateY(-3px);box-shadow:0 14px 30px #17255418;border-color:#c4b5fd}.card:after{content:"";position:absolute;width:75px;height:75px;border-radius:50%;right:-30px;top:-35px;background:#ede9fe}
+.card-title{display:flex;align-items:center;gap:9px;position:relative;z-index:1}.icon{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;font-size:21px;background:linear-gradient(135deg,#ede9fe,#dbeafe)}.card h3{font:400 17px 'Tiro Devanagari Marathi',serif;margin:0}.tag{font:700 9px 'Manrope';color:var(--p);background:#f3e8ff;padding:3px 7px;border-radius:20px;margin-left:auto}
+label{display:block;font-size:11px;font-weight:800;color:#4b5563;margin:13px 0 5px}.input-wrap{position:relative}.input-wrap input{width:100%;padding:11px 12px;border:1px solid #d9ddeb;border-radius:12px;background:#fbfcff;outline:none;font:600 17px 'Manrope';transition:.2s}.input-wrap input:focus{border-color:#8b5cf6;box-shadow:0 0 0 4px #8b5cf620;background:#fff}.result{margin-top:10px;border-radius:13px;padding:10px 11px;background:linear-gradient(135deg,#f5f3ff,#eff6ff);border:1px solid #e8e3ff;display:flex;align-items:center;justify-content:space-between}.result span{font-size:11px;color:#596275;font-weight:700}.result strong{font:800 21px 'Manrope';color:var(--p2);min-width:34px;text-align:right}.result.live{animation:pulse .35s ease}@keyframes pulse{50%{transform:scale(1.025)}}
+.special{margin-top:12px;background:linear-gradient(135deg,#fff,#f8f5ff);border:1px solid #ddd6fe;border-radius:20px;padding:16px;box-shadow:0 10px 28px #5b21b610}.special-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.mini{background:#fff;border:1px solid var(--line);border-radius:15px;padding:12px}.mini h4{font:400 15px 'Tiro Devanagari Marathi',serif;margin:0 0 4px}.mini .result{margin-top:7px}.hint{font-size:11px;color:var(--muted);margin:10px 2px 0;line-height:1.5}
+.info{margin-top:12px;background:#111827;color:#fff;border-radius:18px;padding:15px}.info summary{cursor:pointer;font:400 18px 'Tiro Devanagari Marathi',serif}.rules{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.rule{background:#ffffff0d;border:1px solid #ffffff18;border-radius:12px;padding:9px;font-size:11px;line-height:1.55;color:#dbe4f0}.notice{margin-top:10px;padding:10px;border-radius:12px;background:#fff7ed;color:#9a3412;font-size:11px;line-height:1.5}
+.footer{text-align:center;color:#7a8496;font-size:10px;margin-top:18px}
+@media(max-width:800px){.cards{grid-template-columns:1fr 1fr}.stats{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.wrap{padding:10px}.hero{padding:19px;border-radius:20px}.hero h1{font-size:25px}.cards,.special-grid,.rules{grid-template-columns:1fr}.stats{gap:7px}.stat{padding:9px}.stat b{font-size:17px}}
 </style>
 </head>
 <body>
 <div class="wrap">
 <section class="hero">
-<h1>संच मान्यता — माहितीकरिता</h1>
-<p>विद्यार्थी संख्या टाका आणि शासन निर्णयानुसार देय शिक्षक पदांची माहिती पहा.</p>
-<a class="btn" href="संच मान्यता शासन निर्णय १५ मार्च २०२४.pdf" target="_blank" rel="noopener">📄 GR डाउनलोड करा</a>
+<div class="kicker">DIGITAL SATHIDAR • SCHOOL TOOLS</div>
+<h1>संच मान्यता शिक्षक गणना</h1>
+<p>विद्यार्थी संख्या भरा आणि देय शिक्षक पदे लगेच पहा.</p>
+<div class="top-actions">
+<a class="btn btn-light" href="संच मान्यता शासन निर्णय १५ मार्च २०२४.pdf" target="_blank" rel="noopener">📄 शासन निर्णय</a>
+<button class="btn btn-glass" onclick="resetAll()">↻ सर्व माहिती साफ करा</button>
+</div>
+</section>
+
+<div class="stats">
+<div class="stat"><small>१ ते ५</small><b id="s15">—</b></div>
+<div class="stat"><small>६ ते ८</small><b id="s68">—</b></div>
+<div class="stat"><small>९ ते १०</small><b id="s910">—</b></div>
+<div class="stat"><small>एकूण पदे</small><b id="total">—</b></div>
+</div>
+
+<div class="section-head"><h2>📊 विद्यार्थी गट</h2><span>Live Calculation</span></div>
+<div class="cards">
+<section class="card">
+<div class="card-title"><div class="icon">📘</div><h3>इयत्ता १ ते ५</h3><span class="tag">PRIMARY</span></div>
+<label for="p15">विद्यार्थी संख्या</label><div class="input-wrap"><input id="p15" type="number" min="0" inputmode="numeric" placeholder="उदा. 120"></div>
+<div class="result" id="box15"><span>देय शिक्षक पदे</span><strong id="r15">—</strong></div>
 </section>
 
 <section class="card">
-<h2>📘 इयत्ता १ ते ५</h2>
-<label for="p15">विद्यार्थी संख्या</label><input id="p15" type="number" min="0" placeholder="उदा. 120" oninput="calc()">
-<div class="result"><span>देय / मंजूर शिक्षक पदे</span><strong id="r15">—</strong></div>
-<p class="small">विद्यार्थी संख्या भरल्यानंतर संबंधित गटाची देय पदसंख्या दाखवली जाते.</p>
+<div class="card-title"><div class="icon">📗</div><h3>इयत्ता ६ ते ८</h3><span class="tag">UPPER</span></div>
+<label for="p68">एकूण विद्यार्थी संख्या</label><div class="input-wrap"><input id="p68" type="number" min="0" inputmode="numeric" placeholder="उदा. 120"></div>
+<div class="result" id="box68"><span>देय शिक्षक पदे</span><strong id="r68">—</strong></div>
 </section>
 
 <section class="card">
-<h2>📗 इयत्ता ६ ते ८</h2>
-<label for="p68">एकूण विद्यार्थी संख्या</label><input id="p68" type="number" min="0" placeholder="उदा. 120" oninput="calc()">
-<div class="result"><span>देय / मंजूर शिक्षक पदे</span><strong id="r68">—</strong></div>
-<p class="small">इयत्ता ६ ते ८ गटासाठी विद्यार्थी संख्येनुसार देय पदे दाखवली जातील.</p>
+<div class="card-title"><div class="icon">📕</div><h3>इयत्ता ९ ते १०</h3><span class="tag">SECONDARY</span></div>
+<label for="p910">९ वी + १० वी विद्यार्थी</label><div class="input-wrap"><input id="p910" type="number" min="0" inputmode="numeric" placeholder="उदा. 140"></div>
+<div class="result" id="box910"><span>देय शिक्षक पदे</span><strong id="r910">—</strong></div>
 </section>
+</div>
 
-<section class="card">
-<h2>📕 इयत्ता ९ ते १०</h2>
-<label for="p910">९ वी + १० वी एकूण विद्यार्थी संख्या</label><input id="p910" type="number" min="0" placeholder="उदा. 140" oninput="calc()">
-<div class="result"><span>देय / मंजूर शिक्षक पदे</span><strong id="r910">—</strong></div>
-<p class="small">इयत्ता ९ ते १० गटासाठी विद्यार्थी संख्येनुसार देय पदे दाखवली जातील.</p>
-</section>
-
-<section class="card">
-<h2>🎨 विशेष शिक्षक <span class="badge">फक्त ६–८ व ९–१० गट</span></h2>
-<div class="grid">
-<div>
-<label for="sp68">इयत्ता ६ ते ८ — विद्यार्थी संख्या</label>
-<input id="sp68" type="number" min="0" placeholder="उदा. 300" oninput="calc()">
+<section class="special">
+<div class="card-title"><div class="icon">🎨</div><h3 style="font:400 19px 'Tiro Devanagari Marathi',serif">विशेष शिक्षक</h3><span class="tag">६–८ • ९–१०</span></div>
+<p class="hint">फक्त ६–८ आणि ९–१० या दोन गटांची विद्यार्थी संख्या भरावी.</p>
+<div class="special-grid">
+<div class="mini">
+<h4>📗 इयत्ता ६ ते ८</h4>
+<label for="sp68">विद्यार्थी संख्या</label><input id="sp68" type="number" min="0" inputmode="numeric" placeholder="उदा. 500">
 <div class="result"><span>🎨 कला / संगीत</span><strong id="art">—</strong></div>
 <div class="result"><span>🛠️ कार्यानुभव / ICT</span><strong id="ict">—</strong></div>
 </div>
-<div>
-<label for="sp910">इयत्ता ९ ते १० — विद्यार्थी संख्या</label>
-<input id="sp910" type="number" min="0" placeholder="उदा. 300" oninput="calc()">
+<div class="mini">
+<h4>📕 इयत्ता ९ ते १०</h4>
+<label for="sp910">विद्यार्थी संख्या</label><input id="sp910" type="number" min="0" inputmode="numeric" placeholder="उदा. 300">
 <div class="result"><span>🏃 क्रीडा</span><strong id="sport">—</strong></div>
 </div>
 </div>
-<p class="small">विशेष शिक्षक विभागात आता शाळेचा प्रकार किंवा एकूण शाळेची विद्यार्थी संख्या विचारली जात नाही. फक्त ६–८ आणि ९–१० या दोन गटांची विद्यार्थी संख्या विचारली जाते.</p>
 </section>
 
-<section class="card">
-<h2>📋 नियम व सूचना</h2>
-<div class="rule"><b>१.</b> विद्यार्थी संख्या भरल्यानंतर संबंधित गटाची देय पदसंख्या आपोआप दाखवली जाते.</div>
-<div class="rule"><b>२.</b> इयत्ता १ ते ५, ६ ते ८ आणि ९ ते १० यांच्यासाठी शासन निर्णयातील स्वतंत्र निकष लागू आहेत.</div>
-<div class="rule"><b>३.</b> विशेष शिक्षक विभागात फक्त ६ ते ८ आणि ९ ते १० या गटांची विद्यार्थी संख्या विचारली जाते.</div>
-<div class="rule"><b>४.</b> कला शिक्षक, संगीत शिक्षक, कार्यानुभव शिक्षक इत्यादी विषय शिक्षकांसाठी पूर्णवेळ विषयाचा कार्यभार आवश्यक आहे. कार्यभार गणनेत इयत्ता ६ वीपासून पुढील सर्व इयत्ता विचारात घेतल्या जातात.</div>
-<div class="rule"><b>५.</b> क्रीडा शिक्षकासाठी पूर्णवेळ शिक्षकाच्या किमान ५०% शारीरिक शिक्षण विषयाचा कार्यभार आवश्यक आहे.</div>
-<div class="rule"><b>६.</b> अधिकृत संचमान्यता करताना लागू शासन निर्देश व अधिकृत विद्यार्थी संख्या ग्राह्य धरावी.</div>
-<div class="note"><b>महत्त्वाची सूचना:</b> <b>वरील तक्ता व गणना फक्त माहितीकरिता आहे.</b> ही माहिती अधिकृत संचमान्यता / पदमान्यता आदेशाचा पर्याय नाही.</div>
-<p class="small">संदर्भ: महाराष्ट्र शासन, शालेय शिक्षण व क्रीडा विभाग, शासन निर्णय, दिनांक १५ मार्च २०२४.</p>
-</section>
+<details class="info">
+<summary>📋 नियम व महत्त्वाच्या सूचना</summary>
+<div class="rules">
+<div class="rule"><b>१.</b> विद्यार्थी संख्या भरल्यानंतर देय पदसंख्या आपोआप दाखवली जाते.</div>
+<div class="rule"><b>२.</b> १–५, ६–८ आणि ९–१० साठी स्वतंत्र निकष लागू आहेत.</div>
+<div class="rule"><b>३.</b> विशेष शिक्षक विभागात फक्त ६–८ व ९–१० गट विचारले आहेत.</div>
+<div class="rule"><b>४.</b> विषय शिक्षकांसाठी पूर्णवेळ विषय कार्यभाराच्या लागू अटी विचारात घ्याव्यात.</div>
+<div class="rule"><b>५.</b> क्रीडा शिक्षकासाठी लागू किमान कार्यभाराची अट ग्राह्य धरावी.</div>
+<div class="rule"><b>६.</b> अधिकृत संचमान्यतेसाठी लागू शासन निर्देश व अधिकृत विद्यार्थी संख्या ग्राह्य धरावी.</div>
+</div>
+<div class="notice"><b>महत्त्वाची सूचना:</b> ही गणना फक्त माहितीकरिता आहे. अधिकृत संचमान्यता / पदमान्यता आदेशाचा हा पर्याय नाही.</div>
+</details>
+
+<div class="footer">संदर्भ: महाराष्ट्र शासन, शालेय शिक्षण व क्रीडा विभाग — शासन निर्णय, १५ मार्च २०२४</div>
 </div>
 
 <script>
 function p15(n){if(!n)return 0;if(n<=20)return 1;if(n<=60)return 2;if(n<=90)return 3;if(n<=120)return 4;if(n<=150)return 5;if(n<=180)return 6;if(n<=210)return 7;if(n<=250)return 8;return 8+Math.ceil((n-250)/40)}
 function p68(n){if(!n)return 0;if(n<20)return 0;if(n<=60)return 2;if(n<=105)return 3;if(n<=140)return 4;if(n<=175)return 5;return 5+Math.ceil((n-175)/35)}
 function p910(n){if(!n)return 0;if(n<40)return 0;if(n<=100)return 3;if(n<=140)return 4;if(n<=180)return 5;if(n<=220)return 6;return 6+Math.ceil((n-220)/40)}
-function special68(n){
- if(!n)return [0,0];
- if(n<501)return [0,0];
- if(n<=750)return [1,1];
- if(n<=1000)return [1,1];
- if(n<=1250)return [2,1];
- if(n<=1500)return [2,1];
- return [2,2];
-}
-function sport910(n){
- if(!n)return 0;
- if(n<251)return 0;
- if(n<=500)return 1;
- if(n<=750)return 1;
- if(n<=1000)return 2;
- if(n<=1250)return 2;
- if(n<=1500)return 3;
- return 3;
-}
+function special68(n){if(!n)return[0,0];if(n<501)return[0,0];if(n<=750)return[1,1];if(n<=1000)return[1,1];if(n<=1250)return[2,1];if(n<=1500)return[2,1];return[2,2]}
+function sport910(n){if(!n)return 0;if(n<251)return 0;if(n<=500)return 1;if(n<=750)return 1;if(n<=1000)return 2;if(n<=1250)return 2;if(n<=1500)return 3;return 3}
+function setResult(id,val){const el=document.getElementById(id),box=el.closest('.result');if(el.textContent!==String(val))box.classList.remove('live'),void box.offsetWidth,box.classList.add('live');el.textContent=val}
 function calc(){
- const p15El=document.getElementById("p15"),p68El=document.getElementById("p68"),p910El=document.getElementById("p910");
- const sp68El=document.getElementById("sp68"),sp910El=document.getElementById("sp910");
- const a=Number(p15El.value)||0,b=Number(p68El.value)||0,c=Number(p910El.value)||0,s68=Number(sp68El.value)||0,s910=Number(sp910El.value)||0;
- document.getElementById("r15").textContent=a?p15(a):"—";
- document.getElementById("r68").textContent=b?p68(b):"—";
- document.getElementById("r910").textContent=c?p910(c):"—";
- const x=special68(s68);
- document.getElementById("art").textContent=s68?x[0]:"—";
- document.getElementById("ict").textContent=s68?x[1]:"—";
- document.getElementById("sport").textContent=s910?sport910(s910):"—";
+ const a=+document.getElementById('p15').value||0,b=+document.getElementById('p68').value||0,c=+document.getElementById('p910').value||0,x=+document.getElementById('sp68').value||0,y=+document.getElementById('sp910').value||0;
+ const v15=a?p15(a):0,v68=b?p68(b):0,v910=c?p910(c):0,s=special68(x);
+ setResult('r15',a?v15:'—');setResult('r68',b?v68:'—');setResult('r910',c?v910:'—');setResult('art',x?s[0]:'—');setResult('ict',x?s[1]:'—');setResult('sport',y?sport910(y):'—');
+ document.getElementById('s15').textContent=a?v15:'—';document.getElementById('s68').textContent=b?v68:'—';document.getElementById('s910').textContent=c?v910:'—';document.getElementById('total').textContent=(a||b||c)?(v15+v68+v910):'—';
 }
-document.addEventListener("DOMContentLoaded",function(){
- ["p15","p68","p910","sp68","sp910"].forEach(function(id){
-   const el=document.getElementById(id);
-   if(el) el.addEventListener("input",calc);
- });
- calc();
-});
+function resetAll(){document.querySelectorAll('input').forEach(e=>e.value='');calc()}
+document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('input').forEach(e=>e.addEventListener('input',calc));calc()});
 </script>
 </body>
 </html>
