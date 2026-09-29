@@ -26,6 +26,10 @@ label{display:block;font-size:11px;font-weight:800;color:#4b5563;margin:13px 0 5
 .info{margin-top:12px;background:#111827;color:#fff;border-radius:18px;padding:15px}.info summary{cursor:pointer;font:400 18px 'Tiro Devanagari Marathi',serif}.rules{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.rule{background:#ffffff0d;border:1px solid #ffffff18;border-radius:12px;padding:9px;font-size:11px;line-height:1.55;color:#dbe4f0}.notice{margin-top:10px;padding:10px;border-radius:12px;background:#fff7ed;color:#9a3412;font-size:11px;line-height:1.5}
 .footer{text-align:center;color:#7a8496;font-size:10px;margin-top:18px}
 @media(max-width:800px){.cards{grid-template-columns:1fr 1fr}.stats{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.wrap{padding:10px}.hero{padding:19px;border-radius:20px}.hero h1{font-size:25px}.cards,.special-grid,.rules{grid-template-columns:1fr}.stats{gap:7px}.stat{padding:9px}.stat b{font-size:17px}}
+
+.class-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:10px}.class-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px}.class-card label{margin:0 0 5px;font-size:10px}.class-card input{width:100%;padding:9px 6px;border:1px solid #d9ddeb;border-radius:9px;text-align:center;font:700 16px Manrope;outline:none}.class-card input:focus{border-color:#8b5cf6}.aggregate{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:9px 0}.aggregate>div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:7px 9px;text-align:center}.aggregate small{display:block;color:var(--muted);font-size:9px}.aggregate b{font-size:17px;color:var(--p)}.compact{padding:10px}.compact .result{margin-top:5px}.compact .icon{width:32px;height:32px;font-size:17px}.compact h3{font-size:14px}
+@media(min-width:801px){body{overflow:hidden}.wrap{height:100vh;overflow:hidden;padding:10px 14px}.hero{padding:15px 20px}.hero h1{font-size:25px}.top-actions{margin-top:9px}.stats{margin:8px 0}.section-head{margin:9px 2px 6px}.special{margin-top:8px;padding:11px}.info{margin-top:8px;padding:10px}.footer{margin-top:7px}}
+@media(max-width:800px){.class-grid{grid-template-columns:repeat(3,1fr)}}@media(max-width:560px){.class-grid{grid-template-columns:repeat(2,1fr)}.aggregate{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
@@ -35,7 +39,8 @@ label{display:block;font-size:11px;font-weight:800;color:#4b5563;margin:13px 0 5
 <h1>संच मान्यता शिक्षक गणना</h1>
 <p>विद्यार्थी संख्या भरा आणि देय शिक्षक पदे लगेच पहा.</p>
 <div class="top-actions">
-<a class="btn btn-light" href="संच मान्यता शासन निर्णय १५ मार्च २०२४.pdf" target="_blank" rel="noopener">📄 शासन निर्णय</a>
+<a class="btn btn-light" href="index.html">⌂ होमपेज</a>
+<a class="btn btn-glass" href="संच मान्यता शासन निर्णय १५ मार्च २०२४.pdf" target="_blank" rel="noopener">📄 शासन निर्णय</a>
 <button class="btn btn-glass" onclick="resetAll()">↻ सर्व माहिती साफ करा</button>
 </div>
 </section>
@@ -48,33 +53,28 @@ label{display:block;font-size:11px;font-weight:800;color:#4b5563;margin:13px 0 5
 </div>
 
 <div class="section-head"><h2>📊 विद्यार्थी गट</h2><span>Live Calculation</span></div>
+<div class="class-grid">
+<section class="class-card"><label for="p5">५ वी विद्यार्थी</label><input id="p5" type="number" min="0" inputmode="numeric" placeholder="संख्या"></section><section class="class-card"><label for="p6">६ वी विद्यार्थी</label><input id="p6" type="number" min="0" inputmode="numeric" placeholder="संख्या"></section><section class="class-card"><label for="p7">७ वी विद्यार्थी</label><input id="p7" type="number" min="0" inputmode="numeric" placeholder="संख्या"></section><section class="class-card"><label for="p8">८ वी विद्यार्थी</label><input id="p8" type="number" min="0" inputmode="numeric" placeholder="संख्या"></section><section class="class-card"><label for="p9">९ वी विद्यार्थी</label><input id="p9" type="number" min="0" inputmode="numeric" placeholder="संख्या"></section><section class="class-card"><label for="p10">१० वी विद्यार्थी</label><input id="p10" type="number" min="0" inputmode="numeric" placeholder="संख्या"></section>
+</div>
+<div class="aggregate">
+<div><small>५ वी</small><b id="agg5">—</b></div>
+<div><small>६–८ एकूण</small><b id="agg68">—</b></div>
+<div><small>९–१० एकूण</small><b id="agg910">—</b></div>
+<div><small>५–१० एकूण</small><b id="aggTotal">—</b></div>
+</div>
 <div class="cards">
-<section class="card">
-<div class="card-title"><div class="icon">📘</div><h3>इयत्ता १ ते ५</h3><span class="tag">PRIMARY</span></div>
-<label for="p15">विद्यार्थी संख्या</label><div class="input-wrap"><input id="p15" type="number" min="0" inputmode="numeric" placeholder="उदा. 120"></div>
-<div class="result" id="box15"><span>देय शिक्षक पदे</span><strong id="r15">—</strong></div>
-</section>
-
-<section class="card">
-<div class="card-title"><div class="icon">📗</div><h3>इयत्ता ६ ते ८</h3><span class="tag">UPPER</span></div>
-<label for="p68">एकूण विद्यार्थी संख्या</label><div class="input-wrap"><input id="p68" type="number" min="0" inputmode="numeric" placeholder="उदा. 120"></div>
-<div class="result" id="box68"><span>देय शिक्षक पदे</span><strong id="r68">—</strong></div>
-</section>
-
-<section class="card">
-<div class="card-title"><div class="icon">📕</div><h3>इयत्ता ९ ते १०</h3><span class="tag">SECONDARY</span></div>
-<label for="p910">९ वी + १० वी विद्यार्थी</label><div class="input-wrap"><input id="p910" type="number" min="0" inputmode="numeric" placeholder="उदा. 140"></div>
-<div class="result" id="box910"><span>देय शिक्षक पदे</span><strong id="r910">—</strong></div>
-</section>
+<section class="card compact"><div class="card-title"><div class="icon">📘</div><h3>५ वी</h3></div><div class="result"><span>देय शिक्षक पदे</span><strong id="r5">—</strong></div></section>
+<section class="card compact"><div class="card-title"><div class="icon">📗</div><h3>६ ते ८</h3></div><div class="result"><span>देय शिक्षक पदे</span><strong id="r68">—</strong></div></section>
+<section class="card compact"><div class="card-title"><div class="icon">📕</div><h3>९ ते १०</h3></div><div class="result"><span>देय शिक्षक पदे</span><strong id="r910">—</strong></div></section>
 </div>
 
 <section class="special">
 <div class="card-title"><div class="icon">🎨</div><h3 style="font:400 19px 'Tiro Devanagari Marathi',serif">विशेष शिक्षक</h3><span class="tag">१ ते १०</span></div>
-<p class="hint">इयत्ता १ ते १० मधील एकूण विद्यार्थी संख्या भरा. त्यानुसार विशेष शिक्षक पदांची गणना आपोआप होईल.</p>
+<p class="hint">इयत्ता ५ ते १० मधील वर्गनिहाय विद्यार्थी संख्या वर भरल्यानंतर एकूण संख्या आपोआप घेतली जाईल. त्यानुसार विशेष शिक्षक पदांची गणना आपोआप होईल.</p>
 <div class="special-grid">
 <div class="mini">
-<h4>🏫 इयत्ता १ ते १०</h4>
-<label for="sp110">एकूण विद्यार्थी संख्या</label><input id="sp110" type="number" min="0" inputmode="numeric" placeholder="उदा. 500">
+<h4>🏫 इयत्ता ५ ते १०</h4>
+<label>एकूण विद्यार्थी संख्या</label><input id="sp110" type="number" min="0" readonly placeholder="आपोआप">
 <div class="result"><span>🎨 कला / संगीत</span><strong id="specialArt">—</strong></div>
 <div class="result"><span>🏃 क्रीडा शिक्षक</span><strong id="specialSport">—</strong></div>
 <div class="result"><span>🛠️ कार्यानुभव / ICT</span><strong id="specialIct">—</strong></div>
@@ -121,13 +121,17 @@ function special110(n){
 }
 function setResult(id,val){const el=document.getElementById(id),box=el.closest('.result');if(el.textContent!==String(val))box.classList.remove('live'),void box.offsetWidth,box.classList.add('live');el.textContent=val}
 function calc(){
- const a=+document.getElementById('p15').value||0,b=+document.getElementById('p68').value||0,c=+document.getElementById('p910').value||0,sn=+document.getElementById('sp110').value||0;
- const v15=a?p15(a):0,v68=b?p68(b):0,v910=c?p910(c):0,special=sn?special110(sn):[0,0,0];
- setResult('r15',a?v15:'—');setResult('r68',b?v68:'—');setResult('r910',c?v910:'—');setResult('specialArt',sn?special[1]:'—');setResult('specialStudents',sn?sn:'—');setResult('specialSport',sn?special[0]:'—');setResult('specialIct',sn?special[2]:'—');setResult('specialTotal',sn?(special[0]+special[1]+special[2]):'—');
- document.getElementById('s15').textContent=a?v15:'—';document.getElementById('s68').textContent=b?v68:'—';document.getElementById('s910').textContent=c?v910:'—';document.getElementById('total').textContent=(a||b||c)?(v15+v68+v910):'—';
+ const p5=+document.getElementById('p5').value||0,p6=+document.getElementById('p6').value||0,p7=+document.getElementById('p7').value||0,p8=+document.getElementById('p8').value||0,p9=+document.getElementById('p9').value||0,p10=+document.getElementById('p10').value||0;
+ const a68=p6+p7+p8,a910=p9+p10,total=p5+a68+a910,sn=total;
+ const v5=p5?p15(p5):0,v68=a68?p68(a68):0,v910=a910?p910(a910):0,special=sn?special110(sn):[0,0,0];
+ document.getElementById('sp110').value=sn||'';
+ setResult('r5',p5?v5:'—');setResult('r68',a68?v68:'—');setResult('r910',a910?v910:'—');
+ setResult('specialArt',sn?special[1]:'—');setResult('specialStudents',sn?sn:'—');setResult('specialSport',sn?special[0]:'—');setResult('specialIct',sn?special[2]:'—');setResult('specialTotal',sn?(special[0]+special[1]+special[2]):'—');
+ ['agg5','agg68','agg910','aggTotal'].forEach((id,i)=>document.getElementById(id).textContent=[p5,a68,a910,total][i]||'—');
+ document.getElementById('s15').textContent=p5?v5:'—';document.getElementById('s68').textContent=a68?v68:'—';document.getElementById('s910').textContent=a910?v910:'—';document.getElementById('total').textContent=total?(v5+v68+v910):'—';
 }
 function resetAll(){document.querySelectorAll('input').forEach(e=>e.value='');calc()}
-document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('input').forEach(e=>e.addEventListener('input',calc));calc()});
+document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('.class-card input').forEach(e=>e.addEventListener('input',calc));calc()});
 </script>
 </body>
 </html>
