@@ -75,7 +75,10 @@ label{display:block;font-size:11px;font-weight:800;color:#4b5563;margin:13px 0 5
 <div class="mini">
 <h4>🏫 इयत्ता १ ते १०</h4>
 <label for="sp110">एकूण विद्यार्थी संख्या</label><input id="sp110" type="number" min="0" inputmode="numeric" placeholder="उदा. 500">
-<div class="result"><span>🎨 विशेष शिक्षक पदे</span><strong id="specialTotal">—</strong></div>
+<div class="result"><span>🎨 कला / संगीत</span><strong id="specialArt">—</strong></div>
+<div class="result"><span>🏃 क्रीडा शिक्षक</span><strong id="specialSport">—</strong></div>
+<div class="result"><span>🛠️ कार्यानुभव / ICT</span><strong id="specialIct">—</strong></div>
+<div class="result"><span>📊 एकूण विशेष शिक्षक पदे</span><strong id="specialTotal">—</strong></div>
 </div>
 <div class="mini">
 <h4>📌 गणनेचा सारांश</h4>
@@ -103,7 +106,7 @@ label{display:block;font-size:11px;font-weight:800;color:#4b5563;margin:13px 0 5
 </div>
 
 <script>
-function p15(n){if(!n)return 0;if(n<=20)return 1;if(n<=60)return 2;if(n<=90)return 3;if(n<=120)return 4;if(n<=150)return 5;if(n<=180)return 6;if(n<=210)return 7;if(n<=250)return 8;return 8+Math.ceil((n-250)/40)}
+function p15(n){if(!n||n<20)return 0;if(n<=35)return 1;if(n<=70)return 2;if(n<=105)return 3;return 3+Math.ceil((n-105)/35)}
 function p68(n){if(!n)return 0;if(n<20)return 0;if(n<=60)return 2;if(n<=105)return 3;if(n<=140)return 4;if(n<=175)return 5;return 5+Math.ceil((n-175)/35)}
 function p910(n){if(!n)return 0;if(n<40)return 0;if(n<=100)return 3;if(n<=140)return 4;if(n<=180)return 5;if(n<=220)return 6;return 6+Math.ceil((n-220)/40)}
 function special110(n){
@@ -120,7 +123,7 @@ function setResult(id,val){const el=document.getElementById(id),box=el.closest('
 function calc(){
  const a=+document.getElementById('p15').value||0,b=+document.getElementById('p68').value||0,c=+document.getElementById('p910').value||0,sn=+document.getElementById('sp110').value||0;
  const v15=a?p15(a):0,v68=b?p68(b):0,v910=c?p910(c):0,special=sn?special110(sn):[0,0,0];
- setResult('r15',a?v15:'—');setResult('r68',b?v68:'—');setResult('r910',c?v910:'—');setResult('specialArt',sn?special[1]:'—');setResult('specialStudents',sn?sn:'—');setResult('specialSport',sn?special[0]:'—');setResult('specialIct',sn?special[2]:'—');
+ setResult('r15',a?v15:'—');setResult('r68',b?v68:'—');setResult('r910',c?v910:'—');setResult('specialArt',sn?special[1]:'—');setResult('specialStudents',sn?sn:'—');setResult('specialSport',sn?special[0]:'—');setResult('specialIct',sn?special[2]:'—');setResult('specialTotal',sn?(special[0]+special[1]+special[2]):'—');
  document.getElementById('s15').textContent=a?v15:'—';document.getElementById('s68').textContent=b?v68:'—';document.getElementById('s910').textContent=c?v910:'—';document.getElementById('total').textContent=(a||b||c)?(v15+v68+v910):'—';
 }
 function resetAll(){document.querySelectorAll('input').forEach(e=>e.value='');calc()}
