@@ -7,127 +7,104 @@
 <meta name="description" content="विद्यार्थी संख्येनुसार संच मान्यता शिक्षक गणना">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Mukta:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--p:#5b21b6;--p2:#7c3aed;--blue:#2563eb;--ink:#182033;--muted:#667085;--bg:#f5f7ff;--card:#fff;--line:#e7eaf3;--green:#059669;--orange:#ea580c}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 10% 0%,#ede9fe 0,transparent 30%),radial-gradient(circle at 100% 10%,#dbeafe 0,transparent 28%),var(--bg);color:var(--ink);font-family:'Manrope','Nirmala UI',sans-serif}
-.wrap{max-width:1080px;margin:auto;padding:16px 14px 34px}
-.hero{position:relative;overflow:hidden;border-radius:24px;padding:24px;color:#fff;background:linear-gradient(135deg,#351070 0%,#6d28d9 52%,#2563eb 100%);box-shadow:0 18px 45px #4c1d9560}
-.hero:before,.hero:after{content:"";position:absolute;border-radius:50%;background:#ffffff18;animation:float 7s ease-in-out infinite}.hero:before{width:170px;height:170px;right:-45px;top:-75px}.hero:after{width:100px;height:100px;right:170px;bottom:-65px;animation-delay:1s}
-@keyframes float{50%{transform:translateY(12px) scale(1.05)}}.hero>*{position:relative;z-index:1}
-.kicker{font:600 13px 'Manrope';opacity:.88;letter-spacing:.3px}.hero h1{font:400 30px 'Tiro Devanagari Marathi',serif;margin:4px 0 2px}.hero p{margin:0;opacity:.9;font-size:13px}
-.top-actions{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}.btn{border:0;text-decoration:none;cursor:pointer;border-radius:12px;padding:9px 13px;font-weight:800;font-size:12px}.btn-light{background:#fff;color:#4c1d95}.btn-glass{background:#ffffff1c;color:#fff;border:1px solid #ffffff38}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}.stat{background:#ffffffc9;border:1px solid #fff;border-radius:16px;padding:12px;box-shadow:0 7px 24px #1725540c;backdrop-filter:blur(8px)}.stat small{display:block;color:var(--muted);font-size:11px}.stat b{font-size:20px;color:var(--p)}
-.section-head{display:flex;align-items:end;justify-content:space-between;margin:20px 2px 10px}.section-head h2{font:400 22px 'Tiro Devanagari Marathi',serif;margin:0}.section-head span{font-size:11px;color:var(--muted)}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.card{background:#ffffffea;border:1px solid var(--line);border-radius:18px;padding:15px;box-shadow:0 8px 25px #1725540a;transition:.25s;position:relative;overflow:hidden}.card:hover{transform:translateY(-3px);box-shadow:0 14px 30px #17255418;border-color:#c4b5fd}.card:after{content:"";position:absolute;width:75px;height:75px;border-radius:50%;right:-30px;top:-35px;background:#ede9fe}
-.card-title{display:flex;align-items:center;gap:9px;position:relative;z-index:1}.icon{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;font-size:21px;background:linear-gradient(135deg,#ede9fe,#dbeafe)}.card h3{font:400 17px 'Tiro Devanagari Marathi',serif;margin:0}.tag{font:700 9px 'Manrope';color:var(--p);background:#f3e8ff;padding:3px 7px;border-radius:20px;margin-left:auto}
-label{display:block;font-size:11px;font-weight:800;color:#4b5563;margin:13px 0 5px}.input-wrap{position:relative}.input-wrap input{width:100%;padding:11px 12px;border:1px solid #d9ddeb;border-radius:12px;background:#fbfcff;outline:none;font:600 17px 'Manrope';transition:.2s}.input-wrap input:focus{border-color:#8b5cf6;box-shadow:0 0 0 4px #8b5cf620;background:#fff}.result{margin-top:10px;border-radius:13px;padding:10px 11px;background:linear-gradient(135deg,#f5f3ff,#eff6ff);border:1px solid #e8e3ff;display:flex;align-items:center;justify-content:space-between}.result span{font-size:11px;color:#596275;font-weight:700}.result strong{font:800 21px 'Manrope';color:var(--p2);min-width:34px;text-align:right}.result.live{animation:pulse .35s ease}@keyframes pulse{50%{transform:scale(1.025)}}
-.special{margin-top:12px;background:linear-gradient(135deg,#fff,#f8f5ff);border:1px solid #ddd6fe;border-radius:20px;padding:16px;box-shadow:0 10px 28px #5b21b610}.special-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.mini{background:#fff;border:1px solid var(--line);border-radius:15px;padding:12px}.mini h4{font:400 15px 'Tiro Devanagari Marathi',serif;margin:0 0 4px}.mini .result{margin-top:7px}.hint{font-size:11px;color:var(--muted);margin:10px 2px 0;line-height:1.5}
-.info{margin-top:12px;background:#111827;color:#fff;border-radius:18px;padding:15px}.info summary{cursor:pointer;font:400 18px 'Tiro Devanagari Marathi',serif}.rules{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.rule{background:#ffffff0d;border:1px solid #ffffff18;border-radius:12px;padding:9px;font-size:11px;line-height:1.55;color:#dbe4f0}.notice{margin-top:10px;padding:10px;border-radius:12px;background:#fff7ed;color:#9a3412;font-size:11px;line-height:1.5}
-.footer{text-align:center;color:#7a8496;font-size:10px;margin-top:18px}
-@media(max-width:800px){.cards{grid-template-columns:1fr 1fr}.stats{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.wrap{padding:10px}.hero{padding:19px;border-radius:20px}.hero h1{font-size:25px}.cards,.special-grid,.rules{grid-template-columns:1fr}.stats{gap:7px}.stat{padding:9px}.stat b{font-size:17px}}
+:root{--p:#5b21b6;--p2:#7c3aed;--ink:#182033;--muted:#667085;--line:#e7eaf3}
+*{box-sizing:border-box}
+body{margin:0;background:#f5f7ff;color:var(--ink);font-family:"Mukta","Nirmala UI","Mangal",Arial,sans-serif}
+.wrap{max-width:720px;margin:auto;padding:8px}
+.hero{display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap;border-radius:12px;padding:8px 12px;color:#fff;background:linear-gradient(135deg,#351070,#6d28d9 55%,#2563eb)}
+.hero small{display:block;font:600 10px Arial,sans-serif;opacity:.85;letter-spacing:.3px}
+.hero h1{font:700 22px/1.2 "Baloo 2","Mukta","Nirmala UI","Mangal",sans-serif;margin:0}
+.btns{display:flex;gap:6px}
+.btn{border:0;text-decoration:none;cursor:pointer;border-radius:8px;padding:6px 10px;font:700 12px "Mukta","Nirmala UI","Mangal",Arial,sans-serif;background:#fff;color:#4c1d95}
+.btn.g{background:#ffffff26;color:#fff;border:1px solid #ffffff44}
+.panel{background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px 10px;margin-top:8px}
+.panel h2{font:600 16px/1.3 "Baloo 2","Mukta","Nirmala UI","Mangal",sans-serif;margin:0 0 4px}
+.row{display:grid;grid-template-columns:1fr 100px 52px;gap:8px;align-items:center;padding:5px 0;border-top:1px solid #f0f1f7}
+.row.h{border-top:0;font-size:10px;color:var(--muted);font-weight:700;padding:0}
+.row b{font:600 16px "Baloo 2","Mukta","Nirmala UI","Mangal",sans-serif}
+.row input{width:100%;padding:6px 8px;border:1px solid #d9ddeb;border-radius:8px;background:#fbfcff;outline:none;font:600 16px "Mukta","Nirmala UI","Mangal",Arial,sans-serif}
+.row input:focus{border-color:#8b5cf6;box-shadow:0 0 0 3px #8b5cf620}
+.num{font:800 20px "Baloo 2","Mukta","Nirmala UI","Mangal",sans-serif;color:var(--p2);text-align:center}
+.g4,.g3{display:grid;gap:6px}.g4{grid-template-columns:repeat(4,1fr)}.g3{grid-template-columns:repeat(3,1fr)}
+.box{background:linear-gradient(135deg,#f5f3ff,#eff6ff);border:1px solid #e8e3ff;border-radius:10px;padding:5px 4px;text-align:center}
+.box small{display:block;font-size:10px;color:#596275;font-weight:700;line-height:1.25}
+.box strong{font:800 20px "Baloo 2","Mukta","Nirmala UI","Mangal",sans-serif;color:var(--p2)}
+.box.k{background:linear-gradient(135deg,#ede9fe,#e0e7ff)}
+.hint{font-size:10px;color:var(--muted);margin:0 0 5px}
+details{margin-top:8px;background:#111827;color:#fff;border-radius:12px;padding:7px 10px}
+summary{cursor:pointer;font:600 14px "Baloo 2","Mukta","Nirmala UI","Mangal",sans-serif}
+details ol{margin:6px 0 4px;padding-left:18px;font-size:11px;line-height:1.55;color:#dbe4f0}
+.notice{margin-top:4px;padding:6px 8px;border-radius:8px;background:#fff7ed;color:#9a3412;font-size:10px;line-height:1.4}
+.footer{text-align:center;color:#7a8496;font-size:9px;margin-top:6px}
 </style>
 </head>
 <body>
 <div class="wrap">
 <section class="hero">
-<div class="kicker">DIGITAL SATHIDAR • SCHOOL TOOLS</div>
-<h1>संच मान्यता शिक्षक गणना</h1>
-<p>विद्यार्थी संख्या भरा आणि देय शिक्षक पदे लगेच पहा.</p>
-<div class="top-actions">
-<a class="btn btn-light" href="संच मान्यता शासन निर्णय १५ मार्च २०२४.pdf" target="_blank" rel="noopener">📄 शासन निर्णय</a>
-<button class="btn btn-glass" onclick="resetAll()">↻ सर्व माहिती साफ करा</button>
+<div><small>DIGITAL SATHIDAR • SCHOOL TOOLS</small><h1>संच मान्यता शिक्षक गणना</h1></div>
+<div class="btns"><a class="btn" href="https://rayatsevaksujit.github.io/applications/">🏠 मुख्य पृष्ठ</a><a class="btn" href="संच मान्यता शासन निर्णय १५ मार्च २०२४.pdf" target="_blank" rel="noopener">📄 शासन निर्णय</a><button class="btn g" onclick="resetAll()">↻ साफ करा</button></div>
+</section>
+
+<section class="panel">
+<h2>📊 विद्यार्थी गट व देय शिक्षक पदे</h2>
+<div class="row h"><span>गट</span><span>विद्यार्थी संख्या</span><span style="text-align:center">पदे</span></div>
+<div class="row"><b>📘 ५ वी</b><input id="p5" type="number" min="0" inputmode="numeric" placeholder="उदा. 80"><span class="num" id="r5">—</span></div>
+<div class="row"><b>📗 ६ ते ८ वी</b><input id="p68" type="number" min="0" inputmode="numeric" placeholder="उदा. 120"><span class="num" id="r68">—</span></div>
+<div class="row"><b>📕 ९ ते १० वी</b><input id="p910" type="number" min="0" inputmode="numeric" placeholder="उदा. 140"><span class="num" id="r910">—</span></div>
+</section>
+
+<section class="panel">
+<h2>🎨 विशेष शिक्षक पदे</h2>
+<p class="hint">५ वी + ६–८ + ९–१० ची बेरीज: <b id="tStu">—</b> विद्यार्थी</p>
+<div class="g4">
+<div class="box"><small>🏃 क्रीडा</small><strong id="sSport">—</strong></div>
+<div class="box"><small>🎨 कला / संगीत</small><strong id="sArt">—</strong></div>
+<div class="box"><small>🛠️ कार्यानुभव / ICT</small><strong id="sIct">—</strong></div>
+<div class="box k"><small>एकूण विशेष</small><strong id="sTot">—</strong></div>
 </div>
 </section>
 
-<div class="stats">
-<div class="stat"><small>१ ते ५</small><b id="s15">—</b></div>
-<div class="stat"><small>६ ते ८</small><b id="s68">—</b></div>
-<div class="stat"><small>९ ते १०</small><b id="s910">—</b></div>
-<div class="stat"><small>एकूण पदे</small><b id="total">—</b></div>
-</div>
-
-<div class="section-head"><h2>📊 विद्यार्थी गट</h2><span>Live Calculation</span></div>
-<div class="cards">
-<section class="card">
-<div class="card-title"><div class="icon">📘</div><h3>इयत्ता १ ते ५</h3><span class="tag">PRIMARY</span></div>
-<label for="p15">विद्यार्थी संख्या</label><div class="input-wrap"><input id="p15" type="number" min="0" inputmode="numeric" placeholder="उदा. 120"></div>
-<div class="result" id="box15"><span>देय शिक्षक पदे</span><strong id="r15">—</strong></div>
-</section>
-
-<section class="card">
-<div class="card-title"><div class="icon">📗</div><h3>इयत्ता ६ ते ८</h3><span class="tag">UPPER</span></div>
-<label for="p68">एकूण विद्यार्थी संख्या</label><div class="input-wrap"><input id="p68" type="number" min="0" inputmode="numeric" placeholder="उदा. 120"></div>
-<div class="result" id="box68"><span>देय शिक्षक पदे</span><strong id="r68">—</strong></div>
-</section>
-
-<section class="card">
-<div class="card-title"><div class="icon">📕</div><h3>इयत्ता ९ ते १०</h3><span class="tag">SECONDARY</span></div>
-<label for="p910">९ वी + १० वी विद्यार्थी</label><div class="input-wrap"><input id="p910" type="number" min="0" inputmode="numeric" placeholder="उदा. 140"></div>
-<div class="result" id="box910"><span>देय शिक्षक पदे</span><strong id="r910">—</strong></div>
-</section>
-</div>
-
-<section class="special">
-<div class="card-title"><div class="icon">🎨</div><h3 style="font:400 19px 'Tiro Devanagari Marathi',serif">विशेष शिक्षक</h3><span class="tag">१ ते १०</span></div>
-<p class="hint">इयत्ता १ ते १० मधील एकूण विद्यार्थी संख्या भरा. त्यानुसार विशेष शिक्षक पदांची गणना आपोआप होईल.</p>
-<div class="special-grid">
-<div class="mini">
-<h4>🏫 इयत्ता १ ते १०</h4>
-<label for="sp110">एकूण विद्यार्थी संख्या</label><input id="sp110" type="number" min="0" inputmode="numeric" placeholder="उदा. 500">
-<div class="result"><span>🎨 कला / संगीत</span><strong id="specialArt">—</strong></div>
-<div class="result"><span>🏃 क्रीडा शिक्षक</span><strong id="specialSport">—</strong></div>
-<div class="result"><span>🛠️ कार्यानुभव / ICT</span><strong id="specialIct">—</strong></div>
-<div class="result"><span>📊 एकूण विशेष शिक्षक पदे</span><strong id="specialTotal">—</strong></div>
-</div>
-<div class="mini">
-<h4>📌 गणनेचा सारांश</h4>
-<div class="result"><span>विद्यार्थी</span><strong id="specialStudents">—</strong></div>
-<div class="result"><span>🏃 ९–१० क्रीडा शिक्षक</span><strong id="specialSport">—</strong></div>
-<div class="result"><span>🛠️ ६–८ कार्यानुभव / ICT</span><strong id="specialIct">—</strong></div>
-</div>
+<section class="panel">
+<h2>✅ एकूण सारांश</h2>
+<div class="g3">
+<div class="box"><small>नियमित शिक्षक पदे</small><strong id="tReg">—</strong></div>
+<div class="box"><small>विशेष शिक्षक पदे</small><strong id="tSp">—</strong></div>
+<div class="box k"><small>सर्व एकूण पदे</small><strong id="tAll">—</strong></div>
 </div>
 </section>
 
-<details class="info">
+<details>
 <summary>📋 नियम व महत्त्वाच्या सूचना</summary>
-<div class="rules">
-<div class="rule"><b>१.</b> विद्यार्थी संख्या भरल्यानंतर देय पदसंख्या आपोआप दाखवली जाते.</div>
-<div class="rule"><b>२.</b> १–५, ६–८ आणि ९–१० साठी स्वतंत्र निकष लागू आहेत.</div>
-<div class="rule"><b>३.</b> विशेष शिक्षक विभागात फक्त ६–८ व ९–१० गट विचारले आहेत.</div>
-<div class="rule"><b>४.</b> विषय शिक्षकांसाठी पूर्णवेळ विषय कार्यभाराच्या लागू अटी विचारात घ्याव्यात.</div>
-<div class="rule"><b>५.</b> क्रीडा शिक्षकासाठी लागू किमान कार्यभाराची अट ग्राह्य धरावी.</div>
-<div class="rule"><b>६.</b> अधिकृत संचमान्यतेसाठी लागू शासन निर्देश व अधिकृत विद्यार्थी संख्या ग्राह्य धरावी.</div>
-</div>
+<ol>
+<li>विद्यार्थी संख्या भरल्यावर देय पदे आपोआप दिसतात.</li>
+<li>५ वी, ६–८ आणि ९–१० साठी स्वतंत्र निकष लागू आहेत.</li>
+<li>विशेष शिक्षक (क्रीडा, कला/संगीत, कार्यानुभव/ICT) साठी ५ वी + ६–८ + ९–१० या तिन्ही गटांची बेरीज धरली जाते.</li>
+<li>शेवटच्या टप्प्यानंतर (५ वी: १०५, ६–८: १७५ → पूर्ण ३५ विद्यार्थी; ९–१०: २२० → पूर्ण ४० विद्यार्थी) वाढले की १ पद वाढते.</li>
+<li>अधिकृत संचमान्यतेसाठी शासन निर्देश व अधिकृत विद्यार्थी संख्या ग्राह्य धरावी.</li>
+</ol>
 <div class="notice"><b>महत्त्वाची सूचना:</b> ही गणना फक्त माहितीकरिता आहे. अधिकृत संचमान्यता / पदमान्यता आदेशाचा हा पर्याय नाही.</div>
 </details>
-
 <div class="footer">संदर्भ: महाराष्ट्र शासन, शालेय शिक्षण व क्रीडा विभाग — शासन निर्णय, १५ मार्च २०२४</div>
 </div>
-
 <script>
-function p15(n){if(!n||n<20)return 0;if(n<=35)return 1;if(n<=70)return 2;if(n<=105)return 3;return 3+Math.ceil((n-105)/35)}
-function p68(n){if(!n)return 0;if(n<20)return 0;if(n<=60)return 2;if(n<=105)return 3;if(n<=140)return 4;if(n<=175)return 5;return 5+Math.ceil((n-175)/35)}
-function p910(n){if(!n)return 0;if(n<40)return 0;if(n<=100)return 3;if(n<=140)return 4;if(n<=180)return 5;if(n<=220)return 6;return 6+Math.ceil((n-220)/40)}
-function special110(n){
- if(!n)return[0,0,0];
- if(n<251)return[0,0,0];
- if(n<=500)return[1,0,0];
- if(n<=750)return[1,1,1];
- if(n<=1000)return[2,1,1];
- if(n<=1250)return[2,2,1];
- if(n<=1500)return[3,2,1];
- return[3,2,2];
-}
-function setResult(id,val){const el=document.getElementById(id),box=el.closest('.result');if(el.textContent!==String(val))box.classList.remove('live'),void box.offsetWidth,box.classList.add('live');el.textContent=val}
+const $=id=>document.getElementById(id);
+function p5(n){if(n<20)return 0;if(n<=35)return 1;if(n<=70)return 2;if(n<=105)return 3;return 3+Math.floor((n-105)/35)}
+function p68(n){if(n<20)return 0;if(n<60)return 2;if(n<=105)return 3;if(n<=140)return 4;if(n<=175)return 5;return 5+Math.floor((n-175)/35)}
+function p910(n){if(n<40)return 0;if(n<=100)return 3;if(n<=140)return 4;if(n<=180)return 5;if(n<=220)return 6;return 6+Math.floor((n-220)/40)}
+function sp(n){if(n<251)return[0,0,0];if(n<=500)return[1,0,0];if(n<=750)return[1,1,1];if(n<=1000)return[2,1,1];if(n<=1250)return[2,2,1];if(n<=1500)return[3,2,1];return[3,2,2]}
+function val(id){return Math.max(0,parseInt($(id).value)||0)}
+function show(id,on,v){$(id).textContent=on?v:"—"}
 function calc(){
- const a=+document.getElementById('p15').value||0,b=+document.getElementById('p68').value||0,c=+document.getElementById('p910').value||0,sn=+document.getElementById('sp110').value||0;
- const v15=a?p15(a):0,v68=b?p68(b):0,v910=c?p910(c):0,special=sn?special110(sn):[0,0,0];
- setResult('r15',a?v15:'—');setResult('r68',b?v68:'—');setResult('r910',c?v910:'—');setResult('specialArt',sn?special[1]:'—');setResult('specialStudents',sn?sn:'—');setResult('specialSport',sn?special[0]:'—');setResult('specialIct',sn?special[2]:'—');setResult('specialTotal',sn?(special[0]+special[1]+special[2]):'—');
- document.getElementById('s15').textContent=a?v15:'—';document.getElementById('s68').textContent=b?v68:'—';document.getElementById('s910').textContent=c?v910:'—';document.getElementById('total').textContent=(a||b||c)?(v15+v68+v910):'—';
+ const a=val("p5"),b=val("p68"),c=val("p910"),sn=a+b+c;
+ const v5=p5(a),v68=p68(b),v910=p910(c),s=sp(sn),st=s[0]+s[1]+s[2],reg=v5+v68+v910;
+ show("r5",a,v5);show("r68",b,v68);show("r910",c,v910);
+ show("tStu",sn,sn);show("sSport",sn,s[0]);show("sArt",sn,s[1]);show("sIct",sn,s[2]);show("sTot",sn,st);
+ show("tReg",sn,reg);show("tSp",sn,st);show("tAll",sn,reg+st);
 }
-function resetAll(){document.querySelectorAll('input').forEach(e=>e.value='');calc()}
-document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('input').forEach(e=>e.addEventListener('input',calc));calc()});
+function resetAll(){document.querySelectorAll("input").forEach(e=>e.value="");calc()}
+document.addEventListener("DOMContentLoaded",()=>{document.querySelectorAll("input").forEach(e=>e.addEventListener("input",calc));calc()});
 </script>
 </body>
 </html>
