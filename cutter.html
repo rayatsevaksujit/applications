@@ -45,7 +45,56 @@
         .box-label { background: #0f172a; color: #fff; font-size: 11px; font-weight: 600; padding: 1px 4px; border-radius: 2px; pointer-events: none; }
         .box-close { background: #e11d48; color: white; border: none; border-radius: 50%; width: 15px; height: 15px; font-size: 9px; cursor: pointer; }
         .resize-handle { position: absolute; width: 9px; height: 9px; background: #ffffff; border: 2px solid #0f172a; bottom: -4px; right: -4px; cursor: se-resize; }
-    </style>
+    
+/* ===== Responsive layout / desktop + mobile improvement ===== */
+html{width:100%;overflow-x:hidden}
+body{min-width:0;max-width:100%;overflow-x:hidden}
+img,canvas,video,iframe,svg{max-width:100%}
+input,select,textarea,button{max-width:100%;font-size:16px}
+@media (min-width:1200px){
+  body{padding-left:24px;padding-right:24px}
+  .top-bar{max-width:1400px!important}
+  .pdf-container,.container{max-width:1400px!important}
+  .hw-container{max-width:1400px;margin-left:auto;margin-right:auto}
+  .wrap{max-width:1400px!important;padding:24px!important}
+}
+@media (max-width:768px){
+  body{padding:10px!important}
+  .top-bar{flex-direction:column!important;align-items:stretch!important;gap:8px}
+  .top-bar>*{width:100%;text-align:center}
+  .back-btn{justify-content:center}
+  .container{grid-template-columns:1fr!important;min-width:0!important}
+  .hw-container{width:100%;min-width:0!important;gap:10px}
+  .hw-controls{min-width:0!important;max-width:none!important;width:100%}
+  .hw-preview-wrapper{min-width:0!important;width:100%;padding:8px}
+  .paper{width:100%!important;max-width:100%!important;min-width:0!important}
+  .cutter-bar{flex-direction:column!important;align-items:stretch!important}
+  .cutter-bar>*{width:100%!important}
+  .cutter-viewport{width:100%;max-width:100%;max-height:70vh;overflow:auto}
+  #canvasWrapper{max-width:none}
+  #scannedDoc{width:min(850px,100vw - 40px)!important;max-width:none!important;height:auto}
+  .pdf-container{width:100%;max-width:none!important;min-width:0}
+  .pdf-subnav{display:grid!important;grid-template-columns:1fr!important}
+  .pdf-sub-btn{width:100%}
+  .pdf-tool-view{padding:14px!important}
+  .seo-intro{max-width:100%!important}
+  .wrap{width:100%;max-width:none!important;padding:10px!important}
+  .row{grid-template-columns:1fr 90px 48px!important;gap:5px!important}
+}
+@media (max-width:420px){
+  .row{grid-template-columns:1fr 78px 44px!important}
+  .hero h1{font-size:20px!important}
+  .box strong{font-size:18px!important}
+}
+
+.related-tools{width:min(1400px,100%);margin:28px auto 0;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:20px;box-shadow:0 4px 12px rgba(0,0,0,.05)}
+.related-tools h2{margin:0 0 12px;font-size:20px;line-height:1.3}
+.related-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.related-grid a{display:block;padding:11px 12px;border:1px solid #e2e8f0;border-radius:9px;text-decoration:none;color:#1e40af;background:#f8fafc;font-weight:700}
+.related-grid a:hover{background:#eff6ff;border-color:#93c5fd}
+@media(max-width:800px){.related-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:480px){.related-grid{grid-template-columns:1fr}.related-tools{padding:14px}.related-tools h2{font-size:18px}}
+</style>
 </head>
 <body>
 
@@ -224,5 +273,18 @@
         });
     }
 </script>
-</body>
+
+<section class="related-tools" aria-label="संबंधित Digital SATHIDAR टूल्स">
+  <h2>🔗 संबंधित डिजिटल टूल्स</h2>
+  <div class="related-grid">
+    <a href="cutter.html">📸 फोटो व सही कटर</a>
+    <a href="pdf-tools.html">📄 PDF Tools</a>
+    <a href="da-calculator.html">📈 DA फरक कॅल्क्युलेटर</a>
+    <a href="hra-calculator.html">🏠 HRA फरक कॅल्क्युलेटर</a>
+    <a href="sanch-manyata.html">🏫 संच मान्यता शिक्षक गणना</a>
+    <a href="anki-to-akshari.html">🔢 अंकी ते अक्षरी व वय</a>
+    <a href="handwriting.html">✍️ हस्तलिखित कन्व्हर्टर</a>
+    <a href="index.html">🏠 Digital SATHIDAR मुख्य पृष्ठ</a>
+  </div>
+</section></body>
 </html>
