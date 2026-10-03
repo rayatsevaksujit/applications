@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>जुना कागद स्वच्छ करा | eDost साथी स्कॅन क्लीन | Digital SATHIDAR</title>
-<meta name="description" content="जुना LC, दाखला, रजिस्टर किंवा कागदपत्राचा फोटो स्वच्छ, स्पष्ट आणि वाचनीय करा. Grayscale, B&W, contrast, brightness, sharpness, dust removal आणि A4 Print/PDF सुविधा — Digital SATHIDAR.">
+<meta name="description" content="जुना LC, दाखला, रजिस्टर किंवा कागदपत्राचा फोटो स्वच्छ, स्पष्ट आणि वाचनीय करा. Grayscale, B&W, contrast, brightness, sharpness, dust removal आणि Crop, A4 Print/PDF सुविधा — Digital SATHIDAR.">
 <meta name="keywords" content="Digital SATHIDAR, Digital Sathidar, डिजिटल साथीदार, eDost साथी स्कॅन क्लीन, जुना कागद स्वच्छ, document scanner, document cleaner, LC scan clean, दाखला स्कॅन, रजिस्टर फोटो क्लीन, A4 PDF, grayscale document, black white scan">
 <meta name="author" content="Sujit Patil (SP)">
 <meta name="robots" content="index, follow, max-image-preview:large">
@@ -73,6 +73,7 @@ button{border-radius:7px}
 .site-seo{max-width:1440px;margin:0 auto 18px;padding:16px 20px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;color:#475569}
 .site-seo h2{margin:0 0 4px;color:#1e3a8a;font-size:20px}
 .site-seo p{margin:0;line-height:1.55}
+.crop-tools{align-items:center;flex-wrap:wrap;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:10px}.crop-tools select{padding:8px 12px;border:1px solid #cbd5e1;border-radius:7px;background:#fff;font-weight:700;color:#0f172a}.crop-tools .hint{flex:1;min-width:220px}.crop-active{cursor:crosshair}.crop-selected{outline:3px solid #1e40af;outline-offset:-3px}
 .related-tools{max-width:1440px;margin:0 auto 28px;padding:18px 20px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.04)}
 .related-tools h2{margin:0 0 10px;font-size:19px;color:#0f172a}
 .related-tools a{display:inline-block;margin:4px 6px 4px 0;padding:7px 11px;border:1px solid #dbeafe;border-radius:7px;background:#f8fafc;color:#1e40af;text-decoration:none;font-weight:700}
@@ -87,7 +88,7 @@ button{border-radius:7px}
 <div class="site-seo"><h2>eDost साथी स्कॅन क्लीन — जुना कागद, नवी स्पष्टता</h2><p>LC, दाखला, रजिस्टर आणि इतर कागदपत्रांचे फोटो स्वच्छ व स्पष्ट करा. फोटो डिव्हाइसच्या बाहेर न पाठवता offline processing.</p></div>
 <div class="wrap">
 <h1>eDost साथी स्कॅन क्लीन</h1>
-<p class="sub">जुना कागद, नवी स्पष्टता. एलसी, दाखला, रजिस्टर: सर्व कागदपत्रे स्वच्छ करा. पूर्णपणे ऑफलाईन, फोटो फोन/संगणकाबाहेर जात नाही.</p>
+<p class="sub">जुना कागद, नवी स्पष्टता. एलसी, दाखला, रजिस्टर: फोटो स्वच्छ करा, आवश्यक भाग Crop करा आणि A4 मध्ये सेट करून Print/PDF घ्या. पूर्णपणे ऑफलाईन, फोटो फोन/संगणकाबाहेर जात नाही.</p>
 
 <div class="drop" id="drop">
   <div>जुन्या एलसीचा फोटो निवडा किंवा येथे ड्रॅग करा</div>
@@ -116,6 +117,16 @@ button{border-radius:7px}
   <button class="alt" id="tilt">थोडा तिरपेपणा ठीक करा</button>
   <input type="range" id="angle" min="-10" max="10" step="0.1" value="0" style="flex:1;min-width:140px" aria-label="तिरपेपणा">
   <span id="vAng">0°</span>
+</div>
+<div class="row crop-tools" id="cropTools">
+  <button class="alt" id="cropStart">✂️ Crop निवडा</button>
+  <button class="alt" id="cropApply" disabled>✂️ Crop लागू करा</button>
+  <select id="a4Mode" class="alt" aria-label="A4 दिशा">
+    <option value="portrait">A4 Portrait</option>
+    <option value="landscape">A4 Landscape</option>
+  </select>
+  <button class="alt" id="a4Fit">📄 A4 मध्ये बसवा</button>
+  <span class="hint">मूळ फोटोमध्ये crop भाग ओढून निवडा.</span>
 </div>
 
 <div id="status">फोटो निवडा.</div>
@@ -146,7 +157,8 @@ button{border-radius:7px}
 const $=id=>document.getElementById(id);
 const src=$('src'),out=$('out'),sctx=src.getContext('2d'),octx=out.getContext('2d',{willReadFrequently:true});
 const MAXW=1800;
-let img=null,rot=0,mode='restore',pending=false,base=null; // base: rotated working canvas
+let img=null,rot=0,mode='restore',pending=false,base=null;
+let cropSelecting=false,cropStartPt=null,cropRect=null;
 
 const ids=['c','b','a','t','s','d'];
 const lab={c:'vC',b:'vB',a:'vA',t:'vT',s:'vS',d:'vD'};
@@ -183,7 +195,84 @@ function buildBase(){
   bx.fillStyle='#fff';bx.fillRect(0,0,W,H);
   bx.translate(W/2,H/2);bx.rotate(total);
   bx.drawImage(img,-w/2,-h/2,w,h);
-  src.width=W;src.height=H;sctx.drawImage(base,0,0);
+  src.width=W;src.height=H;renderSource();
+}
+
+function renderSource(){
+  if(!base)return;
+  sctx.clearRect(0,0,src.width,src.height);
+  sctx.drawImage(base,0,0);
+  if(cropRect){
+    const r=cropRect;
+    sctx.save();
+    sctx.fillStyle='rgba(15,23,42,.28)';
+    sctx.fillRect(0,0,src.width,src.height);
+    sctx.clearRect(r.x,r.y,r.w,r.h);
+    sctx.strokeStyle='#1e40af';
+    sctx.lineWidth=Math.max(3,Math.round(Math.min(src.width,src.height)/500));
+    sctx.setLineDash([10,6]);
+    sctx.strokeRect(r.x+.5,r.y+.5,r.w-1,r.h-1);
+    sctx.restore();
+  }
+}
+function pointerPoint(e){
+  const q=src.getBoundingClientRect();
+  return {
+    x:Math.max(0,Math.min(src.width,(e.clientX-q.left)*src.width/q.width)),
+    y:Math.max(0,Math.min(src.height,(e.clientY-q.top)*src.height/q.height))
+  };
+}
+function beginCrop(e){
+  if(!base)return;
+  cropSelecting=true;src.classList.add('crop-active');
+  cropStartPt=pointerPoint(e);
+  cropRect={x:cropStartPt.x,y:cropStartPt.y,w:0,h:0};
+  src.setPointerCapture?.(e.pointerId);renderSource();
+}
+function moveCrop(e){
+  if(!cropSelecting)return;
+  const p=pointerPoint(e),x=Math.min(cropStartPt.x,p.x),y=Math.min(cropStartPt.y,p.y);
+  cropRect={x,y,w:Math.abs(p.x-cropStartPt.x),h:Math.abs(p.y-cropStartPt.y)};
+  renderSource();
+}
+function endCrop(e){
+  if(!cropSelecting)return;
+  cropSelecting=false;src.classList.remove('crop-active');
+  if(cropRect.w<10||cropRect.h<10){cropRect=null;$('cropApply').disabled=true}
+  else $('cropApply').disabled=false;
+  renderSource();
+}
+src.addEventListener('pointerdown',beginCrop);
+src.addEventListener('pointermove',moveCrop);
+src.addEventListener('pointerup',endCrop);
+src.addEventListener('pointercancel',endCrop);
+
+function applyCrop(){
+  if(!base||!cropRect||cropRect.w<10||cropRect.h<10)return;
+  const r=cropRect,cc=document.createElement('canvas');
+  cc.width=Math.round(r.w);cc.height=Math.round(r.h);
+  cc.getContext('2d').drawImage(base,r.x,r.y,r.w,r.h,0,0,cc.width,cc.height);
+  base=cc;
+  img=null;cropRect=null;$('cropApply').disabled=true;
+  src.width=base.width;src.height=base.height;renderSource();schedule();
+  status('Crop लागू झाले. आता A4 मध्ये बसवू शकता.');
+}
+function a4Canvas(source,orientation){
+  const W=orientation==='landscape'?1754:1240,H=orientation==='landscape'?1240:1754;
+  const page=document.createElement('canvas');page.width=W;page.height=H;
+  const ctx=page.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);
+  const margin=Math.round(Math.min(W,H)*0.035);
+  const aw=W-margin*2,ah=H-margin*2;
+  const scale=Math.min(aw/source.width,ah/source.height);
+  const dw=Math.round(source.width*scale),dh=Math.round(source.height*scale);
+  ctx.drawImage(source,Math.round((W-dw)/2),Math.round((H-dh)/2),dw,dh);
+  return page;
+}
+function setA4Preview(){
+  if(!out.width||!out.height)return;
+  const page=a4Canvas(out,$('a4Mode').value);
+  out.width=page.width;out.height=page.height;octx.drawImage(page,0,0);
+  status('A4 '+($('a4Mode').value==='portrait'?'Portrait':'Landscape')+' मध्ये तयार.');
 }
 
 // ---------- image ops ----------
@@ -293,6 +382,14 @@ $('rotL').onclick=()=>{rot=(rot+3)%4;buildBase();schedule()};
 $('rotR').onclick=()=>{rot=(rot+1)%4;buildBase();schedule()};
 $('angle').addEventListener('input',()=>{$('vAng').textContent=$('angle').value+'°';buildBase();schedule()});
 $('tilt').onclick=()=>{$('angle').focus();status('स्लायडरने तिरपेपणा समायोजित करा (−१०° ते +१०°).')};
+$('cropStart').onclick=()=>{
+  if(!base){status('आधी फोटो निवडा.');return}
+  cropRect=null;$('cropApply').disabled=true;
+  status('मूळ फोटोवर बोट/माऊसने crop भाग ओढून निवडा.');
+  renderSource();
+};
+$('cropApply').onclick=applyCrop;
+$('a4Fit').onclick=setA4Preview;
 $('reset').onclick=()=>{
   for(const k of ids)$(k).value=defaults[k];
   $('angle').value=0;$('vAng').textContent='0°';rot=0;
@@ -312,13 +409,14 @@ function save(type,name){
 $('dlPng').onclick=()=>save('image/png','cleaned_record.png');
 $('dlJpg').onclick=()=>save('image/jpeg','cleaned_record.jpg');
 $('print').onclick=()=>{
-  out.toBlob(b=>{
+  const page=a4Canvas(out,$('a4Mode').value);
+  page.toBlob(b=>{
     const u=URL.createObjectURL(b);
     const w=window.open('');
     if(!w){status('पॉप-अप परवानगी द्या.');return}
-    w.document.write('<title>Print</title><style>@page{size:A4;margin:10mm}body{margin:0}img{width:100%;height:auto}</style><img src="'+u+'" onload="setTimeout(function(){print()},300)">');
+    w.document.write('<title>Digital SATHIDAR - A4 Print</title><style>@page{size:A4;margin:0}html,body{margin:0;padding:0;background:#fff}img{display:block;width:100%;height:100vh;object-fit:contain}</style><img src="'+u+'" onload="setTimeout(function(){print()},300)">');
     w.document.close();
-  });
+  },'image/png');
 };
 })();
 </script>
