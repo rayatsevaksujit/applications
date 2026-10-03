@@ -73,7 +73,7 @@ button{border-radius:7px}
 .site-seo{max-width:1440px;margin:0 auto 18px;padding:16px 20px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;color:#475569}
 .site-seo h2{margin:0 0 4px;color:#1e3a8a;font-size:20px}
 .site-seo p{margin:0;line-height:1.55}
-.crop-tools{align-items:center;flex-wrap:wrap;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:10px}.crop-tools select{padding:8px 12px;border:1px solid #cbd5e1;border-radius:7px;background:#fff;font-weight:700;color:#0f172a}.crop-tools .hint{flex:1;min-width:220px}.crop-active{cursor:crosshair}.crop-selected{outline:3px solid #1e40af;outline-offset:-3px}
+.scan-mode-panel{margin:14px 0;padding:14px;border:1px solid #dbeafe;border-radius:14px;background:linear-gradient(135deg,#f8fbff,#fff)}.scan-mode-title{font-weight:800;color:#1e3a8a;margin-bottom:10px;font-size:18px}.scan-mode-panel .mode{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}.scan-card{border:1px solid #cbd5e1!important;background:#fff!important;color:#0f172a!important;min-height:72px;padding:10px!important;border-radius:10px!important;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;box-shadow:0 1px 3px rgba(15,23,42,.05)}.scan-card b{font-size:15px}.scan-card small{font-size:11px;color:#64748b}.scan-card.on{border:2px solid #1e40af!important;background:#eff6ff!important;box-shadow:0 4px 12px rgba(30,64,175,.12)}.a4-select{padding:8px 12px;border:1px solid #cbd5e1;border-radius:7px;background:#fff;font-weight:700;color:#0f172a}.a4-note{font-size:12px;color:#475569}@media(max-width:800px){.scan-mode-panel .mode{grid-template-columns:repeat(2,minmax(0,1fr))}.scan-card:last-child{grid-column:1/-1}}.crop-tools{align-items:center;flex-wrap:wrap;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:10px}.crop-tools select{padding:8px 12px;border:1px solid #cbd5e1;border-radius:7px;background:#fff;font-weight:700;color:#0f172a}.crop-tools .hint{flex:1;min-width:220px}.crop-active{cursor:crosshair}.crop-selected{outline:3px solid #1e40af;outline-offset:-3px}
 .related-tools{max-width:1440px;margin:0 auto 28px;padding:18px 20px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.04)}
 .related-tools h2{margin:0 0 10px;font-size:19px;color:#0f172a}
 .related-tools a{display:inline-block;margin:4px 6px 4px 0;padding:7px 11px;border:1px solid #dbeafe;border-radius:7px;background:#f8fafc;color:#1e40af;text-decoration:none;font-weight:700}
@@ -96,10 +96,15 @@ button{border-radius:7px}
   <div class="hint" style="margin-top:8px">फाईल निवडता येत नसेल तर ही फाईल डाऊनलोड करून Chrome/Safari मध्ये थेट उघडा.</div>
 </div>
 
-<div class="row mode" role="group" aria-label="पद्धत">
-  <button class="alt on" data-mode="restore">स्मार्ट रेस्टोरेशन</button>
-  <button class="alt" data-mode="bw">काळा-पांढरा (ग्लोबल)</button>
-  <button class="alt" data-mode="gray">ग्रेस्केल सुधारणा</button>
+<div class="scan-mode-panel">
+  <div class="scan-mode-title">🎨 Scan Type — कागद जसा हवा तसा निवडा</div>
+  <div class="row mode" role="group" aria-label="स्कॅन पद्धत">
+    <button class="scan-card on" data-mode="color"><b>🌈 Clear Color</b><small>रंग कायम ठेवून स्वच्छ</small></button>
+    <button class="scan-card" data-mode="restore"><b>✨ Smart Document</b><small>कागद स्वच्छ + अक्षर स्पष्ट</small></button>
+    <button class="scan-card" data-mode="gray"><b>◐ Grayscale</b><small>सॉफ्ट ग्रे स्कॅन</small></button>
+    <button class="scan-card" data-mode="bw"><b>⬛ Black & White</b><small>शुद्ध B&W स्कॅन</small></button>
+    <button class="scan-card" data-mode="original"><b>🖼️ Original</b><small>फोटोमध्ये कोणताही बदल नाही</small></button>
+  </div>
 </div>
 
 <div class="ctrls">
@@ -121,11 +126,13 @@ button{border-radius:7px}
 <div class="row crop-tools" id="cropTools">
   <button class="alt" id="cropStart">✂️ Crop निवडा</button>
   <button class="alt" id="cropApply" disabled>✂️ Crop लागू करा</button>
-  <select id="a4Mode" class="alt" aria-label="A4 दिशा">
-    <option value="portrait">A4 Portrait</option>
-    <option value="landscape">A4 Landscape</option>
+  <select id="a4Mode" class="a4-select" aria-label="A4 आकार">
+    <option value="none">📐 Original Size</option>
+    <option value="portrait">📄 A4 Portrait</option>
+    <option value="landscape">📄 A4 Landscape</option>
   </select>
-  <button class="alt" id="a4Fit">📄 A4 मध्ये बसवा</button>
+  <button class="alt" id="a4Fit">📄 A4 Preview</button>
+  <button class="alt" id="a4Reset">↩️ Original Preview</button>
   <span class="hint">मूळ फोटोमध्ये crop भाग ओढून निवडा.</span>
 </div>
 
@@ -157,7 +164,7 @@ button{border-radius:7px}
 const $=id=>document.getElementById(id);
 const src=$('src'),out=$('out'),sctx=src.getContext('2d'),octx=out.getContext('2d',{willReadFrequently:true});
 const MAXW=1800;
-let img=null,rot=0,mode='restore',pending=false,base=null;
+let img=null,rot=0,mode='color',pending=false,base=null;
 let cropSelecting=false,cropStartPt=null,cropRect=null;
 
 const ids=['c','b','a','t','s','d'];
@@ -270,7 +277,7 @@ function a4Canvas(source,orientation){
 }
 function setA4Preview(){
   if(!out.width||!out.height)return;
-  const page=a4Canvas(out,$('a4Mode').value);
+  const page=$('a4Mode').value==='none'?a4Canvas(out,'portrait'):out;
   out.width=page.width;out.height=page.height;octx.drawImage(page,0,0);
   status('A4 '+($('a4Mode').value==='portrait'?'Portrait':'Landscape')+' मध्ये तयार.');
 }
@@ -311,59 +318,79 @@ function median3(a,w,h){
 
 function process(){
   pending=false;
-  if(!base){return}
+  if(!base)return;
   const t0=performance.now();
   const w=base.width,h=base.height;
+  const C=+$('c').value/100,B=+$('b').value/100,A=+$('a').value,T=+$('t').value,S=+$('s').value/100,D=+$('d').value;
+  for(const k of ids)$(lab[k]).textContent=$(k).value;
+
   out.width=w;out.height=h;
   octx.drawImage(base,0,0);
   const id=octx.getImageData(0,0,w,h),p=id.data,n=w*h;
-  const C=$('c').value/100,B=$('b').value/100,A=+$('a').value,T=+$('t').value,S=+$('s').value/100,D=+$('d').value;
-  for(const k of ids)$(lab[k]).textContent=$(k).value;
 
-  // grayscale
-  let g=new Float32Array(n);
-  for(let i=0,j=0;i<n;i++,j+=4)g[i]=0.299*p[j]+0.587*p[j+1]+0.114*p[j+2];
-
-  if(D>0){g=median3(g,w,h);if(D>1)g=median3(g,w,h)}
-
-  if(mode==='restore'){
-    // 1) background normalization: divide by heavy blur -> flat white paper
-    const r=Math.max(15,Math.round(Math.min(w,h)/18));
-    let bg=boxBlur(g,w,h,r);bg=boxBlur(bg,w,h,r);
-    for(let i=0;i<n;i++){
-      let v=g[i]/Math.max(30,bg[i])*255;
-      g[i]=v>255?255:v;
+  // Original = pixel-perfect preview
+  if(mode==='original'){
+    octx.putImageData(id,0,0);
+  } else if(mode==='color'){
+    // Full colour document cleaning: preserve RGB, only adjust light/contrast.
+    if(D>0){
+      const g=new Float32Array(n);
+      for(let i=0,j=0;i<n;i++,j+=4)g[i]=0.299*p[j]+0.587*p[j+1]+0.114*p[j+2];
+      const sm=median3(g,w,h);
+      for(let i=0,j=0;i<n;i++,j+=4){
+        const delta=sm[i]-g[i];
+        p[j]=Math.max(0,Math.min(255,p[j]+delta));p[j+1]=Math.max(0,Math.min(255,p[j+1]+delta));p[j+2]=Math.max(0,Math.min(255,p[j+2]+delta));
+      }
     }
-    // 2) adaptive threshold: keep ink darker than local mean by A (soft edge keeps strokes smooth)
-    const m=boxBlur(g,w,h,Math.max(8,Math.round(Math.min(w,h)/60)));
-    for(let i=0;i<n;i++){
-      const diff=m[i]-g[i]-A*0.35;      // >0 means darker than neighbourhood
-      let v=255-diff*(255/Math.max(6,A*1.2));
-      v=v<0?0:v>255?255:v;
-      // contrast/brightness on top
-      v=((v*B)-128)*C+128;
-      g[i]=v;
+    for(let i=0,j=0;i<n;i++,j+=4){
+      for(let k=0;k<3;k++){
+        let v=((p[j+k]*B)-128)*C+128;
+        p[j+k]=Math.max(0,Math.min(255,v));
+      }
+      p[j+3]=255;
     }
-  }else if(mode==='bw'){
-    for(let i=0;i<n;i++){
-      let v=((g[i]*B)-128)*C+128;
-      g[i]=v>=T?255:0;
+    if(S>0){
+      // gentle unsharp mask in colour
+      const gray=new Float32Array(n);
+      for(let i=0,j=0;i<n;i++,j+=4)gray[i]=0.299*p[j]+0.587*p[j+1]+0.114*p[j+2];
+      const bl=boxBlur(gray,w,h,2);
+      for(let i=0,j=0;i<n;i++,j+=4){
+        const gain=(gray[i]-bl[i])*S*1.4;
+        p[j]=Math.max(0,Math.min(255,p[j]+gain));p[j+1]=Math.max(0,Math.min(255,p[j+1]+gain));p[j+2]=Math.max(0,Math.min(255,p[j+2]+gain));
+      }
     }
-  }else{
-    for(let i=0;i<n;i++)g[i]=((g[i]*B)-128)*C+128;
+    octx.putImageData(id,0,0);
+  } else {
+    let g=new Float32Array(n);
+    for(let i=0,j=0;i<n;i++,j+=4)g[i]=0.299*p[j]+0.587*p[j+1]+0.114*p[j+2];
+    if(D>0){g=median3(g,w,h);if(D>1)g=median3(g,w,h)}
+    if(mode==='restore'){
+      const r=Math.max(15,Math.round(Math.min(w,h)/18));
+      let bg=boxBlur(g,w,h,r);bg=boxBlur(bg,w,h,r);
+      for(let i=0;i<n;i++){let v=g[i]/Math.max(30,bg[i])*255;g[i]=v>255?255:v}
+      const m=boxBlur(g,w,h,Math.max(8,Math.round(Math.min(w,h)/60)));
+      for(let i=0;i<n;i++){
+        const diff=m[i]-g[i]-A*0.35;
+        let v=255-diff*(255/Math.max(6,A*1.2));
+        v=Math.max(0,Math.min(255,v));v=((v*B)-128)*C+128;g[i]=v;
+      }
+    } else if(mode==='bw'){
+      for(let i=0;i<n;i++){let v=((g[i]*B)-128)*C+128;g[i]=v>=T?255:0}
+    } else {
+      for(let i=0;i<n;i++)g[i]=((g[i]*B)-128)*C+128;
+    }
+    if(S>0){const bl=boxBlur(g,w,h,2);for(let i=0;i<n;i++)g[i]=g[i]+(g[i]-bl[i])*S*2}
+    for(let i=0,j=0;i<n;i++,j+=4){let v=Math.max(0,Math.min(255,g[i]));p[j]=p[j+1]=p[j+2]=v;p[j+3]=255}
+    octx.putImageData(id,0,0);
   }
 
-  if(S>0){
-    const bl=boxBlur(g,w,h,2);
-    for(let i=0;i<n;i++)g[i]=g[i]+(g[i]-bl[i])*S*2;
+  // A4 layout is applied AFTER scan processing, so controls remain predictable.
+  const a4=$('a4Mode').value;
+  if(a4!=='none'){
+    const page=a4Canvas(out,a4);
+    out.width=page.width;out.height=page.height;octx.drawImage(page,0,0);
   }
-
-  for(let i=0,j=0;i<n;i++,j+=4){
-    let v=g[i];v=v<0?0:v>255?255:v;
-    p[j]=p[j+1]=p[j+2]=v;p[j+3]=255;
-  }
-  octx.putImageData(id,0,0);
-  status('तयार ('+w+'×'+h+', '+Math.round(performance.now()-t0)+' ms)');
+  status('स्कॅन तयार • '+(mode==='color'?'Clear Color':mode==='restore'?'Smart Document':mode==='gray'?'Grayscale':mode==='bw'?'Black & White':'Original')+' • '+out.width+'×'+out.height+' • '+Math.round(performance.now()-t0)+' ms');
 }
 function schedule(){
   if(pending)return;pending=true;
@@ -389,12 +416,13 @@ $('cropStart').onclick=()=>{
   renderSource();
 };
 $('cropApply').onclick=applyCrop;
-$('a4Fit').onclick=setA4Preview;
+$('a4Fit').onclick=()=>{if(!$('a4Mode').value||$('a4Mode').value==='none'){status('A4 Portrait किंवा Landscape निवडा.');return}schedule()};
+$('a4Reset').onclick=()=>{$('a4Mode').value='none';schedule()};
 $('reset').onclick=()=>{
   for(const k of ids)$(k).value=defaults[k];
   $('angle').value=0;$('vAng').textContent='0°';rot=0;
-  mode='restore';
-  document.querySelectorAll('[data-mode]').forEach(x=>x.classList.toggle('on',x.dataset.mode==='restore'));
+  mode='color';
+  document.querySelectorAll('[data-mode]').forEach(x=>x.classList.toggle('on',x.dataset.mode==='color'));
   if(img){buildBase();schedule()}
 };
 
