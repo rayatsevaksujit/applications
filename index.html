@@ -397,9 +397,9 @@ input,select,textarea,button{max-width:100%;font-size:16px}
 
     <footer class="portal-footer">
         <div>© 2026 डिजिटल साथीदार (Digital Sathidar) | सर्व हक्क सुरक्षित.</div>
-        <div class="visitor-badge">
-            <span>👁️ एकूण भेट देणारे:</span>
-            <span id="visitorCountDisplay">२,८४२</span>
+        <div class="visitor-badge" title="वेबसाइट भेटी">
+            <span>👁️ एकूण भेटी:</span>
+            <img id="visitorCountBadge" alt="Digital SATHIDAR visitor count" style="height:24px;max-width:170px;display:block;border-radius:5px;">
         </div>
         <div style="font-weight:700; color:#38bdf8;">संकल्पना व निर्मिती : Sujit Patil (SP)</div>
     </footer>
@@ -514,6 +514,14 @@ input,select,textarea,button{max-width:100%;font-size:16px}
         renderReviews();
         initVisitorCounter();
     };
+</script>
+<script>
+(function(){
+  const badge=document.getElementById('visitorCountBadge');
+  if(!badge)return;
+  const tracked='https://rayatsevaksujit.github.io/applications/';
+  badge.src='https://hitscounter.dev/api/hit?url='+encodeURIComponent(tracked)+'&label=Visits&icon=eye&color=%2338bdf8&style=flat&cb='+Date.now();
+})();
 </script>
 </body>
 </html>
