@@ -22,7 +22,27 @@
 }
 </script>
     <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script>
+/* PDF Tools navigation fail-safe: keep Editor tab usable even if another tool script fails. */
+function switchPdfSubTool(viewId, btn) {
+    document.querySelectorAll('.pdf-tool-view').forEach(function(v){ v.classList.remove('active'); });
+    document.querySelectorAll('.pdf-sub-btn').forEach(function(b){ b.classList.remove('active'); });
+    var target=document.getElementById(viewId);
+    if(target) target.classList.add('active');
+    if(btn) btn.classList.add('active');
+}
+function openPdfEditorTab() {
+    var btn=document.getElementById('pdfEditorTab');
+    switchPdfSubTool('view-editor', btn);
+    if(history.replaceState) history.replaceState(null, '', '#editor');
+}
+document.addEventListener('DOMContentLoaded', function(){
+    if(location.hash === '#editor') {
+        setTimeout(openPdfEditorTab, 0);
+    }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
@@ -139,7 +159,7 @@ input,select,textarea,button{max-width:100%;font-size:16px}
             <button class="pdf-sub-btn active" onclick="switchPdfSubTool('view-merge', this)">🔗 PDF एकत्र करा (Merge)</button>
             <button class="pdf-sub-btn" onclick="switchPdfSubTool('view-split', this)">✂️ सर्व पाने वेगळी करा (Split to ZIP)</button>
             <button class="pdf-sub-btn" onclick="switchPdfSubTool('view-compress', this)">🗜️ PDF हव्या त्या साईझमध्ये रिसाईझ करा</button>
-            <button id="pdfEditorTab" type="button" class="pdf-sub-btn" onclick="switchPdfSubTool('view-editor', this)">📝 PDF Editor / Scanner</button>
+            <button id="pdfEditorTab" type="button" class="pdf-sub-btn" onclick="openPdfEditorTab()">📝 PDF Editor / Scanner</button>
         </div>
 
         <!-- १. Merge PDF -->
@@ -472,8 +492,9 @@ input,select,textarea,button{max-width:100%;font-size:16px}
     function switchPdfSubTool(viewId, btn) {
         document.querySelectorAll('.pdf-tool-view').forEach(v => v.classList.remove('active'));
         document.querySelectorAll('.pdf-sub-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(viewId).classList.add('active');
-        btn.classList.add('active');
+        var target = document.getElementById(viewId);
+        if (target) target.classList.add('active');
+        if (btn) btn.classList.add('active');
     }
 
     function showOriginalPdfSize(input) {
