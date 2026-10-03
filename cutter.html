@@ -38,7 +38,12 @@
         .btn-outline { background: #fff; border: 1px solid #cbd5e1; color: #334155; }
         .cutter-viewport { background: #1e293b; padding: 12px; border-radius: 8px; display: flex; justify-content: center; align-items: flex-start; overflow: auto; flex: 1; border: 1px solid #334155; }
         #canvasWrapper { position: relative; background: white; box-shadow: 0 6px 20px rgba(0,0,0,0.5); display: inline-block; }
-        #scannedDoc { display: block; width: 850px; max-width: none; height: auto; user-select: none; pointer-events: none; }
+        #scannedDoc { display: block; width: min(850px, calc(100vw - 48px)); max-width: 100%; height: auto; max-height: calc(100vh - 245px); object-fit: contain; user-select: none; pointer-events: none; }
+        .cutter-viewport { min-height: 0; }
+        @media (max-width: 768px) {
+          .cutter-viewport { max-height: calc(100vh - 210px); padding: 6px; overflow: auto; }
+          #scannedDoc { width: auto; max-width: 100%; max-height: calc(100vh - 235px); }
+        }
         .crop-box { position: absolute; border: 2px solid; cursor: move; display: flex; justify-content: space-between; align-items: flex-start; box-sizing: border-box; padding: 2px; border-radius: 3px; }
         .crop-box.photo-box { border-color: #2563eb; background: rgba(37, 99, 235, 0.22); }
         .crop-box.sign-box { border-color: #059669; background: rgba(5, 150, 105, 0.22); }
@@ -72,7 +77,7 @@ input,select,textarea,button{max-width:100%;font-size:16px}
   .cutter-bar>*{width:100%!important}
   .cutter-viewport{width:100%;max-width:100%;max-height:70vh;overflow:auto}
   #canvasWrapper{max-width:none}
-  #scannedDoc{width:min(850px,calc(100vw - 40px))!important;max-width:100%!important;height:auto}
+  #scannedDoc{width:auto!important;max-width:100%!important;max-height:calc(100vh - 235px)!important;height:auto}
   .pdf-container{width:100%;max-width:none!important;min-width:0}
   .pdf-subnav{display:grid!important;grid-template-columns:1fr!important}
   .pdf-sub-btn{width:100%}
@@ -100,7 +105,7 @@ input,select,textarea,button{max-width:100%;font-size:16px}
 
     <section class="seo-intro" style="max-width:1250px;margin:0 auto 10px;padding:9px 12px;background:#ffffff;border:1px solid #cbd5e1;border-radius:8px;">
 <h1 style="font-size:18px;line-height:1.3;margin:0 0 2px;color:#1e3a8a;">SSC HSC फोटो व सही कटर</h1>
-<p style="font-size:12.5px;line-height:1.5;margin:0;color:#475569;">SSC HSC परीक्षा फॉर्मसाठी फोटो व सही ऑनलाइन कटर — फोटो आणि सह्या वेगळ्या करून क्रॉप, ऑटो डिटेक्ट व ZIP डाऊनलोड सहज करा.</p>
+<p style="font-size:12.5px;line-height:1.5;margin:0;color:#475569;">SSC HSC परीक्षा फॉर्मसाठी फोटो व सही ऑनलाइन कटर — फोटो आणि सह्या वेगळ्या करून क्रॉप, ऑटो डिटेक्ट व ZIP डाऊनलोड सहज करा. फोटो 30–40 KB आणि सही 15–18 KB लक्ष्य साईझमध्ये तयार केली जाते.</p>
 </section>
 <div class="top-bar">
         <a href="index.html" class="back-btn">⬅️ मुख्य पानावर परत जा (Home)</a>
@@ -118,7 +123,7 @@ input,select,textarea,button{max-width:100%;font-size:16px}
         <button class="btn-ui btn-danger" onclick="clearAllBoxes()">रिसेट</button>
 
         <span style="font-size:12px; font-weight:700; padding:5px 10px; background:#f1f5f9; border-radius:6px; border:1px solid #cbd5e1;">
-            फोटो: <span id="photoCount" style="color:#2563eb;">0</span> | सह्या: <span id="signCount" style="color:#059669;">0</span>
+            फोटो: <span id="photoCount" style="color:#2563eb;">0</span> | सह्या: <span id="signCount" style="color:#059669;">0</span><span style="font-size:12px;color:#475569;margin-left:6px;">📸 फोटो: 30–40 KB | ✍️ सही: 15–18 KB</span>
         </span>
 
         <button class="btn-ui btn-success" onclick="cropAndDownloadAll()">📦 सर्व ZIP डाऊनलोड करा</button>
@@ -249,10 +254,21 @@ input,select,textarea,button{max-width:100%;font-size:16px}
             const bWidth = box.offsetWidth * scaleX;
             const bHeight = box.offsetHeight * scaleY;
             const canvas = document.createElement('canvas');
-            canvas.width = bWidth; canvas.height = bHeight;
+            // Standardize output dimensions so the downloaded images are not unnecessarily tiny.
+            const targetW = type === 'photo' ? 360 : 600;
+            const targetH = type === 'photo'
+                ? Math.round(targetW * (bHeight / Math.max(1, bWidth)))
+                : Math.max(120, Math.round(targetW * (bHeight / Math.max(1, bWidth))));
+            canvas.width = targetW;
+            canvas.height = targetH;
             const ctx = canvas.getContext('2d');
-            ctx.drawImage(originalImg, bLeft, bTop, bWidth, bHeight, 0, 0, bWidth, bHeight);
-            let blob = await compressToTargetSize(canvas, 25, 40);
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
+            ctx.drawImage(originalImg, bLeft, bTop, bWidth, bHeight, 0, 0, targetW, targetH);
+            // Photo: target 30–40 KB. Signature: target 15–18 KB.
+            let blob = type === 'photo'
+                ? await compressToTargetSize(canvas, 30, 40)
+                : await compressToTargetSize(canvas, 15, 18);
             zip.file(fileName, blob);
             index++;
         }
@@ -261,18 +277,36 @@ input,select,textarea,button{max-width:100%;font-size:16px}
 
     function compressToTargetSize(canvas, minKB, maxKB) {
         return new Promise((resolve) => {
-            let quality = 0.90;
+            let quality = 0.92;
+            let attemptNo = 0;
             function attempt() {
+                attemptNo++;
                 canvas.toBlob((blob) => {
-                    let sizeKB = blob.size / 1024;
-                    if (sizeKB > maxKB && quality > 0.1) { quality -= 0.08; attempt(); }
-                    else { resolve(blob); }
+                    if (!blob) return resolve(new Blob([], {type:'image/jpeg'}));
+                    const sizeKB = blob.size / 1024;
+
+                    // Reduce quality when above the requested range.
+                    if (sizeKB > maxKB && quality > 0.18 && attemptNo < 18) {
+                        quality = Math.max(0.18, quality - 0.045);
+                        return attempt();
+                    }
+
+                    // If below the minimum, increase JPEG quality while possible.
+                    // If the minimum cannot be reached without exceeding maxKB, keep the
+                    // best file inside/nearest the requested range.
+                    if (sizeKB < minKB && quality < 0.98 && attemptNo < 18) {
+                        quality = Math.min(0.98, quality + 0.035);
+                        return attempt();
+                    }
+
+                    resolve(blob);
                 }, 'image/jpeg', quality);
             }
             attempt();
         });
     }
-</script>
+
+    </script>
 
 <section class="related-tools" aria-label="संबंधित Digital SATHIDAR टूल्स">
   <h2>🔗 संबंधित डिजिटल टूल्स</h2>
