@@ -69,6 +69,22 @@ document.addEventListener('DOMContentLoaded', function(){
         .btn-ui:disabled { background: #94a3b8; cursor: not-allowed; }
         .status-msg { font-size: 12.5px; font-weight: 700; min-height: 18px; margin-top: 4px; }
     
+        /* ===== MULTI-FILE PDF MERGE ===== */
+        .merge-drop-zone{border:2px dashed #94a3b8;border-radius:12px;padding:18px;text-align:center;background:#f8fafc;cursor:pointer;color:#334155;display:flex;flex-direction:column;gap:3px}
+        .merge-drop-zone.drag-over{border-color:#2563eb;background:#eff6ff}
+        .merge-drop-zone span{font-weight:800}.merge-drop-zone small{color:#64748b}
+        .merge-pages{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin-top:4px}
+        .merge-page-card{position:relative;background:#fff;border:2px solid #e2e8f0;border-radius:12px;padding:8px;cursor:grab;box-shadow:0 2px 8px rgba(15,23,42,.08);transition:.15s}
+        .merge-page-card:active{cursor:grabbing}.merge-page-card.dragging{opacity:.45;border-color:#2563eb}
+        .merge-page-card.drag-over{border-color:#059669;transform:scale(1.02)}
+        .merge-thumb{height:190px;background:#f1f5f9;border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+        .merge-thumb canvas,.merge-thumb img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
+        .merge-page-no{position:absolute;left:14px;top:14px;background:#1e40af;color:#fff;border-radius:999px;padding:2px 8px;font-weight:800;font-size:12px}
+        .merge-page-name{font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:7px 2px 5px;color:#334155}
+        .merge-page-controls{display:flex;gap:4px}.merge-page-controls button{flex:1;padding:5px;border:1px solid #cbd5e1;background:#f8fafc;border-radius:6px;cursor:pointer;font-weight:800}
+        .merge-page-controls .remove{color:#dc2626}.merge-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+        @media(max-width:600px){.merge-pages{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.merge-thumb{height:150px}.merge-page-card{padding:6px}.merge-page-controls button{font-size:12px}}
+        
         /* ===== PDF EDITOR ===== */
         .editor-toolbar{display:flex;gap:6px;flex-wrap:wrap;padding:10px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px}
         .editor-btn,.editor-save,.editor-file{padding:7px 10px;border-radius:6px;border:1px solid #cbd5e1;background:#fff;color:#0f172a;font-weight:700;font-size:12px;cursor:pointer;width:auto}
@@ -164,13 +180,33 @@ input,select,textarea,button{max-width:100%;font-size:16px}
 
         <!-- १. Merge PDF -->
         <div id="view-merge" class="pdf-tool-view active">
-            <div class="title">🔗 PDF एकत्र करा (Merge PDF)</div>
-            <p style="font-size:12.5px; color:#64748b;">दोन किंवा अधिक PDF फाईल्स जोडून एकच PDF बनवा.</p>
+            <div class="title">🔗 PDF / JPEG / Image एकत्र करा</div>
+            <p style="font-size:12.5px;color:#64748b;">
+                एकाच वेळी अनेक <b>PDF, JPG/JPEG, PNG</b> फाईल्स निवडा. PDF मधील प्रत्येक पान स्वतंत्रपणे दिसेल.
+                पानांचा क्रम <b>Drag & Drop</b> किंवा ↑ ↓ बटणाने बदला.
+            </p>
             <div class="form-group">
-                <label>PDF फाईल्स निवडा (२ किंवा अधिक):</label>
-                <input type="file" id="pdfMergeInput" class="form-control" accept="application/pdf" multiple>
+                <label>📁 PDF / JPEG / Image फाईल्स निवडा:</label>
+                <input type="file" id="pdfMergeInput" class="form-control"
+                       accept="application/pdf,image/jpeg,image/png,image/webp" multiple
+                       onchange="prepareMergeFiles(this.files)">
             </div>
-            <button class="btn-ui btn-primary" onclick="mergePDFFiles()">एकत्र जोडून डाऊनलोड करा</button>
+            <div id="mergeDropZone" class="merge-drop-zone"
+                 onclick="document.getElementById('pdfMergeInput').click()"
+                 ondragover="event.preventDefault();this.classList.add('drag-over')"
+                 ondragleave="this.classList.remove('drag-over')"
+                 ondrop="event.preventDefault();this.classList.remove('drag-over');prepareMergeFiles(event.dataTransfer.files)">
+                <span>📂 येथे PDF / JPEG फाईल्स Drag & Drop करा</span>
+                <small>एकापेक्षा जास्त फाईल्स निवडता येतील</small>
+            </div>
+            <div id="mergeStatus" class="status-msg" style="color:#1e40af;"></div>
+            <div id="mergePages" class="merge-pages"></div>
+            <div class="merge-actions">
+                <button type="button" class="editor-btn" onclick="clearMergePages()">🗑️ सर्व पाने काढा</button>
+                <button type="button" class="btn-ui btn-primary" id="mergePdfBtn" onclick="mergePDFFiles()" disabled>
+                    🔗 क्रमाप्रमाणे PDF तयार करा
+                </button>
+            </div>
         </div>
 
         <!-- २. Split to ZIP -->
@@ -508,17 +544,164 @@ input,select,textarea,button{max-width:100%;font-size:16px}
         }
     }
 
-    // १. Merge PDF
-    async function mergePDFFiles() {
-        const input = document.getElementById('pdfMergeInput');
-        if (!input.files || input.files.length < 2) { alert("कृपया किमान २ PDF फाईल्स निवडा!"); return; }
-        const mergedPdf = await PDFLib.PDFDocument.create();
-        for (let file of input.files) {
-            const pdf = await PDFLib.PDFDocument.load(await file.arrayBuffer());
-            const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
-            copiedPages.forEach(page => mergedPdf.addPage(page));
+    // १. Multi-file / Multi-page Merge (PDF + JPEG/PNG/WebP)
+    let mergeItems = [];
+    let mergeBusy = false;
+
+    async function prepareMergeFiles(fileList) {
+        const files = Array.from(fileList || []);
+        if (!files.length) return;
+        const status = document.getElementById('mergeStatus');
+        status.style.color = "#1e40af";
+        status.innerText = "⏳ फाईल्स व पाने तयार केली जात आहेत...";
+        try {
+            for (const file of files) {
+                const type = (file.type || "").toLowerCase();
+                if (type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf")) {
+                    const bytes = await file.arrayBuffer();
+                    const pdf = await PDFLib.PDFDocument.load(bytes);
+                    for (let p = 0; p < pdf.getPageCount(); p++) {
+                        mergeItems.push({ kind:"pdf", fileName:file.name, bytes:bytes, pageIndex:p });
+                    }
+                } else if (type.startsWith("image/") || /\\.(jpe?g|png|webp)$/i.test(file.name)) {
+                    mergeItems.push({ kind:"image", fileName:file.name, file:file });
+                }
+            }
+            await renderMergePages();
+            status.style.color = "#059669";
+            status.innerText = "✅ " + mergeItems.length + " पाने तयार. क्रम बदला आणि PDF तयार करा.";
+        } catch (err) {
+            status.style.color = "#dc2626";
+            status.innerText = "त्रुटी: " + err.message;
         }
-        saveAs(new Blob([await mergedPdf.save()], { type: "application/pdf" }), "Merged_Document.pdf");
+    }
+
+    async function renderMergePages() {
+        const box = document.getElementById('mergePages');
+        box.innerHTML = "";
+        for (let i = 0; i < mergeItems.length; i++) {
+            const item = mergeItems[i];
+            const card = document.createElement("div");
+            card.className = "merge-page-card";
+            card.draggable = true;
+            card.dataset.index = i;
+            card.innerHTML =
+                '<span class="merge-page-no">पान '+(i+1)+'</span>'+
+                '<div class="merge-thumb"><span>⏳</span></div>'+
+                '<div class="merge-page-name" title="'+escapeHtmlMerge(item.fileName)+'">'+escapeHtmlMerge(item.fileName)+'</div>'+
+                '<div class="merge-page-controls">'+
+                '<button type="button" onclick="moveMergePage('+i+',-1)">↑</button>'+
+                '<button type="button" onclick="moveMergePage('+i+',1)">↓</button>'+
+                '<button type="button" class="remove" onclick="removeMergePage('+i+')">✕</button></div>';
+            card.addEventListener("dragstart", e => { card.classList.add("dragging"); e.dataTransfer.setData("text/plain",String(i)); });
+            card.addEventListener("dragend", () => card.classList.remove("dragging"));
+            card.addEventListener("dragover", e => { e.preventDefault(); card.classList.add("drag-over"); });
+            card.addEventListener("dragleave", () => card.classList.remove("drag-over"));
+            card.addEventListener("drop", async e => {
+                e.preventDefault(); card.classList.remove("drag-over");
+                const from = parseInt(e.dataTransfer.getData("text/plain"),10), to = i;
+                if (Number.isInteger(from) && from !== to) {
+                    const moved = mergeItems.splice(from,1)[0];
+                    mergeItems.splice(to,0,moved);
+                    await renderMergePages();
+                }
+            });
+            box.appendChild(card);
+            renderMergeThumbnail(item, card.querySelector(".merge-thumb"));
+        }
+        document.getElementById('mergePdfBtn').disabled = mergeItems.length === 0;
+    }
+
+    async function renderMergeThumbnail(item, holder) {
+        try {
+            if (item.kind === "image") {
+                const url = URL.createObjectURL(item.file);
+                holder.innerHTML = '<img src="'+url+'" alt="">';
+                return;
+            }
+            const pdf = await pdfjsLib.getDocument({data:item.bytes.slice(0)}).promise;
+            const page = await pdf.getPage(item.pageIndex + 1);
+            const vp = page.getViewport({scale:0.42});
+            const canvas = document.createElement("canvas");
+            canvas.width = Math.ceil(vp.width); canvas.height = Math.ceil(vp.height);
+            await page.render({canvasContext:canvas.getContext("2d"),viewport:vp}).promise;
+            holder.innerHTML = ""; holder.appendChild(canvas);
+        } catch(e) { holder.innerHTML = "<span>Preview unavailable</span>"; }
+    }
+
+    function escapeHtmlMerge(v) {
+        return String(v).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+    }
+
+    async function moveMergePage(index, direction) {
+        const to = index + direction;
+        if (to < 0 || to >= mergeItems.length) return;
+        [mergeItems[index], mergeItems[to]] = [mergeItems[to], mergeItems[index]];
+        await renderMergePages();
+    }
+
+    async function removeMergePage(index) {
+        mergeItems.splice(index,1);
+        await renderMergePages();
+        document.getElementById('mergeStatus').innerText = mergeItems.length ? "क्रम अपडेट झाला." : "पाने निवडा.";
+    }
+
+    async function clearMergePages() {
+        mergeItems = [];
+        document.getElementById('mergePages').innerHTML = "";
+        document.getElementById('mergePdfBtn').disabled = true;
+        document.getElementById('mergeStatus').innerText = "पाने काढली.";
+        const input = document.getElementById('pdfMergeInput');
+        if (input) input.value = "";
+    }
+
+    async function mergePDFFiles() {
+        if (mergeBusy || !mergeItems.length) return;
+        mergeBusy = true;
+        const btn = document.getElementById('mergePdfBtn');
+        const status = document.getElementById('mergeStatus');
+        btn.disabled = true;
+        status.style.color = "#1e40af";
+        status.innerText = "⏳ " + mergeItems.length + " पाने एकत्र केली जात आहेत...";
+        try {
+            const out = await PDFLib.PDFDocument.create();
+            const pdfCache = new Map();
+            for (let i = 0; i < mergeItems.length; i++) {
+                const item = mergeItems[i];
+                status.innerText = "⏳ पान " + (i+1) + "/" + mergeItems.length + " तयार...";
+                if (item.kind === "pdf") {
+                    let src = pdfCache.get(item.fileName + "_" + item.bytes.byteLength);
+                    if (!src) {
+                        src = await PDFLib.PDFDocument.load(item.bytes);
+                        pdfCache.set(item.fileName + "_" + item.bytes.byteLength, src);
+                    }
+                    const [page] = await out.copyPages(src, [item.pageIndex]);
+                    out.addPage(page);
+                } else {
+                    const bytes = await item.file.arrayBuffer();
+                    let embedded;
+                    if ((item.file.type || "").toLowerCase() === "image/png" || /\\.png$/i.test(item.file.name)) {
+                        embedded = await out.embedPng(bytes);
+                    } else {
+                        embedded = await out.embedJpg(bytes);
+                    }
+                    const w = embedded.width || 1000, h = embedded.height || 1400;
+                    const page = out.addPage([w,h]);
+                    page.drawImage(embedded,{x:0,y:0,width:w,height:h});
+                }
+            }
+            const bytes = await out.save();
+            saveAs(new Blob([bytes], {type:"application/pdf"}), "Merged_Document.pdf");
+            status.style.color = "#059669";
+            status.innerText = "✅ पूर्ण! " + mergeItems.length + " पाने क्रमाप्रमाणे PDF मध्ये जोडली.";
+        } catch(err) {
+            status.style.color = "#dc2626";
+            status.innerText = "त्रुटी: " + err.message;
+            alert("PDF Merge त्रुटी: " + err.message);
+        } finally {
+            mergeBusy = false;
+            btn.disabled = mergeItems.length === 0;
+        }
     }
 
     // २. Split All Pages
