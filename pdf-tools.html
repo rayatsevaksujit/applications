@@ -718,6 +718,26 @@ input,select,textarea,button{max-width:100%;font-size:16px}
         finally { btn.disabled = false; }
     }
 
+    // Reliable browser download helper (FileSaver fallback)
+    function downloadPdfBlobSafe(bytes, filename) {
+        const blob = bytes instanceof Blob ? bytes : new Blob([bytes], {type:"application/pdf"});
+        try {
+            if (typeof saveAs === "function") {
+                saveAs(blob, filename);
+                return true;
+            }
+        } catch (e) {}
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        a.style.display = "none";
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => { a.remove(); URL.revokeObjectURL(url); }, 1500);
+        return true;
+    }
+
     // ३. Smart Target Size Compression
     async function compressPdfToTargetSize() {
         const input = document.getElementById('pdfCompressInput');
@@ -813,7 +833,9 @@ input,select,textarea,button{max-width:100%;font-size:16px}
             }
 
             const finalSizeDisplay = currentSizeKB.toFixed(1);
-            saveAs(new Blob([finalPdfBytes], { type: "application/pdf" }), `Resized_${targetKB}KB_${file.name}`);
+            const safeName = file.name.replace(/\.pdf$/i, "");
+            const downloadName = `Resized_${targetKB}KB_${safeName}.pdf`;
+            downloadPdfBlobSafe(finalPdfBytes, downloadName);
 
             status.style.color = "#059669";
             status.innerText = `✅ पूर्ण झाले! मूळ: ${origKB} KB ➔ नवीन: ${finalSizeDisplay} KB (डाउनलोड झाले)`;
