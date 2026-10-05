@@ -73,7 +73,9 @@ document.addEventListener('DOMContentLoaded', function(){
         .merge-drop-zone{border:2px dashed #94a3b8;border-radius:12px;padding:18px;text-align:center;background:#f8fafc;cursor:pointer;color:#334155;display:flex;flex-direction:column;gap:3px}
         .merge-drop-zone.drag-over{border-color:#2563eb;background:#eff6ff}
         .merge-drop-zone span{font-weight:800}.merge-drop-zone small{color:#64748b}
-        .merge-pages{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin-top:4px}
+        .merge-pages-title{margin-top:4px;padding:10px 12px;border-radius:9px;background:#eff6ff;border:1px solid #bfdbfe;color:#1e3a8a;font-size:13px}
+        .merge-pages{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin-top:4px;min-height:0}
+        .merge-pages:empty{display:none}
         .merge-page-card{position:relative;background:#fff;border:2px solid #e2e8f0;border-radius:12px;padding:8px;cursor:grab;box-shadow:0 2px 8px rgba(15,23,42,.08);transition:.15s}
         .merge-page-card:active{cursor:grabbing}.merge-page-card.dragging{opacity:.45;border-color:#2563eb}
         .merge-page-card.drag-over{border-color:#059669;transform:scale(1.02)}
@@ -200,6 +202,7 @@ input,select,textarea,button{max-width:100%;font-size:16px}
                 <small>एकापेक्षा जास्त फाईल्स निवडता येतील</small>
             </div>
             <div id="mergeStatus" class="status-msg" style="color:#1e40af;"></div>
+            <div id="mergePagesTitle" class="merge-pages-title" style="display:none;">📑 <b>निवडलेली पाने</b> — खालील Page 1, Page 2, Page 3... कार्ड्सचा क्रम बदलून Join करा.</div>
             <div id="mergePages" class="merge-pages"></div>
             <div class="merge-actions">
                 <button type="button" class="editor-btn" onclick="clearMergePages()">🗑️ सर्व पाने काढा</button>
@@ -551,61 +554,100 @@ input,select,textarea,button{max-width:100%;font-size:16px}
     async function prepareMergeFiles(fileList) {
         const files = Array.from(fileList || []);
         if (!files.length) return;
+
         const status = document.getElementById('mergeStatus');
+        const title = document.getElementById('mergePagesTitle');
         status.style.color = "#1e40af";
-        status.innerText = "⏳ फाईल्स व पाने तयार केली जात आहेत...";
+        status.innerText = "⏳ फाईल्स तपासत आहे आणि Page cards तयार करत आहे...";
         try {
+            let added = 0;
             for (const file of files) {
                 const type = (file.type || "").toLowerCase();
-                if (type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf")) {
+                const isPdf = type === "application/pdf" || /\.pdf$/i.test(file.name);
+                const isImage = /^image\/(jpeg|png|webp)$/i.test(type) || /\.(jpe?g|png|webp)$/i.test(file.name);
+
+                if (isPdf) {
                     const bytes = await file.arrayBuffer();
                     const pdf = await PDFLib.PDFDocument.load(bytes);
-                    for (let p = 0; p < pdf.getPageCount(); p++) {
-                        mergeItems.push({ kind:"pdf", fileName:file.name, bytes:bytes, pageIndex:p });
+                    const count = pdf.getPageCount();
+                    for (let p = 0; p < count; p++) {
+                        mergeItems.push({
+                            id: "pdf_" + Date.now() + "_" + Math.random(),
+                            kind: "pdf", fileName: file.name, bytes: bytes, pageIndex: p
+                        });
+                        added++;
                     }
-                } else if (type.startsWith("image/") || /\\.(jpe?g|png|webp)$/i.test(file.name)) {
-                    mergeItems.push({ kind:"image", fileName:file.name, file:file });
+                } else if (isImage) {
+                    mergeItems.push({
+                        id: "img_" + Date.now() + "_" + Math.random(),
+                        kind: "image", fileName: file.name, file: file
+                    });
+                    added++;
                 }
             }
+
             await renderMergePages();
+            title.style.display = mergeItems.length ? "block" : "none";
             status.style.color = "#059669";
-            status.innerText = "✅ " + mergeItems.length + " पाने तयार. क्रम बदला आणि PDF तयार करा.";
+            status.innerText = added
+                ? "✅ " + mergeItems.length + " Page तयार आहेत. आता Page 1/2/3 कार्डवरून क्रम बदला."
+                : "⚠️ PDF/JPG/JPEG/PNG फाईल मिळाली नाही.";
         } catch (err) {
             status.style.color = "#dc2626";
-            status.innerText = "त्रुटी: " + err.message;
+            status.innerText = "❌ फाईल उघडता आली नाही: " + err.message;
         }
     }
 
     async function renderMergePages() {
         const box = document.getElementById('mergePages');
+        const title = document.getElementById('mergePagesTitle');
         box.innerHTML = "";
+        title.style.display = mergeItems.length ? "block" : "none";
+
+        // आधी cards लगेच दाखवा; thumbnail नंतर भरली जाईल.
         for (let i = 0; i < mergeItems.length; i++) {
             const item = mergeItems[i];
             const card = document.createElement("div");
             card.className = "merge-page-card";
             card.draggable = true;
-            card.dataset.index = i;
+            card.dataset.id = item.id;
             card.innerHTML =
-                '<span class="merge-page-no">पान '+(i+1)+'</span>'+
-                '<div class="merge-thumb"><span>⏳</span></div>'+
-                '<div class="merge-page-name" title="'+escapeHtmlMerge(item.fileName)+'">'+escapeHtmlMerge(item.fileName)+'</div>'+
+                '<span class="merge-page-no">Page '+(i+1)+'</span>'+
+                '<div class="merge-thumb"><span>⏳ Preview...</span></div>'+
+                '<div class="merge-page-name" title="'+escapeHtmlMerge(item.fileName)+'">'+
+                    (item.kind === "pdf" ? "📄 " : "🖼️ ")+escapeHtmlMerge(item.fileName)+
+                    (item.kind === "pdf" ? ' — PDF Page '+(item.pageIndex+1) : '')+
+                '</div>'+
                 '<div class="merge-page-controls">'+
-                '<button type="button" onclick="moveMergePage('+i+',-1)">↑</button>'+
-                '<button type="button" onclick="moveMergePage('+i+',1)">↓</button>'+
+                '<button type="button" onclick="moveMergePage('+i+',-1)">⬆️</button>'+
+                '<button type="button" onclick="moveMergePage('+i+',1)">⬇️</button>'+
                 '<button type="button" class="remove" onclick="removeMergePage('+i+')">✕</button></div>';
-            card.addEventListener("dragstart", e => { card.classList.add("dragging"); e.dataTransfer.setData("text/plain",String(i)); });
+
+            card.addEventListener("dragstart", e => {
+                e.dataTransfer.effectAllowed = "move";
+                e.dataTransfer.setData("text/plain", item.id);
+                card.classList.add("dragging");
+            });
             card.addEventListener("dragend", () => card.classList.remove("dragging"));
-            card.addEventListener("dragover", e => { e.preventDefault(); card.classList.add("drag-over"); });
+            card.addEventListener("dragover", e => {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = "move";
+                card.classList.add("drag-over");
+            });
             card.addEventListener("dragleave", () => card.classList.remove("drag-over"));
             card.addEventListener("drop", async e => {
-                e.preventDefault(); card.classList.remove("drag-over");
-                const from = parseInt(e.dataTransfer.getData("text/plain"),10), to = i;
-                if (Number.isInteger(from) && from !== to) {
-                    const moved = mergeItems.splice(from,1)[0];
-                    mergeItems.splice(to,0,moved);
+                e.preventDefault();
+                card.classList.remove("drag-over");
+                const fromId = e.dataTransfer.getData("text/plain");
+                const from = mergeItems.findIndex(x => x.id === fromId);
+                const to = mergeItems.findIndex(x => x.id === item.id);
+                if (from >= 0 && to >= 0 && from !== to) {
+                    const moved = mergeItems.splice(from, 1)[0];
+                    mergeItems.splice(to, 0, moved);
                     await renderMergePages();
                 }
             });
+
             box.appendChild(card);
             renderMergeThumbnail(item, card.querySelector(".merge-thumb"));
         }
@@ -616,17 +658,21 @@ input,select,textarea,button{max-width:100%;font-size:16px}
         try {
             if (item.kind === "image") {
                 const url = URL.createObjectURL(item.file);
-                holder.innerHTML = '<img src="'+url+'" alt="">';
+                holder.innerHTML = '<img src="'+url+'" alt="Page preview">';
                 return;
             }
             const pdf = await pdfjsLib.getDocument({data:item.bytes.slice(0)}).promise;
             const page = await pdf.getPage(item.pageIndex + 1);
             const vp = page.getViewport({scale:0.42});
             const canvas = document.createElement("canvas");
-            canvas.width = Math.ceil(vp.width); canvas.height = Math.ceil(vp.height);
+            canvas.width = Math.ceil(vp.width);
+            canvas.height = Math.ceil(vp.height);
             await page.render({canvasContext:canvas.getContext("2d"),viewport:vp}).promise;
-            holder.innerHTML = ""; holder.appendChild(canvas);
-        } catch(e) { holder.innerHTML = "<span>Preview unavailable</span>"; }
+            holder.innerHTML = "";
+            holder.appendChild(canvas);
+        } catch(e) {
+            holder.innerHTML = '<span style="font-weight:700;color:#64748b;">📄 PDF Page</span>';
+        }
     }
 
     function escapeHtmlMerge(v) {
@@ -643,12 +689,15 @@ input,select,textarea,button{max-width:100%;font-size:16px}
     async function removeMergePage(index) {
         mergeItems.splice(index,1);
         await renderMergePages();
-        document.getElementById('mergeStatus').innerText = mergeItems.length ? "क्रम अपडेट झाला." : "पाने निवडा.";
+        document.getElementById('mergeStatus').innerText = mergeItems.length
+            ? "क्रम अपडेट झाला. Page cards वरून पुन्हा reorder करा."
+            : "पाने निवडा.";
     }
 
     async function clearMergePages() {
         mergeItems = [];
         document.getElementById('mergePages').innerHTML = "";
+        document.getElementById('mergePagesTitle').style.display = "none";
         document.getElementById('mergePdfBtn').disabled = true;
         document.getElementById('mergeStatus').innerText = "पाने काढली.";
         const input = document.getElementById('pdfMergeInput');
@@ -662,42 +711,53 @@ input,select,textarea,button{max-width:100%;font-size:16px}
         const status = document.getElementById('mergeStatus');
         btn.disabled = true;
         status.style.color = "#1e40af";
-        status.innerText = "⏳ " + mergeItems.length + " पाने एकत्र केली जात आहेत...";
+        status.innerText = "⏳ " + mergeItems.length + " पाने Join केली जात आहेत...";
         try {
             const out = await PDFLib.PDFDocument.create();
             const pdfCache = new Map();
+
             for (let i = 0; i < mergeItems.length; i++) {
                 const item = mergeItems[i];
-                status.innerText = "⏳ पान " + (i+1) + "/" + mergeItems.length + " तयार...";
+                status.innerText = "⏳ Page " + (i+1) + "/" + mergeItems.length + " तयार...";
                 if (item.kind === "pdf") {
-                    let src = pdfCache.get(item.fileName + "_" + item.bytes.byteLength);
+                    let src = pdfCache.get(item.id + "_src");
                     if (!src) {
                         src = await PDFLib.PDFDocument.load(item.bytes);
-                        pdfCache.set(item.fileName + "_" + item.bytes.byteLength, src);
+                        pdfCache.set(item.id + "_src", src);
                     }
                     const [page] = await out.copyPages(src, [item.pageIndex]);
                     out.addPage(page);
                 } else {
                     const bytes = await item.file.arrayBuffer();
                     let embedded;
-                    if ((item.file.type || "").toLowerCase() === "image/png" || /\\.png$/i.test(item.file.name)) {
-                        embedded = await out.embedPng(bytes);
-                    } else {
-                        embedded = await out.embedJpg(bytes);
+                    const isPng = (item.file.type || "").toLowerCase() === "image/png" || /\.png$/i.test(item.file.name);
+                    if (isPng) embedded = await out.embedPng(bytes);
+                    else if ((item.file.type || "").toLowerCase() === "image/jpeg" || /\.jpe?g$/i.test(item.file.name)) embedded = await out.embedJpg(bytes);
+                    else {
+                        // WebP fallback: convert in browser to JPEG.
+                        const url = URL.createObjectURL(item.file);
+                        const im = new Image();
+                        await new Promise((res,rej)=>{im.onload=res;im.onerror=rej;im.src=url;});
+                        const cv = document.createElement("canvas");
+                        cv.width = im.naturalWidth; cv.height = im.naturalHeight;
+                        cv.getContext("2d").drawImage(im,0,0);
+                        embedded = await out.embedJpg(cv.toDataURL("image/jpeg",0.92));
+                        URL.revokeObjectURL(url);
                     }
                     const w = embedded.width || 1000, h = embedded.height || 1400;
                     const page = out.addPage([w,h]);
                     page.drawImage(embedded,{x:0,y:0,width:w,height:h});
                 }
             }
+
             const bytes = await out.save();
             saveAs(new Blob([bytes], {type:"application/pdf"}), "Merged_Document.pdf");
             status.style.color = "#059669";
-            status.innerText = "✅ पूर्ण! " + mergeItems.length + " पाने क्रमाप्रमाणे PDF मध्ये जोडली.";
+            status.innerText = "✅ Join पूर्ण! " + mergeItems.length + " Page क्रमाप्रमाणे PDF मध्ये जोडले.";
         } catch(err) {
             status.style.color = "#dc2626";
-            status.innerText = "त्रुटी: " + err.message;
-            alert("PDF Merge त्रुटी: " + err.message);
+            status.innerText = "❌ Join त्रुटी: " + err.message;
+            alert("PDF Join त्रुटी: " + err.message);
         } finally {
             mergeBusy = false;
             btn.disabled = mergeItems.length === 0;
