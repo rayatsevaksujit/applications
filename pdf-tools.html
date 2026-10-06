@@ -203,7 +203,6 @@ input,select,textarea,button{max-width:100%;font-size:16px}
                 <small>एकापेक्षा जास्त फाईल्स निवडता येतील</small>
             </div>
             <div id="mergeStatus" class="status-msg" style="color:#1e40af;"></div>
-            <div id="mergePagesTitle" class="merge-pages-title" style="display:none;">📑 <b>निवडलेली पाने</b> — खालील Page 1, Page 2, Page 3... कार्ड्सचा क्रम बदलून Join करा.</div>
             <div id="mergePagesTitle" class="merge-pages-title" style="display:none;">📑 <b>Temporary Page List</b> — Page cards वरून निवडा, क्रम बदला आणि Join करा. <span id="mergeSelectedCount">0 selected</span></div>
             <div id="mergePages" class="merge-pages"></div>
             <div class="merge-actions">
@@ -559,28 +558,45 @@ input,select,textarea,button{max-width:100%;font-size:16px}
         const files = Array.from(fileList || []);
         if (!files.length) return;
         const status=document.getElementById('mergeStatus');
-        status.innerText="⏳ Pages तयार होत आहेत...";
+        const input=document.getElementById('pdfMergeInput');
+        status.innerText="⏳ फाईल निवडली. Temporary Page cards तयार होत आहेत...";
         status.style.color="#1e40af";
+
+        // नवीन file पुन्हा निवडता यावी म्हणून input reset
+        if(input) input.value="";
+
         let added=0;
         try {
+            // प्रत्येक file आधी process करा; cards तयार झाल्यावर लगेच स्क्रीनवर दाखवा.
             for(const file of files){
                 const type=(file.type||"").toLowerCase();
                 if(type==="application/pdf" || /\.pdf$/i.test(file.name)){
                     const bytes=await file.arrayBuffer();
+                    // PDFLib parsing झाल्यावर pages लगेच temporary cards मध्ये add
                     const pdf=await PDFLib.PDFDocument.load(bytes);
-                    for(let p=0;p<pdf.getPageCount();p++){
-                        mergeItems.push({id:crypto.randomUUID?crypto.randomUUID():String(Date.now()+Math.random()),kind:"pdf",fileName:file.name,bytes,pageIndex:p,selected:true});
+                    const count=pdf.getPageCount();
+                    for(let p=0;p<count;p++){
+                        mergeItems.push({
+                            id:(crypto.randomUUID?crypto.randomUUID():String(Date.now()+Math.random())),
+                            kind:"pdf",fileName:file.name,bytes,pageIndex:p,selected:true
+                        });
                         added++;
                     }
                 } else if(/^image\/(jpeg|png|webp)$/i.test(type) || /\.(jpe?g|png|webp)$/i.test(file.name)){
-                    mergeItems.push({id:crypto.randomUUID?crypto.randomUUID():String(Date.now()+Math.random()),kind:"image",fileName:file.name,file,selected:true});
+                    mergeItems.push({
+                        id:(crypto.randomUUID?crypto.randomUUID():String(Date.now()+Math.random())),
+                        kind:"image",fileName:file.name,file,selected:true
+                    });
                     added++;
                 }
+                // प्रत्येक file पूर्ण होताच cards दिसू द्या.
+                await renderMergePages();
             }
-            await renderMergePages();
+
             status.style.color="#059669";
-            status.innerText="✅ "+added+" नवीन Page जोडले. "+mergeItems.filter(x=>x.selected).length+" Page Join साठी निवडले आहेत.";
+            status.innerText="✅ "+added+" नवीन Page cards दिसत आहेत. आता Select / Reorder करून Join करा.";
         } catch(e){
+            await renderMergePages();
             status.style.color="#dc2626";
             status.innerText="❌ फाईल वाचता आली नाही: "+e.message;
         }
@@ -605,6 +621,25 @@ input,select,textarea,button{max-width:100%;font-size:16px}
                 '<button onclick="moveMergePage('+i+',1)">⬇️ खाली</button>'+
                 '<button onclick="removeMergePage('+i+')">✕ Remove</button>'+
                 '<button onclick="moveMergePage('+i+',0)">↔️</button></div>';
+            card.draggable=true;
+            card.addEventListener("dragstart",e=>{
+                e.dataTransfer.setData("text/plain",item.id);
+                card.classList.add("dragging");
+            });
+            card.addEventListener("dragend",()=>card.classList.remove("dragging"));
+            card.addEventListener("dragover",e=>{e.preventDefault();card.classList.add("drag-over");});
+            card.addEventListener("dragleave",()=>card.classList.remove("drag-over"));
+            card.addEventListener("drop",async e=>{
+                e.preventDefault();card.classList.remove("drag-over");
+                const fromId=e.dataTransfer.getData("text/plain");
+                const from=mergeItems.findIndex(x=>x.id===fromId);
+                const to=mergeItems.findIndex(x=>x.id===item.id);
+                if(from>=0&&to>=0&&from!==to){
+                    const moved=mergeItems.splice(from,1)[0];
+                    mergeItems.splice(to,0,moved);
+                    await renderMergePages();
+                }
+            });
             box.appendChild(card);
             renderMergeThumbnail(item,card.querySelector(".merge-thumb"));
         });
