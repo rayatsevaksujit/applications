@@ -373,7 +373,7 @@ input,select,textarea,button{max-width:100%;font-size:16px}
         editorPageImage=img; editorSetCanvas(img.naturalWidth,img.naturalHeight); editorDraw();
         editorBind(); editorUpdatePageNav();
     }
-    async function editorGoToPage(n){
+    async async function editorGoToPage(n){
         n=parseInt(n,10); if(!n||n<1||n>editorPages.length||n===editorCurrentPage)return;
         editorSaveCurrentPage(); editorCurrentPage=n; await editorRenderCurrentPage();
         editorStatus('पान '+n+' उघडले.');
@@ -428,7 +428,7 @@ input,select,textarea,button{max-width:100%;font-size:16px}
         editorPages=[{dataUrl:cv.toDataURL('image/png'),layer:'',rotation:0,filter:'original'}]; editorCurrentPage=1;
         await editorRenderCurrentPage();
     }
-    async function editorLoadPDF(file){
+    async async function editorLoadPDF(file){
         const data=await file.arrayBuffer(),pdf=await pdfjsLib.getDocument({data}).promise;
         editorStatus('PDF मधील '+pdf.numPages+' पाने लोड होत आहेत...');
         editorPages=[];
@@ -474,14 +474,14 @@ input,select,textarea,button{max-width:100%;font-size:16px}
     function editorClearSignature(){escx.clearRect(0,0,esc.width,esc.height);}
     function editorPlaceSignature(){const el=editorNewItem('signature','');el.innerHTML='<img src="'+esc.toDataURL('image/png')+'"><span class="editor-resize"></span>';el.style.width='190px';el.style.height='75px';editorBind();editorSaveCurrentPage();editorCloseSignature();}
 
-    async function editorOCR(){
+    async async function editorOCR(){
         if(!editorSourceFile){alert('आधी PDF/Image निवडा.');return;}
         const box=document.getElementById('editorOCRBox'),txt=document.getElementById('editorOCRText');box.style.display='block';txt.value='OCR सुरू आहे...';
         if(!window.Tesseract)await new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';s.onload=resolve;s.onerror=reject;document.head.appendChild(s);});
         try{const result=await Tesseract.recognize(editorCanvas.toDataURL('image/png'),'eng+mar',{logger:m=>{if(m.status)editorStatus('OCR: '+m.status);}});txt.value=result.data.text||'मजकूर सापडला नाही.';editorStatus('OCR पूर्ण. Text select/copy करा.');}catch(e){txt.value='OCR त्रुटी: '+e.message;editorStatus('OCR failed');}
     }
 
-    async function editorSavePDF(){
+    async async function editorSavePDF(){
         if(!editorSourceFile){alert('आधी PDF/Image निवडा.');return;}
         editorSaveCurrentPage();
         const out=await PDFLib.PDFDocument.create();
