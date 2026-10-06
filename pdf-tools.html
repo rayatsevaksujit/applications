@@ -120,7 +120,7 @@ input,select,textarea,button{max-width:100%;font-size:16px}
 @media (min-width:1200px){
   body{padding-left:24px;padding-right:24px}
   .top-bar{max-width:1400px!important}
-  .pdf-container,.container{max-width:1400px!important}
+  .pdf-container{max-width:1120px!important}.container{max-width:1120px!important}
   .hw-container{max-width:1400px;margin-left:auto;margin-right:auto}
   .wrap{max-width:1400px!important;padding:24px!important}
 }
@@ -140,8 +140,8 @@ input,select,textarea,button{max-width:100%;font-size:16px}
   #canvasWrapper{max-width:none}
   #scannedDoc{width:min(850px,100vw - 40px)!important;max-width:none!important;height:auto}
   .pdf-container{width:100%;max-width:none!important;min-width:0}
-  .pdf-subnav{display:grid!important;grid-template-columns:1fr!important}
-  .pdf-sub-btn{width:100%}
+  .pdf-subnav{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important}
+  .pdf-sub-btn{width:100%;min-height:82px!important;padding:10px!important}
   .pdf-tool-view{padding:14px!important}
   .seo-intro{max-width:100%!important}
   .wrap{width:100%;max-width:none!important;padding:10px!important}
@@ -159,7 +159,7 @@ input,select,textarea,button{max-width:100%;font-size:16px}
 .related-grid a{display:block;padding:11px 12px;border:1px solid #e2e8f0;border-radius:9px;text-decoration:none;color:#1e40af;background:#f8fafc;font-weight:700}
 .related-grid a:hover{background:#eff6ff;border-color:#93c5fd}
 @media(max-width:800px){.related-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:480px){.related-grid{grid-template-columns:1fr}.related-tools{padding:14px}.related-tools h2{font-size:18px}}
+@media(max-width:480px){.pdf-subnav{grid-template-columns:1fr 1fr!important}.pdf-sub-btn{min-height:76px!important;font-size:12px!important}.tool-card-icon{font-size:21px}.tool-card-desc{font-size:10.5px}.related-grid{grid-template-columns:1fr}.related-tools{padding:14px}.related-tools h2{font-size:18px}}
 </style>
 </head>
 <body>
