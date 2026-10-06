@@ -232,7 +232,37 @@ input,select,textarea,button{max-width:100%;font-size:16px}
   "inLanguage":"mr"
 }
 </script>
-</head>
+<style>
+/* ===== Digital SATHIDAR modern dashboard UI ===== */
+.dashboard-main{width:min(1240px,100%);margin:0 auto;padding:24px 22px 40px}
+.dashboard-hero{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:28px 30px;margin-bottom:28px;border:1px solid #dbeafe;border-radius:22px;background:linear-gradient(135deg,#eff6ff 0%,#ffffff 58%,#f0fdf4 100%);box-shadow:0 10px 30px rgba(15,23,42,.07)}
+.hero-kicker,.section-kicker{font-size:11px;font-weight:800;letter-spacing:.08em;color:#2563eb}
+.dashboard-hero h1{font-size:34px;line-height:1.1;margin:5px 0;color:#0f172a;font-weight:800}
+.dashboard-hero p{font-size:15px;color:#64748b;max-width:700px}
+.hero-badge{white-space:nowrap;padding:10px 14px;border:1px solid #dbeafe;border-radius:999px;background:#fff;color:#1d4ed8;font-weight:800;font-size:13px}
+.tool-section{margin-bottom:30px}
+.section-heading{display:flex;align-items:end;justify-content:space-between;margin-bottom:12px}
+.section-heading h2{font-size:21px;margin-top:2px;color:#0f172a}
+.section-count{font-size:12px;font-weight:800;color:#64748b;background:#f1f5f9;border-radius:999px;padding:5px 9px}
+.dashboard-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.dash-card{min-height:150px;position:relative;display:flex;align-items:flex-start;gap:14px;padding:20px;text-decoration:none;color:#0f172a;background:#fff;border:1px solid #e2e8f0;border-radius:17px;box-shadow:0 5px 18px rgba(15,23,42,.055);transition:transform .18s,box-shadow .18s,border-color .18s}
+.dash-card:hover{transform:translateY(-3px);border-color:#93c5fd;box-shadow:0 12px 28px rgba(37,99,235,.11)}
+.dash-card.featured{border-color:#bfdbfe;background:linear-gradient(145deg,#eff6ff,#fff)}
+.dash-icon{width:48px;height:48px;display:grid;place-items:center;flex:0 0 48px;border-radius:14px;background:#f1f5f9;font-size:24px}
+.dash-card:hover .dash-icon{background:#dbeafe}
+.dash-card h3{font-size:17px;line-height:1.25;margin:1px 22px 7px 0}
+.dash-card p{font-size:13px;line-height:1.45;color:#64748b;margin:0}
+.dash-arrow{position:absolute;right:16px;bottom:14px;font-size:20px;color:#2563eb;font-weight:800}
+.seo-content{margin:6px 0 26px;padding:18px 20px;border:1px solid #e2e8f0;border-radius:16px;background:#f8fafc}
+.seo-content h2{font-size:18px;margin-bottom:5px}
+.seo-content p{font-size:13px;line-height:1.65;color:#64748b}
+.related-tools{margin-top:0!important;width:100%!important}
+@media(max-width:900px){.dashboard-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.dashboard-hero{padding:23px}}
+@media(max-width:600px){.dashboard-main{padding:14px 10px 28px}.dashboard-hero{display:block;padding:20px;border-radius:17px}.dashboard-hero h1{font-size:28px}.dashboard-hero p{font-size:14px}.hero-badge{display:inline-block;margin-top:14px}.dashboard-grid{grid-template-columns:1fr 1fr;gap:10px}.dash-card{min-height:145px;padding:14px;display:block}.dash-icon{width:42px;height:42px;font-size:21px;margin-bottom:10px}.dash-card h3{font-size:15px}.dash-card p{font-size:12px}.section-heading h2{font-size:18px}.section-count{font-size:10px}}
+@media(max-width:390px){.dashboard-grid{grid-template-columns:1fr}.dash-card{min-height:auto;display:flex}.dash-icon{margin-bottom:0}.dashboard-hero h1{font-size:25px}}
+</style><script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"Digital SATHIDAR","alternateName":"डिजिटल साथीदार","url":"https://rayatsevaksujit.github.io/applications/","description":"शिक्षक, कर्मचारी, शाळा आणि विद्यार्थ्यांसाठी मराठी ऑनलाइन डिजिटल टूल्स."}
+</script></head>
 <body>
 
     <header class="portal-header">
@@ -245,155 +275,56 @@ input,select,textarea,button{max-width:100%;font-size:16px}
         </div>
     </header>
 
-    <main class="main-container">
-        
-        <section class="seo-intro" aria-label="Digital SATHIDAR माहिती"><h2>Digital SATHIDAR – शिक्षक, कर्मचारी व विद्यार्थ्यांसाठी डिजिटल टूल्स</h2><p>डिजिटल साथीदार हे मराठी भाषेतील उपयुक्त ऑनलाइन साधनांचे पोर्टल आहे. शिक्षक व कर्मचाऱ्यांसाठी <strong>DA Calculator, HRA Calculator, eDost साथी स्कॅन क्लीन, PDF Tools, फोटो व सही कटर</strong>, तसेच शाळांसाठी <strong>संच मान्यता शिक्षक गणना</strong> आणि विद्यार्थ्यांसाठी विविध डिजिटल सुविधा येथे उपलब्ध आहेत.</p></section>
+    <main class="dashboard-main">
+  <section class="dashboard-hero" aria-label="Digital SATHIDAR">
+    <div>
+      <span class="hero-kicker">DIGITAL SATHIDAR • ONLINE TOOLS</span>
+      <h1>डिजिटल साथीदार</h1>
+      <p>शिक्षक, कर्मचारी, शाळा आणि विद्यार्थ्यांसाठी उपयुक्त मराठी डिजिटल साधने — एका आधुनिक dashboard मध्ये.</p>
+    </div>
+    <div class="hero-badge">⚡ झटपट • सोपे • ऑनलाइन</div>
+  </section>
 
-<div class="section-title">📂 सर्व डिजिटल टूल्स व सेवा</div>
-        <div class="tools-grid">
-            <a href="edost-scan-clean.html" class="tool-card">
-                <div>
-                    <div class="tool-top">
-                        <div class="tool-icon">🧽</div>
-                        <div class="tool-name">eDost साथी स्कॅन क्लीन</div>
-                    </div>
-                    <div class="tool-desc">जुना LC, दाखला, रजिस्टर किंवा कागदपत्राचा फोटो स्वच्छ व स्पष्ट करा. Grayscale, B&W, contrast आणि A4 PDF/प्रिंट सुविधा.</div>
-                </div>
-                <div class="tool-action">सुरू करा ➔</div>
-            </a>
+  <section class="tool-section" aria-labelledby="doc-tools-title">
+    <div class="section-heading"><div><span class="section-kicker">DOCUMENT & PHOTO</span><h2 id="doc-tools-title">📄 कागदपत्रे व फोटो</h2></div><span class="section-count">3 Tools</span></div>
+    <div class="dashboard-grid">
+      <a class="dash-card featured" href="pdf-tools.html"><span class="dash-icon">📄</span><div><h3>PDF Tools</h3><p>Merge, Split, Resize, Compress आणि PDF Editor.</p></div><span class="dash-arrow">→</span></a>
+      <a class="dash-card" href="edost-scan-clean.html"><span class="dash-icon">🧽</span><div><h3>eDost साथी स्कॅन क्लीन</h3><p>जुना कागद, LC व दाखला स्वच्छ आणि स्पष्ट करा.</p></div><span class="dash-arrow">→</span></a>
+      <a class="dash-card" href="cutter.html"><span class="dash-icon">✂️</span><div><h3>फोटो व सही कटर</h3><p>SSC/HSC फोटो व सही crop आणि size करा.</p></div><span class="dash-arrow">→</span></a>
+    </div>
+  </section>
 
-            
-            <a href="cutter.html" class="tool-card">
-                <div>
-                    <div class="tool-top">
-                        <div class="tool-icon">✂️</div>
-                        <div class="tool-name">फोटो व सही कटर</div>
-                    </div>
-                    <div class="tool-desc">SSC / HSC परीक्षा फॉर्मसाठी ९ फोटो व सह्या एका क्लिकवर स्वयंचलित क्रॉप करा (२५-४० KB).</div>
-                </div>
-                <div class="tool-action">सुरू करा ➔</div>
-            </a>
+  <section class="tool-section" aria-labelledby="employee-tools-title">
+    <div class="section-heading"><div><span class="section-kicker">EMPLOYEE & SCHOOL</span><h2 id="employee-tools-title">🧮 कर्मचारी व शाळा</h2></div><span class="section-count">3 Tools</span></div>
+    <div class="dashboard-grid">
+      <a class="dash-card" href="da-calculator.html"><span class="dash-icon">📈</span><div><h3>DA फरक कॅल्क्युलेटर</h3><p>महागाई भत्ता फरकाची गणना आणि पत्रक.</p></div><span class="dash-arrow">→</span></a>
+      <a class="dash-card" href="hra-calculator.html"><span class="dash-icon">🏠</span><div><h3>HRA फरक कॅल्क्युलेटर</h3><p>घरभाडे भत्ता फरकाची सोपी गणना.</p></div><span class="dash-arrow">→</span></a>
+      <a class="dash-card" href="sanch-manyata.html"><span class="dash-icon">🏫</span><div><h3>संच मान्यता शिक्षक गणना</h3><p>विद्यार्थी संख्येनुसार शिक्षक पदांची माहिती.</p></div><span class="dash-arrow">→</span></a>
+    </div>
+  </section>
 
-            <a href="anki-to-akshari.html" class="tool-card">
-                <div>
-                    <div class="tool-top">
-                        <div class="tool-icon">🔢</div>
-                        <div class="tool-name">अंकी ते अक्षरी व वय</div>
-                    </div>
-                    <div class="tool-desc">कोणतीही संख्या/रक्कम मराठी अक्षरी रूपांतरित करा, जन्मदिनांक अक्षरी व अचूक वय मोजा.</div>
-                </div>
-                <div class="tool-action">सुरू करा ➔</div>
-            </a>
+  <section class="tool-section" aria-labelledby="student-tools-title">
+    <div class="section-heading"><div><span class="section-kicker">STUDENT & TEXT</span><h2 id="student-tools-title">🔢 विद्यार्थी व लेखन</h2></div><span class="section-count">2 Tools</span></div>
+    <div class="dashboard-grid">
+      <a class="dash-card" href="anki-to-akshari.html"><span class="dash-icon">🔢</span><div><h3>अंकी ते अक्षरी व वय</h3><p>रक्कम अक्षरी, जन्मदिनांक आणि अचूक वय गणना.</p></div><span class="dash-arrow">→</span></a>
+      <a class="dash-card" href="handwriting.html"><span class="dash-icon">✍️</span><div><h3>हस्तलिखित कन्व्हर्टर</h3><p>टाईप केलेला मजकूर हस्तलिखित शैलीत तयार करा.</p></div><span class="dash-arrow">→</span></a>
+    </div>
+  </section>
 
-            <a href="da-calculator.html" class="tool-card">
-                <div>
-                    <div class="tool-top">
-                        <div class="tool-icon">📈</div>
-                        <div class="tool-name">DA फरक कॅल्क्युलेटर</div>
-                    </div>
-                    <div class="tool-desc">महागाई भत्ता वाढ फरक पत्रक, NPS कपात आणि A4 लँडस्केप प्रिंट तक्ता.</div>
-                </div>
-                <div class="tool-action">सुरू करा ➔</div>
-            </a>
+  <section class="seo-content" aria-label="Digital SATHIDAR SEO माहिती">
+    <h2>Digital SATHIDAR – डिजिटल साथीदार ऑनलाइन टूल्स</h2>
+    <p>Digital SATHIDAR (डिजिटल साथीदार) वर PDF Tools, PDF Merge, PDF Split, PDF Editor, PDF Compress, eDost साथी स्कॅन क्लीन, SSC/HSC फोटो व सही कटर, DA Calculator, HRA Calculator, संच मान्यता शिक्षक गणना, अंकी ते अक्षरी, जन्मदिनांक वय गणना आणि हस्तलिखित कन्व्हर्टर यांसारखी उपयुक्त ऑनलाइन साधने उपलब्ध आहेत.</p>
+  </section>
 
-            <a href="hra-calculator.html" class="tool-card">
-                <div>
-                    <div class="tool-top">
-                        <div class="tool-icon">🏠</div>
-                        <div class="tool-name">HRA फरक कॅल्क्युलेटर</div>
-                    </div>
-                    <div class="tool-desc">घरभाडे भत्ता वाढ फरक पत्रक व अधिकृत A4 लँडस्केप प्रिंट लेआउट.</div>
-                </div>
-                <div class="tool-action">सुरू करा ➔</div>
-            </a>
-
-            <a href="handwriting.html" class="tool-card">
-                <div>
-                    <div class="tool-top">
-                        <div class="tool-icon">✍️</div>
-                        <div class="tool-name">हस्तलिखित कन्व्हर्टर</div>
-                    </div>
-                    <div class="tool-desc">टाईप केलेला मजकूर खरोखर हाताने वहीवर लिहिल्यासारखा बनवा (PDF व प्रिंट).</div>
-                </div>
-                <div class="tool-action">सुरू करा ➔</div>
-            </a>
-
-            <a href="sanch-manyata.html" class="tool-card">
-                <div>
-                    <div class="tool-top">
-                        <div class="tool-icon">🏫</div>
-                        <div class="tool-name">संच मान्यता शिक्षक गणना</div>
-                    </div>
-                    <div class="tool-desc">इयत्ता १ ते ५, ६ ते ८, ९ ते १० आणि विशेष शिक्षकांसाठी विद्यार्थी संख्येनुसार देय शिक्षक पदांची माहिती.</div>
-                </div>
-                <div class="tool-action">गणना करा ➔</div>
-            </a>
-
-            <a href="pdf-tools.html" class="tool-card">
-                <div>
-                    <div class="tool-top">
-                        <div class="tool-icon">📄</div>
-                        <div class="tool-name">PDF टूल्स</div>
-                    </div>
-                    <div class="tool-desc">PDF एकत्र करा (Merge), प्रत्येक पान वेगळे करा (Split to ZIP) व साईझ कमी करा (Compress).</div>
-                </div>
-                <div class="tool-action">सुरू करा ➔</div>
-            </a>
-
-        </div>
-
-        <!-- Review Section -->
-        <div class="section-title feedback-disabled" style="display:none;">💬 अभिप्राय व प्रतिक्रिया</div>
-        <div class="review-section feedback-disabled" style="display:none;">
-            <div class="review-container">
-                <div>
-                    <div class="form-group">
-                        <label>आपले नाव / पद:</label>
-                        <input type="text" id="revAuthor" class="form-control" placeholder="उदा. सुजित पाटील">
-                    </div>
-                    <div class="form-group">
-                        <label>संस्था / शाळा / गाव:</label>
-                        <input type="text" id="revPlace" class="form-control" placeholder="उदा. रयत सेवक">
-                    </div>
-                    <div class="form-group">
-                        <label>रेटिंग:</label>
-                        <select id="revRating" class="form-control">
-                            <option value="⭐⭐⭐⭐⭐">⭐⭐⭐⭐⭐ (उत्कृष्ट ५/५)</option>
-                            <option value="⭐⭐⭐⭐">⭐⭐⭐⭐ (छान ४/५)</option>
-                            <option value="⭐⭐⭐">⭐⭐⭐ (चांगले ३/५)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>आपला संदेश:</label>
-                        <textarea id="revMessage" class="form-control" rows="2" placeholder="पोर्टलबद्दल आपले मत लिहा..."></textarea>
-                    </div>
-                    <button class="btn-ui btn-primary" style="width:100%;" onclick="submitUserReview()">अभिप्राय सबमिट करा</button>
-                </div>
-
-                <div>
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; border-bottom:1px solid var(--border); padding-bottom:6px;">
-                        <span style="font-weight:700; color:#334155;">ताजी युझर मते</span>
-                        <button id="adminToggleBtn" class="btn-ui btn-outline" style="padding:2px 8px; font-size:11px;" onclick="toggleAdminPrompt()">🔐 ॲडमिन (Pin)</button>
-                    </div>
-                    <div id="reviewsContainer" class="review-list"></div>
-                </div>
-            </div>
-        </div>
-
-    
-<section class="related-tools" aria-label="संबंधित Digital SATHIDAR टूल्स">
-  <h2>🔗 संबंधित डिजिटल टूल्स</h2>
-  <div class="related-grid">
-    <a href="cutter.html">📸 फोटो व सही कटर</a>
-    <a href="pdf-tools.html">📄 PDF Tools</a>
-    <a href="da-calculator.html">📈 DA फरक कॅल्क्युलेटर</a>
-    <a href="hra-calculator.html">🏠 HRA फरक कॅल्क्युलेटर</a>
-    <a href="sanch-manyata.html">🏫 संच मान्यता शिक्षक गणना</a>
-    <a href="anki-to-akshari.html">🔢 अंकी ते अक्षरी व वय</a>
-    <a href="handwriting.html">✍️ हस्तलिखित कन्व्हर्टर</a>
-    
-  </div>
-</section></main>
+  <section class="related-tools" aria-label="संबंधित Digital SATHIDAR टूल्स">
+    <h2>🔗 सर्व टूल्स</h2>
+    <div class="related-grid">
+      <a href="pdf-tools.html">📄 PDF Tools</a><a href="edost-scan-clean.html">🧽 Scan Clean</a><a href="cutter.html">✂️ Photo & Signature</a>
+      <a href="da-calculator.html">📈 DA Calculator</a><a href="hra-calculator.html">🏠 HRA Calculator</a><a href="sanch-manyata.html">🏫 संच मान्यता</a>
+      <a href="anki-to-akshari.html">🔢 अंकी ते अक्षरी</a><a href="handwriting.html">✍️ हस्तलिखित</a>
+    </div>
+  </section>
+</main>
 
     <footer class="portal-footer">
         <div>© 2026 डिजिटल साथीदार (Digital Sathidar) | सर्व हक्क सुरक्षित.</div>
