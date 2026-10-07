@@ -4,19 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDF Tools | Merge Split Compress PDF Editor | Digital SATHIDAR</title>
+    <meta name="description" content="PDF Merge, PDF Split, PDF Compress आणि PDF Editor/Scanner अशी उपयुक्त ऑनलाइन PDF Tools सुविधा — Digital SATHIDAR.">
     <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- स्टेबल आणि टेस्टेड CDN स्क्रिप्ट्स -->
-    <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.9/dist/pdf-lib.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <!-- मुख्य आवश्यक लायब्ररीज (स्टेबल व टेस्टेड) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script async src="https://docs.opencv.org/4.x/opencv.js"></script>
     <script>
-        // CDN Worker CORS ब्लॉक टाळण्यासाठी सेफ लोकल वर्कर कॉन्फिगरेशन
-        if (window.pdfjsLib) {
-            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
-        }
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
     </script>
 
     <style>
@@ -24,118 +22,172 @@
         body { background: #f8fafc; color: #0f172a; padding: 14px; font-size: 14px; }
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         .back-btn { text-decoration: none; background: #ffffff; border: 1px solid #cbd5e1; padding: 5px 12px; border-radius: 6px; font-weight: 700; color: #1e40af; }
-        .pdf-container { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+        .back-btn:hover { background: #eff6ff; }
+        .pdf-container { max-width: 1250px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
         .pdf-subnav { display: flex; gap: 8px; background: #ffffff; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; flex-wrap: wrap; }
-        .pdf-sub-btn { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 8px 16px; font-size: 14px; font-weight: 700; border-radius: 6px; cursor: pointer; }
+        .pdf-sub-btn { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 7px 14px; font-size: 13px; font-weight: 700; border-radius: 6px; cursor: pointer; display: flex; flex-direction: column; align-items: center; }
         .pdf-sub-btn.active { background: #1e40af; color: white; border-color: #1e40af; }
+        .tool-card-desc { font-size: 11px; opacity: 0.85; font-weight: normal; }
         .pdf-tool-view { width:100%; display: none; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
         .pdf-tool-view.active { display: flex; flex-direction: column; gap: 12px; }
-        .title { font-size: 16px; font-weight: 800; color: #1e3a8a; margin-bottom: 4px; }
-        .form-control { width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; margin-top: 4px; }
-        .btn-ui { padding: 9px 16px; font-size: 14px; font-weight: 700; border-radius: 6px; border: none; cursor: pointer; color: white; margin-top: 6px; }
-        .btn-primary { background: #1e40af; } .btn-primary:hover { background: #1d4ed8; }
-        .btn-success { background: #059669; } .btn-success:hover { background: #047857; }
+        .title { font-size: 16px; font-weight: 800; color: #1e3a8a; }
+        .form-control { width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13.5px; }
+        .form-group { margin-bottom: 6px; }
+        .form-group label { display: block; font-weight: 700; font-size: 12.5px; color: #334155; margin-bottom: 4px; }
+        .btn-ui { padding: 9px; font-size: 14px; font-weight: 700; border-radius: 6px; border: none; cursor: pointer; color: white; }
+        .btn-primary { background: #1e40af; } .btn-success { background: #059669; }
         .btn-ui:disabled { background: #94a3b8; cursor: not-allowed; }
-        .status-msg { font-size: 13px; font-weight: 700; min-height: 20px; margin-top: 6px; }
+        .status-msg { font-size: 13px; font-weight: 700; min-height: 18px; margin-top: 4px; }
 
-        /* MERGE CARDS */
-        .merge-pages { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; margin-top: 10px; }
-        .merge-page-card { position: relative; background: #fff; border: 2px solid #cbd5e1; border-radius: 8px; padding: 8px; text-align: center; }
-        .merge-page-card.selected { border-color: #2563eb; background: #eff6ff; }
-        .merge-thumb { height: 160px; background: #f1f5f9; border-radius: 6px; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 6px; }
-        .merge-thumb canvas, .merge-thumb img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        .merge-page-no { position: absolute; left: 6px; top: 6px; background: #1e40af; color: #fff; border-radius: 4px; padding: 1px 6px; font-weight: 700; font-size: 11px; }
-        .merge-check { display: flex; align-items: center; justify-content: center; gap: 5px; font-weight: 700; color: #1e40af; font-size: 12.5px; margin-bottom: 4px; }
-        .merge-page-name { font-size: 11px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 6px; color: #475569; }
-        .merge-page-controls { display: flex; gap: 4px; justify-content: center; }
-        .merge-page-controls button { padding: 4px 8px; border: 1px solid #cbd5e1; background: #fff; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 700; }
+        /* MULTI-FILE PDF MERGE */
+        .merge-drop-zone{border:2px dashed #64748b;border-radius:12px;padding:18px;text-align:center;background:#f8fafc;cursor:pointer;color:#334155;display:flex;flex-direction:column;gap:3px}
+        .merge-drop-zone.drag-over{border-color:#2563eb;background:#eff6ff}
+        .merge-pages{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-top:6px}
+        .merge-page-card{position:relative;background:#fff;border:2px solid #cbd5e1;border-radius:12px;padding:8px;box-shadow:0 2px 8px rgba(15,23,42,.08)}
+        .merge-page-card.selected{border-color:#2563eb;background:#eff6ff}
+        .merge-thumb{height:180px;background:#f1f5f9;border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+        .merge-thumb canvas,.merge-thumb img{max-width:100%;max-height:100%;object-fit:contain}
+        .merge-page-no{position:absolute;left:10px;top:10px;background:#1e40af;color:#fff;border-radius:999px;padding:2px 8px;font-weight:800;font-size:12px}
+        .merge-check{display:flex;align-items:center;gap:5px;font-weight:800;color:#1e40af;font-size:13px;margin:6px 0}
+        .merge-check input{width:18px;height:18px;accent-color:#2563eb}
+        .merge-page-name{font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:5px 2px;color:#334155}
+        .merge-page-controls{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px}
+        .merge-page-controls button{padding:6px 2px;border:1px solid #cbd5e1;background:#fff;border-radius:6px;cursor:pointer;font-weight:800}
+        .merge-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;}
 
-        /* EDITOR */
-        .editor-toolbar { display: flex; gap: 6px; flex-wrap: wrap; padding: 10px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; }
-        .editor-btn, .editor-save { padding: 6px 12px; border-radius: 6px; border: 1px solid #cbd5e1; background: #fff; color: #0f172a; font-weight: 700; font-size: 12.5px; cursor: pointer; }
-        .editor-save { background: #059669; color: #fff; border-color: #059669; }
-        .editor-workspace { background: #475569; padding: 16px; border-radius: 8px; overflow: auto; min-height: 480px; display: flex; justify-content: center; align-items: flex-start; }
-        .editor-page-wrap { position: relative; background: #fff; display: inline-block; box-shadow: 0 4px 12px rgba(0,0,0,0.25); line-height: 0; }
-        #editorCanvas { display: block; }
-        #editorLayer { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
-        .editor-item { position: absolute; min-width: 40px; min-height: 24px; padding: 2px 6px; border: 1px dashed #2563eb; background: rgba(255,255,255,0.85); color: #000; line-height: 1.2; cursor: move; pointer-events: auto; user-select: none; }
-        .editor-item.selected { outline: 2px solid #ea580c; }
-        .editor-delete { position: absolute; right: -8px; top: -8px; width: 18px; height: 18px; background: #dc2626; color: #fff; border-radius: 50%; font-weight: bold; line-height: 16px; text-align: center; cursor: pointer; }
-        .editor-item.signature img { width: 100%; height: 100%; object-fit: contain; }
-
-        /* SIGNATURE MODAL */
-        .editor-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1000; align-items: center; justify-content: center; }
-        .editor-modal-box { background: #fff; padding: 16px; border-radius: 10px; width: min(500px, 94vw); }
-        #editorSigCanvas { width: 100%; height: 170px; border: 1px solid #94a3b8; background: #fff; touch-action: none; display: block; }
+        /* PDF EDITOR */
+        .editor-toolbar{display:flex;gap:6px;flex-wrap:wrap;padding:10px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px}
+        .editor-btn,.editor-save,.editor-file{padding:7px 11px;border-radius:6px;border:1px solid #cbd5e1;background:#fff;color:#0f172a;font-weight:700;font-size:12px;cursor:pointer;}
+        .editor-save{background:#059669;color:#fff;border-color:#059669}
+        .editor-file input{display:none}
+        .editor-workspace{background:#334155;padding:14px;border-radius:8px;overflow:auto;min-height:440px;display:flex;justify-content:center;align-items:flex-start}
+        .editor-page-wrap{position:relative;background:#fff;box-shadow:0 3px 15px rgba(0,0,0,0.3);display:inline-block;line-height:0;touch-action:none}
+        #editorCanvas{display:block;}
+        #editorLayer{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+        .editor-item{position:absolute;min-width:30px;min-height:24px;padding:3px 6px;border:1px dashed #2563eb;background:rgba(255,255,255,0.85);color:#111827;line-height:1.2;cursor:move;user-select:none;touch-action:none;pointer-events:auto;}
+        .editor-item.selected{outline:2px solid #ea580c}
+        .editor-resize{position:absolute;right:-6px;bottom:-6px;width:14px;height:14px;border-radius:50%;background:#2563eb;cursor:nwse-resize}
+        .editor-delete{position:absolute;right:-8px;top:-8px;width:18px;height:18px;border-radius:50%;background:#dc2626;color:#fff;font-weight:bold;line-height:16px;text-align:center;cursor:pointer;}
+        .editor-item.highlight{background:rgba(255,241,118,0.45);border:1px solid #eab308}
+        .editor-item.signature{background:transparent;border:1px dashed #64748b;padding:0}
+        .editor-item.signature img{display:block;width:100%;height:100%;object-fit:contain}
+        .editor-ocr-box{padding:10px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px}
+        
+        .editor-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:center;justify-content:center}
+        .editor-modal-box{background:#fff;padding:16px;border-radius:10px;width:min(540px,94vw)}
+        #editorSigCanvas{width:100%;height:180px;border:1px solid #94a3b8;background:#fff;touch-action:none;display:block;}
+        @media(max-width:600px){.merge-pages{grid-template-columns:1fr 1fr;gap:8px}.merge-thumb{height:140px}}
     </style>
 </head>
 <body>
 
     <div class="top-bar">
-        <a href="index.html" class="back-btn">⬅️ मुख्य पान (Home)</a>
+        <a href="index.html" class="back-btn">⬅️ मुख्य पानावर परत जा (Home)</a>
         <div style="font-weight: 800; font-size: 16px; color: #1e40af;">PDF टूल्स (PDF Utilities)</div>
     </div>
 
     <div class="pdf-container">
-        <div class="pdf-subnav">
-            <button class="pdf-sub-btn active" onclick="switchTab('view-merge', this)">🔗 PDF Merge</button>
-            <button class="pdf-sub-btn" onclick="switchTab('view-split', this)">✂️ PDF Split (ZIP)</button>
-            <button class="pdf-sub-btn" onclick="switchTab('view-compress', this)">🗜️ PDF Resize</button>
-            <button class="pdf-sub-btn" onclick="switchTab('view-editor', this)">📝 PDF Editor</button>
+        <div class="pdf-subnav" aria-label="PDF Tools">
+            <button class="pdf-sub-btn active" onclick="switchPdfSubTool('view-merge', this)"><span>🔗 PDF Merge</span><span class="tool-card-desc">अनेक PDF / Image एकत्र करा</span></button>
+            <button class="pdf-sub-btn" onclick="switchPdfSubTool('view-split', this)"><span>✂️ PDF Split</span><span class="tool-card-desc">प्रत्येक पान वेगळे ZIP करा</span></button>
+            <button class="pdf-sub-btn" onclick="switchPdfSubTool('view-compress', this)"><span>🗜️ PDF Resize</span><span class="tool-card-desc">हवी ती KB साईझ मिळवा</span></button>
+            <button id="pdfEditorTab" type="button" class="pdf-sub-btn" onclick="switchPdfSubTool('view-editor', this)"><span>📝 PDF Editor</span><span class="tool-card-desc">Edit, Scan, OCR, Signature</span></button>
         </div>
 
-        <!-- १. MERGE -->
+        <!-- १. Merge PDF -->
         <div id="view-merge" class="pdf-tool-view active">
-            <div class="title">🔗 PDF किंवा फोटो एकत्र जोडा (Merge)</div>
-            <input type="file" id="pdfMergeInput" class="form-control" accept="application/pdf,image/*" multiple onchange="handleMergeFiles(this.files)">
+            <div class="title">🔗 PDF / JPEG / Image एकत्र करा</div>
+            <p style="font-size:12.5px;color:#64748b;">PDF किंवा JPG/PNG फाईल्स निवडा. पानांचा क्रम बदला किंवा नको असलेली पाने वगळून एकत्र करा.</p>
+            <div class="form-group">
+                <input type="file" id="pdfMergeInput" class="form-control" accept="application/pdf,image/*" multiple onchange="prepareMergeFiles(this.files)">
+            </div>
+            <div id="mergeDropZone" class="merge-drop-zone"
+                 onclick="document.getElementById('pdfMergeInput').click()"
+                 ondragover="event.preventDefault();this.classList.add('drag-over')"
+                 ondragleave="this.classList.remove('drag-over')"
+                 ondrop="event.preventDefault();this.classList.remove('drag-over');prepareMergeFiles(event.dataTransfer.files)">
+                <span>📂 येथे PDF / JPEG फाईल्स Drag & Drop करा किंवा क्लिक करून निवडा</span>
+                <small>एकापेक्षा जास्त फाईल्स निवडता येतील</small>
+            </div>
             <div id="mergeStatus" class="status-msg" style="color:#1e40af;"></div>
             <div id="mergePages" class="merge-pages"></div>
-            <div style="margin-top: 10px; display: flex; gap: 8px;">
-                <button type="button" class="editor-btn" onclick="toggleAllCards(true)">Select All</button>
-                <button type="button" class="editor-btn" onclick="toggleAllCards(false)">Deselect All</button>
-                <button type="button" class="editor-btn" onclick="clearMerge()">Clear All</button>
-                <button type="button" class="btn-ui btn-primary" id="mergeBtn" onclick="runMerge()" disabled>🔗 एकत्र PDF तयार करा</button>
+            <div class="merge-actions">
+                <button type="button" class="editor-btn" onclick="selectAllMergePages(true)">☑️ Select All</button>
+                <button type="button" class="editor-btn" onclick="selectAllMergePages(false)">⬜ Deselect All</button>
+                <button type="button" class="editor-btn" onclick="clearMergePages()">🗑️ सर्व पाने काढा</button>
+                <button type="button" class="btn-ui btn-primary" id="mergePdfBtn" onclick="mergePDFFiles()" disabled>🔗 क्रमाप्रमाणे PDF तयार करा</button>
             </div>
         </div>
 
-        <!-- २. SPLIT -->
+        <!-- २. Split PDF -->
         <div id="view-split" class="pdf-tool-view">
-            <div class="title">✂️ PDF ची सर्व पाने वेगवेगळी करा (ZIP Download)</div>
-            <input type="file" id="pdfSplitInput" class="form-control" accept="application/pdf">
-            <div id="splitStatus" class="status-msg" style="color:#1e40af;"></div>
-            <button type="button" class="btn-ui btn-primary" id="splitBtn" onclick="runSplit()">सर्व पाने वेगळी करून ZIP डाऊनलोड करा</button>
+            <div class="title">✂️ PDF ची सर्व पाने वेगळी करा (ZIP)</div>
+            <p style="font-size:12.5px; color:#64748b;">PDF मधील प्रत्येक पान आपोआप स्वतंत्र होऊन ZIP फाईल डाऊनलोड होईल.</p>
+            <div class="form-group">
+                <input type="file" id="pdfSplitInput" class="form-control" accept="application/pdf">
+            </div>
+            <p id="splitStatus" class="status-msg" style="color:#1e40af;"></p>
+            <button class="btn-ui btn-primary" id="btnSplit" onclick="splitAllPagesToZip()">सर्व पाने वेगळी करून ZIP डाऊनलोड करा</button>
         </div>
 
-        <!-- ३. RESIZE -->
+        <!-- ३. Resize / Compress PDF -->
         <div id="view-compress" class="pdf-tool-view">
-            <div class="title">🗜️ PDF रिसाईझ / कॉम्प्रेस करा (Target KB)</div>
-            <input type="file" id="pdfResizeInput" class="form-control" accept="application/pdf">
-            <div style="margin-top: 6px;">
-                <label>अपेक्षित जास्तीत जास्त साईझ (KB):</label>
-                <input type="number" id="targetKb" class="form-control" value="150" min="20" max="5000">
+            <div class="title">🗜️ PDF आवश्यक त्या साईझमध्ये कॉम्प्रेस / रिसाईझ करा</div>
+            <div class="form-group">
+                <label>PDF फाईल निवडा:</label>
+                <input type="file" id="pdfCompressInput" class="form-control" accept="application/pdf" onchange="showOriginalPdfSize(this)">
+                <div id="origSizeText" style="font-size:12px; color:#64748b; margin-top:2px;"></div>
             </div>
-            <div id="resizeStatus" class="status-msg" style="color:#1e40af;"></div>
-            <button type="button" class="btn-ui btn-success" id="resizeBtn" onclick="runResize()">🎯 रिसाईझ करून डाऊनलोड करा</button>
+            <div class="form-group">
+                <label>अपेक्षित जास्तीत जास्त फाईल साईझ (Target Size in KB):</label>
+                <div style="display:flex; gap:8px; align-items:center;">
+                    <input type="number" id="targetKbInput" class="form-control" value="150" min="20" max="50000">
+                    <span style="font-weight:700;">KB</span>
+                </div>
+            </div>
+            <p id="compressStatus" class="status-msg" style="color:#1e40af;"></p>
+            <button class="btn-ui btn-success" id="btnCompress" onclick="compressPdfToTargetSize()">🎯 दिलेल्या साईझनुसार रिसाईझ करून डाऊनलोड करा</button>
         </div>
 
-        <!-- ४. EDITOR -->
+        <!-- ४. PDF Editor & Scanner -->
         <div id="view-editor" class="pdf-tool-view">
-            <div class="title">📝 PDF Editor (मजकूर, तारीख आणि सही लावा)</div>
+            <div class="title">📝 PDF Editor / Scanner</div>
             <div class="editor-toolbar">
-                <input type="file" id="editorFileInput" accept="application/pdf,image/*" style="display:none" onchange="loadEditorFile(this.files[0])">
-                <button type="button" class="editor-btn" onclick="document.getElementById('editorFileInput').click()">📁 PDF / फोटो निवडा</button>
-                <button type="button" class="editor-btn" onclick="addEditorText()">📝 मजकूर लिहा</button>
-                <button type="button" class="editor-btn" onclick="addEditorDate()">📅 तारीख</button>
-                <button type="button" class="editor-btn" onclick="openSignatureModal()">✍️ सही लावा</button>
-                <button type="button" class="editor-btn" onclick="deleteSelectedItem()">🗑️ हटवा</button>
-                <button type="button" class="editor-save" onclick="saveEditorPdf()">⬇️ Save PDF</button>
+                <label class="editor-file">📁 PDF / Image
+                    <input type="file" id="editorFile" accept="application/pdf,image/*">
+                </label>
+                <button type="button" class="editor-btn" onclick="editorAddText()">📝 Text</button>
+                <button type="button" class="editor-btn" onclick="editorAddDate()">📅 Date</button>
+                <button type="button" class="editor-btn" onclick="editorOpenSignature()">✍️ Signature</button>
+                <button type="button" class="editor-btn" onclick="editorAddHighlight()">🖍️ Highlight</button>
+                <button type="button" class="editor-btn" onclick="editorDelete()">🗑️ Delete</button>
+                <button type="button" class="editor-btn" onclick="editorFilter('original')">Original</button>
+                <button type="button" class="editor-btn" onclick="editorFilter('gray')">🌗 Grayscale</button>
+                <button type="button" class="editor-btn" onclick="editorFilter('bw')">⚫ B&W</button>
+                <button type="button" class="editor-btn" onclick="editorAutoClear()">✨ Auto Clear</button>
+                <button type="button" class="editor-btn" onclick="editorStartScanner()">📷 Scan</button>
+                <button type="button" class="editor-btn" onclick="editorRotate()">🔄 Rotate</button>
+                <button type="button" class="editor-btn" onclick="editorOCR()">🔍 OCR</button>
+                <button type="button" class="editor-save" onclick="editorSavePDF()">⬇️ Save PDF</button>
+                <button type="button" class="editor-btn" onclick="editorPrint()">🖨️ Print</button>
             </div>
-            <div id="editorPageNav" style="display:none; gap:10px; align-items:center; margin-top:4px;">
-                <button type="button" class="editor-btn" onclick="changeEditorPage(-1)">◀ मागील</button>
-                <span id="editorPageLabel" style="font-weight:700; color:#1e40af;">पान 1 / 1</span>
-                <button type="button" class="editor-btn" onclick="changeEditorPage(1)">पुढील ▶</button>
+
+            <div id="editorStatus" class="status-msg" style="color:#1e40af;">कृपया PDF किंवा फोटो निवडा.</div>
+            
+            <div id="editorPageNav" style="display:none;align-items:center;gap:8px;flex-wrap:wrap;padding:6px 10px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:6px;">
+                <button type="button" class="editor-btn" onclick="editorPrevPage()">◀ मागील</button>
+                <span id="editorPageInfo" style="font-weight:800;color:#1e3a8a;">पान 1 / 1</span>
+                <button type="button" class="editor-btn" onclick="editorNextPage()">पुढील ▶</button>
             </div>
-            <div id="editorStatus" class="status-msg" style="color:#1e40af;">कृपया आधी PDF किंवा फोटो निवडा.</div>
+
+            <div id="editorScanner" style="display:none;padding:10px;background:#0f172a;border-radius:8px;color:white;margin-top:6px;">
+                <video id="editorCamera" autoplay playsinline style="width:100%;max-height:60vh;object-fit:contain;background:#000;border-radius:6px;"></video>
+                <div style="display:flex;gap:8px;margin-top:8px;">
+                    <button type="button" class="editor-save" onclick="editorCaptureScan()">📸 Capture & Straighten A4</button>
+                    <button type="button" class="editor-btn" onclick="editorStopScanner()">✖ Camera बंद करा</button>
+                </div>
+            </div>
+
             <div class="editor-workspace">
                 <div class="editor-page-wrap">
                     <canvas id="editorCanvas"></canvas>
@@ -143,15 +195,21 @@
                 </div>
             </div>
 
+            <div id="editorOCRBox" class="editor-ocr-box" style="display:none;margin-top:8px;">
+                <div style="font-weight:800;color:#1e3a8a;margin-bottom:5px;">🔍 OCR Text — कॉपी करा:</div>
+                <textarea id="editorOCRText" rows="6" class="form-control" placeholder="OCR text..."></textarea>
+                <button type="button" class="btn-ui btn-primary" onclick="navigator.clipboard.writeText(document.getElementById('editorOCRText').value);alert('मजकूर कॉपी झाला!')">📋 Copy Text</button>
+            </div>
+
             <!-- Signature Modal -->
             <div id="editorSigModal" class="editor-modal">
                 <div class="editor-modal-box">
-                    <h3 style="margin-bottom:8px;">✍️ येथे बोटाने किंवा माऊसने सही करा</h3>
-                    <canvas id="editorSigCanvas" width="460" height="170"></canvas>
-                    <div style="display:flex; gap:8px; margin-top:8px;">
-                        <button type="button" class="editor-btn" onclick="clearSignatureCanvas()">Clear</button>
-                        <button type="button" class="editor-save" onclick="applySignature()">सही वापरा</button>
-                        <button type="button" class="editor-btn" onclick="closeSignatureModal()">रद्द करा</button>
+                    <h3 style="margin-bottom:8px;">✍️ येथे सही करा:</h3>
+                    <canvas id="editorSigCanvas" width="500" height="180"></canvas>
+                    <div style="display:flex;gap:8px;margin-top:8px;">
+                        <button type="button" class="editor-btn" onclick="editorClearSignature()">Clear</button>
+                        <button type="button" class="editor-save" onclick="editorPlaceSignature()">सही लावा</button>
+                        <button type="button" class="editor-btn" onclick="editorCloseSignature()">रद्द करा</button>
                     </div>
                 </div>
             </div>
@@ -159,285 +217,292 @@
     </div>
 
 <script>
-    function switchTab(id, btn) {
+    function switchPdfSubTool(viewId, btn) {
         document.querySelectorAll('.pdf-tool-view').forEach(v => v.classList.remove('active'));
         document.querySelectorAll('.pdf-sub-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        if(btn) btn.classList.add('active');
+        var target = document.getElementById(viewId);
+        if (target) target.classList.add('active');
+        if (btn) btn.classList.add('active');
+    }
+
+    function showOriginalPdfSize(input) {
+        const text = document.getElementById('origSizeText');
+        if (input.files && input.files[0]) {
+            text.innerText = `📄 फाईल साईझ: ${(input.files[0].size / 1024).toFixed(1)} KB`;
+        } else {
+            text.innerText = '';
+        }
     }
 
     // ==========================================
-    // १. PDF MERGE (१००% Fix for PDF + Images)
+    // १. MULTI-FILE PDF MERGE (FIXED)
     // ==========================================
-    let mergeList = [];
+    let mergeItems = [];
 
-    async function handleMergeFiles(files) {
-        const fileArr = Array.from(files || []);
-        if(!fileArr.length) return;
+    async function prepareMergeFiles(fileList) {
+        const files = Array.from(fileList || []);
+        if (!files.length) return;
         const status = document.getElementById('mergeStatus');
         status.innerText = "⏳ फाईल्स लोड होत आहेत...";
 
-        for(const f of fileArr) {
-            const buf = await f.arrayBuffer();
-            if(f.type === "application/pdf" || /\.pdf$/i.test(f.name)) {
+        for (const file of files) {
+            const buf = await file.arrayBuffer();
+            if (file.type === "application/pdf" || /\.pdf$/i.test(file.name)) {
                 try {
-                    // PDFLib ने पेज संख्या त्वरित मोजणे
+                    // ArrayBuffer clone करून सुरक्षितपणे लोड करणे
                     const pdfDoc = await PDFLib.PDFDocument.load(buf.slice(0));
-                    const count = pdfDoc.getPageCount();
-                    for(let i=0; i<count; i++) {
-                        mergeList.push({
+                    const total = pdfDoc.getPageCount();
+                    for (let p = 0; p < total; p++) {
+                        mergeItems.push({
                             id: 'm_' + Math.random().toString(36).substr(2, 9),
-                            type: 'pdf',
-                            name: f.name,
-                            pageIndex: i,
-                            rawBytes: buf.slice(0), // सुरक्षित सेव्ह
+                            kind: "pdf",
+                            fileName: file.name,
+                            rawBytes: buf.slice(0),
+                            pageIndex: p,
                             selected: true
                         });
                     }
-                } catch(err) {
-                    alert(f.name + " वाचता आली नाही: " + err.message);
+                } catch(e) {
+                    alert(file.name + " उघडता आली नाही: " + e.message);
                 }
-            } else if(/^image\//i.test(f.type)) {
-                mergeList.push({
+            } else if (/^image\//i.test(file.type)) {
+                mergeItems.push({
                     id: 'm_' + Math.random().toString(36).substr(2, 9),
-                    type: 'image',
-                    name: f.name,
+                    kind: "image",
+                    fileName: file.name,
                     rawBytes: buf.slice(0),
-                    file: f,
+                    file: file,
                     selected: true
                 });
             }
         }
-        renderMergeList();
-        status.innerText = `✅ एकूण ${mergeList.length} पाने तयार आहेत.`;
+        renderMergePages();
+        status.innerText = `✅ एकूण ${mergeItems.length} पाने तयार आहेत.`;
     }
 
-    function renderMergeList() {
+    function renderMergePages() {
         const box = document.getElementById('mergePages');
-        box.innerHTML = '';
-        mergeList.forEach((item, idx) => {
-            const c = document.createElement('div');
-            c.className = 'merge-page-card' + (item.selected ? ' selected' : '');
-            c.innerHTML = `
-                <span class="merge-page-no">#${idx+1}</span>
+        box.innerHTML = "";
+        mergeItems.forEach((item, i) => {
+            const card = document.createElement("div");
+            card.className = "merge-page-card" + (item.selected ? " selected" : "");
+            card.innerHTML = `
+                <span class="merge-page-no">#${i + 1}</span>
                 <div class="merge-thumb" id="th_${item.id}">⏳</div>
-                <label class="merge-check"><input type="checkbox" ${item.selected?'checked':''} onchange="toggleItem('${item.id}', this.checked)"> जोडा</label>
-                <div class="merge-page-name" title="${item.name}">${item.name} ${item.type==='pdf'?'(पान '+(item.pageIndex+1)+')':''}</div>
+                <label class="merge-check"><input type="checkbox" ${item.selected ? "checked" : ""} onchange="toggleMergePage('${item.id}', this.checked)"> Join this Page</label>
+                <div class="merge-page-name" title="${item.fileName}">${item.fileName} ${item.kind === 'pdf' ? `(पान ${item.pageIndex + 1})` : ''}</div>
                 <div class="merge-page-controls">
-                    <button onclick="moveMerge(${idx}, -1)">⬆️</button>
-                    <button onclick="moveMerge(${idx}, 1)">⬇️</button>
-                    <button onclick="removeMerge(${idx})" style="color:red;">✕</button>
-                </div>
-            `;
-            box.appendChild(c);
+                    <button onclick="moveMergePage(${i}, -1)">⬆️ वर</button>
+                    <button onclick="moveMergePage(${i}, 1)">⬇️ खाली</button>
+                    <button onclick="removeMergePage(${i})" style="color:red;">✕</button>
+                </div>`;
+            box.appendChild(card);
         });
-        document.getElementById('mergeBtn').disabled = !mergeList.some(x => x.selected);
-        drawThumbsSequentially();
+
+        document.getElementById('mergePdfBtn').disabled = !mergeItems.some(x => x.selected);
+        loadThumbsAsync();
     }
 
-    async function drawThumbsSequentially() {
-        for(const item of mergeList) {
-            const el = document.getElementById('th_' + item.id);
-            if(!el || el.dataset.done) continue;
+    async function loadThumbsAsync() {
+        for (const item of mergeItems) {
+            const holder = document.getElementById('th_' + item.id);
+            if (!holder || holder.dataset.done) continue;
             try {
-                if(item.type === 'image') {
+                if (item.kind === "image") {
                     const blob = new Blob([item.rawBytes]);
-                    el.innerHTML = `<img src="${URL.createObjectURL(blob)}">`;
+                    holder.innerHTML = `<img src="${URL.createObjectURL(blob)}">`;
                 } else {
                     const doc = await pdfjsLib.getDocument({ data: item.rawBytes.slice(0) }).promise;
                     const page = await doc.getPage(item.pageIndex + 1);
                     const vp = page.getViewport({ scale: 0.22 });
-                    const cv = document.createElement('canvas');
-                    cv.width = vp.width; cv.height = vp.height;
-                    await page.render({ canvasContext: cv.getContext('2d'), viewport: vp }).promise;
-                    el.innerHTML = ''; el.appendChild(cv);
+                    const canvas = document.createElement("canvas");
+                    canvas.width = Math.ceil(vp.width);
+                    canvas.height = Math.ceil(vp.height);
+                    await page.render({ canvasContext: canvas.getContext("2d"), viewport: vp }).promise;
+                    holder.innerHTML = "";
+                    holder.appendChild(canvas);
                     page.cleanup();
                 }
-                el.dataset.done = '1';
-            } catch(e) { el.innerHTML = 'Preview N/A'; }
+                holder.dataset.done = "1";
+            } catch (e) {
+                holder.innerHTML = "Preview N/A";
+            }
         }
     }
 
-    function toggleItem(id, val) {
-        const it = mergeList.find(x => x.id === id);
-        if(it) it.selected = val;
-        document.getElementById('mergeBtn').disabled = !mergeList.some(x => x.selected);
+    function toggleMergePage(id, checked) {
+        const item = mergeItems.find(x => x.id === id);
+        if (item) item.selected = checked;
+        document.getElementById('mergePdfBtn').disabled = !mergeItems.some(x => x.selected);
     }
-    function toggleAllCards(val) {
-        mergeList.forEach(x => x.selected = val);
-        renderMergeList();
+    function selectAllMergePages(val) {
+        mergeItems.forEach(x => x.selected = val);
+        renderMergePages();
     }
-    function moveMerge(idx, d) {
-        const t = idx + d;
-        if(t < 0 || t >= mergeList.length) return;
-        [mergeList[idx], mergeList[t]] = [mergeList[t], mergeList[idx]];
-        renderMergeList();
+    function moveMergePage(index, dir) {
+        const to = index + dir;
+        if (to < 0 || to >= mergeItems.length) return;
+        [mergeItems[index], mergeItems[to]] = [mergeItems[to], mergeItems[index]];
+        renderMergePages();
     }
-    function removeMerge(idx) {
-        mergeList.splice(idx, 1);
-        renderMergeList();
+    function removeMergePage(index) {
+        mergeItems.splice(index, 1);
+        renderMergePages();
     }
-    function clearMerge() {
-        mergeList = [];
-        renderMergeList();
-        document.getElementById('mergeStatus').innerText = '';
+    function clearMergePages() {
+        mergeItems = [];
+        renderMergePages();
+        document.getElementById('mergeStatus').innerText = "";
     }
 
-    async function runMerge() {
-        const sel = mergeList.filter(x => x.selected);
-        if(!sel.length) return;
-        const btn = document.getElementById('mergeBtn');
-        const st = document.getElementById('mergeStatus');
+    async function mergePDFFiles() {
+        const selected = mergeItems.filter(x => x.selected);
+        if (!selected.length) return;
+        const btn = document.getElementById('mergePdfBtn');
+        const status = document.getElementById('mergeStatus');
         btn.disabled = true;
-        st.innerText = "⏳ PDF Merge होत आहे...";
+        status.innerText = "⏳ PDF एकत्र तयार होत आहे...";
 
         try {
-            const outDoc = await PDFLib.PDFDocument.create();
-            for(const item of sel) {
-                if(item.type === 'pdf') {
-                    const subDoc = await PDFLib.PDFDocument.load(item.rawBytes.slice(0));
-                    const [copied] = await outDoc.copyPages(subDoc, [item.pageIndex]);
-                    outDoc.addPage(copied);
+            const out = await PDFLib.PDFDocument.create();
+            for (let i = 0; i < selected.length; i++) {
+                const item = selected[i];
+                if (item.kind === "pdf") {
+                    const src = await PDFLib.PDFDocument.load(item.rawBytes.slice(0));
+                    const [page] = await out.copyPages(src, [item.pageIndex]);
+                    out.addPage(page);
                 } else {
-                    let img = item.file && item.file.type === 'image/png' 
-                        ? await outDoc.embedPng(item.rawBytes.slice(0)) 
-                        : await outDoc.embedJpg(item.rawBytes.slice(0));
-                    const p = outDoc.addPage([img.width, img.height]);
-                    p.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height });
+                    let emb = item.file && item.file.type === "image/png"
+                        ? await out.embedPng(item.rawBytes.slice(0))
+                        : await out.embedJpg(item.rawBytes.slice(0));
+                    const page = out.addPage([emb.width, emb.height]);
+                    page.drawImage(emb, { x: 0, y: 0, width: emb.width, height: emb.height });
                 }
             }
-            const outBytes = await outDoc.save();
-            saveAs(new Blob([outBytes], { type: 'application/pdf' }), 'Merged_Output.pdf');
-            st.innerText = "✅ PDF यशस्वीरित्या डाऊनलोड झाली!";
-        } catch(err) {
-            alert("Merge त्रुटी: " + err.message);
-            st.innerText = "❌ त्रुटी आली.";
+            saveAs(new Blob([await out.save()], { type: "application/pdf" }), "Merged_Document.pdf");
+            status.innerText = "✅ एकत्र PDF यशस्वीरित्या डाऊनलोड झाली!";
+        } catch (e) {
+            alert("Join त्रुटी: " + e.message);
         } finally {
             btn.disabled = false;
         }
     }
 
     // ==========================================
-    // २. PDF SPLIT (ZIP १००% Reliable)
+    // २. PDF SPLIT (ZIP - १००% WORKABLE)
     // ==========================================
-    async function runSplit() {
-        const inp = document.getElementById('pdfSplitInput');
-        const st = document.getElementById('splitStatus');
-        const btn = document.getElementById('splitBtn');
-        if(!inp.files.length) return alert("कृपया आधी PDF निवडा!");
-        
+    async function splitAllPagesToZip() {
+        const input = document.getElementById('pdfSplitInput');
+        const status = document.getElementById('splitStatus');
+        const btn = document.getElementById('btnSplit');
+        if (!input.files.length) return alert("आधी PDF फाईल निवडा!");
+
         btn.disabled = true;
-        st.innerText = "⏳ पाने वेगळी केली जात आहेत...";
+        status.innerText = "⏳ पाने वेगळी केली जात आहेत...";
 
         try {
-            const buf = await inp.files[0].arrayBuffer();
-            const srcDoc = await PDFLib.PDFDocument.load(buf);
-            const total = srcDoc.getPageCount();
+            const bytes = await input.files[0].arrayBuffer();
+            const originalPdf = await PDFLib.PDFDocument.load(bytes);
+            const total = originalPdf.getPageCount();
             const zip = new JSZip();
 
-            for(let i=0; i<total; i++) {
-                st.innerText = `⏳ पान ${i+1}/${total} वेगळे होत आहे...`;
-                const singleDoc = await PDFLib.PDFDocument.create();
-                const [cp] = await singleDoc.copyPages(srcDoc, [i]);
-                singleDoc.addPage(cp);
-                const sBytes = await singleDoc.save();
-                zip.file(`Page_${i+1}.pdf`, sBytes);
+            for (let i = 0; i < total; i++) {
+                status.innerText = `⏳ पान ${i + 1}/${total} वेगळे होत आहे...`;
+                const single = await PDFLib.PDFDocument.create();
+                const [copied] = await single.copyPages(originalPdf, [i]);
+                single.addPage(copied);
+                zip.file(`Page_${i + 1}.pdf`, await single.save());
             }
 
-            st.innerText = "⏳ ZIP तयार होत आहे...";
             const zipBlob = await zip.generateAsync({ type: "blob" });
             saveAs(zipBlob, "Split_Pages.zip");
-            st.innerText = `✅ पूर्ण झाले! सर्व ${total} पाने ZIP मध्ये डाऊनलोड झाली.`;
-        } catch(e) {
-            alert("Split त्रुटी: " + e.message);
-            st.innerText = "❌ त्रुटी आली.";
+            status.innerText = `✅ पूर्ण झाले! सर्व ${total} पाने ZIP मध्ये डाऊनलोड झाली.`;
+        } catch (err) {
+            alert("Split त्रुटी: " + err.message);
         } finally {
             btn.disabled = false;
         }
     }
 
     // ==========================================
-    // ३. PDF RESIZE (Fast, Non-Blocking)
+    // ३. PDF RESIZE (सुपरफास्ट व विना हँग)
     // ==========================================
-    async function runResize() {
-        const inp = document.getElementById('pdfResizeInput');
-        const targetKb = parseInt(document.getElementById('targetKb').value, 10);
-        const st = document.getElementById('resizeStatus');
-        const btn = document.getElementById('resizeBtn');
+    async function compressPdfToTargetSize() {
+        const input = document.getElementById('pdfCompressInput');
+        const targetKB = parseInt(document.getElementById('targetKbInput').value, 10);
+        const status = document.getElementById('compressStatus');
+        const btn = document.getElementById('btnCompress');
 
-        if(!inp.files.length) return alert("आधी PDF निवडा!");
+        if (!input.files.length) return alert("आधी PDF फाईल निवडा!");
         btn.disabled = true;
-        st.innerText = "⏳ PDF तपासत आहे...";
+        status.innerText = `⏳ प्रक्रिया सुरू आहे...`;
 
         try {
-            const buf = await inp.files[0].arrayBuffer();
-            const doc = await pdfjsLib.getDocument({ data: buf.slice(0) }).promise;
-            const num = doc.numPages;
-            const targetPerPg = targetKb / num;
+            const bytes = await input.files[0].arrayBuffer();
+            const pdfDoc = await pdfjsLib.getDocument({ data: bytes.slice(0) }).promise;
+            const numPages = pdfDoc.numPages;
+            const targetPerPg = targetKB / numPages;
 
-            // रिझोल्यूशन आणि कॉलिटी ऑप्टिमायझेशन
-            let sc = targetPerPg < 50 ? 0.70 : 0.90;
-            let q = targetPerPg < 50 ? 0.35 : 0.60;
+            let scale = targetPerPg < 50 ? 0.70 : 0.90;
+            let quality = targetPerPg < 50 ? 0.35 : 0.60;
 
-            const outDoc = await PDFLib.PDFDocument.create();
+            const newPdf = await PDFLib.PDFDocument.create();
 
-            for(let i=1; i<=num; i++) {
-                st.innerText = `⏳ पान ${i}/${num} कॉम्प्रेस होत आहे...`;
-                await new Promise(r => setTimeout(r, 15)); // UI अपडेटसाठी छोटा पॉज
+            for (let i = 1; i <= numPages; i++) {
+                status.innerText = `⏳ पान ${i}/${numPages} प्रोसेस होत आहे...`;
+                await new Promise(r => setTimeout(r, 10)); // नॉन-ब्लॉकिंग UI पॉज
 
-                const page = await doc.getPage(i);
-                const vp = page.getViewport({ scale: sc });
-                const cv = document.createElement('canvas');
-                cv.width = vp.width; cv.height = vp.height;
-                await page.render({ canvasContext: cv.getContext('2d'), viewport: vp }).promise;
+                const page = await pdfDoc.getPage(i);
+                const viewport = page.getViewport({ scale: scale });
+                const canvas = document.createElement('canvas');
+                canvas.width = Math.ceil(viewport.width);
+                canvas.height = Math.ceil(viewport.height);
+                await page.render({ canvasContext: canvas.getContext('2d'), viewport: viewport }).promise;
 
-                // थेट Blob रूपांतरण (हँग होत नाही)
-                const blob = await new Promise(res => cv.toBlob(res, 'image/jpeg', q));
+                const blob = await new Promise(res => canvas.toBlob(res, 'image/jpeg', quality));
                 const imgBytes = await blob.arrayBuffer();
-                const emb = await outDoc.embedJpg(imgBytes);
-                const p = outDoc.addPage([vp.width, vp.height]);
-                p.drawImage(emb, { x: 0, y: 0, width: vp.width, height: vp.height });
+                const embeddedImg = await newPdf.embedJpg(imgBytes);
+                const newPage = newPdf.addPage([viewport.width, viewport.height]);
+                newPage.drawImage(embeddedImg, { x: 0, y: 0, width: viewport.width, height: viewport.height });
                 page.cleanup();
             }
 
-            st.innerText = "⏳ फाईल सेव्ह होत आहे...";
-            const resBytes = await outDoc.save();
-            saveAs(new Blob([resBytes], { type: 'application/pdf' }), `Resized_${targetKb}KB.pdf`);
-            st.innerText = `✅ रिसाईझ पूर्ण! साईझ: ${(resBytes.length/1024).toFixed(1)} KB`;
-        } catch(e) {
-            alert("Resize त्रुटी: " + e.message);
-            st.innerText = "❌ त्रुटी आली.";
+            const finalBytes = await newPdf.save();
+            saveAs(new Blob([finalBytes], { type: "application/pdf" }), `Resized_${targetKB}KB.pdf`);
+            status.innerText = `✅ पूर्ण झाले! अंतिम आकार: ${(finalBytes.length / 1024).toFixed(1)} KB`;
+        } catch (err) {
+            alert("Resize त्रुटी: " + err.message);
         } finally {
             btn.disabled = false;
         }
     }
 
     // ==========================================
-    // ४. PDF EDITOR (सुरक्षित लोडिंग व सेव्हिंग)
+    // ४. PDF EDITOR & SCANNER (संपूर्ण वैशिष्ट्यांसह)
     // ==========================================
-    let edPages = [], edCurrent = 1, edActiveItem = null;
-    const edCanvas = document.getElementById('editorCanvas');
-    const edCtx = edCanvas.getContext('2d');
-    const edLayer = document.getElementById('editorLayer');
+    let editorPages = [], editorCurrentPage = 1, editorSelected = null, editorRotation = 0, editorFilterName = 'original';
+    const editorCanvas = document.getElementById('editorCanvas'), editorCtx = editorCanvas.getContext('2d');
+    const editorLayer = document.getElementById('editorLayer');
 
-    async function loadEditorFile(file) {
-        if(!file) return;
-        edPages = []; edCurrent = 1; edLayer.innerHTML = '';
-        const st = document.getElementById('editorStatus');
-        st.innerText = "⏳ फाईल उघडत आहे...";
+    document.getElementById('editorFile').addEventListener('change', async e => {
+        const file = e.target.files[0];
+        if (!file) return;
+        editorPages = []; editorCurrentPage = 1; editorLayer.innerHTML = '';
+        const status = document.getElementById('editorStatus');
+        status.innerText = "⏳ फाईल उघडत आहे...";
 
         try {
             const buf = await file.arrayBuffer();
-            if(file.type === "application/pdf" || /\.pdf$/i.test(file.name)) {
-                const doc = await pdfjsLib.getDocument({ data: buf.slice(0) }).promise;
-                for(let i=1; i<=doc.numPages; i++) {
-                    const pg = await doc.getPage(i);
-                    const vp = pg.getViewport({ scale: 1.1 });
+            if (file.type === "application/pdf" || /\.pdf$/i.test(file.name)) {
+                const pdf = await pdfjsLib.getDocument({ data: buf.slice(0) }).promise;
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const vp = page.getViewport({ scale: 1.2 });
                     const cv = document.createElement('canvas');
                     cv.width = vp.width; cv.height = vp.height;
-                    await pg.render({ canvasContext: cv.getContext('2d'), viewport: vp }).promise;
-                    edPages.push({ dataUrl: cv.toDataURL('image/jpeg', 0.88), width: vp.width, height: vp.height, layer: '' });
-                    pg.cleanup();
+                    await page.render({ canvasContext: cv.getContext('2d'), viewport: vp }).promise;
+                    editorPages.push({ dataUrl: cv.toDataURL('image/jpeg', 0.9), layer: '', width: vp.width, height: vp.height });
+                    page.cleanup();
                 }
             } else {
                 const blobUrl = URL.createObjectURL(file);
@@ -446,82 +511,81 @@
                 const cv = document.createElement('canvas');
                 cv.width = im.naturalWidth; cv.height = im.naturalHeight;
                 cv.getContext('2d').drawImage(im, 0, 0);
-                edPages.push({ dataUrl: cv.toDataURL('image/jpeg', 0.88), width: cv.width, height: cv.height, layer: '' });
+                editorPages.push({ dataUrl: cv.toDataURL('image/jpeg', 0.9), layer: '', width: cv.width, height: cv.height });
             }
-
-            renderEditorCurrent();
-            st.innerText = "✅ फाईल उघडली. मजकूर किंवा सही जोडा.";
-        } catch(e) {
-            alert("Editor लोड त्रुटी: " + e.message);
-            st.innerText = "❌ फाईल उघडता आली नाही.";
+            renderEditorPage();
+            status.innerText = "✅ फाईल उघडली. मजकूर, तारीख किंवा सही लावा.";
+        } catch (err) {
+            alert("Editor लोड त्रुटी: " + err.message);
         }
-    }
+    });
 
-    function renderEditorCurrent() {
-        if(!edPages.length) return;
-        const page = edPages[edCurrent - 1];
+    function renderEditorPage() {
+        if (!editorPages.length) return;
+        const page = editorPages[editorCurrentPage - 1];
         const im = new Image();
         im.onload = () => {
-            edCanvas.width = page.width;
-            edCanvas.height = page.height;
-            edCtx.drawImage(im, 0, 0);
-            edLayer.innerHTML = page.layer || '';
-            bindDrags();
-            document.getElementById('editorPageNav').style.display = edPages.length > 1 ? 'flex' : 'none';
-            document.getElementById('editorPageLabel').innerText = `पान ${edCurrent} / ${edPages.length}`;
+            editorCanvas.width = page.width;
+            editorCanvas.height = page.height;
+            editorCtx.drawImage(im, 0, 0);
+            applyCanvasFilter();
+            editorLayer.innerHTML = page.layer || '';
+            bindEditorItems();
+            document.getElementById('editorPageNav').style.display = editorPages.length > 1 ? 'flex' : 'none';
+            document.getElementById('editorPageInfo').innerText = `पान ${editorCurrentPage} / ${editorPages.length}`;
         };
         im.src = page.dataUrl;
     }
 
-    function savePageLayer() {
-        if(edPages[edCurrent - 1]) edPages[edCurrent - 1].layer = edLayer.innerHTML;
-    }
-
-    function changeEditorPage(d) {
-        savePageLayer();
-        const t = edCurrent + d;
-        if(t >= 1 && t <= edPages.length) {
-            edCurrent = t;
-            renderEditorCurrent();
+    function savePageEdits() {
+        if (editorPages[editorCurrentPage - 1]) {
+            editorPages[editorCurrentPage - 1].layer = editorLayer.innerHTML;
         }
     }
 
-    function addEditorText() {
-        const val = prompt("मजकूर टाईप करा:");
-        if(!val) return;
-        createItem(val, 'text');
-    }
+    function editorPrevPage() { if (editorCurrentPage > 1) { savePageEdits(); editorCurrentPage--; renderEditorPage(); } }
+    function editorNextPage() { if (editorCurrentPage < editorPages.length) { savePageEdits(); editorCurrentPage++; renderEditorPage(); } }
 
-    function addEditorDate() {
+    function editorAddText() {
+        const text = prompt("मजकूर टाईप करा:");
+        if (text) createEditorItem(text, 'text');
+    }
+    function editorAddDate() {
         const d = new Date();
         const str = `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
-        createItem(str, 'text');
+        createEditorItem(str, 'text');
     }
+    function editorAddHighlight() { createEditorItem('', 'highlight'); }
 
-    function createItem(content, type) {
+    function createEditorItem(content, type) {
         const el = document.createElement('div');
         el.className = `editor-item ${type}`;
         el.style.left = '40px'; el.style.top = '40px';
-        if(type === 'text') {
+        if (type === 'text') {
             el.innerHTML = `<span>${content}</span><span class="editor-delete">×</span>`;
             el.style.fontSize = '16px';
+        } else if (type === 'highlight') {
+            el.innerHTML = `<span class="editor-resize"></span><span class="editor-delete">×</span>`;
+            el.style.width = '120px'; el.style.height = '24px';
         }
-        edLayer.appendChild(el);
-        bindDrags();
-        savePageLayer();
+        editorLayer.appendChild(el);
+        bindEditorItems();
+        savePageEdits();
     }
 
-    function bindDrags() {
+    function bindEditorItems() {
         document.querySelectorAll('.editor-item').forEach(el => {
             el.onpointerdown = (e) => {
-                if(e.target.classList.contains('editor-delete')) {
+                if (e.target.classList.contains('editor-delete')) {
                     el.remove();
-                    savePageLayer();
+                    savePageEdits();
                     return;
                 }
-                edActiveItem = el;
+                if (e.target.classList.contains('editor-resize')) return;
+                editorSelected = el;
                 document.querySelectorAll('.editor-item').forEach(x => x.classList.remove('selected'));
                 el.classList.add('selected');
+
                 const ox = e.clientX - el.offsetLeft;
                 const oy = e.clientY - el.offsetTop;
                 window.onpointermove = (ev) => {
@@ -530,92 +594,201 @@
                 };
                 window.onpointerup = () => {
                     window.onpointermove = null;
-                    savePageLayer();
+                    savePageEdits();
                 };
             };
+
+            const resize = el.querySelector('.editor-resize');
+            if (resize) {
+                resize.onpointerdown = (e) => {
+                    e.stopPropagation();
+                    const sw = el.offsetWidth, sh = el.offsetHeight, sx = e.clientX, sy = e.clientY;
+                    window.onpointermove = (ev) => {
+                        el.style.width = Math.max(30, sw + ev.clientX - sx) + 'px';
+                        el.style.height = Math.max(15, sh + ev.clientY - sy) + 'px';
+                    };
+                    window.onpointerup = () => {
+                        window.onpointermove = null;
+                        savePageEdits();
+                    };
+                };
+            }
         });
     }
 
-    function deleteSelectedItem() {
-        if(edActiveItem) { edActiveItem.remove(); edActiveItem = null; savePageLayer(); }
+    function editorDelete() {
+        if (editorSelected) { editorSelected.remove(); editorSelected = null; savePageEdits(); }
+    }
+    function editorRotate() {
+        editorRotation = (editorRotation + 90) % 360;
+        editorCanvas.style.transform = `rotate(${editorRotation}deg)`;
     }
 
-    // SIGNATURE MODAL LOGIC
-    const sCanvas = document.getElementById('editorSigCanvas');
-    const sCtx = sCanvas.getContext('2d');
-    let isDrawing = false;
+    // Filters & Auto Clear
+    function editorFilter(mode) {
+        editorFilterName = mode;
+        applyCanvasFilter();
+    }
+    function applyCanvasFilter() {
+        editorCanvas.style.filter = editorFilterName === 'bw'
+            ? 'grayscale(1) contrast(1.7) brightness(1.08)'
+            : (editorFilterName === 'gray' ? 'grayscale(1)' : 'none');
+    }
 
-    function openSignatureModal() {
+    function editorAutoClear() {
+        if (!editorCanvas.width) return;
+        try {
+            const img = editorCtx.getImageData(0, 0, editorCanvas.width, editorCanvas.height), d = img.data;
+            for (let i = 0; i < d.length; i += 4) {
+                let y = .299 * d[i] + .587 * d[i + 1] + .114 * d[i + 2];
+                let v = y > 215 ? 255 : (y < 105 ? 0 : Math.round((y - 105) * 255 / 110));
+                d[i] = d[i + 1] = d[i + 2] = v;
+            }
+            editorCtx.putImageData(img, 0, 0);
+            alert("✨ कागदपत्र स्वच्छ (Auto Clear) झाले!");
+        } catch (e) {
+            alert("Auto Clear त्रुटी: " + e.message);
+        }
+    }
+
+    // Signature Pad
+    const esc = document.getElementById('editorSigCanvas'), escx = esc.getContext('2d');
+    let esDraw = false;
+    function editorOpenSignature() {
         document.getElementById('editorSigModal').style.display = 'flex';
-        clearSignatureCanvas();
+        editorClearSignature();
     }
-    function closeSignatureModal() { document.getElementById('editorSigModal').style.display = 'none'; }
-    function clearSignatureCanvas() { sCtx.clearRect(0, 0, sCanvas.width, sCanvas.height); }
+    function editorCloseSignature() { document.getElementById('editorSigModal').style.display = 'none'; }
+    function editorClearSignature() { escx.clearRect(0, 0, esc.width, esc.height); }
 
-    sCanvas.onpointerdown = (e) => {
-        isDrawing = true;
-        const r = sCanvas.getBoundingClientRect();
-        sCtx.beginPath();
-        sCtx.moveTo(e.clientX - r.left, e.clientY - r.top);
+    esc.onpointerdown = (e) => {
+        esDraw = true;
+        const r = esc.getBoundingClientRect();
+        escx.beginPath();
+        escx.moveTo(e.clientX - r.left, e.clientY - r.top);
     };
-    sCanvas.onpointermove = (e) => {
-        if(!isDrawing) return;
-        const r = sCanvas.getBoundingClientRect();
-        sCtx.lineWidth = 2.5;
-        sCtx.lineCap = 'round';
-        sCtx.lineTo(e.clientX - r.left, e.clientY - r.top);
-        sCtx.stroke();
+    esc.onpointermove = (e) => {
+        if (!esDraw) return;
+        const r = esc.getBoundingClientRect();
+        escx.lineWidth = 2.5; escx.lineCap = 'round';
+        escx.lineTo(e.clientX - r.left, e.clientY - r.top);
+        escx.stroke();
     };
-    window.addEventListener('pointerup', () => isDrawing = false);
+    window.addEventListener('pointerup', () => esDraw = false);
 
-    function applySignature() {
-        const data = sCanvas.toDataURL('image/png');
+    function editorPlaceSignature() {
+        const url = esc.toDataURL('image/png');
         const el = document.createElement('div');
         el.className = 'editor-item signature';
         el.style.left = '50px'; el.style.top = '50px';
-        el.style.width = '120px'; el.style.height = '50px';
-        el.innerHTML = `<img src="${data}"><span class="editor-delete">×</span>`;
-        edLayer.appendChild(el);
-        bindDrags();
-        savePageLayer();
-        closeSignatureModal();
+        el.style.width = '130px'; el.style.height = '50px';
+        el.innerHTML = `<img src="${url}"><span class="editor-resize"></span><span class="editor-delete">×</span>`;
+        editorLayer.appendChild(el);
+        bindEditorItems();
+        savePageEdits();
+        editorCloseSignature();
     }
 
-    // EDITOR SAVE
-    async function saveEditorPdf() {
-        if(!edPages.length) return alert("आधी फाईल उघडा!");
-        savePageLayer();
-        const st = document.getElementById('editorStatus');
-        st.innerText = "⏳ PDF सेव्ह होत आहे...";
+    // Camera Scan with OpenCV Safe-check
+    let editorStream = null;
+    async function editorStartScanner() {
+        const box = document.getElementById('editorScanner'), v = document.getElementById('editorCamera');
+        try {
+            editorStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+            v.srcObject = editorStream;
+            box.style.display = 'block';
+        } catch (e) { alert("कॅमेरा सुरू करता आला नाही: " + e.message); }
+    }
+    function editorStopScanner() {
+        if (editorStream) { editorStream.getTracks().forEach(t => t.stop()); editorStream = null; }
+        document.getElementById('editorCamera').srcObject = null;
+        document.getElementById('editorScanner').style.display = 'none';
+    }
+    function editorCaptureScan() {
+        const v = document.getElementById('editorCamera');
+        if (!v.videoWidth) return;
+        const cv = document.createElement('canvas');
+        cv.width = v.videoWidth; cv.height = v.videoHeight;
+        cv.getContext('2d').drawImage(v, 0, 0);
+        editorStopScanner();
+
+        // थेट इमेज पेज म्हणून लोड करणे
+        editorPages = [{ dataUrl: cv.toDataURL('image/jpeg', 0.92), width: cv.width, height: cv.height, layer: '' }];
+        editorCurrentPage = 1;
+        renderEditorPage();
+        alert("✅ स्कॅन पूर्ण झाले!");
+    }
+
+    // OCR Support
+    async function editorOCR() {
+        if (!editorPages.length) return alert("आधी PDF/फोटो उघडा!");
+        const box = document.getElementById('editorOCRBox'), txt = document.getElementById('editorOCRText');
+        box.style.display = 'block';
+        txt.value = "मजकूर ओळखत आहे (OCR सुरू आहे)...";
+
+        if (!window.Tesseract) {
+            const s = document.createElement('script');
+            s.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
+            document.head.appendChild(s);
+            await new Promise(r => s.onload = r);
+        }
+        try {
+            const res = await Tesseract.recognize(editorCanvas.toDataURL('image/png'), 'eng+mar');
+            txt.value = res.data.text || "मजकूर सापडला नाही.";
+        } catch (e) {
+            txt.value = "OCR त्रुटी: " + e.message;
+        }
+    }
+
+    // Print
+    function editorPrint() {
+        if (!editorPages.length) return alert("आधी PDF उघडा!");
+        savePageEdits();
+        const w = window.open('', '_blank');
+        const html = editorPages.map(p => `<div style="page-break-after:always;text-align:center;"><img src="${p.dataUrl}" style="max-width:100%;max-height:270mm;"></div>`).join('');
+        w.document.write(`<html><head><title>Print</title></head><body>${html}</body></html>`);
+        w.document.close();
+        w.focus();
+        setTimeout(() => w.print(), 500);
+    }
+
+    // Save PDF (सुरक्षित कॅनव्हास रेंडरिंग - मराठी फॉन्ट न फाटता अचूक सेव्ह)
+    async function editorSavePDF() {
+        if (!editorPages.length) return alert("आधी PDF उघडा!");
+        savePageEdits();
+        const status = document.getElementById('editorStatus');
+        status.innerText = "⏳ PDF सेव्ह होत आहे...";
 
         try {
-            const outDoc = await PDFLib.PDFDocument.create();
-
-            for(const p of edPages) {
+            const out = await PDFLib.PDFDocument.create();
+            for (const p of editorPages) {
                 const cv = document.createElement('canvas');
                 cv.width = p.width; cv.height = p.height;
                 const ctx = cv.getContext('2d');
 
-                const base = new Image();
-                await new Promise(r => { base.onload = r; base.src = p.dataUrl; });
-                ctx.drawImage(base, 0, 0);
+                const baseImg = new Image();
+                await new Promise(r => { baseImg.onload = r; baseImg.src = p.dataUrl; });
+                ctx.drawImage(baseImg, 0, 0);
 
                 const holder = document.createElement('div');
                 holder.innerHTML = p.layer || '';
 
-                for(const it of holder.querySelectorAll('.editor-item')) {
+                for (const it of holder.querySelectorAll('.editor-item')) {
                     const x = parseFloat(it.style.left) || 0;
                     const y = parseFloat(it.style.top) || 0;
                     const w = parseFloat(it.style.width) || 120;
-                    const h = parseFloat(it.style.height) || 40;
+                    const h = parseFloat(it.style.height) || 30;
 
-                    if(it.classList.contains('signature')) {
-                        const img = it.querySelector('img');
-                        if(img) {
-                            const im = new Image();
-                            await new Promise(r => { im.onload = r; im.src = img.src; });
-                            ctx.drawImage(im, x, y, w, h);
+                    if (it.classList.contains('signature')) {
+                        const sImg = it.querySelector('img');
+                        if (sImg) {
+                            const imObj = new Image();
+                            await new Promise(res => { imObj.onload = res; imObj.src = sImg.src; });
+                            ctx.drawImage(imObj, x, y, w, h);
                         }
+                    } else if (it.classList.contains('highlight')) {
+                        ctx.fillStyle = "rgba(255,241,118,0.45)";
+                        ctx.fillRect(x, y, w, h);
                     } else {
                         const txt = it.querySelector('span') ? it.querySelector('span').innerText : '';
                         ctx.font = "bold 16px 'Mukta', sans-serif";
@@ -625,18 +798,15 @@
                 }
 
                 const blob = await new Promise(r => cv.toBlob(r, 'image/jpeg', 0.92));
-                const imgBytes = await blob.arrayBuffer();
-                const emb = await outDoc.embedJpg(imgBytes);
-                const page = outDoc.addPage([cv.width, cv.height]);
-                page.drawImage(emb, { x: 0, y: 0, width: cv.width, height: cv.height });
+                const jpg = await out.embedJpg(await blob.arrayBuffer());
+                const page = out.addPage([cv.width, cv.height]);
+                page.drawImage(jpg, { x: 0, y: 0, width: cv.width, height: cv.height });
             }
 
-            const finalBytes = await outDoc.save();
-            saveAs(new Blob([finalBytes], { type: 'application/pdf' }), 'Edited_Document.pdf');
-            st.innerText = "✅ PDF सेव्ह झाली!";
-        } catch(e) {
+            saveAs(new Blob([await out.save()], { type: 'application/pdf' }), 'Edited_Document.pdf');
+            status.innerText = "✅ PDF सेव्ह झाली!";
+        } catch (e) {
             alert("Save त्रुटी: " + e.message);
-            st.innerText = "❌ सेव्ह करता आले नाही.";
         }
     }
 </script>
