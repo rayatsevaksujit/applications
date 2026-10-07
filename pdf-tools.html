@@ -204,6 +204,9 @@ input,select,textarea,button{max-width:100%;font-size:16px}
             </div>
             <div id="mergeStatus" class="status-msg" style="color:#1e40af;"></div>
             <div id="mergePagesTitle" class="merge-pages-title" style="display:none;">📑 <b>Temporary Page List</b> — Page cards वरून निवडा, क्रम बदला आणि Join करा. <span id="mergeSelectedCount">0 selected</span></div>
+<div id="mergeSelectedFilesSummary" style="display:none;margin-top:6px;padding:10px 12px;border:1px solid #bbf7d0;background:#f0fdf4;border-radius:9px;color:#166534;font-size:13px;">
+  <b>✅ Join साठी निवडलेले:</b><div id="mergeSelectedFilesList" style="margin-top:5px;"></div>
+</div>
             <div id="mergePages" class="merge-pages"></div>
             <div class="merge-actions">
                 <button type="button" class="editor-btn" onclick="selectAllMergePages()">☑️ Select All</button>
@@ -373,7 +376,7 @@ input,select,textarea,button{max-width:100%;font-size:16px}
         editorPageImage=img; editorSetCanvas(img.naturalWidth,img.naturalHeight); editorDraw();
         editorBind(); editorUpdatePageNav();
     }
-    async async function editorGoToPage(n){
+    async function editorGoToPage(n){
         n=parseInt(n,10); if(!n||n<1||n>editorPages.length||n===editorCurrentPage)return;
         editorSaveCurrentPage(); editorCurrentPage=n; await editorRenderCurrentPage();
         editorStatus('पान '+n+' उघडले.');
@@ -428,7 +431,7 @@ input,select,textarea,button{max-width:100%;font-size:16px}
         editorPages=[{dataUrl:cv.toDataURL('image/png'),layer:'',rotation:0,filter:'original'}]; editorCurrentPage=1;
         await editorRenderCurrentPage();
     }
-    async async function editorLoadPDF(file){
+    async function editorLoadPDF(file){
         const data=await file.arrayBuffer(),pdf=await pdfjsLib.getDocument({data}).promise;
         editorStatus('PDF मधील '+pdf.numPages+' पाने लोड होत आहेत...');
         editorPages=[];
@@ -474,14 +477,14 @@ input,select,textarea,button{max-width:100%;font-size:16px}
     function editorClearSignature(){escx.clearRect(0,0,esc.width,esc.height);}
     function editorPlaceSignature(){const el=editorNewItem('signature','');el.innerHTML='<img src="'+esc.toDataURL('image/png')+'"><span class="editor-resize"></span>';el.style.width='190px';el.style.height='75px';editorBind();editorSaveCurrentPage();editorCloseSignature();}
 
-    async async function editorOCR(){
+    async function editorOCR(){
         if(!editorSourceFile){alert('आधी PDF/Image निवडा.');return;}
         const box=document.getElementById('editorOCRBox'),txt=document.getElementById('editorOCRText');box.style.display='block';txt.value='OCR सुरू आहे...';
         if(!window.Tesseract)await new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';s.onload=resolve;s.onerror=reject;document.head.appendChild(s);});
         try{const result=await Tesseract.recognize(editorCanvas.toDataURL('image/png'),'eng+mar',{logger:m=>{if(m.status)editorStatus('OCR: '+m.status);}});txt.value=result.data.text||'मजकूर सापडला नाही.';editorStatus('OCR पूर्ण. Text select/copy करा.');}catch(e){txt.value='OCR त्रुटी: '+e.message;editorStatus('OCR failed');}
     }
 
-    async async function editorSavePDF(){
+    async function editorSavePDF(){
         if(!editorSourceFile){alert('आधी PDF/Image निवडा.');return;}
         editorSaveCurrentPage();
         const out=await PDFLib.PDFDocument.create();
@@ -644,7 +647,7 @@ input,select,textarea,button{max-width:100%;font-size:16px}
             renderMergeThumbnail(item,card.querySelector(".merge-thumb"));
         });
         document.getElementById('mergePdfBtn').disabled=!mergeItems.some(x=>x.selected);
-        document.getElementById('mergeSelectedCount').innerText=mergeItems.filter(x=>x.selected).length+" selected";
+        document.getElementById('mergeSelectedCount').innerText=mergeItems.filter(x=>x.selected).length+" selected"; updateMergeSelectionSummary();
     }
 
     async function renderMergeThumbnail(item,holder){
@@ -664,12 +667,34 @@ input,select,textarea,button{max-width:100%;font-size:16px}
         }catch(e){holder.innerHTML="<b>Page Preview</b>";}
     }
 
+    
+    function updateMergeSelectionSummary(){
+        const wrap=document.getElementById('mergeSelectedFilesSummary');
+        const list=document.getElementById('mergeSelectedFilesList');
+        if(!wrap||!list)return;
+        const selected=mergeItems.filter(x=>x.selected);
+        if(!selected.length){wrap.style.display='none';list.innerHTML='';return;}
+        const groups=new Map();
+        selected.forEach(x=>{
+            if(!groups.has(x.fileName))groups.set(x.fileName,[]);
+            if(x.kind==='pdf')groups.get(x.fileName).push(x.pageIndex+1);
+            else groups.get(x.fileName).push('पूर्ण');
+        });
+        list.innerHTML=[...groups.entries()].map(([name,pages])=>{
+            const unique=[...new Set(pages)];
+            const detail=unique[0]==='पूर्ण'?'पूर्ण Image':('पान '+unique.join(', '));
+            return '<div style="margin:3px 0;">📄 <b>'+escapeHtmlMerge(name)+'</b> — '+detail+'</div>';
+        }).join('');
+        wrap.style.display='block';
+    }
+
     function toggleMergePage(id,checked){
         const item=mergeItems.find(x=>x.id===id);
         if(item)item.selected=checked;
         const card=document.querySelector('.merge-page-card[data-id="'+id+'"]');
         if(card)card.classList.toggle("selected",checked);
         document.getElementById('mergeSelectedCount').innerText=mergeItems.filter(x=>x.selected).length+" selected";
+        updateMergeSelectionSummary();
         document.getElementById('mergePdfBtn').disabled=!mergeItems.some(x=>x.selected);
     }
     function selectAllMergePages(){mergeItems.forEach(x=>x.selected=true);renderMergePages();}
@@ -692,6 +717,7 @@ input,select,textarea,button{max-width:100%;font-size:16px}
         document.getElementById('mergePagesTitle').style.display="none";
         document.getElementById('mergePdfBtn').disabled=true;
         document.getElementById('mergeSelectedCount').innerText="0 selected";
+        updateMergeSelectionSummary();
         document.getElementById('mergeStatus').innerText="पाने काढली.";
         document.getElementById('pdfMergeInput').value="";
     }
