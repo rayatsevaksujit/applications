@@ -514,21 +514,9 @@ input,select,textarea,button{max-width:100%;font-size:16px}
     function editorPrint(){
         editorSaveCurrentPage();
         const pages=editorPages.map(p=>p.dataUrl);
-        const w=window.open('','_blank');if(!w)return;
-        w.document.write('<html><head><title>Print</title><style>@page{size:A4;margin:10mm}body{margin:0} .p{page-break-after:always;text-align:center}.p img{max-width:100%;max-height:270mm}</style></head><body>'+pages.map(src=>'<div class="p"><img src="'+src+'"></div>').join('')+'
-<section class="related-tools" aria-label="संबंधित Digital SATHIDAR टूल्स">
-  <h2>🔗 संबंधित डिजिटल टूल्स</h2>
-  <div class="related-grid">
-    <a href="cutter.html">📸 फोटो व सही कटर</a>
-    <a href="pdf-tools.html">📄 PDF Tools</a>
-    <a href="da-calculator.html">📈 DA फरक कॅल्क्युलेटर</a>
-    <a href="hra-calculator.html">🏠 HRA फरक कॅल्क्युलेटर</a>
-    <a href="sanch-manyata.html">🏫 संच मान्यता शिक्षक गणना</a>
-    <a href="anki-to-akshari.html">🔢 अंकी ते अक्षरी व वय</a>
-    <a href="handwriting.html">✍️ हस्तलिखित कन्व्हर्टर</a>
-    <a href="index.html">🏠 Digital SATHIDAR मुख्य पृष्ठ</a>
-  </div>
-</section></body></html>');
+        const w=window.open('','_blank');if(!w){alert('Print window उघडता आली नाही. Browser pop-up allow करा.');return;}
+        const pageHtml=pages.map(src=>'<div class="p"><img src="'+src+'"></div>').join('');
+        w.document.write(`<!doctype html><html><head><title>Digital SATHIDAR - Print</title><style>@page{size:A4;margin:10mm}body{margin:0}.p{page-break-after:always;text-align:center}.p img{max-width:100%;max-height:270mm;object-fit:contain}</style></head><body>${pageHtml}</body></html>`);
         w.document.close();w.focus();setTimeout(()=>w.print(),500);
     }
     editorLayer.addEventListener('click',e=>{if(e.target===editorLayer)editorSelect(null);});
