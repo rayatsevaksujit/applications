@@ -2,7 +2,7 @@
 <html lang="mr">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PDF Tools Plus — 15 शालेय व कार्यालयीन PDF टूल्स | Digital SATHIDAR</title>
+<title>PDF Tools Plus — 15 PDF टूल्स आणि 4 कॅलक्युलेटर | Digital SATHIDAR</title>
 <meta name="description" content="Digital Sathidar PDF Tools Plus: PDF Merge, Split, Rotate, Page Organizer, फोटो ते PDF A4, सही व मजकूर, OCR-ready grayscale, watermark आणि इतर शालेय कार्यालयीन PDF साधने.">
 <meta name="robots" content="index,follow"><link rel="canonical" href="https://rayatsevaksujit.github.io/applications/pdf-tools-plus.html">
 <meta property="og:title" content="PDF Tools Plus | Digital SATHIDAR"><meta property="og:description" content="शाळा, दाखले, सही आणि कार्यालयीन कामांसाठी 15 PDF साधने."><meta property="og:url" content="https://rayatsevaksujit.github.io/applications/pdf-tools-plus.html">
@@ -17,9 +17,9 @@
 </head>
 <body><main class="wrap">
 <div class="top"><a class="link" href="index.html">← Digital SATHIDAR मुख्यपृष्ठ</a><a class="link" href="pdf-tools.html">जुने PDF Tools उघडा ↗</a></div>
-<section class="hero"><h1>🧰 PDF Tools Plus</h1><p>शाळा, दाखले, सही आणि कार्यालयीन कामांसाठी 15 स्वतंत्र PDF साधने.</p></section>
+<section class="hero"><h1>🧰 PDF Tools Plus</h1><p>शाळा, दाखले, सही, कार्यालयीन PDF कामे आणि उपयुक्त शालेय/कर्मचारी कॅलक्युलेटर एकाच स्वतंत्र पेजवर.</p></section>
 <div class="notice"><b>नवीन स्वतंत्र विभाग:</b> जुन्या PDF Editor किंवा इतर टूल्समध्ये बदल केलेला नाही. फाइल्स ब्राउझरमध्ये प्रोसेस होतात. मोठ्या PDF साठी संगणक वापरणे चांगले. संवेदनशील कागदपत्रे हाताळण्यापूर्वी तयार PDF तपासा.</div>
-<nav class="toolbar" aria-label="टूल फिल्टर"><button class="filter active" data-filter="all">सर्व 15 टूल्स</button><button class="filter" data-filter="manage">पाने व्यवस्थापन</button><button class="filter" data-filter="convert">फोटो व रूपांतरण</button><button class="filter" data-filter="office">दाखले व कार्यालय</button></nav>
+<nav class="toolbar" aria-label="टूल फिल्टर"><button class="filter active" data-filter="all">सर्व 19 साधने</button><button class="filter" data-filter="manage">पाने व्यवस्थापन</button><button class="filter" data-filter="convert">फोटो व रूपांतरण</button><button class="filter" data-filter="office">दाखले व कार्यालय</button><button class="filter" data-filter="calculator">कॅलक्युलेटर</button></nav>
 <section class="grid">
 <article class="card" data-cat="manage"><h2><span class="num">1</span>PDF Merge</h2><p class="desc">दोन किंवा अधिक PDF एकाच फाइलमध्ये जोडा.</p><div class="field"><label>PDF फाइल्स निवडा</label><input id="mergeFiles" type="file" accept=".pdf,application/pdf" multiple></div><button class="btn" id="mergeBtn">एकत्र करून डाउनलोड</button><div class="status" id="mergeStatus" role="status"></div></article>
 <article class="card" data-cat="manage"><h2><span class="num">2</span>Split / Extract Pages</h2><p class="desc">फक्त आवश्यक पाने नवीन PDF मध्ये काढा.</p><div class="field"><label>PDF फाइल</label><input id="splitFile" type="file" accept=".pdf,application/pdf"></div><div class="field"><label>पान क्रमांक (उदा. 1,3,5-7)</label><input id="splitRanges" placeholder="1,3,5-7"></div><button class="btn" id="splitBtn">निवडक पाने डाउनलोड</button><div class="status" id="splitStatus" role="status"></div></article>
@@ -36,6 +36,11 @@
 <article class="card" data-cat="office"><h2><span class="num">13</span>A4 PDF Setup</h2><p class="desc">पाने A4 आकारात बसवा. मूळ स्वरूप फोटो म्हणून जतन होते.</p><div class="field"><label>PDF फाइल</label><input id="a4File" type="file" accept=".pdf,application/pdf"></div><div class="field"><label>पान दिशा</label><select id="a4Orientation"><option value="portrait">Portrait</option><option value="landscape">Landscape</option></select></div><button class="btn" id="a4Btn">A4 PDF डाउनलोड</button><div class="status" id="a4Status" role="status"></div></article>
 <article class="card" data-cat="manage"><h2><span class="num">14</span>Duplicate Pages</h2><p class="desc">निवडलेल्या पानांची प्रत त्याच PDF मध्ये शेवटी जोडा.</p><div class="field"><label>PDF फाइल</label><input id="dupFile" type="file" accept=".pdf,application/pdf"></div><div class="field"><label>पान क्रमांक (उदा. 1,3-4)</label><input id="dupRanges" placeholder="1,3-4"></div><button class="btn" id="dupBtn">पाने Duplicate करा</button><div class="status" id="dupStatus" role="status"></div></article>
 <article class="card" data-cat="manage"><h2><span class="num">15</span>Insert Blank Pages</h2><p class="desc">PDF मध्ये रिकामी पाने ठरावीक पानानंतर घाला.</p><div class="field"><label>PDF फाइल</label><input id="blankFile" type="file" accept=".pdf,application/pdf"></div><div class="row2"><div class="field"><label>कोणत्या पानानंतर (0 = सुरुवातीला)</label><input id="blankAfter" type="number" min="0" value="0"></div><div class="field"><label>रिकामी पाने किती?</label><input id="blankCount" type="number" min="1" max="20" value="1"></div></div><button class="btn" id="blankBtn">रिकामी पाने घाला</button><div class="status" id="blankStatus" role="status"></div></article>
+
+<article class="card" data-cat="calculator"><h2>📈 DA फरक कॅलक्युलेटर</h2><p class="desc">महागाई भत्ता फरकाची गणना आणि पत्रक तयार करा.</p><a class="btn" href="da-calculator.html">DA कॅलक्युलेटर उघडा ↗</a></article>
+<article class="card" data-cat="calculator"><h2>🏠 HRA फरक कॅलक्युलेटर</h2><p class="desc">घरभाडे भत्ता फरकाची सोपी गणना करा.</p><a class="btn" href="hra-calculator.html">HRA कॅलक्युलेटर उघडा ↗</a></article>
+<article class="card" data-cat="calculator"><h2>🔢 अंकी ते अक्षरी व वय</h2><p class="desc">रक्कम अक्षरी, जन्मदिनांक आणि अचूक वयाची गणना करा.</p><a class="btn" href="anki-to-akshari.html">कॅलक्युलेटर उघडा ↗</a></article>
+<article class="card" data-cat="calculator"><h2>🏫 संच मान्यता शिक्षक गणना</h2><p class="desc">विद्यार्थी संख्येनुसार शिक्षक पदांची माहिती मोजा.</p><a class="btn" href="sanch-manyata.html">शिक्षक गणना उघडा ↗</a></article>
 </section>
 <div class="notice"><b>महत्त्वाची मर्यादा:</b> या टूलमध्ये PDF चे संपादन काही ठिकाणी मूळ मजकूर-संरचना राखते, तर Grayscale, Compress आणि A4 Setup ही पाने प्रतिमांमध्ये रूपांतरित करतात. त्यामुळे OCR/मजकूर निवड, डिजिटल सही किंवा accessibility माहिती टिकेलच असे नाही. पासवर्ड-संरक्षित PDF, फॉर्म आणि अतिशय मोठ्या फाइल्ससाठी परिणाम वेगळे असू शकतात.</div>
 <div class="footer">Digital SATHIDAR · PDF Tools Plus · नवीन स्वतंत्र विभाग</div>
