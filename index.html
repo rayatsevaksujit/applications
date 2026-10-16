@@ -241,6 +241,11 @@ input,select,textarea,button{max-width:100%;font-size:16px}
 .dashboard-hero p{font-size:15px;color:#64748b;max-width:700px}
 .hero-badge{white-space:nowrap;padding:10px 14px;border:1px solid #dbeafe;border-radius:999px;background:#fff;color:#1d4ed8;font-weight:800;font-size:13px}
 .tool-section{margin-bottom:30px}
+.section-jump{display:flex;flex-wrap:wrap;gap:10px;margin:-8px 0 26px}
+.section-jump a{display:inline-flex;align-items:center;gap:8px;padding:10px 15px;border:1px solid #dbeafe;border-radius:12px;background:#fff;color:#1d4ed8;font-weight:800;font-size:13px;box-shadow:0 3px 10px rgba(15,23,42,.04);transition:transform .18s,background .18s}
+.section-jump a:hover{background:#eff6ff;transform:translateY(-2px)}
+#pdf-tools-section,#calculator-section,#school-office-section{scroll-margin-top:90px}
+
 .section-heading{display:flex;align-items:end;justify-content:space-between;margin-bottom:12px}
 .section-heading h2{font-size:21px;margin-top:2px;color:#0f172a}
 .section-count{font-size:12px;font-weight:800;color:#64748b;background:#f1f5f9;border-radius:999px;padding:5px 9px}
@@ -287,29 +292,34 @@ input,select,textarea,button{max-width:100%;font-size:16px}
     <div class="hero-badge">⚡ झटपट • सोपे • ऑनलाइन</div>
   </section>
 
-  <section class="tool-section" aria-labelledby="doc-tools-title">
-    <div class="section-heading"><div><span class="section-kicker">DOCUMENT & PHOTO</span><h2 id="doc-tools-title">📄 कागदपत्रे व फोटो</h2></div><span class="section-count">4 Tools</span></div>
+  <nav class="section-jump" aria-label="टूल विभाग">
+    <a href="#pdf-tools-section">📄 PDF Tools</a>
+    <a href="#calculator-section">🧮 Calculators</a>
+    <a href="#school-office-section">🏫 School Office</a>
+  </nav>
+
+  <section class="tool-section" id="pdf-tools-section" aria-labelledby="pdf-tools-heading">
+    <div class="section-heading"><div><span class="section-kicker">PDF & DOCUMENTS</span><h2 id="pdf-tools-heading">📄 PDF Tools</h2></div><span class="section-count">4 Tools</span></div>
     <div class="dashboard-grid">
-      <a class="dash-card featured" href="pdf-tools.html"><span class="dash-icon">📄</span><div><h3>PDF Tools</h3><p>Merge, Split, Resize, Compress आणि PDF Editor.</p></div><span class="dash-arrow">→</span></a>
-      <a class="dash-card" href="pdf-tools-plus.html"><span class="dash-icon">🧰</span><div><h3>PDF Tools Plus — नवीन</h3><p>PDF एकत्र करा, निवडक पाने काढा, फिरवा आणि पान क्रमांक जोडा.</p></div><span class="dash-arrow">→</span></a>
-      <a class="dash-card" href="edost-scan-clean.html"><span class="dash-icon">🧽</span><div><h3>eDost साथी स्कॅन क्लीन</h3><p>जुना कागद, LC व दाखला स्वच्छ आणि स्पष्ट करा.</p></div><span class="dash-arrow">→</span></a>
-      <a class="dash-card" href="cutter.html"><span class="dash-icon">✂️</span><div><h3>फोटो व सही कटर</h3><p>SSC/HSC फोटो व सही crop आणि size करा.</p></div><span class="dash-arrow">→</span></a>
+      <a class="dash-card featured" href="pdf-tools.html"><span class="dash-icon">📄</span><div><h3>PDF Tools</h3><p>PDF Merge, Split, Resize, Compress आणि PDF Editor.</p></div><span class="dash-arrow">→</span></a>
+      <a class="dash-card" href="pdf-tools-plus.html"><span class="dash-icon">🧰</span><div><h3>PDF Tools Plus</h3><p>PDF एकत्र करा, पाने वेगळी करा, फिरवा आणि पान क्रमांक जोडा.</p></div><span class="dash-arrow">→</span></a>
+      <a class="dash-card" href="edost-scan-clean.html"><span class="dash-icon">🧽</span><div><h3>eDost साथी स्कॅन क्लीन</h3><p>जुना कागद, LC आणि दाखले स्वच्छ व स्पष्ट करा.</p></div><span class="dash-arrow">→</span></a>
+      <a class="dash-card" href="cutter.html"><span class="dash-icon">✂️</span><div><h3>फोटो व सही कटर</h3><p>SSC/HSC फोटो व सही crop आणि योग्य size मध्ये तयार करा.</p></div><span class="dash-arrow">→</span></a>
     </div>
   </section>
 
-  <section class="tool-section" aria-labelledby="employee-tools-title">
-    <div class="section-heading"><div><span class="section-kicker">EMPLOYEE & SCHOOL</span><h2 id="employee-tools-title">🧮 कर्मचारी व शाळा</h2></div><span class="section-count">3 Tools</span></div>
+  <section class="tool-section" id="calculator-section" aria-labelledby="calculator-heading">
+    <div class="section-heading"><div><span class="section-kicker">CALCULATORS</span><h2 id="calculator-heading">🧮 Calculators / कॅलक्युलेटर</h2></div><span class="section-count">3 Tools</span></div>
     <div class="dashboard-grid">
-      <a class="dash-card" href="da-calculator.html"><span class="dash-icon">📈</span><div><h3>DA फरक कॅल्क्युलेटर</h3><p>महागाई भत्ता फरकाची गणना आणि पत्रक.</p></div><span class="dash-arrow">→</span></a>
-      <a class="dash-card" href="hra-calculator.html"><span class="dash-icon">🏠</span><div><h3>HRA फरक कॅल्क्युलेटर</h3><p>घरभाडे भत्ता फरकाची सोपी गणना.</p></div><span class="dash-arrow">→</span></a>
-      <a class="dash-card" href="sanch-manyata.html"><span class="dash-icon">🏫</span><div><h3>संच मान्यता शिक्षक गणना</h3><p>विद्यार्थी संख्येनुसार शिक्षक पदांची माहिती.</p></div><span class="dash-arrow">→</span></a>
+      <a class="dash-card" href="da-calculator.html"><span class="dash-icon">📈</span><div><h3>DA फरक कॅलक्युलेटर</h3><p>महागाई भत्ता फरकाची गणना आणि पत्रक.</p></div><span class="dash-arrow">→</span></a>
+      <a class="dash-card" href="hra-calculator.html"><span class="dash-icon">🏠</span><div><h3>HRA फरक कॅलक्युलेटर</h3><p>घरभाडे भत्ता फरकाची सोपी गणना.</p></div><span class="dash-arrow">→</span></a>
+      <a class="dash-card" href="anki-to-akshari.html"><span class="dash-icon">🔢</span><div><h3>अंकी ते अक्षरी व वय</h3><p>रक्कम अक्षरी, जन्मदिनांक आणि वय गणना.</p></div><span class="dash-arrow">→</span></a>
     </div>
   </section>
 
-  <section class="tool-section" aria-labelledby="student-tools-title">
-    <div class="section-heading"><div><span class="section-kicker">STUDENT & TEXT</span><h2 id="student-tools-title">🔢 विद्यार्थी व लेखन</h2></div><span class="section-count">2 Tools</span></div>
+  <section class="tool-section" id="school-office-section" aria-labelledby="school-office-heading">
+    <div class="section-heading"><div><span class="section-kicker">SCHOOL OFFICE</span><h2 id="school-office-heading">🏫 School Office Tools / शालेय कार्यालयीन साधने</h2></div><span class="section-count">1 Tool</span></div>
     <div class="dashboard-grid">
-      <a class="dash-card" href="anki-to-akshari.html"><span class="dash-icon">🔢</span><div><h3>अंकी ते अक्षरी व वय</h3><p>रक्कम अक्षरी, जन्मदिनांक आणि अचूक वय गणना.</p></div><span class="dash-arrow">→</span></a>
       <a class="dash-card" href="handwriting.html"><span class="dash-icon">✍️</span><div><h3>हस्तलिखित कन्व्हर्टर</h3><p>टाईप केलेला मजकूर हस्तलिखित शैलीत तयार करा.</p></div><span class="dash-arrow">→</span></a>
     </div>
   </section>
@@ -323,7 +333,7 @@ input,select,textarea,button{max-width:100%;font-size:16px}
     <h2>🔗 सर्व टूल्स</h2>
     <div class="related-grid">
       <a href="pdf-tools.html">📄 PDF Tools</a><a href="pdf-tools-plus.html">🧰 PDF Tools Plus</a><a href="edost-scan-clean.html">🧽 Scan Clean</a><a href="cutter.html">✂️ Photo & Signature</a>
-      <a href="da-calculator.html">📈 DA Calculator</a><a href="hra-calculator.html">🏠 HRA Calculator</a><a href="sanch-manyata.html">🏫 संच मान्यता</a>
+      <a href="da-calculator.html">📈 DA Calculator</a><a href="hra-calculator.html">🏠 HRA Calculator</a>
       <a href="anki-to-akshari.html">🔢 अंकी ते अक्षरी</a><a href="handwriting.html">✍️ हस्तलिखित</a>
     </div>
   </section>
