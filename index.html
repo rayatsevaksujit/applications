@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="mr">
 <head>
     <meta charset="UTF-8">
@@ -439,18 +439,27 @@ body{background:#f5f8fd;color:#10264b;font-size:13px}
     </div>
   </section>
 
+  <!-- Instant Search Bar -->
+  <div style="margin: 0 0 20px 0; position: relative;">
+    <input type="text" id="toolSearchInput" placeholder="🔍 कोणतेही टूल शोधा... (उदा. पगार, वेतनवाढ, आयकर, DA, फोटो, PDF, संच मान्यता...)" oninput="filterTools()" style="width:100%; box-sizing:border-box; padding:13px 18px 13px 44px; border:2px solid #cbd5e1; border-radius:14px; font-size:15px; outline:none; transition:all 0.2s; box-shadow:0 2px 8px rgba(0,0,0,0.03); background:#fff;">
+    <span style="position:absolute; left:16px; top:50%; transform:translateY(-50%); font-size:16px; pointer-events:none;">🔎</span>
+  </div>
+
   <section class="tool-section" id="calculator-section" aria-labelledby="calculator-heading">
-    <div class="section-heading"><div><span class="section-kicker">CALCULATORS</span><h2 id="calculator-heading">🧮 Calculators / कॅलक्युलेटर</h2></div><span class="section-count">3 Tools</span></div>
+    <div class="section-heading"><div><span class="section-kicker">CALCULATORS & SALARY</span><h2 id="calculator-heading">🧮 Calculators / वेतन व कर साधने</h2></div><span class="section-count">5 Tools</span></div>
     <div class="dashboard-grid">
-      <a class="dash-card" href="da-calculator.html"><span class="dash-icon">📈</span><div><h3>DA फरक कॅलक्युलेटर</h3><p>महागाई भत्ता फरकाची गणना आणि पत्रक.</p></div><span class="dash-arrow">→</span></a>
+      <a class="dash-card featured" href="increment-calculator.html" style="border-color:#93c5fd; background:linear-gradient(145deg,#eff6ff,#fff);"><span class="dash-icon" style="background:#dbeafe;">📈</span><div><div style="display:inline-block; font-size:10px; font-weight:800; background:#2563eb; color:#fff; padding:2px 7px; border-radius:6px; margin-bottom:4px;">NEW</div><h3>७ वा वेतन आयोग वेतनवाढ</h3><p>वार्षिक वेतनवाढ (३%) आणि पदोन्नती/MACP वेतन निर्धारण.</p></div><span class="dash-arrow">→</span></a>
+      <a class="dash-card featured" href="income-tax-calculator.html" style="border-color:#93c5fd; background:linear-gradient(145deg,#eff6ff,#fff);"><span class="dash-icon" style="background:#dbeafe;">💰</span><div><div style="display:inline-block; font-size:10px; font-weight:800; background:#059669; color:#fff; padding:2px 7px; border-radius:6px; margin-bottom:4px;">NEW</div><h3>आयकर कॅलक्युलेटर (Old vs New)</h3><p>जुनी कर पद्धत वि. नवीन कर पद्धत थेट तुलना व कर बचत अहवाल.</p></div><span class="dash-arrow">→</span></a>
+      <a class="dash-card" href="da-calculator.html"><span class="dash-icon">📊</span><div><h3>DA फरक कॅलक्युलेटर</h3><p>महागाई भत्ता फरकाची गणना आणि पत्रक.</p></div><span class="dash-arrow">→</span></a>
       <a class="dash-card" href="hra-calculator.html"><span class="dash-icon">🏠</span><div><h3>HRA फरक कॅलक्युलेटर</h3><p>घरभाडे भत्ता फरकाची सोपी गणना.</p></div><span class="dash-arrow">→</span></a>
       <a class="dash-card" href="anki-to-akshari.html"><span class="dash-icon">🔢</span><div><h3>अंकी ते अक्षरी व वय</h3><p>रक्कम अक्षरी, जन्मदिनांक आणि वय गणना.</p></div><span class="dash-arrow">→</span></a>
     </div>
   </section>
 
   <section class="tool-section" id="school-office-section" aria-labelledby="school-office-heading">
-    <div class="section-heading"><div><span class="section-kicker">SCHOOL OFFICE</span><h2 id="school-office-heading">🏫 School Office Tools / शालेय कार्यालयीन साधने</h2></div><span class="section-count">1 Tool</span></div>
+    <div class="section-heading"><div><span class="section-kicker">SCHOOL OFFICE</span><h2 id="school-office-heading">🏫 School Office Tools / शालेय कार्यालयीन साधने</h2></div><span class="section-count">2 Tools</span></div>
     <div class="dashboard-grid">
+      <a class="dash-card" href="sanch-manyata.html"><span class="dash-icon">📋</span><div><h3>संच मान्यता शिक्षक गणना</h3><p>१५ मार्च २०२४ शासन निर्णयानुसार प्राथमिक/माध्यमिक शिक्षक पद गणना.</p></div><span class="dash-arrow">→</span></a>
       <a class="dash-card" href="handwriting.html"><span class="dash-icon">✍️</span><div><h3>हस्तलिखित कन्व्हर्टर</h3><p>टाईप केलेला मजकूर हस्तलिखित शैलीत तयार करा.</p></div><span class="dash-arrow">→</span></a>
     </div>
   </section>
@@ -464,8 +473,9 @@ body{background:#f5f8fd;color:#10264b;font-size:13px}
     <h2>🔗 सर्व टूल्स</h2>
     <div class="related-grid">
       <a href="pdf-tools-plus.html">🧰 PDF Tools Plus</a><a href="edost-scan-clean.html">🧽 Scan Clean</a><a href="cutter.html">✂️ Photo & Signature</a>
-      <a href="da-calculator.html">📈 DA Calculator</a><a href="hra-calculator.html">🏠 HRA Calculator</a>
-      <a href="anki-to-akshari.html">🔢 अंकी ते अक्षरी</a><a href="handwriting.html">✍️ हस्तलिखित</a>
+      <a href="increment-calculator.html">📈 वेतनवाढ (Increment)</a><a href="income-tax-calculator.html">💰 Income Tax</a>
+      <a href="da-calculator.html">📊 DA Calculator</a><a href="hra-calculator.html">🏠 HRA Calculator</a>
+      <a href="sanch-manyata.html">📋 संच मान्यता</a><a href="anki-to-akshari.html">🔢 अंकी ते अक्षरी</a><a href="handwriting.html">✍️ हस्तलिखित</a>
     </div>
   </section>
 </main>
@@ -598,5 +608,20 @@ body{background:#f5f8fd;color:#10264b;font-size:13px}
   badge.src='https://hitscounter.dev/api/hit?url='+encodeURIComponent(tracked)+'&label=Visits&icon=eye&color=%2338bdf8&style=flat&cb='+Date.now();
 })();
 </script>
+<script>
+function filterTools() {
+    const q = document.getElementById("toolSearchInput").value.toLowerCase().trim();
+    const cards = document.querySelectorAll(".dash-card");
+    cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        if (!q || text.includes(q)) {
+            card.style.display = "flex";
+        } else {
+            card.style.display = "none";
+        }
+    });
+}
+</script>
 </body>
 </html>
+
