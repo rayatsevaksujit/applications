@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>आयकर कॅलक्युलेटर (Old vs New Regime) | Digital SATHIDAR</title>
+    <meta name="description" content="शिक्षक व कर्मचाऱ्यांसाठी सुधारित आयकर कॅलक्युलेटर. जुनी कर प्रणाली vs नवीन कर प्रणाली थेट तुलना आणि कर बचत अहवाल.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e40af;
+            --primary-dark: #1e3a8a;
+            --secondary: #059669;
+            --danger: #dc2626;
+            --bg-body: #f8fafc;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --radius: 14px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Mukta', 'Inter', -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #2563eb 100%);
+            color: white;
+            padding: 16px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: var(--shadow-md);
+        }
+
+        .header-container {
+            max-width: 1050px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-link {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo {
+            background: white;
+            color: var(--primary);
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 20px;
+        }
+
+        .brand-title {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .btn-home {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 7px 14px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1050px;
+            margin: 24px auto;
+            padding: 0 16px;
+            flex: 1;
+            width: 100%;
+        }
+
+        .hero-banner {
+            background: white;
+            border-radius: var(--radius);
+            padding: 24px;
+            border: 1px solid var(--border);
+            margin-bottom: 24px;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .hero-banner h1 {
+            color: var(--primary-dark);
+            font-size: 26px;
+            font-weight: 800;
+        }
+
+        .hero-banner p {
+            color: var(--text-muted);
+            font-size: 15px;
+        }
+
+        .calc-wrapper {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        @media (max-width: 860px) {
+            .calc-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+
+        @media (max-width: 500px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .form-control {
+            padding: 10px 12px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            font-size: 15px;
+            background: #f8fafc;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            background: white;
+        }
+
+        .help {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .btn-calc {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: all 0.2s;
+        }
+
+        .btn-calc:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Comparison Box */
+        .verdict-box {
+            background: #f0fdf4;
+            border: 2px solid #86efac;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .verdict-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #166534;
+        }
+
+        .verdict-main {
+            font-size: 20px;
+            font-weight: 800;
+            color: #15803d;
+            margin: 6px 0;
+        }
+
+        .comp-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .comp-table th, .comp-table td {
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+        }
+
+        .comp-table th {
+            background: #f1f5f9;
+            font-weight: 700;
+            text-align: left;
+        }
+
+        .comp-table tr.total-row {
+            background: #f8fafc;
+            font-weight: 800;
+            font-size: 15px;
+        }
+
+        .tax-new {
+            color: #2563eb;
+            font-weight: 700;
+        }
+
+        .tax-old {
+            color: #d97706;
+            font-weight: 700;
+        }
+
+        .btn-print {
+            background: #0f172a;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 16px;
+        }
+
+        .footer {
+            background: #0f172a;
+            color: #94a3b8;
+            padding: 24px 16px;
+            text-align: center;
+            font-size: 14px;
+            margin-top: auto;
+        }
+
+        .footer a {
+            color: #38bdf8;
+            text-decoration: none;
+        }
+
+        @media print {
+            .header, .btn-calc, .btn-print, .footer, .form-row input, .help {
+                display: none !important;
+            }
+            .calc-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="brand-link">
+                <div class="brand-logo">SP</div>
+                <div>
+                    <div class="brand-title">Digital SATHIDAR</div>
+                    <div style="font-size:12px; opacity:0.85;">डिजिटल साथीदार पोर्टल</div>
+                </div>
+            </a>
+            <a href="index.html" class="btn-home">🏠 मुख्य पृष्ठ</a>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <div class="hero-banner">
+            <h1>💰 आयकर तुलना कॅलक्युलेटर (Old vs New Regime)</h1>
+            <p>आर्थिक वर्ष २०२४-२५ / २०२५-२६ कर गणना | जुनी कर प्रणाली वि. नवीन कर प्रणाली तुलना व कर बचत अहवाल</p>
+        </div>
+
+        <div class="calc-wrapper">
+            
+            <!-- Left: Inputs -->
+            <div>
+                <!-- Basic Income -->
+                <div class="card">
+                    <div class="card-title">💵 १. वार्षिक उत्पन्न तपशील (Annual Income)</div>
+                    
+                    <div class="form-group">
+                        <label for="grossSalary">वार्षिक एकूण पगार (Gross Annual Salary ₹):</label>
+                        <input type="number" id="grossSalary" class="form-control" placeholder="उदा. 950000" value="950000" oninput="calculateTax()">
+                        <span class="help">Form 16 प्रमाणे एकूण वार्षिक पगार</span>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="otherIncome">इतर उत्पन्न / व्याज (₹):</label>
+                            <input type="number" id="otherIncome" class="form-control" placeholder="0" value="0" oninput="calculateTax()">
+                        </div>
+                        <div class="form-group">
+                            <label for="finYear">आर्थिक वर्ष (Financial Year):</label>
+                            <select id="finYear" class="form-control" onchange="calculateTax()">
+                                <option value="2024-25" selected>FY 2024-25 (AY 2025-26)</option>
+                                <option value="2025-26">FY 2025-26 (Budget 2024)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Deductions for Old Regime -->
+                <div class="card">
+                    <div class="card-title">🛡️ २. जुनी कर प्रणाली वजावटी (Deductions for Old Regime)</div>
+                    
+                    <div class="form-group">
+                        <label for="sec80C">कलम 80C (GPF, PPF, LIC, मुदत ठेव, मुलांची ट्युशन फी इ.):</label>
+                        <input type="number" id="sec80C" class="form-control" placeholder="कमाल मर्यादा ₹1,50,000" value="150000" oninput="calculateTax()">
+                        <span class="help">कमाल मर्यादा: ₹ १,५०,०००</span>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="sec80D">कलम 80D (आरोग्य विमा):</label>
+                            <input type="number" id="sec80D" class="form-control" placeholder="कमाल ₹25,000 / ₹50,000" value="25000" oninput="calculateTax()">
+                        </div>
+                        <div class="form-group">
+                            <label for="sec80CCD">80CCD(1B) (NPS अतिरिक्त):</label>
+                            <input type="number" id="sec80CCD" class="form-control" placeholder="कमाल ₹50,000" value="0" oninput="calculateTax()">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="homeLoan">गृहकर्ज व्याज (Sec 24b):</label>
+                            <input type="number" id="homeLoan" class="form-control" placeholder="कमाल ₹2,00,000" value="0" oninput="calculateTax()">
+                        </div>
+                        <div class="form-group">
+                            <label for="hraExempt">HRA कर सूट (HRA Exemption):</label>
+                            <input type="number" id="hraExempt" class="form-control" placeholder="उदा. 40000" value="0" oninput="calculateTax()">
+                        </div>
+                    </div>
+
+                    <button class="btn-calc" onclick="calculateTax()">⚡ कर गणना व तुलना करा</button>
+                </div>
+            </div>
+
+            <!-- Right: Results & Comparison -->
+            <div>
+                <div class="card">
+                    <div class="card-title">📊 तुलना निकाल व कर बचत अहवाल</div>
+                    
+                    <!-- Verdict -->
+                    <div id="verdictBox" class="verdict-box">
+                        <div class="verdict-title">सर्वोत्तम पर्याय (Recommended)</div>
+                        <div id="verdictText" class="verdict-main">नवीन कर प्रणाली फायदेशीर आहे!</div>
+                        <div id="verdictDiff" style="font-size:14px; font-weight:600; color:#166534;">तुम्ही ₹ 12,480 कर वाचवू शकता.</div>
+                    </div>
+
+                    <table class="comp-table">
+                        <thead>
+                            <tr>
+                                <th>तपशील</th>
+                                <th style="color:#d97706;">जुनी कर पद्धत (Old)</th>
+                                <th style="color:#2563eb;">नवीन कर पद्धत (New)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>एकूण वार्षिक उत्पन्न</td>
+                                <td id="tblOldGross">₹ 0</td>
+                                <td id="tblNewGross">₹ 0</td>
+                            </tr>
+                            <tr>
+                                <td>स्टँडर्ड डिडक्शन</td>
+                                <td id="tblOldStd">₹ 50,000</td>
+                                <td id="tblNewStd">₹ 75,000</td>
+                            </tr>
+                            <tr>
+                                <td>एकूण वजावटी (80C, 80D इ.)</td>
+                                <td id="tblOldDed">₹ 0</td>
+                                <td style="color:var(--text-muted);">लागू नाही</td>
+                            </tr>
+                            <tr style="background:#f8fafc; font-weight:600;">
+                                <td>करपात्र उत्पन्न (Taxable)</td>
+                                <td id="tblOldTaxable">₹ 0</td>
+                                <td id="tblNewTaxable">₹ 0</td>
+                            </tr>
+                            <tr>
+                                <td>मूलभूत आयकर (Basic Tax)</td>
+                                <td id="tblOldBasicTax">₹ 0</td>
+                                <td id="tblNewBasicTax">₹ 0</td>
+                            </tr>
+                            <tr>
+                                <td>कलम 87A कर सूट (Rebate)</td>
+                                <td id="tblOldRebate" style="color:#16a34a;">- ₹ 0</td>
+                                <td id="tblNewRebate" style="color:#16a34a;">- ₹ 0</td>
+                            </tr>
+                            <tr>
+                                <td>आरोग्य व शिक्षण उपकर (4% Cess)</td>
+                                <td id="tblOldCess">₹ 0</td>
+                                <td id="tblNewCess">₹ 0</td>
+                            </tr>
+                            <tr class="total-row">
+                                <td>एकूण देय कर (Total Tax)</td>
+                                <td id="tblOldFinalTax" class="tax-old">₹ 0</td>
+                                <td id="tblNewFinalTax" class="tax-new">₹ 0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <button class="btn-print" onclick="window.print()">🖨️ तुलना पत्रक प्रिंट करा</button>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <footer class="footer">
+        <div>© 2026 <strong>Digital SATHIDAR</strong> | संकल्पना व निर्मिती: <strong>सुजित पाटील (SP - रयत सेवक)</strong></div>
+        <div style="margin-top: 6px; font-size: 13px;">शिक्षक, शिक्षकेतर कर्मचारी व शाळांसाठी मोफत ऑनलाइन डिजिटल साधने</div>
+    </footer>
+
+    <script>
+        function calculateTax() {
+            const gross = parseFloat(document.getElementById('grossSalary').value) || 0;
+            const other = parseFloat(document.getElementById('otherIncome').value) || 0;
+            const totalIncome = gross + other;
+
+            // Deductions for Old
+            let c80 = parseFloat(document.getElementById('sec80C').value) || 0;
+            if (c80 > 150000) c80 = 150000;
+
+            let d80 = parseFloat(document.getElementById('sec80D').value) || 0;
+            if (d80 > 50000) d80 = 50000;
+
+            let ccd = parseFloat(document.getElementById('sec80CCD').value) || 0;
+            if (ccd > 50000) ccd = 50000;
+
+            let homeLoan = parseFloat(document.getElementById('homeLoan').value) || 0;
+            if (homeLoan > 200000) homeLoan = 200000;
+
+            let hra = parseFloat(document.getElementById('hraExempt').value) || 0;
+
+            const oldStdDed = 50000;
+            const newStdDed = 75000; // Updated in Budget 2024
+
+            const totalOldDeductions = c80 + d80 + ccd + homeLoan + hra;
+
+            // Taxable Incomes
+            const oldTaxable = Math.max(0, totalIncome - oldStdDed - totalOldDeductions);
+            const newTaxable = Math.max(0, totalIncome - newStdDed);
+
+            // --- 1. Old Regime Calculation ---
+            let oldTax = 0;
+            if (oldTaxable <= 250000) {
+                oldTax = 0;
+            } else if (oldTaxable <= 500000) {
+                oldTax = (oldTaxable - 250000) * 0.05;
+            } else if (oldTaxable <= 1000000) {
+                oldTax = (250000 * 0.05) + (oldTaxable - 500000) * 0.20;
+            } else {
+                oldTax = (250000 * 0.05) + (500000 * 0.20) + (oldTaxable - 1000000) * 0.30;
+            }
+
+            // Rebate u/s 87A (Old)
+            let oldRebate = 0;
+            if (oldTaxable <= 500000) {
+                oldRebate = oldTax;
+                oldTax = 0;
+            }
+
+            const oldCess = Math.round(oldTax * 0.04);
+            const oldFinalTax = Math.round(oldTax + oldCess);
+
+            // --- 2. New Regime Calculation (Budget 2024 Slabs) ---
+            // 0 - 3L : 0%
+            // 3L - 7L : 5%
+            // 7L - 10L : 10%
+            // 10L - 12L : 15%
+            // 12L - 15L : 20%
+            // Above 15L : 30%
+            let newTax = 0;
+            if (newTaxable <= 300000) {
+                newTax = 0;
+            } else if (newTaxable <= 700000) {
+                newTax = (newTaxable - 300000) * 0.05;
+            } else if (newTaxable <= 1000000) {
+                newTax = (400000 * 0.05) + (newTaxable - 700000) * 0.10;
+            } else if (newTaxable <= 1200000) {
+                newTax = (400000 * 0.05) + (300000 * 0.10) + (newTaxable - 1000000) * 0.15;
+            } else if (newTaxable <= 1500000) {
+                newTax = (400000 * 0.05) + (300000 * 0.10) + (200000 * 0.15) + (newTaxable - 1200000) * 0.20;
+            } else {
+                newTax = (400000 * 0.05) + (300000 * 0.10) + (200000 * 0.15) + (300000 * 0.20) + (newTaxable - 1500000) * 0.30;
+            }
+
+            // Rebate u/s 87A (New Regime: Taxable Income up to 7,00,000 is tax-free)
+            let newRebate = 0;
+            if (newTaxable <= 700000) {
+                newRebate = newTax;
+                newTax = 0;
+            }
+
+            const newCess = Math.round(newTax * 0.04);
+            const newFinalTax = Math.round(newTax + newCess);
+
+            // Update UI Table
+            document.getElementById('tblOldGross').innerText = '₹ ' + totalIncome.toLocaleString('en-IN');
+            document.getElementById('tblNewGross').innerText = '₹ ' + totalIncome.toLocaleString('en-IN');
+
+            document.getElementById('tblOldStd').innerText = '₹ ' + oldStdDed.toLocaleString('en-IN');
+            document.getElementById('tblNewStd').innerText = '₹ ' + newStdDed.toLocaleString('en-IN');
+
+            document.getElementById('tblOldDed').innerText = '₹ ' + totalOldDeductions.toLocaleString('en-IN');
+
+            document.getElementById('tblOldTaxable').innerText = '₹ ' + oldTaxable.toLocaleString('en-IN');
+            document.getElementById('tblNewTaxable').innerText = '₹ ' + newTaxable.toLocaleString('en-IN');
+
+            document.getElementById('tblOldBasicTax').innerText = '₹ ' + (oldTax + oldRebate).toLocaleString('en-IN');
+            document.getElementById('tblNewBasicTax').innerText = '₹ ' + (newTax + newRebate).toLocaleString('en-IN');
+
+            document.getElementById('tblOldRebate').innerText = '- ₹ ' + oldRebate.toLocaleString('en-IN');
+            document.getElementById('tblNewRebate').innerText = '- ₹ ' + newRebate.toLocaleString('en-IN');
+
+            document.getElementById('tblOldCess').innerText = '₹ ' + oldCess.toLocaleString('en-IN');
+            document.getElementById('tblNewCess').innerText = '₹ ' + newCess.toLocaleString('en-IN');
+
+            document.getElementById('tblOldFinalTax').innerText = '₹ ' + oldFinalTax.toLocaleString('en-IN');
+            document.getElementById('tblNewFinalTax').innerText = '₹ ' + newFinalTax.toLocaleString('en-IN');
+
+            // Verdict logic
+            const verdictBox = document.getElementById('verdictBox');
+            const verdictText = document.getElementById('verdictText');
+            const verdictDiff = document.getElementById('verdictDiff');
+
+            if (newFinalTax < oldFinalTax) {
+                const saving = oldFinalTax - newFinalTax;
+                verdictBox.style.background = '#eff6ff';
+                verdictBox.style.borderColor = '#93c5fd';
+                verdictText.style.color = '#1d4ed8';
+                verdictText.innerText = '✨ नवीन कर प्रणाली (New Regime) अधिक फायदेशीर आहे!';
+                verdictDiff.style.color = '#1e40af';
+                verdictDiff.innerText = 'नवीन पद्धतीमध्ये तुमचे ₹ ' + saving.toLocaleString('en-IN') + ' वाचतील.';
+            } else if (oldFinalTax < newFinalTax) {
+                const saving = newFinalTax - oldFinalTax;
+                verdictBox.style.background = '#fefce8';
+                verdictBox.style.borderColor = '#fde047';
+                verdictText.style.color = '#a16207';
+                verdictText.innerText = '✨ जुनी कर प्रणाली (Old Regime) अधिक फायदेशीर आहे!';
+                verdictDiff.style.color = '#854d0e';
+                verdictDiff.innerText = 'जुनी पद्धतीमध्ये तुमचे ₹ ' + saving.toLocaleString('en-IN') + ' वाचतील.';
+            } else {
+                verdictBox.style.background = '#f8fafc';
+                verdictBox.style.borderColor = '#cbd5e1';
+                verdictText.style.color = '#334155';
+                verdictText.innerText = 'दोन्ही कर प्रणालींमध्ये समान कर आकारला जाईल.';
+                verdictDiff.innerText = 'तुम्ही कोणतीही पद्धत निवडू शकता.';
+            }
+        }
+
+        window.onload = function() {
+            calculateTax();
+        };
+    </script>
+</body>
+</html>
