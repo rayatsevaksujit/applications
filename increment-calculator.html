@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>७ वा वेतन आयोग वेतनवाढ कॅलक्युलेटर | Digital SATHIDAR</title>
+    <meta name="description" content="महाराष्ट्र शासन ७ वा वेतन आयोग वार्षिक वेतनवाढ (३%) आणि पदोन्नती/MACP वेतनवाढ कॅलक्युलेटर. शिक्षक व कर्मचाऱ्यांसाठी वेतन निर्धारण व फिक्सेशन टूल.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e40af;
+            --primary-dark: #1e3a8a;
+            --primary-light: #3b82f6;
+            --secondary: #059669;
+            --accent: #f59e0b;
+            --bg-body: #f8fafc;
+            --card-bg: #ffffff;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.05);
+            --radius: 14px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Mukta', 'Inter', -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.6;
+        }
+
+        /* Top Navbar */
+        .header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #2563eb 100%);
+            color: white;
+            padding: 16px 20px;
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .header-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-link {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo {
+            background: white;
+            color: var(--primary);
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .brand-title {
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .brand-sub {
+            font-size: 12px;
+            opacity: 0.85;
+            font-weight: 400;
+        }
+
+        .btn-home {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 7px 14px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-home:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-1px);
+        }
+
+        /* Page Layout */
+        .container {
+            max-width: 1000px;
+            margin: 24px auto;
+            padding: 0 16px;
+            flex: 1;
+            width: 100%;
+        }
+
+        .hero-banner {
+            background: white;
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .hero-banner h1 {
+            color: var(--primary-dark);
+            font-size: 26px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .hero-banner p {
+            color: var(--text-muted);
+            font-size: 15px;
+        }
+
+        /* Tabs */
+        .tabs-nav {
+            display: flex;
+            gap: 8px;
+            background: #e2e8f0;
+            padding: 6px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px 16px;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .tab-btn.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Calculator Card */
+        .calc-card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            padding: 28px;
+            margin-bottom: 24px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .form-control {
+            padding: 11px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            font-size: 16px;
+            color: var(--text-dark);
+            background: #f8fafc;
+            transition: all 0.2s;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-light);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+
+        .helper-text {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .calc-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-calc {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-calc:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-reset {
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px solid var(--border);
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-reset:hover {
+            background: #e2e8f0;
+        }
+
+        /* Result Section */
+        .result-box {
+            display: none;
+            margin-top: 28px;
+            background: #f0fdf4;
+            border: 2px solid #86efac;
+            border-radius: var(--radius);
+            padding: 24px;
+        }
+
+        .result-box.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-title {
+            color: #166534;
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #bbf7d0;
+            padding-bottom: 10px;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .res-item {
+            background: white;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid #dcfce7;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .res-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .res-val {
+            font-size: 20px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .res-val.highlight {
+            color: #15803d;
+            font-size: 24px;
+        }
+
+        /* Pay Slip / Summary Table */
+        .table-responsive {
+            overflow-x: auto;
+            margin-top: 16px;
+        }
+
+        .table-custom {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            font-size: 14px;
+        }
+
+        .table-custom th, .table-custom td {
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            text-align: left;
+        }
+
+        .table-custom th {
+            background: #f8fafc;
+            color: #334155;
+            font-weight: 700;
+        }
+
+        /* Print Button */
+        .btn-print {
+            background: #0f172a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-print:hover {
+            background: #1e293b;
+        }
+
+        /* Pay Matrix Reference */
+        .info-card {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-top: 24px;
+            font-size: 14px;
+            color: #1e3a8a;
+        }
+
+        .info-card h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--primary-dark);
+        }
+
+        .info-card ul {
+            padding-left: 20px;
+            margin-top: 6px;
+        }
+
+        .info-card li {
+            margin-bottom: 4px;
+        }
+
+        /* Footer */
+        .footer {
+            background: #0f172a;
+            color: #94a3b8;
+            padding: 24px 16px;
+            text-align: center;
+            font-size: 14px;
+            margin-top: auto;
+        }
+
+        .footer a {
+            color: #38bdf8;
+            text-decoration: none;
+        }
+
+        @media print {
+            .header, .tabs-nav, .calc-actions, .info-card, .btn-print, .footer, .form-group {
+                display: none !important;
+            }
+            body {
+                background: white;
+            }
+            .container {
+                max-width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            .result-box {
+                display: block !important;
+                border: 1px solid #000;
+                background: white;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="brand-link">
+                <div class="brand-logo">SP</div>
+                <div>
+                    <div class="brand-title">Digital SATHIDAR</div>
+                    <div class="brand-sub">डिजिटल साथीदार | शिक्षक व कर्मचारी पोर्टेल</div>
+                </div>
+            </a>
+            <a href="index.html" class="btn-home">
+                <span>🏠 मुख्य पृष्ठ</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container">
+        
+        <div class="hero-banner">
+            <h1>📈 ७ वा वेतन आयोग वेतनवाढ कॅलक्युलेटर</h1>
+            <p>महाराष्ट्र शासन ७ व्या वेतन आयोगानुसार वार्षिक वेतनवाढ (३%) आणि पदोन्नती / आश्वासित प्रगती योजना (MACP) वेतन निर्धारण</p>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="tabs-nav">
+            <button class="tab-btn active" onclick="switchCalc('annual')">📅 वार्षिक वेतनवाढ (Annual Increment - 3%)</button>
+            <button class="tab-btn" onclick="switchCalc('promotion')">🎖️ पदोन्नती / आश्वासित प्रगती (MACP/ACPS)</button>
+        </div>
+
+        <!-- Calculator 1: Annual Increment -->
+        <div id="annualTab" class="calc-card">
+            <h2 style="font-size: 18px; margin-bottom: 16px; color: var(--primary);">वार्षिक वेतनवाढ गणना (१ जुलै किंवा १ जानेवारी)</h2>
+            
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="annEmpName">कर्मचाऱ्याचे नाव (ऐच्छिक):</label>
+                    <input type="text" id="annEmpName" class="form-control" placeholder="उदा. श्री. पाटील सर">
+                </div>
+
+                <div class="form-group">
+                    <label for="annIncDate">वेतनवाढीची तारीख:</label>
+                    <select id="annIncDate" class="form-control">
+                        <option value="1 जुलै">१ जुलै (July Increment)</option>
+                        <option value="1 जानेवारी">१ जानेवारी (January Increment)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="annLevel">विद्यमान वेतन स्तर (Pay Matrix Level):</label>
+                    <select id="annLevel" class="form-control" onchange="populateBasicOptions('annLevel', 'annBasic')">
+                        <!-- Populated by JS -->
+                    </select>
+                    <span class="helper-text">उदा. प्राथमिक शिक्षक: S-8 / S-10, माध्यमिक: S-13/S-14/S-15</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="annBasic">विद्यमान मूळ वेतन (Current Basic Pay ₹):</label>
+                    <input type="number" id="annBasic" class="form-control" placeholder="उदा. 44900" step="100">
+                    <span class="helper-text">किंवा पे-मॅट्रिक्सनुसार अचूक मूळ वेतन टाका</span>
+                </div>
+            </div>
+
+            <div class="calc-actions">
+                <button class="btn-calc" onclick="calculateAnnualIncrement()">
+                    <span>⚡ वेतनवाढ काढा</span>
+                </button>
+                <button class="btn-reset" onclick="resetAnnual()">🔄 रिसेट</button>
+            </div>
+
+            <!-- Result Box -->
+            <div id="annualResult" class="result-box">
+                <div class="result-title">
+                    <span>✅ वेतनवाढ निर्धारण निकाल</span>
+                </div>
+                
+                <div class="result-grid">
+                    <div class="res-item">
+                        <div class="res-label">विद्यमान मूळ वेतन (जुने)</div>
+                        <div class="res-val" id="resAnnOldBasic">₹ 0</div>
+                    </div>
+                    <div class="res-item">
+                        <div class="res-label">३% वाढ रक्कम (अंदाजे)</div>
+                        <div class="res-val" id="resAnnDiff">₹ 0</div>
+                    </div>
+                    <div class="res-item" style="border-color:#86efac; background:#f0fdf4;">
+                        <div class="res-label">वेतनवाढीनंतर नवीन मूळ वेतन</div>
+                        <div class="res-val highlight" id="resAnnNewBasic">₹ 0</div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table-custom">
+                        <thead>
+                            <tr>
+                                <th>तपशील</th>
+                                <th>वेतनवाढ पूर्व</th>
+                                <th>वेतनवाढ नंतर</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>पे-मॅट्रिक्स स्तर (Level)</td>
+                                <td id="resAnnTableLevelOld">-</td>
+                                <td id="resAnnTableLevelNew">-</td>
+                            </tr>
+                            <tr>
+                                <td>मूळ वेतन (Basic Pay)</td>
+                                <td id="resAnnTableBasicOld">₹ 0</td>
+                                <td id="resAnnTableBasicNew" style="font-weight:bold; color:#15803d;">₹ 0</td>
+                            </tr>
+                            <tr>
+                                <td>लागू महिना</td>
+                                <td id="resAnnTableDateOld">-</td>
+                                <td id="resAnnTableDateNew">-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <button class="btn-print" onclick="window.print()">
+                    🖨️ विवरणपत्र प्रिंट करा
+                </button>
+            </div>
+        </div>
+
+        <!-- Calculator 2: Promotion / MACP -->
+        <div id="promotionTab" class="calc-card" style="display: none;">
+            <h2 style="font-size: 18px; margin-bottom: 16px; color: var(--secondary);">पदोन्नती / आश्वासित प्रगती योजना (MACP/ACPS) वेतन निर्धारण</h2>
+            
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="proEmpName">कर्मचाऱ्याचे नाव:</label>
+                    <input type="text" id="proEmpName" class="form-control" placeholder="उदा. श्री. पाटील सर">
+                </div>
+
+                <div class="form-group">
+                    <label for="proType">प्रकार:</label>
+                    <select id="proType" class="form-control">
+                        <option value="पदोन्नती (Promotion)">पदोन्नती (Promotion)</option>
+                        <option value="१० वर्षे आश्वासित प्रगती (1st MACP)">१० वर्षे आश्वासित प्रगती (1st MACP)</option>
+                        <option value="२० वर्षे आश्वासित प्रगती (2nd MACP)">२० वर्षे आश्वासित प्रगती (2nd MACP)</option>
+                        <option value="३० वर्षे आश्वासित प्रगती (3rd MACP)">३० वर्षे आश्वासित प्रगती (3rd MACP)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="proCurLevel">सध्याचा स्तर (Current Level):</label>
+                    <select id="proCurLevel" class="form-control">
+                        <!-- Populated by JS -->
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="proCurBasic">सध्याचे मूळ वेतन (Current Basic ₹):</label>
+                    <input type="number" id="proCurBasic" class="form-control" placeholder="उदा. 47600">
+                </div>
+
+                <div class="form-group">
+                    <label for="proNextLevel">पदोन्नतीचा नवीन स्तर (Promoted/MACP Level):</label>
+                    <select id="proNextLevel" class="form-control">
+                        <!-- Populated by JS -->
+                    </select>
+                </div>
+            </div>
+
+            <div class="calc-actions">
+                <button class="btn-calc" style="background:var(--secondary);" onclick="calculatePromotion()">
+                    <span>⚡ पदोन्नती वेतन निश्चित करा</span>
+                </button>
+                <button class="btn-reset" onclick="resetPromotion()">🔄 रिसेट</button>
+            </div>
+
+            <!-- Promotion Result -->
+            <div id="proResult" class="result-box">
+                <div class="result-title" style="color:#065f46; border-color:#a7f3d0;">
+                    <span>🎖️ पदोन्नती/MACP वेतन निश्चिती अहवाल</span>
+                </div>
+
+                <div class="result-grid">
+                    <div class="res-item">
+                        <div class="res-label">मूळ वेतन (सध्याचे)</div>
+                        <div class="res-val" id="resProOldBasic">₹ 0</div>
+                    </div>
+                    <div class="res-item">
+                        <div class="res-label">विद्यमान स्तरात काल्पनिक वेतनवाढ (Notional)</div>
+                        <div class="res-val" id="resProNotional">₹ 0</div>
+                    </div>
+                    <div class="res-item" style="border-color:#86efac; background:#f0fdf4;">
+                        <div class="res-label">नवीन स्तरात निश्चित झालेले वेतन</div>
+                        <div class="res-val highlight" id="resProNewBasic">₹ 0</div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table-custom">
+                        <thead>
+                            <tr>
+                                <th>पायरी</th>
+                                <th>स्तर (Level)</th>
+                                <th>वेतन (Basic Pay)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>१. पदोन्नती पूर्व विद्यमान वेतन</td>
+                                <td id="resProTableCurLevel">-</td>
+                                <td id="resProTableCurBasic">₹ 0</td>
+                            </tr>
+                            <tr>
+                                <td>२. विद्यमान स्तरात १ काल्पनिक वेतनवाढ (+3%)</td>
+                                <td id="resProTableNotionalLevel">-</td>
+                                <td id="resProTableNotionalBasic">₹ 0</td>
+                            </tr>
+                            <tr>
+                                <td>३. पदोन्नती स्तरात निश्चिती (समान किंवा पुढील सेल)</td>
+                                <td id="resProTableNextLevel" style="font-weight:bold; color:#1e40af;">-</td>
+                                <td id="resProTableNextBasic" style="font-weight:bold; color:#15803d; font-size:16px;">₹ 0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <button class="btn-print" onclick="window.print()">
+                    🖨️ फिक्सेशन पत्रक प्रिंट करा
+                </button>
+            </div>
+        </div>
+
+        <!-- Guidelines / Rule Box -->
+        <div class="info-card">
+            <h3>📌 वेतनवाढ व फिक्सेशन महत्त्वाचे नियम (७ वा वेतन आयोग):</h3>
+            <ul>
+                <li><strong>वार्षिक वेतनवाढ:</strong> दरवर्षी १ जुलै किंवा १ जानेवारी रोजी विद्यमान मूळ वेतनावर ३% वाढ करून पे-मॅट्रिक्समधील त्या लेव्हलच्या पुढील सेलवर (Next Cell) वेतन निश्चित केले जाते.</li>
+                <li><strong>पदोन्नती / MACP नियम:</strong> कर्मचाऱ्यास पदोन्नती मिळाल्यास, प्रथम त्याच्या विद्यमान लेव्हलमध्ये १ काल्पनिक वेतनवाढ दिली जाते. त्यानंतर आलेली रक्कम नवीन लेव्हलमध्ये शोधून त्या रकमेइतका किंवा त्याहून जास्त असणारा लगतचा पुढील सेल दिला जातो.</li>
+                <li>हे टूल महाराष्ट्र शासन वित्त विभाग शासन निर्णय व ७ वा वेतन आयोग पे-मॅट्रिक्स नियमांवर आधारित आहे.</li>
+            </ul>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div>© 2026 <strong>Digital SATHIDAR</strong> | संकल्पना व निर्मिती: <strong>सुजित पाटील (SP - रयत सेवक)</strong></div>
+        <div style="margin-top: 6px; font-size: 13px;">शिक्षक, शिक्षकेतर कर्मचारी व शाळांसाठी मोफत ऑनलाइन डिजिटल साधने</div>
+    </footer>
+
+    <script>
+        // 7th Pay Commission Pay Matrix Data (Levels S-1 to S-20 common levels in Maharashtra)
+        const PAY_MATRIX = {
+            "S-1 (15000-47600)": [15000, 15500, 16000, 16500, 17000, 17500, 18000, 18500, 19100, 19700, 20300, 20900, 21500, 22100, 22800, 23500, 24200, 24900, 25600, 26400, 27200, 28000, 28800, 29700, 30600, 31500, 32400, 33400, 34400, 35400, 36500, 37600, 38700, 39900, 41100, 42300, 43600, 44900, 46200, 47600],
+            "S-6 (19900-63200)": [19900, 20500, 21100, 21700, 22400, 23100, 23800, 24500, 25200, 26000, 26800, 27600, 28400, 29300, 30200, 31100, 32000, 33000, 34000, 35000, 36100, 37200, 38300, 39400, 40600, 41800, 43100, 44400, 45700, 47100, 48500, 50000, 51500, 53000, 54600, 56200, 57900, 59600, 61400, 63200],
+            "S-7 (21700-69100)": [21700, 22400, 23100, 23800, 24500, 25200, 26000, 26800, 27600, 28400, 29300, 30200, 31100, 32000, 33000, 34000, 35000, 36100, 37200, 38300, 39400, 40600, 41800, 43100, 44400, 45700, 47100, 48500, 50000, 51500, 53000, 54600, 56200, 57900, 59600, 61400, 63200, 65100, 67100, 69100],
+            "S-8 (25500-81100)": [25500, 26300, 27100, 27900, 28700, 29600, 30500, 31400, 32300, 33300, 34300, 35300, 36400, 37500, 38600, 39800, 41000, 42200, 43500, 44800, 46100, 47500, 48900, 50400, 51900, 53500, 55100, 56800, 58500, 60300, 62100, 64000, 65900, 67900, 69900, 72000, 74200, 76400, 78700, 81100],
+            "S-10 (29200-92300)": [29200, 30100, 31000, 31900, 32900, 33900, 34900, 35900, 37000, 38100, 39200, 40400, 41600, 42800, 44100, 45400, 46800, 48200, 49600, 51100, 52600, 54200, 55800, 57500, 59200, 61000, 62800, 64700, 66600, 68600, 70700, 72800, 75000, 77300, 79600, 82000, 84500, 87000, 89600, 92300],
+            "S-13 (35400-112400)": [35400, 36500, 37600, 38700, 39900, 41100, 42300, 43600, 44900, 46200, 47600, 49000, 50500, 52000, 53600, 55200, 56900, 58600, 60400, 62200, 64100, 66000, 68000, 70000, 72100, 74300, 76500, 78800, 81200, 83600, 86100, 88700, 91400, 94100, 96900, 99800, 102800, 105900, 109100, 112400],
+            "S-14 (38600-122800)": [38600, 39800, 41000, 42200, 43500, 44800, 46100, 47500, 48900, 50400, 51900, 53500, 55100, 56800, 58500, 60300, 62100, 64000, 65900, 67900, 69900, 72000, 74200, 76400, 78700, 81100, 83500, 86000, 88600, 91300, 94000, 96800, 99700, 102700, 105800, 109000, 112300, 115700, 119200, 122800],
+            "S-15 (41800-132300)": [41800, 43100, 44400, 45700, 47100, 48500, 50000, 51500, 53000, 54600, 56200, 57900, 59600, 61400, 63200, 65100, 67100, 69100, 71200, 73300, 75500, 77800, 80100, 82500, 85000, 87600, 90200, 92900, 95700, 98600, 101600, 104600, 107700, 110900, 114200, 117600, 121100, 124700, 128400, 132300],
+            "S-16 (44900-142400)": [44900, 46200, 47600, 49000, 50500, 52000, 53600, 55200, 56900, 58600, 60400, 62200, 64100, 66000, 68000, 70000, 72100, 74300, 76500, 78800, 81200, 83600, 86100, 88700, 91400, 94100, 96900, 99800, 102800, 105900, 109100, 112400, 115800, 119300, 122900, 126600, 130400, 134300, 138300, 142400],
+            "S-20 (56100-177500)": [56100, 57800, 59500, 61300, 63100, 65000, 67000, 69000, 71100, 73200, 75400, 77700, 80000, 82400, 84900, 87400, 90000, 92700, 95500, 98400, 101400, 104400, 107500, 110700, 114000, 117400, 120900, 124500, 128200, 132000, 136000, 140100, 144300, 148600, 153100, 157700, 162400, 167300, 172300, 177500]
+        };
+
+        // Populate levels in selects
+        function initLevels() {
+            const levelKeys = Object.keys(PAY_MATRIX);
+            const annLevel = document.getElementById('annLevel');
+            const proCur = document.getElementById('proCurLevel');
+            const proNext = document.getElementById('proNextLevel');
+
+            annLevel.innerHTML = '';
+            proCur.innerHTML = '';
+            proNext.innerHTML = '';
+
+            levelKeys.forEach(lvl => {
+                annLevel.add(new Option(lvl, lvl));
+                proCur.add(new Option(lvl, lvl));
+                proNext.add(new Option(lvl, lvl));
+            });
+
+            // Set sensible defaults
+            annLevel.value = "S-10 (29200-92300)";
+            proCur.value = "S-10 (29200-92300)";
+            proNext.value = "S-14 (38600-122800)";
+        }
+
+        function switchCalc(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            if (tab === 'annual') {
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+                document.getElementById('annualTab').style.display = 'block';
+                document.getElementById('promotionTab').style.display = 'none';
+            } else {
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                document.getElementById('annualTab').style.display = 'none';
+                document.getElementById('promotionTab').style.display = 'block';
+            }
+        }
+
+        // Calculate Annual Increment
+        function calculateAnnualIncrement() {
+            const level = document.getElementById('annLevel').value;
+            let basic = parseFloat(document.getElementById('annBasic').value);
+            const incDate = document.getElementById('annIncDate').value;
+            const empName = document.getElementById('annEmpName').value || 'कर्मचारी';
+
+            if (!basic || basic <= 0) {
+                alert("कृपया वैध मूळ वेतन (Basic Pay) प्रविष्ट करा!");
+                return;
+            }
+
+            const matrixList = PAY_MATRIX[level];
+            let newBasic = 0;
+
+            if (matrixList) {
+                // Find index in matrix
+                const idx = matrixList.indexOf(basic);
+                if (idx !== -1 && idx < matrixList.length - 1) {
+                    newBasic = matrixList[idx + 1];
+                } else {
+                    // Fallback to 3% round up to next 100
+                    const rawInc = basic * 0.03;
+                    const approx = basic + rawInc;
+                    // Find next matching cell
+                    const nextCell = matrixList.find(v => v > basic);
+                    newBasic = nextCell || Math.ceil(approx / 100) * 100;
+                }
+            } else {
+                const rawInc = basic * 0.03;
+                newBasic = Math.ceil((basic + rawInc) / 100) * 100;
+            }
+
+            const diff = newBasic - basic;
+
+            document.getElementById('resAnnOldBasic').innerText = '₹ ' + basic.toLocaleString('en-IN');
+            document.getElementById('resAnnDiff').innerText = '₹ ' + diff.toLocaleString('en-IN');
+            document.getElementById('resAnnNewBasic').innerText = '₹ ' + newBasic.toLocaleString('en-IN');
+
+            document.getElementById('resAnnTableLevelOld').innerText = level.split(' ')[0];
+            document.getElementById('resAnnTableLevelNew').innerText = level.split(' ')[0];
+            document.getElementById('resAnnTableBasicOld').innerText = '₹ ' + basic.toLocaleString('en-IN');
+            document.getElementById('resAnnTableBasicNew').innerText = '₹ ' + newBasic.toLocaleString('en-IN');
+            document.getElementById('resAnnTableDateOld').innerText = incDate + ' पूर्वी';
+            document.getElementById('resAnnTableDateNew').innerText = incDate + ' पासून';
+
+            document.getElementById('annualResult').classList.add('active');
+            document.getElementById('annualResult').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetAnnual() {
+            document.getElementById('annBasic').value = '';
+            document.getElementById('annEmpName').value = '';
+            document.getElementById('annualResult').classList.remove('active');
+        }
+
+        // Calculate Promotion / MACP
+        function calculatePromotion() {
+            const curLevel = document.getElementById('proCurLevel').value;
+            const nextLevel = document.getElementById('proNextLevel').value;
+            let curBasic = parseFloat(document.getElementById('proCurBasic').value);
+
+            if (!curBasic || curBasic <= 0) {
+                alert("कृपया सध्याचे मूळ वेतन प्रविष्ट करा!");
+                return;
+            }
+
+            const curMatrix = PAY_MATRIX[curLevel];
+            const nextMatrix = PAY_MATRIX[nextLevel];
+
+            // Step 1: Notional Increment in current level
+            let notionalBasic = 0;
+            if (curMatrix) {
+                const idx = curMatrix.indexOf(curBasic);
+                if (idx !== -1 && idx < curMatrix.length - 1) {
+                    notionalBasic = curMatrix[idx + 1];
+                } else {
+                    notionalBasic = Math.ceil((curBasic * 1.03) / 100) * 100;
+                }
+            } else {
+                notionalBasic = Math.ceil((curBasic * 1.03) / 100) * 100;
+            }
+
+            // Step 2: Fit into next level (equal or immediately higher)
+            let promotedBasic = 0;
+            if (nextMatrix) {
+                const found = nextMatrix.find(v => v >= notionalBasic);
+                promotedBasic = found || nextMatrix[nextMatrix.length - 1];
+            } else {
+                promotedBasic = notionalBasic;
+            }
+
+            document.getElementById('resProOldBasic').innerText = '₹ ' + curBasic.toLocaleString('en-IN');
+            document.getElementById('resProNotional').innerText = '₹ ' + notionalBasic.toLocaleString('en-IN');
+            document.getElementById('resProNewBasic').innerText = '₹ ' + promotedBasic.toLocaleString('en-IN');
+
+            document.getElementById('resProTableCurLevel').innerText = curLevel.split(' ')[0];
+            document.getElementById('resProTableCurBasic').innerText = '₹ ' + curBasic.toLocaleString('en-IN');
+
+            document.getElementById('resProTableNotionalLevel').innerText = curLevel.split(' ')[0];
+            document.getElementById('resProTableNotionalBasic').innerText = '₹ ' + notionalBasic.toLocaleString('en-IN');
+
+            document.getElementById('resProTableNextLevel').innerText = nextLevel.split(' ')[0];
+            document.getElementById('resProTableNextBasic').innerText = '₹ ' + promotedBasic.toLocaleString('en-IN');
+
+            document.getElementById('proResult').classList.add('active');
+            document.getElementById('proResult').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetPromotion() {
+            document.getElementById('proCurBasic').value = '';
+            document.getElementById('proResult').classList.remove('active');
+        }
+
+        window.onload = function() {
+            initLevels();
+        };
+    </script>
+</body>
+</html>
