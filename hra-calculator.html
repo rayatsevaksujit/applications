@@ -152,6 +152,7 @@ input,select,textarea,button{max-width:100%;font-size:16px}
             </div>
             <div style="margin-top: 12px; display:flex; flex-direction:column; gap:6px;">
                 <button class="btn-ui btn-success" onclick="printA4HRACharts()">🖨️ A4 लँडस्केप प्रिंट काढा</button>
+                <button class="btn-ui btn-primary" onclick="downloadHRAExcel()">📊 Excel मध्ये डाउनलोड करा (.xlsx)</button>
                 <button class="btn-ui btn-outline" onclick="addNewHRARow()">+ कर्मचारी नोंद जोडा</button>
             </div>
         </div>
@@ -169,7 +170,8 @@ input,select,textarea,button{max-width:100%;font-size:16px}
 
     <div id="print-area"></div>
 
-<script>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+    <script>
     let hraMonths = ["नोव्हेंबर २०२५", "डिसेंबर २०२५"];
     let hraEmployees = [
         { name: "", desig: "", basics: [0, 0] },
@@ -280,6 +282,35 @@ input,select,textarea,button{max-width:100%;font-size:16px}
         }
         printArea.innerHTML = finalHTML;
         window.print();
+    }
+
+ 
+    // Export the currently entered HRA difference chart to a real Excel workbook.
+    function downloadHRAExcel() {
+        if (typeof XLSX === "undefined") { alert("Excel सुविधा लोड झाली नाही. इंटरनेट सुरू करून पान पुन्हा उघडा."); return; }
+        const schoolName = document.getElementById("hra-school-name").value || "शाळेचे नाव";
+        const oldRate = parseFloat(document.getElementById("old-hra").value) || 0;
+        const newRate = parseFloat(document.getElementById("new-hra").value) || 0;
+        const rows = [["शाळा / आस्थापना", schoolName], ["जुना HRA (%)", oldRate, "नवीन HRA (%)", newRate], [],
+          ["अ.क्र.","कर्मचाऱ्याचे नाव","पद","महिना","मूळ वेतन","नवीन HRA (%)","देय HRA","जुना HRA (%)","आकारलेला HRA","HRA फरक"]];
+        hraEmployees.forEach((emp, idx) => {
+            if (!(emp.name.trim() || emp.basics.some(v => Number(v) > 0))) return;
+            let totalDue=0,totalDrawn=0,totalDiff=0;
+            hraMonths.forEach((month, mi) => {
+                const basic = Number(emp.basics[mi]) || 0;
+                const due = Math.round(basic * newRate / 100);
+                const drawn = Math.round(basic * oldRate / 100);
+                const diff = due - drawn;
+                totalDue += due; totalDrawn += drawn; totalDiff += diff;
+                rows.push([idx+1,emp.name,emp.desig,month,basic,newRate,due,oldRate,drawn,diff]);
+            });
+            rows.push(["","","","एकूण","", "",totalDue,"",totalDrawn,totalDiff],[]);
+        });
+        const ws = XLSX.utils.aoa_to_sheet(rows);
+        ws["!cols"] = [{wch:8},{wch:24},{wch:18},{wch:20},{wch:14},{wch:13},{wch:14},{wch:13},{wch:16},{wch:14}];
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "HRA फरक पत्रक");
+        XLSX.writeFile(wb, "HRA_Farak_Patrak.xlsx");
     }
 
     window.onload = function() { renderHRAMonthInputs(); buildHRATable(); };
