@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: digital-sathidar-pdf-to-excel-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: PDF_EXCEL_MAX_BYTES
+        value: "26214400"
+      - key: PDF_EXCEL_MAX_FILES
+        value: "5"
