@@ -172,7 +172,7 @@ async def convert(
                     digital_pages = {
                         int(match.group(1))
                         for label, _ in extracted
-                        if (match := re.match(r"Page (\\d+) Table", label))
+                        if (match := re.match(r"Page (\d+) Table", label))
                     }
                     pages_to_scan = set(range(1, total_pages + 1)) - digital_pages
                 except Exception:
