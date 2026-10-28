@@ -1,6 +1,8 @@
 import unittest
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from app import clean_table, safe_sheet_name
-import pandas as pd
 
 class HelperTests(unittest.TestCase):
     def test_clean_table_uses_header_and_keeps_rows(self):
