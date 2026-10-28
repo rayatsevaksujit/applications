@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PDF to Excel Converter | Digital SATHIDAR</title>
+<meta name="description" content="डिजिटल आणि स्कॅन PDF मधील टेबल्स Excel मध्ये रूपांतरित करा. English आणि Marathi OCR सपोर्ट.">
+<link rel="canonical" href="https://rayatsevaksujit.github.io/applications/pdf-to-excel.html">
+<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{font-family:'Mukta',sans-serif;color:#0f172a;background:#f4f7fb}*{box-sizing:border-box}body{margin:0;padding:16px;min-height:100vh}.wrap{max-width:880px;margin:0 auto}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}.link{color:#1d4ed8;text-decoration:none;font-weight:700}.panel{background:white;border:1px solid #dbe4f0;border-radius:18px;padding:clamp(18px,4vw,32px);box-shadow:0 8px 28px #0f172a0a}.hero h1{margin:0;color:#1e40af;font-size:clamp(25px,5vw,36px)}.hero p{color:#475569;margin:8px 0 20px}.drop{display:block;border:2px dashed #93b4f4;background:#f8fbff;border-radius:14px;padding:30px 16px;text-align:center;cursor:pointer}.drop.drag{background:#eff6ff;border-color:#1d4ed8}.drop strong{display:block;font-size:19px;color:#1e40af}.drop small{color:#64748b}.drop input{display:block;margin:14px auto 0;max-width:100%}.settings{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin:18px 0}.field label{display:block;font-weight:700;margin-bottom:5px}.field input,.field select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:9px;background:#fff;font:inherit}.btn{border:0;border-radius:10px;background:#1d4ed8;color:#fff;padding:12px 18px;font:700 16px 'Mukta',sans-serif;cursor:pointer}.btn:disabled{opacity:.55;cursor:wait}.status{margin-top:16px;padding:12px;border-radius:10px;background:#f1f5f9;white-space:pre-wrap;overflow-wrap:anywhere}.status.error{background:#fff1f2;color:#9f1239}.status.ok{background:#ecfdf5;color:#065f46}.bar{height:7px;background:#e2e8f0;border-radius:99px;overflow:hidden;margin-top:10px}.bar span{display:block;height:100%;width:0;background:#2563eb;transition:width .2s}.note{font-size:13px;color:#64748b;margin-top:16px}.features{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}.chip{background:#eff6ff;color:#1e40af;border-radius:99px;padding:5px 10px;font-size:13px;font-weight:700}footer{text-align:center;color:#64748b;font-size:13px;padding:20px}
+</style></head>
+<body><main class="wrap">
+<div class="top"><a class="link" href="index.html">← Digital SATHIDAR मुख्यपृष्ठ</a><a class="link" href="pdf-tools.html">PDF Tools</a></div>
+<section class="panel hero">
+<h1>📊 PDF to Excel Converter</h1><p>डिजिटल PDF किंवा स्कॅन केलेल्या PDF मधील टेबल्स Excel (.xlsx) मध्ये बदला.</p>
+<div class="features"><span class="chip">Digital PDF</span><span class="chip">Scanned PDF + OCR</span><span class="chip">मराठी + English</span><span class="chip">Multi-page / Multi-table</span></div>
+<form id="convertForm">
+<label class="drop" id="dropZone" for="pdfFiles"><strong>PDF फाइल येथे Drag & Drop करा</strong><span>किंवा निवडण्यासाठी खाली क्लिक करा</span><small>एक किंवा अनेक PDF फाइल्स · प्रति फाइल कमाल 25 MB (server setting)</small><input id="pdfFiles" type="file" accept="application/pdf,.pdf" multiple required></label>
+<div class="settings">
+<div class="field"><label for="mode">रूपांतरण पद्धत</label><select id="mode"><option value="auto">Automatic (Digital + OCR fallback)</option><option value="digital">Digital PDF only</option><option value="ocr">OCR only (Scanned PDF)</option></select></div>
+<div class="field"><label for="languages">OCR भाषा</label><select id="languages"><option value="eng+mar">English + Marathi (eng+mar)</option><option value="eng">English only</option><option value="mar">Marathi only</option></select></div>
+<div class="field"><label for="apiUrl">Backend API URL</label><input id="apiUrl" type="url" value="http://127.0.0.1:8000" required></div>
+</div>
+<button class="btn" id="convertBtn" type="submit">Excel मध्ये रूपांतर करा</button>
+<div class="bar" aria-hidden="true"><span id="progressBar"></span></div>
+<div class="status" id="status" role="status" aria-live="polite">PDF निवडा आणि रूपांतरण सुरू करा. वापरण्यापूर्वी Python backend चालू असणे आवश्यक आहे.</div>
+<div id="downloads"></div>
+</form>
+<p class="note">गोपनीयतेसाठी स्वतःच्या संगणकावर backend चालवा. GitHub Pages हे static hosting आहे; Python OCR engine थेट GitHub Pages वर चालत नाही. Marathi OCR साठी Tesseract चे <code>mar.traineddata</code> आवश्यक आहे.</p>
+</section><footer>Digital SATHIDAR · PDF to Excel · तपासणीसाठी feature branch</footer></main>
+<script>
+(function(){
+const form=document.getElementById('convertForm'), input=document.getElementById('pdfFiles'), drop=document.getElementById('dropZone'), btn=document.getElementById('convertBtn'), status=document.getElementById('status'), bar=document.getElementById('progressBar'), downloads=document.getElementById('downloads');
+function message(text,kind){status.className='status'+(kind?' '+kind:'');status.textContent=text}
+drop.addEventListener('dragover',e=>{e.preventDefault();drop.classList.add('drag')});
+drop.addEventListener('dragleave',()=>drop.classList.remove('drag'));
+drop.addEventListener('drop',e=>{e.preventDefault();drop.classList.remove('drag');if(e.dataTransfer.files.length){input.files=e.dataTransfer.files;message(input.files.length+' PDF फाइल निवडल्या.','')}});
+form.addEventListener('submit',async e=>{
+e.preventDefault();if(!input.files.length){message('कृपया किमान एक PDF निवडा.','error');return}
+const files=Array.from(input.files);if(files.some(f=>f.type!=='application/pdf'&&!f.name.toLowerCase().endsWith('.pdf'))){message('फक्त PDF फाइल्स स्वीकारल्या जातात.','error');return}
+btn.disabled=true;downloads.replaceChildren();bar.style.width='5%';message('फाइल अपलोड व तपासणी सुरू आहे…');const api=document.getElementById('apiUrl').value.replace(/\/+$/,'');
+try{
+const data=new FormData();files.forEach(f=>data.append('files',f));data.append('mode',document.getElementById('mode').value);data.append('languages',document.getElementById('languages').value);
+bar.style.width='25%';message('PDF मधील टेबल्स/OCR प्रक्रिया सुरू आहे. अनेक पेजेस असल्यास थोडा वेळ लागू शकतो.');
+const response=await fetch(api+'/api/convert',{method:'POST',body:data});bar.style.width='85%';
+if(!response.ok){let detail='Server error ('+response.status+')';try{const j=await response.json();detail=j.detail||detail}catch(_){}throw new Error(detail)}
+const blob=await response.blob();const disposition=response.headers.get('Content-Disposition')||'';const match=disposition.match(/filename="?([^";]+)"?/i);const filename=match?match[1]:'pdf-to-excel.xlsx';
+const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;a.textContent='⬇ '+filename;a.className='link';a.style.display='inline-block';a.style.marginTop='14px';downloads.appendChild(a);a.click();setTimeout(()=>URL.revokeObjectURL(url),60000);bar.style.width='100%';message('रूपांतरण पूर्ण! Excel फाइल डाउनलोड सुरू झाली. OCR चा अचूकपणा स्कॅनची गुणवत्ता आणि उपलब्ध भाषेवर अवलंबून असतो.','ok')
+}catch(err){bar.style.width='0';message('रूपांतरण अयशस्वी: '+err.message+'\n\nBackend चालू आहे का ते तपासा. स्थानिक वापरासाठी README मधील पायऱ्या पहा.','error')}
+finally{btn.disabled=false}
+});
+})();
+</script></body></html>
