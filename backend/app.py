@@ -111,13 +111,15 @@ def ocr_page_to_frame(image, languages: str) -> pd.DataFrame | None:
     # Preserve OCR rows as text columns rather than silently dropping Marathi characters.
     return pd.DataFrame(normalized, columns=[f"Column {i+1}" for i in range(width)])
 
-def scanned_tables(pdf_bytes: bytes, languages: str) -> list[tuple[str, pd.DataFrame]]:
+def scanned_tables(pdf_bytes: bytes, languages: str, pages_to_scan: set[int] | None = None) -> list[tuple[str, pd.DataFrame]]:
     found = []
     try:
         images = convert_from_bytes(pdf_bytes, dpi=250, fmt="png")
     except Exception as exc:
         raise RuntimeError("PDF pages could not be rendered. Install Poppler and check PATH.") from exc
     for page_no, image in enumerate(images, start=1):
+        if pages_to_scan is not None and page_no not in pages_to_scan:
+            continue
         frame = ocr_page_to_frame(image, languages)
         if frame is not None and not frame.empty:
             found.append((f"Page {page_no} OCR", frame))
@@ -160,10 +162,28 @@ async def convert(
                 except Exception as exc:
                     if mode == "digital":
                         raise HTTPException(422, f"{name}: डिजिटल टेबल्स वाचता आल्या नाहीत: {exc}")
-            # Auto mode OCRs the PDF if no digital tables were extracted.
-            if mode == "ocr" or (mode == "auto" and not extracted):
+            # In Automatic mode, OCR only pages where digital table extraction found no table.
+            # This supports mixed PDFs containing both selectable-text and scanned pages.
+            pages_to_scan = None
+            if mode == "auto":
                 try:
-                    extracted = scanned_tables(raw, languages)
+                    with pdfplumber.open(io.BytesIO(raw)) as pdf:
+                        total_pages = len(pdf.pages)
+                    digital_pages = {
+                        int(match.group(1))
+                        for label, _ in extracted
+                        if (match := re.match(r"Page (\\d+) Table", label))
+                    }
+                    pages_to_scan = set(range(1, total_pages + 1)) - digital_pages
+                except Exception:
+                    pages_to_scan = None
+            if mode == "ocr" or (mode == "auto" and pages_to_scan):
+                try:
+                    ocr_results = scanned_tables(raw, languages, pages_to_scan if mode == "auto" else None)
+                    if mode == "ocr":
+                        extracted = ocr_results
+                    else:
+                        extracted.extend(ocr_results)
                 except pytesseract.TesseractNotFoundError:
                     raise HTTPException(500, "Tesseract OCR सापडले नाही. README मधील installation पायऱ्या पहा.")
                 except pytesseract.TesseractError as exc:
