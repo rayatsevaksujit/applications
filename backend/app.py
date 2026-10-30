@@ -263,7 +263,8 @@ def health():
 async def convert(
     files: list[UploadFile] = File(...),
     mode: Literal["auto", "digital", "ocr"] = Form("auto"),
-    languages: Literal["eng", "mar", "eng+mar"] = Form("eng+mar"),\n    ocr_engine: Literal["auto", "tesseract", "google_vision"] = Form("auto"),
+    languages: Literal["eng", "mar", "eng+mar"] = Form("eng+mar"),
+    ocr_engine: Literal["auto", "tesseract", "google_vision"] = Form("auto"),
 ):
     if not files:
         raise HTTPException(400, "कृपया PDF फाइल निवडा.")
@@ -310,7 +311,11 @@ async def convert(
                     pages_to_scan = None
             if mode == "ocr" or (mode == "auto" and pages_to_scan):
                 try:
-                    ocr_results = scanned_tables(raw, languages, pages_to_scan if mode == "auto" else None)
+                    use_google = ocr_engine == "google_vision" or (ocr_engine == "auto" and bool(GOOGLE_CLOUD_VISION_API_KEY))
+                    if use_google:
+                        ocr_results = cloud_vision_tables(raw, pages_to_scan if mode == "auto" else None)
+                    else:
+                        ocr_results = scanned_tables(raw, languages, pages_to_scan if mode == "auto" else None)
                     if mode == "ocr":
                         extracted = ocr_results
                     else:
@@ -320,7 +325,8 @@ async def convert(
                 except pytesseract.TesseractError as exc:
                     raise HTTPException(422, f"OCR भाषा/डेटा उपलब्ध नाही: {exc}. mar.traineddata तपासा.")
                 except RuntimeError as exc:
-                    raise HTTPException(500, str(exc))
+                    status_code = 502 if "Google Vision" in str(exc) else 500
+                    raise HTTPException(status_code, str(exc))
             if not extracted:
                 output_sheets.append((safe_sheet_name(name, used_names), pd.DataFrame({"सूचना": ["या PDF मधून टेबल/मजकूर मिळाला नाही. OCR mode वापरून पहा."]})))
             else:
