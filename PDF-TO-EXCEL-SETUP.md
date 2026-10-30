@@ -2,7 +2,7 @@
 
 ## काय समाविष्ट आहे
 - `pdf-to-excel.html`: Digital SATHIDAR मधील स्वतंत्र upload UI, drag & drop, conversion status आणि XLSX download.
-- `backend/app.py`: FastAPI service. डिजिटल PDF साठी pdfplumber आणि scanned/image PDF साठी Tesseract OCR + pdf2image वापरतो.
+- `backend/app.py`: FastAPI service. डिजिटल PDF साठी pdfplumber आणि scanned/image PDF साठी Tesseract OCR + pdf2image वापरतो. OCR साठी कोणतीही Paid API वापरली जात नाही.
 - अनेक PDF फाइल्स, अनेक पेजेस आणि अनेक टेबल्स: प्रत्येक शोधलेले टेबल स्वतंत्र Excel worksheet मध्ये ठेवले जाते. Scanned OCR हे अंदाजे row/column reconstruction करते; मूळ टेबलची रचना प्रत्येक स्कॅनमध्ये अचूक मिळेल याची हमी नाही.
 
 ## आवश्यक सॉफ्टवेअर
