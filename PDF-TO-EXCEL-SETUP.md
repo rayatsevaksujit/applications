@@ -5,6 +5,19 @@
 - `backend/app.py`: FastAPI service. डिजिटल PDF साठी pdfplumber आणि scanned/image PDF साठी Tesseract OCR + pdf2image वापरतो.
 - अनेक PDF फाइल्स, अनेक पेजेस आणि अनेक टेबल्स: प्रत्येक शोधलेले टेबल स्वतंत्र Excel worksheet मध्ये ठेवले जाते. Scanned OCR हे अंदाजे row/column reconstruction करते; मूळ टेबलची रचना प्रत्येक स्कॅनमध्ये अचूक मिळेल याची हमी नाही.
 
+## Google Cloud Vision OCR (फॉन्ट ओळखण्यासाठी पर्याय)
+
+Google Cloud Vision OCR PDF पानाचे चित्र वाचते. त्यामुळे PDF मध्ये embedded legacy Marathi font असल्यामुळे text extraction मध्ये विचित्र अक्षरे दिसत असली तरी चित्रातून Unicode Marathi मजकूर ओळखण्याची शक्यता वाढते. मात्र OCR अचूकतेची हमी नाही आणि टेबलचे columns पुन्हा बांधणे स्वतंत्र अंदाजाधारित काम आहे.
+
+1. Google Cloud Console मध्ये project तयार/निवडा.
+2. त्या project साठी Billing सक्षम करा आणि Cloud Vision API enable करा.
+3. API key तयार करा. Key वर API restriction म्हणून फक्त Cloud Vision API निवडा. शक्य असल्यास वापर मर्यादा/quotas सेट करा.
+4. Render Dashboard → संबंधित Web Service → Environment मध्ये `GOOGLE_CLOUD_VISION_API_KEY` नावाचा secret environment variable जोडा. API key GitHub, HTML किंवा सार्वजनिक code मध्ये commit करू नका.
+5. सेवा redeploy झाल्यावर `/api/health` तपासा. त्यात `google_vision_configured: true` दिसले पाहिजे.
+6. UI मध्ये OCR सेवा Automatic ठेवल्यास API key उपलब्ध असताना Google Vision वापरले जाईल; key नसेल तर Tesseract वापरले जाईल. Google Cloud Vision निवडल्यास key आवश्यक आहे.
+
+Google OCR निवडल्यावर PDF पानांची image Google Cloud कडे पाठवली जाते. संवेदनशील विद्यार्थी/कर्मचारी माहिती असलेल्या PDF साठी संस्थेची परवानगी आणि लागू गोपनीयता नियम तपासा. Google Cloud कडून वापरानुसार शुल्क लागू होऊ शकते; प्रत्यक्ष खर्चासाठी Google Cloud Vision pricing आणि project quota तपासा.
+
 ## आवश्यक सॉफ्टवेअर
 - Python 3.10 किंवा नंतरची आवृत्ती.
 - Tesseract OCR.
