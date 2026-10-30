@@ -1,5 +1,5 @@
 from __future__ import annotations
-import io, os, re, tempfile
+import io, os, re, tempfile, json, base64, urllib.request, urllib.error
 from pathlib import Path
 from typing import Literal
 import pandas as pd
@@ -14,7 +14,7 @@ from openpyxl.utils import get_column_letter
 
 MAX_FILE_BYTES = int(os.getenv("PDF_EXCEL_MAX_BYTES", str(25 * 1024 * 1024)))
 MAX_FILES = int(os.getenv("PDF_EXCEL_MAX_FILES", "10"))
-TESSERACT_CMD = os.getenv("TESSERACT_CMD")
+GOOGLE_CLOUD_VISION_API_KEY = os.getenv("GOOGLE_CLOUD_VISION_API_KEY", "").strip()\nTESSERACT_CMD = os.getenv("TESSERACT_CMD")
 if TESSERACT_CMD:
     pytesseract.pytesseract.tesseract_cmd = TESSERACT_CMD
 
@@ -130,6 +130,111 @@ def ocr_page_to_frame(image, languages: str) -> pd.DataFrame | None:
     # Preserve OCR rows as text columns rather than silently dropping Marathi characters.
     return pd.DataFrame(normalized, columns=[f"Column {i+1}" for i in range(width)])
 
+
+def google_vision_page_to_frame(image) -> pd.DataFrame | None:
+    """Recognize a rendered PDF page with Google Cloud Vision and retain word positions."""
+    if not GOOGLE_CLOUD_VISION_API_KEY:
+        raise RuntimeError("Google Cloud Vision API key सेट केलेली नाही. Render Environment मध्ये GOOGLE_CLOUD_VISION_API_KEY जोडा.")
+    buffer = io.BytesIO()
+    image.save(buffer, format="PNG")
+    payload = {
+        "requests": [{
+            "image": {"content": base64.b64encode(buffer.getvalue()).decode("ascii")},
+            "features": [{"type": "DOCUMENT_TEXT_DETECTION"}],
+            "imageContext": {"languageHints": ["mr", "en"]}
+        }]
+    }
+    url = "https://vision.googleapis.com/v1/images:annotate?key=" + GOOGLE_CLOUD_VISION_API_KEY
+    request = urllib.request.Request(
+        url, data=json.dumps(payload).encode("utf-8"),
+        headers={"Content-Type": "application/json"}, method="POST"
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=90) as response:
+            result = json.loads(response.read().decode("utf-8"))
+    except urllib.error.HTTPError as exc:
+        detail = exc.read().decode("utf-8", errors="replace")[:1000]
+        raise RuntimeError(f"Google Vision API त्रुटी ({exc.code}): {detail}") from exc
+    except Exception as exc:
+        raise RuntimeError(f"Google Vision शी संपर्क झाला नाही: {exc}") from exc
+
+    responses = result.get("responses", [])
+    if not responses:
+        return None
+    item = responses[0]
+    if item.get("error"):
+        raise RuntimeError("Google Vision OCR: " + item["error"].get("message", "Unknown error"))
+    annotation = item.get("fullTextAnnotation", {})
+    words = []
+    for page in annotation.get("pages", []):
+        for block in page.get("blocks", []):
+            for paragraph in block.get("paragraphs", []):
+                for word in paragraph.get("words", []):
+                    text_value = "".join(
+                        symbol.get("text", "")
+                        for symbol in word.get("symbols", [])
+                    ).strip()
+                    vertices = word.get("boundingBox", {}).get("vertices", [])
+                    xs = [v.get("x", 0) for v in vertices]
+                    ys = [v.get("y", 0) for v in vertices]
+                    if text_value and xs and ys:
+                        words.append((sum(xs) / len(xs), sum(ys) / len(ys),
+                                      max(1, max(ys) - min(ys)), text_value))
+    if not words:
+        full_text = annotation.get("text", "").strip()
+        if not full_text:
+            return None
+        return pd.DataFrame({"ओळीनुसार मजकूर": full_text.splitlines()})
+
+    words.sort(key=lambda item: (item[1], item[0]))
+    median_height = sorted(w[2] for w in words)[len(words) // 2]
+    line_tolerance = max(8, median_height * 0.65)
+    lines = []
+    for word in words:
+        target = next((line for line in reversed(lines)
+                       if abs(line["y"] - word[1]) <= line_tolerance), None)
+        if target is None:
+            lines.append({"y": word[1], "words": [word]})
+        else:
+            target["words"].append(word)
+            target["y"] = sum(w[1] for w in target["words"]) / len(target["words"])
+    lines.sort(key=lambda line: line["y"])
+
+    rows = []
+    max_columns = 1
+    gap_threshold = max(32, int(image.width * 0.022))
+    for line in lines:
+        line_words = sorted(line["words"], key=lambda item: item[0])
+        cells, current, previous_right = [], [], None
+        for x, y, height, value in line_words:
+            left = x - (len(value) * height * 0.22)
+            if current and previous_right is not None and left - previous_right > gap_threshold:
+                cells.append(" ".join(current))
+                current = []
+            current.append(value)
+            previous_right = x + (len(value) * height * 0.22)
+        if current:
+            cells.append(" ".join(current))
+        rows.append(cells)
+        max_columns = max(max_columns, len(cells))
+    normalized = [row + [""] * (max_columns - len(row)) for row in rows]
+    return pd.DataFrame(normalized, columns=[f"Column {i+1}" for i in range(max_columns)])
+
+
+def cloud_vision_tables(pdf_bytes: bytes, pages_to_scan: set[int] | None = None) -> list[tuple[str, pd.DataFrame]]:
+    found = []
+    try:
+        images = convert_from_bytes(pdf_bytes, dpi=250, fmt="png")
+    except Exception as exc:
+        raise RuntimeError("PDF pages could not be rendered. Install Poppler and check PATH.") from exc
+    for page_no, image in enumerate(images, start=1):
+        if pages_to_scan is not None and page_no not in pages_to_scan:
+            continue
+        frame = google_vision_page_to_frame(image)
+        if frame is not None and not frame.empty:
+            found.append((f"Page {page_no} Google Vision OCR", frame))
+    return found
+
 def scanned_tables(pdf_bytes: bytes, languages: str, pages_to_scan: set[int] | None = None) -> list[tuple[str, pd.DataFrame]]:
     found = []
     try:
@@ -150,13 +255,13 @@ def health():
         langs = pytesseract.get_languages(config="")
     except Exception:
         langs = []
-    return {"ok": True, "tesseract_languages": langs, "marathi_available": "mar" in langs}
+    return {"ok": True, "tesseract_languages": langs, "marathi_available": "mar" in langs,\n            "google_vision_configured": bool(GOOGLE_CLOUD_VISION_API_KEY)}
 
 @app.post("/api/convert")
 async def convert(
     files: list[UploadFile] = File(...),
     mode: Literal["auto", "digital", "ocr"] = Form("auto"),
-    languages: Literal["eng", "mar", "eng+mar"] = Form("eng+mar"),
+    languages: Literal["eng", "mar", "eng+mar"] = Form("eng+mar"),\n    ocr_engine: Literal["auto", "tesseract", "google_vision"] = Form("auto"),
 ):
     if not files:
         raise HTTPException(400, "कृपया PDF फाइल निवडा.")
