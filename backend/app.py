@@ -60,10 +60,29 @@ def clean_table(table) -> pd.DataFrame | None:
         return pd.DataFrame(data, columns=headers)
     return pd.DataFrame(rows, columns=[f"Column {i+1}" for i in range(width)])
 
+def is_legacy_marathi_garbled(text: str) -> bool:
+    """Detect legacy-font Marathi text exposed as Latin glyph sequences by PDF extractors."""
+    if not text or len(text.strip()) < 40:
+        return False
+    devanagari = len(re.findall(r"[\u0900-\u097F]", text))
+    legacy_markers = len(re.findall(r"Eò|É|ªÉ|ºÉ|Æ|þ|³|´É|Ê|ú", text))
+    return devanagari < max(3, int(len(text) * 0.015)) and legacy_markers >= 6
+
+
+def page_requires_ocr(page) -> bool:
+    try:
+        return is_legacy_marathi_garbled(page.extract_text() or "")
+    except Exception:
+        return True
+
+
 def digital_tables(pdf_bytes: bytes) -> list[tuple[str, pd.DataFrame]]:
     found = []
     with pdfplumber.open(io.BytesIO(pdf_bytes)) as pdf:
         for page_no, page in enumerate(pdf.pages, start=1):
+            # Legacy-font pages can produce populated but unreadable table cells.
+            if page_requires_ocr(page):
+                continue
             tables = page.extract_tables() or []
             for table_no, table in enumerate(tables, start=1):
                 df = clean_table(table)
@@ -174,7 +193,12 @@ async def convert(
                         for label, _ in extracted
                         if (match := re.match(r"Page (\d+) Table", label))
                     }
-                    pages_to_scan = set(range(1, total_pages + 1)) - digital_pages
+                    with pdfplumber.open(io.BytesIO(raw)) as pdf:
+                        unreadable_pages = {
+                            page_no for page_no, page in enumerate(pdf.pages, start=1)
+                            if page_requires_ocr(page)
+                        }
+                    pages_to_scan = (set(range(1, total_pages + 1)) - digital_pages) | unreadable_pages
                 except Exception:
                     pages_to_scan = None
             if mode == "ocr" or (mode == "auto" and pages_to_scan):
