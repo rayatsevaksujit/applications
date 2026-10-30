@@ -517,73 +517,6 @@
             transform: translateX(3px);
         }
 
-        /* Review / Feedback Section */
-        .review-box {
-            background: #ffffff;
-            border: 1px solid var(--border-ui);
-            border-radius: var(--radius-lg);
-            padding: 20px;
-            margin-top: 14px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-        }
-
-        .review-title {
-            font-size: 17px;
-            font-weight: 800;
-            color: #1e293b;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .review-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 12px;
-            margin-bottom: 14px;
-        }
-
-        .review-item {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            padding: 12px;
-            font-size: 13px;
-        }
-
-        .review-header {
-            display: flex;
-            justify-content: space-between;
-            font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 4px;
-        }
-
-        .review-reply {
-            margin-top: 6px;
-            background: #e0f2fe;
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            color: #0369a1;
-        }
-
-        .review-form {
-            display: grid;
-            grid-template-columns: 1fr 1fr 120px;
-            gap: 8px;
-            margin-top: 10px;
-        }
-
-        .review-form input, .review-form select, .review-form textarea {
-            padding: 8px 12px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            font-size: 13px;
-            outline: none;
-        }
-
         .btn-ui {
             padding: 8px 14px;
             border-radius: 8px;
@@ -909,36 +842,6 @@
             </div>
         </section>
 
-        <!-- Review / Feedback Section -->
-        <section class="review-box">
-            <div class="review-title">
-                <span>💬 वापरकर्त्यांचे अभिप्राय (Reviews)</span>
-                <button id="adminToggleBtn" class="btn-ui btn-outline" style="font-size:11px; padding:3px 8px;" onclick="toggleAdminPrompt()">🔐 ॲडमिन (Pin)</button>
-            </div>
-
-            <div id="reviewsContainer" class="review-grid">
-                <!-- Populated via JS -->
-            </div>
-
-            <!-- New Review Input Form -->
-            <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:12px; margin-top:10px;">
-                <div style="font-size:13px; font-weight:700; color:#334155; margin-bottom:6px;">✍️ आपला अभिप्राय नोंदवा:</div>
-                <div class="review-form">
-                    <input type="text" id="revAuthor" placeholder="आपले नाव (उदा. पाटील सर)">
-                    <input type="text" id="revPlace" placeholder="गाव / शाळा (उदा. सातारा)">
-                    <select id="revRating">
-                        <option value="⭐⭐⭐⭐⭐">⭐⭐⭐⭐⭐ (5/5)</option>
-                        <option value="⭐⭐⭐⭐">⭐⭐⭐⭐ (4/5)</option>
-                        <option value="⭐⭐⭐">⭐⭐⭐ (3/5)</option>
-                    </select>
-                </div>
-                <textarea id="revMessage" style="width:100%; height:55px; margin-top:8px;" placeholder="आपल्याला हे पोर्टल कसे वाटले? आपला अनुभव किंवा सूचना येथे लिहा..."></textarea>
-                <div style="margin-top:8px; text-align:right;">
-                    <button class="btn-ui btn-primary" onclick="submitUserReview()">अभिप्राय पाठवा 🚀</button>
-                </div>
-            </div>
-        </section>
-
     </main>
 
     <!-- Footer -->
@@ -1019,101 +922,6 @@
             document.querySelectorAll('.tool-card').forEach(c => c.style.display = 'flex');
         }
 
-        // Reviews System
-        const ADMIN_PIN = "7339";
-        let isAdminLoggedIn = false;
-
-        let reviewsData = JSON.parse(localStorage.getItem('digital_sathidar_reviews') || '[]');
-        if (reviewsData.length === 0) {
-            reviewsData = [
-                { id: 1, author: "सुजित पाटील", place: "रयत सेवक", rating: "⭐⭐⭐⭐⭐", msg: "शासकीय कामांसाठी, ७ वा वेतन आयोग वेतनवाढ आणि आयकर फरकासाठी अत्यंत उपयुक्त पोर्टल!", reply: "सहकार्याबद्दल धन्यवाद सर!" },
-                { id: 2, author: "ज्ञानेश्वर पाटील", place: "सातारा", rating: "⭐⭐⭐⭐⭐", msg: "SSC / HSC कटर आणि PDF टूल्समुळे शाळेतील कर्मचाऱ्यांचे तासनतास वाचले.", reply: "" }
-            ];
-            localStorage.setItem('digital_sathidar_reviews', JSON.stringify(reviewsData));
-        }
-
-        function renderReviews() {
-            const list = document.getElementById('reviewsContainer');
-            if (!list) return;
-            list.innerHTML = '';
-            reviewsData.forEach((rev, idx) => {
-                const item = document.createElement('div');
-                item.className = 'review-item';
-                let adminActions = '';
-                if (isAdminLoggedIn) {
-                    adminActions = `
-                        <div style="margin-top:6px; display:flex; gap:6px;">
-                            <button class="btn-ui btn-outline" style="padding:2px 6px; font-size:11px;" onclick="promptAdminReply(${idx})">💬 उत्तर द्या</button>
-                            <button class="btn-ui btn-danger" style="padding:2px 6px; font-size:11px;" onclick="deleteReview(${idx})">🗑️ हटवा</button>
-                        </div>
-                    `;
-                }
-                let replyHtml = rev.reply ? `<div class="review-reply"><strong>SP (ॲडमिन):</strong> ${rev.reply}</div>` : '';
-                item.innerHTML = `
-                    <div class="review-header">
-                        <span>${rev.author} <small style="color:var(--text-sub); font-weight:normal;">(${rev.place || 'रयत सेवक'})</small></span>
-                        <span style="color:#f59e0b;">${rev.rating}</span>
-                    </div>
-                    <div style="font-size:13px; color:#334155;">${rev.msg}</div>
-                    ${replyHtml}
-                    ${adminActions}
-                `;
-                list.appendChild(item);
-            });
-        }
-
-        function submitUserReview() {
-            const author = document.getElementById('revAuthor').value.trim();
-            const place = document.getElementById('revPlace').value.trim();
-            const rating = document.getElementById('revRating').value;
-            const msg = document.getElementById('revMessage').value.trim();
-            if (!author || !msg) { alert("कृपया आपले नाव आणि अभिप्राय संदेश प्रविष्ट करा!"); return; }
-            reviewsData.unshift({ id: Date.now(), author: author, place: place || "रयत सेवक", rating: rating, msg: msg, reply: "" });
-            localStorage.setItem('digital_sathidar_reviews', JSON.stringify(reviewsData));
-            document.getElementById('revAuthor').value = '';
-            document.getElementById('revPlace').value = '';
-            document.getElementById('revMessage').value = '';
-            renderReviews();
-            alert("✅ आपला अभिप्राय नोंदवला गेला आहे!");
-        }
-
-        function toggleAdminPrompt() {
-            if (isAdminLoggedIn) {
-                isAdminLoggedIn = false;
-                document.getElementById('adminToggleBtn').innerText = "🔐 ॲडमिन (Pin)";
-                renderReviews();
-                alert("ॲडमिन मोड बंद झाला.");
-                return;
-            }
-            const enteredPin = prompt("कृपया ॲडमिन पिन (Admin PIN) प्रविष्ट करा:");
-            if (enteredPin === ADMIN_PIN) {
-                isAdminLoggedIn = true;
-                document.getElementById('adminToggleBtn').innerText = "🔓 ॲडमिन लॉगआउट";
-                renderReviews();
-                alert("✅ ॲडमिन प्रवेश यशस्वी!");
-            } else if (enteredPin !== null) {
-                alert("❌ चुकीचा पिन!");
-            }
-        }
-
-        function promptAdminReply(index) {
-            const currentReply = reviewsData[index].reply || "";
-            const replyText = prompt("या अभिप्रायाला आपले उत्तर प्रविष्ट करा:", currentReply);
-            if (replyText !== null) {
-                reviewsData[index].reply = replyText.trim();
-                localStorage.setItem('digital_sathidar_reviews', JSON.stringify(reviewsData));
-                renderReviews();
-            }
-        }
-
-        function deleteReview(index) {
-            if (confirm("हा अभिप्राय हटवायचा आहे का?")) {
-                reviewsData.splice(index, 1);
-                localStorage.setItem('digital_sathidar_reviews', JSON.stringify(reviewsData));
-                renderReviews();
-            }
-        }
-
         window.onload = function() {
             renderReviews();
             const badge = document.getElementById('visitorCountBadge');
@@ -1140,9 +948,7 @@
         "PDF व दस्तऐवज साधने (PDF & Documents)":"PDF & Document Tools","PDF Tools Plus":"PDF Tools Plus",
         "eDost साथी स्कॅन क्लीन":"eDost Scan Clean","फोटो व सही कटर":"Photo & Signature Cutter",
         "शालेय व प्रशासकीय साधने (School & Office)":"School & Administrative Tools","संच मान्यता शिक्षक गणना":"Staff Approval Teacher Calculator",
-        "मराठी हस्तलिखित कन्व्हर्टर":"Marathi Handwriting Converter","वापरकर्त्यांचे अभिप्राय (Reviews)":"User Reviews",
-        "ॲडमिन (Pin)":"Admin (PIN)","आपला अभिप्राय नोंदवा:":"Leave your review:","अभिप्राय पाठवा 🚀":"Submit Review 🚀",
-        "आपले नाव (उदा. पाटील सर)":"Your name (e.g. Patil Sir)","गाव / शाळा (उदा. सातारा)":"Village / School (e.g. Satara)",
+        "मराठी हस्तलिखित कन्व्हर्टर":"Marathi Handwriting Converter",
         "एकूण भेटी:":"Total visits:","संकल्पना व निर्मिती : Sujit Patil (SP - रयत सेवक)":"Concept & Created by: Sujit Patil (SP - Rayat Sevak)",
         "About Us / आमच्याबद्दल":"About Us","Contact Us / संपर्क":"Contact Us","Privacy Policy / गोपनीयता":"Privacy Policy",
         "Terms / अटी व शर्ती":"Terms & Conditions","Tool Guides / मार्गदर्शक":"Tool Guides",
