@@ -18,7 +18,7 @@
 <label class="drop" id="dropZone" for="pdfFiles"><strong>PDF फाइल येथे Drag & Drop करा</strong><span>किंवा निवडण्यासाठी खाली क्लिक करा</span><small>एक किंवा अनेक PDF फाइल्स · प्रति फाइल कमाल 25 MB (server setting)</small><input id="pdfFiles" type="file" accept="application/pdf,.pdf" multiple required></label>
 <div class="settings">
 <div class="field"><label for="mode">रूपांतरण पद्धत</label><select id="mode"><option value="auto">Automatic (Digital + OCR fallback)</option><option value="digital">Digital PDF only</option><option value="ocr">OCR only (Scanned PDF)</option></select></div>
-<div class="field"><label for="languages">OCR भाषा</label><select id="languages"><option value="eng+mar">English + Marathi (eng+mar)</option><option value="eng">English only</option><option value="mar">Marathi only</option></select></div>
+<div class="field"><label for="languages">स्थानिक OCR भाषा</label><select id="languages"><option value="eng+mar">English + Marathi</option><option value="eng">English only</option><option value="mar">Marathi only</option></select></div><div class="field"><label for="ocrEngine">OCR सेवा</label><select id="ocrEngine"><option value="auto">Automatic (Google Vision उपलब्ध असल्यास)</option><option value="google_vision">Google Cloud Vision</option><option value="tesseract">Local Tesseract</option></select></div>
 <div class="field"><label for="apiUrl">Backend API URL</label><input id="apiUrl" type="url" value="https://digital-sathidar-pdf-to-excel-api.onrender.com" required></div>
 </div>
 <button class="btn" id="convertBtn" type="submit">Excel मध्ये रूपांतर करा</button>
@@ -26,7 +26,7 @@
 <div class="status" id="status" role="status" aria-live="polite">PDF निवडा आणि रूपांतरण सुरू करा. वापरण्यापूर्वी Python backend चालू असणे आवश्यक आहे.</div>
 <div id="downloads"></div>
 </form>
-<p class="note">ही सेवा Render वर चालते. Free instance निष्क्रियतेनंतर झोपेत जाऊ शकते, त्यामुळे पहिल्या रूपांतरणाला थोडा वेळ लागू शकतो. PDF मधील टेबलची मांडणी आणि OCR अचूकता मूळ फाइलच्या गुणवत्तेवर अवलंबून असते.</p>
+<p class="note">Google Cloud Vision वापरण्यासाठी Google Cloud मध्ये Vision API सुरू करून API key तयार करा आणि Render → Environment मध्ये <b>GOOGLE_CLOUD_VISION_API_KEY</b> नावाने key सुरक्षितपणे जोडा. Key वेबसाइटच्या HTML किंवा GitHub मध्ये टाकू नका. Google OCR निवडल्यास PDF पानांची चित्रे Google कडे पाठवली जातात; Google Cloud शुल्क लागू होऊ शकते.\n<br><br>ही सेवा Render वर चालते. Free instance निष्क्रियतेनंतर झोपेत जाऊ शकते, त्यामुळे पहिल्या रूपांतरणाला थोडा वेळ लागू शकतो. PDF मधील टेबलची मांडणी आणि OCR अचूकता मूळ फाइलच्या गुणवत्तेवर अवलंबून असते.</p>
 </section><footer>Digital SATHIDAR · PDF to Excel · तपासणीसाठी feature branch</footer></main>
 <script>
 (function(){
@@ -40,7 +40,7 @@ e.preventDefault();if(!input.files.length){message('कृपया किमा
 const files=Array.from(input.files);if(files.some(f=>f.type!=='application/pdf'&&!f.name.toLowerCase().endsWith('.pdf'))){message('फक्त PDF फाइल्स स्वीकारल्या जातात.','error');return}
 btn.disabled=true;downloads.replaceChildren();bar.style.width='5%';message('फाइल अपलोड व तपासणी सुरू आहे…');const api=document.getElementById('apiUrl').value.replace(/\/+$/,'');
 try{
-const data=new FormData();files.forEach(f=>data.append('files',f));data.append('mode',document.getElementById('mode').value);data.append('languages',document.getElementById('languages').value);
+const data=new FormData();files.forEach(f=>data.append('files',f));data.append('mode',document.getElementById('mode').value);data.append('languages',document.getElementById('languages').value);data.append('ocr_engine',document.getElementById('ocrEngine').value);
 bar.style.width='25%';message('PDF मधील टेबल्स/OCR प्रक्रिया सुरू आहे. अनेक पेजेस असल्यास थोडा वेळ लागू शकतो.');
 const response=await fetch(api+'/api/convert',{method:'POST',body:data});bar.style.width='85%';
 if(!response.ok){let detail='Server error ('+response.status+')';try{const j=await response.json();detail=j.detail||detail}catch(_){}throw new Error(detail)}
