@@ -659,6 +659,29 @@
             .stat-badge { flex: 1; padding: 6px 8px; min-width: auto; }
             .review-form { grid-template-columns: 1fr; }
         }
+    
+        /* Language and appearance settings */
+        .site-settings{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+        .site-settings select,.site-settings button{font:600 12px inherit;border:1px solid #cbd5e1;border-radius:9px;padding:7px 9px;background:#fff;color:#1e293b;cursor:pointer}
+        .site-settings button:hover,.site-settings select:focus{border-color:#3b82f6;outline:2px solid rgba(59,130,246,.15)}
+        .site-settings .theme-toggle{white-space:nowrap}
+        @media(max-width:768px){.header-inner{flex-wrap:wrap;gap:8px}.site-settings{width:100%;justify-content:flex-end}.site-settings select,.site-settings button{padding:6px 8px}}
+        body[data-theme="dark"]{--bg-page:#0b1220;--text-dark:#e5e7eb;--text-sub:#aab6c8;--border-ui:#334155;background:#0b1220;color:#e5e7eb;color-scheme:dark}
+        body[data-theme="dark"] .portal-header,body[data-theme="dark"] .tool-card,body[data-theme="dark"] .search-box input,body[data-theme="dark"] .filter-pill,body[data-theme="dark"] .review-box,body[data-theme="dark"] .site-settings select,body[data-theme="dark"] .site-settings button{background:#111c2e;color:#e5e7eb;border-color:#334155}
+        body[data-theme="dark"] .brand-text h1,body[data-theme="dark"] .nav-link,body[data-theme="dark"] .section-header h2,body[data-theme="dark"] .tool-title,body[data-theme="dark"] .review-title,body[data-theme="dark"] .review-header{color:#e5e7eb}
+        body[data-theme="dark"] .brand-text p,body[data-theme="dark"] .tool-desc,body[data-theme="dark"] .nav-link{color:#b8c4d6}
+        body[data-theme="dark"] .section-header{border-color:#334155}
+        body[data-theme="dark"] .tool-card.featured{background:linear-gradient(145deg,#172a46,#111c2e);border-color:#31517c}
+        body[data-theme="dark"] .tool-icon,body[data-theme="dark"] .review-item{background:#1e293b!important;color:#e5e7eb}
+        body[data-theme="dark"] .review-box input,body[data-theme="dark"] .review-box select,body[data-theme="dark"] .review-box textarea{background:#0f172a;color:#e5e7eb;border-color:#475569}
+        body[data-theme="dark"] .btn-outline{background:#1e293b;color:#e5e7eb;border-color:#475569}
+        body[data-theme="dark"] .section-count{background:#263449;color:#cbd5e1}
+        body[data-theme="dark"] .filter-pill.active{background:#1d4ed8;color:#fff;border-color:#3b82f6}
+        body[data-theme="dark"] .portal-footer{background:#070d17;border-color:#1e293b}
+        body[data-theme="dark"] .portal-footer a{color:#93c5fd!important}
+        body[data-theme="dark"] .search-box input::placeholder,body[data-theme="dark"] .review-box input::placeholder,body[data-theme="dark"] .review-box textarea::placeholder{color:#94a3b8}
+        body[data-theme="dark"] .review-reply{background:#12324a;color:#bae6fd}
+
     </style>
 </head>
 <body>
@@ -681,6 +704,14 @@
                 <a href="pdf-tools-plus.html" class="btn-top-cta">🧰 PDF Tools Plus →</a>
             </nav>
         </div>
+
+            <div class="site-settings" role="group" aria-label="Website settings">
+                <select id="siteLanguage" aria-label="Language / भाषा" title="Language / भाषा">
+                    <option value="mr">मराठी</option>
+                    <option value="en">English</option>
+                </select>
+                <button type="button" id="siteThemeToggle" class="theme-toggle" aria-label="Switch appearance">🌙 Dark Mode</button>
+            </div>
     </header>
 
     <!-- Compact Stylish Hero Banner (No Wasted Space) -->
@@ -1091,6 +1122,75 @@
                 badge.src = 'https://hitscounter.dev/api/hit?url=' + encodeURIComponent(tracked) + '&label=Visits&icon=eye&color=%2338bdf8&style=flat&cb=' + Date.now();
             }
         };
+    </script>
+
+    <script>
+    /* Language and appearance preferences; does not change tool or review data */
+    (function(){
+      const translations = {
+        "📈 वेतन व कर":"📈 Salary & Tax","📄 PDF टूल्स":"📄 PDF Tools","🏫 शाळा कार्यालय":"🏫 School Office",
+        "डिजिटल साथीदार":"Digital SATHIDAR","शिक्षक व कर्मचारी डिजिटल टूल्स":"Digital tools for teachers & staff",
+        "शिक्षक, शिक्षकेतर कर्मचारी, शाळा आणि विद्यार्थ्यांसाठी सर्व मराठी डिजिटल साधने — जलद, सोपी व मोफत.":"Free, fast and easy digital tools for teachers, school staff, schools and students.",
+        "डिजिटल टूल्स":"Digital Tools","मोफत वापर":"Free to Use","जलद व सुरक्षित":"Fast & Secure",
+        "कोणतेही टूल शोधा... (उदा. पगार, वेतनवाढ, आयकर, DA, फोटो सही, PDF, संच मान्यता...)":"Search tools... (e.g. salary, increment, tax, DA, photo, PDF)",
+        "🌟 सर्व (All)":"🌟 All","💼 वेतन व कर":"💼 Salary & Tax","📄 PDF व स्कॅन":"📄 PDF & Scan","🏫 शाळा व कार्यालय":"🏫 School & Office",
+        "वेतन, कर व भत्ते साधने (Salary & Tax)":"Salary, Tax & Allowance Tools","७ वा वेतन आयोग वेतनवाढ":"7th Pay Commission Increment",
+        "आयकर तुलना (Old vs New)":"Income Tax Comparison (Old vs New)","DA फरक कॅलक्युलेटर":"DA Difference Calculator",
+        "HRA फरक कॅलक्युलेटर":"HRA Difference Calculator","अंकी ते अक्षरी व वय गणना":"Number to Words & Age Calculator",
+        "PDF व दस्तऐवज साधने (PDF & Documents)":"PDF & Document Tools","PDF Tools Plus":"PDF Tools Plus",
+        "eDost साथी स्कॅन क्लीन":"eDost Scan Clean","फोटो व सही कटर":"Photo & Signature Cutter",
+        "शालेय व प्रशासकीय साधने (School & Office)":"School & Administrative Tools","संच मान्यता शिक्षक गणना":"Staff Approval Teacher Calculator",
+        "मराठी हस्तलिखित कन्व्हर्टर":"Marathi Handwriting Converter","वापरकर्त्यांचे अभिप्राय (Reviews)":"User Reviews",
+        "ॲडमिन (Pin)":"Admin (PIN)","आपला अभिप्राय नोंदवा:":"Leave your review:","अभिप्राय पाठवा 🚀":"Submit Review 🚀",
+        "आपले नाव (उदा. पाटील सर)":"Your name (e.g. Patil Sir)","गाव / शाळा (उदा. सातारा)":"Village / School (e.g. Satara)",
+        "एकूण भेटी:":"Total visits:","संकल्पना व निर्मिती : Sujit Patil (SP - रयत सेवक)":"Concept & Created by: Sujit Patil (SP - Rayat Sevak)",
+        "About Us / आमच्याबद्दल":"About Us","Contact Us / संपर्क":"Contact Us","Privacy Policy / गोपनीयता":"Privacy Policy",
+        "Terms / अटी व शर्ती":"Terms & Conditions","Tool Guides / मार्गदर्शक":"Tool Guides",
+        "लोकप्रिय":"Popular","नवीन स्लॅब":"New Slabs","शासन निर्णय":"Government Resolution",
+        "१ जुलै/जानेवारी ३% वार्षिक वेतनवाढ व पदोन्नती/MACP फिक्सेशन पत्रक.":"3% annual increment and promotion/MACP fixation statement for July/January.",
+        "महागाई भत्ता वाढीचा फरक आणि अधिकृत विवरण पत्रक.":"Calculate DA arrears and prepare a statement.",
+        "घरभाडे भत्ता फरकाची अचूक व सोपी गणना.":"Simple and accurate HRA difference calculation.",
+        "PDF Merge, Split, Rotate, Page Number, Crop व Compress एकाच ठिकाणी.":"Merge, split, rotate, number, crop and compress PDFs in one place.",
+        "डिजिटल किंवा स्कॅन PDF मधील टेबल्स Excel मध्ये बदला (मराठी + English OCR).":"Convert tables in digital or scanned PDFs to Excel (Marathi + English OCR).",
+        "SSC/HSC बोर्ड फॉर्मसाठी फोटो व सही अचूक आकारात क्रॉप व रिसाइज करा.":"Crop and resize photos and signatures for SSC/HSC board forms.",
+        "लोकप्रिय":"Popular","नवीन स्लॅब":"New Slabs"
+      };
+      const originalTextNodes = [];
+      const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+      while(walker.nextNode()){
+        const node=walker.currentNode;
+        if(node.parentElement && !node.parentElement.closest('script,style,option')){
+          const original=node.nodeValue.trim();
+          if(original && translations[original]) originalTextNodes.push({node,original});
+        }
+      }
+      const placeholderMap = [
+        ['toolSearchInput','कोणतेही टूल शोधा... (उदा. पगार, वेतनवाढ, आयकर, DA, फोटो सही, PDF, संच मान्यता...)','Search tools... (e.g. salary, increment, tax, DA, photo, PDF)'],
+        ['revAuthor','आपले नाव (उदा. पाटील सर)','Your name (e.g. Patil Sir)'],
+        ['revPlace','गाव / शाळा (उदा. सातारा)','Village / School (e.g. Satara)'],
+        ['revMessage','आपल्याला हे पोर्टल कसे वाटले? आपला अनुभव किंवा सूचना येथे लिहा...','How do you like this portal? Share your experience or suggestions...']
+      ];
+      placeholderMap.forEach(([id,mr,en])=>{const el=document.getElementById(id);if(el){el.dataset.placeholderMr=mr;el.dataset.placeholderEn=en;}});
+      function setLanguage(lang){
+        originalTextNodes.forEach(({node,original})=>{if(node.isConnected) node.nodeValue=node.nodeValue.replace(node.nodeValue.trim(),lang==='en'?translations[original]:original);});
+        placeholderMap.forEach(([id,mr,en])=>{const el=document.getElementById(id);if(el)el.placeholder=lang==='en'?en:mr;});
+        document.documentElement.lang=lang;
+        try{localStorage.setItem('digital_sathidar_language',lang)}catch(e){}
+      }
+      function setTheme(theme){
+        document.body.dataset.theme=theme;
+        const btn=document.getElementById('siteThemeToggle');
+        if(btn){btn.textContent=theme==='dark'?'☀️ White Mode':'🌙 Dark Mode';btn.setAttribute('aria-pressed',String(theme==='dark'));}
+        try{localStorage.setItem('digital_sathidar_theme',theme)}catch(e){}
+      }
+      const language=document.getElementById('siteLanguage'),theme=document.getElementById('siteThemeToggle');
+      if(!language||!theme)return;
+      language.addEventListener('change',()=>setLanguage(language.value));
+      theme.addEventListener('click',()=>setTheme(document.body.dataset.theme==='dark'?'light':'dark'));
+      let savedLang='mr',savedTheme='light';
+      try{savedLang=localStorage.getItem('digital_sathidar_language')||'mr';savedTheme=localStorage.getItem('digital_sathidar_theme')||'light'}catch(e){}
+      language.value=savedLang;setLanguage(savedLang);setTheme(savedTheme);
+    })();
     </script>
 </body>
 </html>
