@@ -256,7 +256,8 @@ def health():
         langs = pytesseract.get_languages(config="")
     except Exception:
         langs = []
-    return {"ok": True, "tesseract_languages": langs, "marathi_available": "mar" in langs,\n            "google_vision_configured": bool(GOOGLE_CLOUD_VISION_API_KEY)}
+    return {"ok": True, "tesseract_languages": langs, "marathi_available": "mar" in langs,
+            "google_vision_configured": bool(GOOGLE_CLOUD_VISION_API_KEY)}
 
 @app.post("/api/convert")
 async def convert(
