@@ -14,7 +14,8 @@ from openpyxl.utils import get_column_letter
 
 MAX_FILE_BYTES = int(os.getenv("PDF_EXCEL_MAX_BYTES", str(25 * 1024 * 1024)))
 MAX_FILES = int(os.getenv("PDF_EXCEL_MAX_FILES", "10"))
-GOOGLE_CLOUD_VISION_API_KEY = os.getenv("GOOGLE_CLOUD_VISION_API_KEY", "").strip()\nTESSERACT_CMD = os.getenv("TESSERACT_CMD")
+GOOGLE_CLOUD_VISION_API_KEY = os.getenv("GOOGLE_CLOUD_VISION_API_KEY", "").strip()
+TESSERACT_CMD = os.getenv("TESSERACT_CMD")
 if TESSERACT_CMD:
     pytesseract.pytesseract.tesseract_cmd = TESSERACT_CMD
 
