@@ -1183,8 +1183,8 @@
             const mr = el.dataset.siteMrText;
             const en = translations[mr];
             if(!en) return;
-            const textNode = Array.from(el.childNodes).find(n=>n.nodeType===Node.TEXT_NODE && n.nodeValue.trim()===mr);
-            if(textNode) textNode.nodeValue = textNode.nodeValue.replace(mr, lang==='en'?en:mr);
+            const textNode = Array.from(el.childNodes).find(n=>n.nodeType===Node.TEXT_NODE && (n.nodeValue.trim()===mr || n.nodeValue.trim()===en));
+            if(textNode){const current=textNode.nodeValue.trim();textNode.nodeValue=textNode.nodeValue.replace(current,lang==='en'?en:mr);}
           });
           document.querySelectorAll('[data-site-placeholder-mr]').forEach(el=>{
             el.placeholder = lang==='en' ? el.dataset.sitePlaceholderEn : el.dataset.sitePlaceholderMr;
