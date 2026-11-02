@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="mr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>eDost डिजिटल साथीदार - TDS / Income Tax प्रणाली</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind:wght@400;600&family=Mukta:wght@400;600&family=Noto+Sans+Devanagari:wght@400;600&display=swap">
+<style>/* embedded font removed */
+/* eDost print refinements: compact spacing, subtle watermark and page count */
+@media print{
+  html,body{margin:0!important;padding:0!important}
+  main{padding:2mm!important}
+  #app{margin:0!important;padding:0!important}
+  #app h2,#app h3,#app h4{margin-top:3px!important;margin-bottom:4px!important}
+  #app p{margin-top:3px!important;margin-bottom:3px!important}
+  #app table{margin:2px 0 5px!important;border-collapse:collapse!important}
+  #app th,#app td{padding:3px 4px!important;line-height:1.2!important}
+  #app .sc{overflow:visible!important;max-height:none!important}
+  #app .mut.no{display:none!important}
+  body:before{content:"eDost (Digital Sathidar)";position:fixed;z-index:-1;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-28deg);font-size:34px;font-weight:700;letter-spacing:1px;color:rgba(90,100,110,.045);white-space:nowrap;pointer-events:none}
+}
+@page{ @bottom-center{content:"पृष्ठ " counter(page) " / " counter(pages);font-size:9px;color:#777} }
+
+</style>
+<style>
+:root{--bg:#fff;--fg:#1b1b1f;--mut:#667085;--card:#f3f5f9;--bd:#d3d8e2;--ac:#2f5fd0;--acf:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15161a;--fg:#ececf1;--mut:#9aa3b2;--card:#20222a;--bd:#3a3d48;--ac:#7ea2ff;--acf:#0b0d12}}
+:root[data-theme="dark"]{--bg:#15161a;--fg:#ececf1;--mut:#9aa3b2;--card:#20222a;--bd:#3a3d48;--ac:#7ea2ff;--acf:#0b0d12}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 "Sakal Marathi","Sakal Marathi Normal",system-ui,"Noto Sans Devanagari","Mangal",sans-serif}
+h1{font-size:19px;margin:0}
+.navgroup{display:inline-block;vertical-align:top;min-width:180px;padding:5px 7px;margin:4px 5px 4px 0;border:1px solid var(--bd);border-radius:10px;background:var(--card)}.navgroup>.navhead{display:flex;align-items:center;justify-content:space-between;width:100%;text-align:left;font-weight:800;background:transparent;border:0;padding:6px 4px;margin:0}.navitems{display:flex;flex-wrap:wrap;gap:5px;padding-top:5px}.navitems button{margin:0}.navgroup.closed .navitems{display:none}
+#nav{display:flex;gap:6px;flex-wrap:wrap;padding:8px 16px;border-bottom:1px solid var(--bd)}
+button,select,input,textarea{font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:6px 10px}
+button{cursor:pointer;background:var(--card)}button.on,button.pri{background:var(--ac);color:var(--acf);border-color:var(--ac)}
+main{padding:12px 16px}.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+.sc{overflow-x:auto;max-width:100%}table{border-collapse:collapse;font-size:13px}
+th,td{border:1px solid var(--bd);padding:3px 5px;text-align:center;white-space:nowrap}th{background:var(--card)}td.m,td.l,th.l{text-align:center}
+td input{width:76px;padding:3px 4px;border-radius:4px;text-align:center}
+.en{font-family:Arial,Helvetica,sans-serif!important;letter-spacing:.5px}.promo{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center;border:1px solid var(--bd);border-radius:12px;padding:10px 14px;background:var(--card)}.pl{font-family:Arial,Helvetica,sans-serif;font-weight:700;color:var(--ac);text-decoration:underline;word-break:break-all}
+header{position:relative;overflow:hidden;padding:18px 16px 16px;background:linear-gradient(120deg,#ff7a18 0%,#e8312f 32%,#7b2ff7 66%,#2f7be8 100%)}
+header:before,header:after{content:"";position:absolute;border-radius:50%;filter:blur(28px);opacity:.65;pointer-events:none}
+header:before{width:170px;height:170px;background:#ffd166;left:-40px;top:-70px}
+header:after{width:220px;height:220px;background:#06d6a0;right:-50px;bottom:-120px}
+header>*{position:relative;z-index:1}
+header h1{font-size:22px;margin:10px 0 2px;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.35)}
+header p{margin:0;color:rgba(255,255,255,.93);font-size:13px;text-shadow:0 1px 2px rgba(0,0,0,.3)}
+.logo{display:inline-flex;align-items:center;flex-wrap:wrap;gap:10px;padding:10px 18px 10px 12px;border-radius:22px;background:linear-gradient(135deg,rgba(255,255,255,.62),rgba(255,255,255,.18));border:1px solid rgba(255,255,255,.7);box-shadow:0 10px 30px rgba(40,20,120,.35),inset 0 1px 0 rgba(255,255,255,.9),inset 0 -8px 18px rgba(255,255,255,.12);-webkit-backdrop-filter:blur(14px) saturate(170%);backdrop-filter:blur(14px) saturate(170%)}
+.bd{display:inline-block;width:46px;height:46px;border-radius:14px;line-height:46px;text-align:center;font-weight:800;font-size:21px;color:#5b21d6;background:linear-gradient(145deg,rgba(255,255,255,.95),rgba(255,255,255,.35));border:1px solid rgba(255,255,255,.9);box-shadow:0 4px 12px rgba(60,20,140,.35),inset 0 2px 3px #fff}
+.lg{font-size:34px;font-weight:800;letter-spacing:.5px;line-height:1.05;background:linear-gradient(100deg,#3a0ca3 0%,#7b2ff7 35%,#e8312f 70%,#ff7a18 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;filter:drop-shadow(0 2px 3px rgba(255,255,255,.7))}
+.ds{font-size:14px;font-weight:700;color:#fff;padding:4px 12px;border-radius:999px;background:linear-gradient(135deg,rgba(255,255,255,.4),rgba(255,255,255,.12));border:1px solid rgba(255,255,255,.75);text-shadow:0 1px 3px rgba(40,20,120,.55)}
+:root{--th1:#e7f0ff;--th2:#cfe0ff;--thc:#17325f;--tt:#fff2d6}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--th1:#2a3a5c;--th2:#223052;--thc:#d6e4ff;--tt:#3a3422}}
+:root[data-theme="dark"]{--th1:#2a3a5c;--th2:#223052;--thc:#d6e4ff;--tt:#3a3422}
+body{background:var(--bg) linear-gradient(180deg,rgba(47,123,232,.08),transparent 260px) no-repeat}
+th{background:linear-gradient(180deg,var(--th1),var(--th2));color:var(--thc)}
+.tt,.tt td{background:var(--tt)}
+h2,h3{border-left:5px solid #7b2ff7;padding-left:9px;color:var(--ac)}
+button.pri{background:linear-gradient(135deg,#2f7be8,#7b2ff7);border:0;color:#fff}
+button:disabled{opacity:.5;cursor:not-allowed}
+.navgroup{display:inline-block;vertical-align:top;min-width:180px;padding:5px 7px;margin:4px 5px 4px 0;border:1px solid var(--bd);border-radius:10px;background:var(--card)}.navgroup>.navhead{display:flex;align-items:center;justify-content:space-between;width:100%;text-align:left;font-weight:800;background:transparent;border:0;padding:6px 4px;margin:0}.navitems{display:flex;flex-wrap:wrap;gap:5px;padding-top:5px}.navitems button{margin:0}.navgroup.closed .navitems{display:none}
+#nav{background:var(--card)}
+#nav button{border:1.5px solid var(--tc,#555);color:var(--tc,#555);background:var(--bg);font-weight:600}
+@supports(background:color-mix(in srgb,red,blue)){#nav button{background:color-mix(in srgb,var(--tc,#555) 12%,var(--bg))}}
+#nav button.on{background:var(--tc,#555);color:#fff;box-shadow:0 3px 10px rgba(0,0,0,.25)}
+.t-emp{--tc:#e8590c}.t-ent{--tc:#1c7ed6}.t-st{--tc:#2b9348}.t-sum{--tc:#7048e8}.t-q{--tc:#d6336c}.t-ar{--tc:#0c8599}.t-help{--tc:#f08c00}.t-set{--tc:#868e96}
+.ack{margin:18px 0;padding:14px;border:2px solid #2b9348;border-radius:12px;background:var(--card);display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.er{color:#d33;font-size:11px}
+.arc{animation:arin .3s ease-out}@keyframes arin{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+#et{font-size:12px}#et td,#et th{padding:1px 3px}#et td input{width:62px;padding:2px 3px;font-size:12px}td input.w{width:190px;text-align:center}
+.tt td,.tt{font-weight:600;background:var(--card)}.mut{color:var(--mut);font-size:13px}
+.st{margin:0 0 28px}.st h4{margin:0 0 4px;font-size:14px}.st .hd{font-size:13px;margin-bottom:6px}
+textarea{width:100%;min-height:110px;box-sizing:border-box}label.f{display:block;margin:8px 0 2px;font-size:13px;color:var(--mut)}
+#prn{display:none}
+@page{size:A4 landscape;margin:10mm}
+@media print{:root{--bg:#fff!important;--fg:#000!important;--card:#eee!important;--bd:#888!important;--mut:#333!important;--th1:#eee!important;--th2:#eee!important;--thc:#000!important;--tt:#eee!important}.no{display:none!important}header{display:none}main{padding:0}table{font-size:9px}.st{page-break-after:always}body.pa #app{display:none!important}body.pa #prn{display:block}}
+
+/* Compact professional header: school administration + income-tax theme */
+header.no{
+  padding:10px 18px 12px !important;
+  background:linear-gradient(112deg,#12345a 0%,#155e75 58%,#187b73 100%) !important;
+  border-bottom:3px solid #d6b45b;
+  box-shadow:0 4px 14px rgba(15,42,70,.16);
+}
+header.no:before,header.no:after{filter:blur(32px);opacity:.16}
+header.no:before{width:120px;height:120px;background:#f2cf78;left:-35px;top:-65px}
+header.no:after{width:150px;height:150px;background:#8bd5ca;right:-38px;bottom:-100px}
+header.no .logo{
+  gap:7px;padding:5px 11px 5px 7px;border-radius:12px;
+  background:rgba(255,255,255,.96);border:1px solid rgba(255,255,255,.8);
+  box-shadow:0 3px 10px rgba(0,0,0,.13);backdrop-filter:none;-webkit-backdrop-filter:none;
+}
+header.no .bd{
+  width:32px;height:32px;line-height:32px;border-radius:9px;font-size:16px;
+  color:#fff;background:linear-gradient(145deg,#174a70,#167d78);border:0;box-shadow:none;
+}
+header.no .lg{
+  font-size:24px;letter-spacing:.1px;color:#174a70;background:none;
+  -webkit-text-fill-color:#174a70;filter:none;
+}
+header.no .ds{
+  font-size:11px;padding:3px 8px;color:#174a70;background:#edf5f7;
+  border:1px solid #d3e4e8;text-shadow:none;
+}
+header.no h1{font-size:20px;margin:7px 0 2px;color:#fff;text-shadow:none;letter-spacing:.1px}
+header.no p{font-size:12px;line-height:1.5;color:#eaf4f7;text-shadow:none}
+header.no p:after{
+  content:"  |  🏫 शालेय वेतन  •  ₹ TDS / आयकर";
+  display:inline-block;margin-left:5px;color:#ffe6a4;font-weight:600;
+}
+.btn-nav-home{display:inline-flex;align-items:center;gap:6px;color:#fff;text-decoration:none;background:rgba(255,255,255,.18);padding:6px 14px;border-radius:9px;font-size:13px;font-weight:700;border:1px solid rgba(255,255,255,.38);transition:all .2s}
+.btn-nav-home:hover{background:rgba(255,255,255,.3);color:#ffe6a4;border-color:rgba(255,255,255,.6)}
+h2,h3{border-left-color:#167d78 !important}
+button.pri{background:linear-gradient(135deg,#174a70,#167d78) !important}
+@media(max-width:600px){
+ header.no{padding:9px 11px 10px !important}
+ header.no .logo{gap:5px;padding:5px 8px 5px 6px}
+ header.no .lg{font-size:21px}
+ header.no .bd{width:29px;height:29px;line-height:29px;font-size:14px}
+ header.no .ds{font-size:10px;padding:3px 6px}
+ header.no h1{font-size:18px;margin-top:6px}
+ header.no p:after{display:block;margin:3px 0 0}
+}
+@media print{header.no{background:#174a70 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+.deptbar{width:100%;box-sizing:border-box;display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 14px;background:#eaf3f5;border-bottom:1px solid #c9dfe2;color:#174a70}
+.deptbar select{min-width:220px;padding:8px 10px;border:1px solid #8eafb5;border-radius:7px;background:#fff;color:#173d52;font:inherit;font-weight:700}
+.deptbar .mut{font-size:12px}
+@media(max-width:600px){.deptbar{align-items:stretch;flex-direction:column;gap:6px}.deptbar select{width:100%;box-sizing:border-box}}
+@font-face{font-family:"EnNum";src:local("Arial"),local("Helvetica Neue"),local("Helvetica"),local("Liberation Sans"),local("Roboto"),local("Segoe UI"),local("Noto Sans"),local("DejaVu Sans");unicode-range:U+0030-0039,U+002C,U+002E}
+body{font-family:"EnNum","Sakal Marathi","Noto Sans Devanagari","Mangal",system-ui,sans-serif}
+input[type=number],input[type=date]{font-family:Arial,Helvetica,Roboto,sans-serif!important}
+</style></head><body>
+<header class="no"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px"><div class="logo"><span class="bd en">eD</span><span class="lg en">eDost</span><span class="ds en">(Digital Sathidar)</span></div><a href="index.html" class="btn-nav-home">🏠 सर्व टूल्स (Home)</a></div><h1>TDS / Income Tax प्रणाली</h1><p>आयकर माहिती फॉर्म: Excel ला पर्याय. कर्मचारी निहाय पगार व कपात भरा, तिमाही बेरीज आपोआप, प्रिंट स्टेटमेंट तयार.</p></header>
+<div id="nav" class="no"></div>
+<main id="app"></main><div id="prn"></div>
+<div class="no" style="padding:14px 16px 20px"><div class="promo"><div><span class="en" style="font-weight:800">eDost</span> <span class="en" style="color:#2f7be8;font-weight:700">(Digital Sathidar)</span> - उपयुक्त tools साठी येथे खालील लिंक वर क्लिक करा:</div><a class="pl" href="https://rayatsevaksujit.github.io/applications/" target="_blank" rel="noopener">https://rayatsevaksujit.github.io/applications/</a></div><div class="mut" style="text-align:center;margin-top:8px">बदल किंवा नवीन सूचनांसाठी संपर्क: सुजित पाटील (रयत सेवक) मोबाइल ९३३३४१११११</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+const MONTHS=['Mar','Apr','May','Supp','Jun','Jul','Aug','Supp','Sep','Oct','Nov','Supp','Dec','Jan','Feb','Supp'];
+const EF=['pay','da','daa','nps','hra','hraa','ta'],DF=['pf','pt','n14','n10','kn','oth','it'],COLS=[...EF,'g',...DF,'d'];
+const EL={pay:'Pay',da:'D.A',daa:'D.A Arr',nps:'NPS All.',hra:'H.R.A',hraa:'H.R.A Arr',ta:'T.A',g:'Total',pf:'P.F',pt:'P.T',n14:'NPS 14%',n10:'NPS 10%',kn:'K.N',oth:'Other',it:'Inc. Tax',d:'Total Ded'};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt=v=>v?Math.round(v).toLocaleString('en-IN'):'0';
+const newEmp=(n,d)=>({n:n||'',d:d||'',pan:'',aad:'',mob:'',rows:Array.from({length:16},()=>({}))});
+let S,tab='ent',navOpen='कर्मचारी व पगार';
+let DEPTS={sec:'विभाग १'};
+function deptEntries(){return Object.entries(DEPTS)}
+function addDept(){const n=prompt('नवीन विभागाचे नाव लिहा');if(!n||!n.trim())return;const k='dept_'+Date.now().toString(36);DEPTS[k]=n.trim();S.deptNames=S.deptNames||{};S.deptNames[k]=n.trim();S.departments=S.departments||{};S.departments[k]={emps:[newEmp()],ch:Array.from({length:4},()=>Array.from({length:3},()=>({})))};save();switchDept(k)}
+function delDept(){const keys=Object.keys(DEPTS);if(keys.length<=1){alert("किमान एक विभाग असणे आवश्यक आहे. हा एकमेव विभाग हटवता येणार नाही.");return}const currName=DEPTS[S.dept]||S.dept;if(!confirm(currName + " हा विभाग आणि त्यातील सर्व कर्मचाऱ्यांचा पगार डेटा कायमचा हटवायचा का?"))return;const oldCode=S.dept;delete DEPTS[oldCode];if(S.deptNames)delete S.deptNames[oldCode];if(S.departments)delete S.departments[oldCode];const nextKey=Object.keys(DEPTS)[0];switchDept(nextKey)}
+
+function reportDepts(){return deptEntries().filter(([k])=>k===S.dept||!!(S.departments&&S.departments[k]));}
+function load(){try{S=JSON.parse(localStorage.getItem('sal-stmt-v1')||'null')}catch(e){S=null}
+ if(!S||!S.emps)S={school:'',tan:'',addr:'',yr:2025,da:58,hra:10,auto:true,cur:0,emps:[newEmp()]};
+ S.emps.forEach(e=>{while(e.rows.length<16)e.rows.push({})});if(S.cur>=S.emps.length)S.cur=0;if(!S.dar||S.dar.length<16)S.dar=Array(16).fill(S.da);if(!S.ch)S.ch=Array.from({length:4},()=>Array.from({length:3},()=>({})));if(!S.pg)S.pg={size:'A4',or:'landscape',m:8,sc:100};
+ S.dept=S.dept||'sec';S.departments=S.departments||{};if(!S.departments[S.dept])S.departments[S.dept]={emps:S.emps,ch:S.ch};
+ S.deptNames=S.deptNames||{};
+ // जुने तीन पूर्वनिश्चित विभाग फक्त त्यात प्रत्यक्ष डेटा असल्यासच दाखवा; रिकामे defaults काढून टाका.
+ for(const k of ['hsec','jc']){const d=S.departments[k];const hasData=!!(d&&Array.isArray(d.emps)&&d.emps.some(e=>(e.rows||[]).some(r=>Object.values(r||{}).some(v=>v!==''&&v!=null))));if(!hasData){delete S.deptNames[k];delete S.departments[k];}}
+ Object.assign(DEPTS,S.deptNames);
+ const active=S.departments[S.dept];S.emps=active.emps||S.emps;S.ch=active.ch||S.ch;S.emps.forEach(e=>{while(!e.rows)e.rows=[];while(e.rows.length<16)e.rows.push({})});if(!S.emps.length)S.emps=[newEmp()];if(S.cur>=S.emps.length)S.cur=0;delete S.lock;S.ack=true;if(!S.hrr||S.hrr.length<16)S.hrr=Array(16).fill(S.hra||10);}
+function save(){if(S){S.departments=S.departments||{};S.departments[S.dept||'sec']={emps:S.emps,ch:S.ch};try{localStorage.setItem('sal-stmt-v1',JSON.stringify(S))}catch(e){}}}
+function switchDept(code){if(!DEPTS[code]||code===S.dept)return;save();S.dept=code;const d=S.departments[code];S.emps=d&&d.emps?d.emps:[newEmp()];S.ch=d&&d.ch?d.ch:Array.from({length:4},()=>Array.from({length:3},()=>({})));S.cur=0;save();render()}
+function deptBar(){const canDel=Object.keys(DEPTS).length>1;return `<div class="deptbar no"><strong>विभाग निवडा :</strong><select aria-label="विभाग निवडा" onchange="switchDept(this.value)">${Object.entries(DEPTS).map(([k,v])=>`<option value="${k}" ${S.dept===k?'selected':''}>${v}</option>`).join('')}</select><button onclick="renDept()">✎ नाव बदला</button><button onclick="addDept()">+ विभाग वाढवा</button>${canDel?`<button onclick="delDept()" style="color:#d32f2f;border-color:#d32f2f">🗑️ विभाग हटवा</button>`:''}<span class="mut">प्रत्येक विभागाची कर्मचारी, पगार व Challan माहिती स्वतंत्र जतन होते.</span></div>`}
+const cur=()=>S.emps[S.cur];
+function lab(i){const m=MONTHS[i];if(m=='Supp')return 'Supp Bil';const y=(i==13||i==14)?S.yr+1:S.yr;return m+'.'+String(y).slice(2)}
+function calc(e){const z=()=>Object.fromEntries(COLS.map(c=>[c,0]));
+ const rows=e.rows.map(r=>{const o=z();[...EF,...DF].forEach(f=>o[f]=+r[f]||0);o.g=EF.reduce((a,f)=>a+o[f],0);o.d=DF.reduce((a,f)=>a+o[f],0);return o});
+ const q=[0,1,2,3].map(k=>{const o=z();rows.slice(k*4,k*4+4).forEach(r=>COLS.forEach(c=>o[c]+=r[c]));return o});
+ const t=z();q.forEach(o=>COLS.forEach(c=>t[c]+=o[c]));return{rows,q,t}}
+function go(t){tab=t;render()}
+function toggleNav(title){navOpen=navOpen===title?'':title;render()}
+function applyPg(){let el=$('#pgs');if(!el){el=document.createElement('style');el.id='pgs';document.head.appendChild(el)}const p=S.pg;el.textContent='@page{size:'+p.size+' '+p.or+';margin:'+p.m+'mm}@media print{.st{zoom:'+((p.sc||100)/100)+'}}'}
+function render(){fixN();applyPg();applyFont();
+ if(!S.yearly)S.yearly={months:Array.from({length:12},()=>({sec:{},hsec:{}})),quarters:Array.from({length:4},()=>({}))};
+ const groups=[['कर्मचारी व पगार',[['emp','कर्मचारी'],['ent','पगार एन्ट्री'],['st','स्टेटमेंट']]],['आढावा व तिमाही',[['sum','सारांश'],['q','तिमाही Q1-Q4']]],['आयकर अहवाल',[['yrpt','प्रपत्र–१: मासिक नोंद'],['qrep','प्रपत्र–२: तिमाही पूर्तता'],['annual','कर्मचारीनिहाय व वार्षिक अहवाल'],['f16','Form 16']]],['सेटिंग्ज',[['ar','D.A / H.R.A दर व फरक'],['help','मार्गदर्शन'],['set','सेटिंग्ज / बॅकअप']]]];
+ if(navOpen&&!groups.some(([title])=>title===navOpen))navOpen=(groups.find(([title,items])=>items.some(([k])=>k===tab))||groups[0])[0]; $('#nav').innerHTML=deptBar()+groups.map(([title,items])=>`<div class="navgroup ${navOpen===title?'':'closed'}"><button class="navhead" onclick="toggleNav('${title}')">${title}<span>${navOpen===title?'−':'+'}</span></button><div class="navitems">${items.map(([k,l])=>`<button class="t-${k} ${k==tab?'on':''}" onclick="go('${k}')">${l}</button>`).join('')}</div></div>`).join('');
+ ({emp:rEmp,ent:rEnt,st:rSt,sum:rSum,q:rQ,ar:rAr,help:rHelp,set:rSet,yrpt:rYearly,qrep:rQuarterReport,annual:rAnnual,f16:rForm16})[tab]()}
+const sel=()=>`<select onchange="S.cur=+this.value;save();render()">${S.emps.map((e,i)=>`<option value="${i}" ${i==S.cur?'selected':''}>${i+1}. ${esc(e.n)||'(नाव नाही)'}</option>`).join('')}</select>`;
+function rEmp(){$('#app').innerHTML=`<div class="bar"><button class="pri" onclick="addEmp()">+ नवीन कर्मचारी</button><span class="mut">एकूण ${S.emps.length} कर्मचारी. बदल आपोआप सेव्ह होतात.</span><span class="er" id="dupt" style="font-size:13px"></span></div><div class="mut" style="margin:0 0 8px">⚠ नाव लिहिताना <b>पूर्ण नाव</b> (PAN कार्डप्रमाणे) लिहा, फक्त पहिले नाव किंवा आडनाव नको. एकाच नावाचे अनेक कर्मचारी चालतात; नाव, PAN व आधार तिन्ही सारखे असतील तरच डबल एन्ट्रीचा इशारा येतो.</div><div class="sc"><table><tr><th>अ.क्र.</th><th class="l">पूर्ण नाव</th><th class="l">पदनाम</th><th>PAN</th><th>आधार</th><th>मोबाईल</th><th></th></tr>${S.emps.map((e,i)=>`<tr><td>${i+1}</td><td><input class="w" placeholder="पूर्ण नाव लिहा" value="${esc(e.n)}" oninput="S.emps[${i}].n=this.value;save();dupChk()"><div class="er" id="dn${i}"></div></td><td><input value="${esc(e.d)}" oninput="S.emps[${i}].d=this.value;save()"></td><td><input class="en" maxlength="10" value="${esc(e.pan)}" oninput="vf(${i},'pan',this)"><div class="er" id="e${i}pan"></div></td><td><input class="en" maxlength="12" inputmode="numeric" value="${esc(e.aad)}" oninput="vf(${i},'aad',this)"><div class="er" id="e${i}aad"></div></td><td><input class="en" maxlength="10" inputmode="numeric" value="${esc(e.mob)}" oninput="vf(${i},'mob',this)"><div class="er" id="e${i}mob"></div></td><td><button onclick="delEmp(${i})">हटवा</button></td></tr>`).join('')}</table></div>`;S.emps.forEach((e,i)=>['pan','aad','mob'].forEach(k=>vmsg(i,k)));dupChk()}
+const VF={pan:{re:/[^A-Za-z0-9]/g,max:10,ok:v=>/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(v),msg:'PAN चुकीचा आहे (उद. ABCDE1234F)'},aad:{re:/\D/g,max:12,ok:v=>v.length==12,msg:'आधार चुकीचा आहे - 12 अंकी हवा'},mob:{re:/\D/g,max:10,ok:v=>/^[6-9][0-9]{9}$/.test(v),msg:'मोबाईल चुकीचा आहे - 10 अंकी हवा (6 ते 9 ने सुरू)'}};
+function vmsg(i,k){const v=S.emps[i][k]||'',m=document.getElementById('e'+i+k);if(m)m.textContent=(v&&!VF[k].ok(v))?VF[k].msg:''}
+function vf(i,k,el){const c=VF[k];let v=el.value.replace(c.re,'');if(k=='pan')v=v.toUpperCase();v=v.slice(0,c.max);el.value=v;S.emps[i][k]=v;save();vmsg(i,k);dupChk()}
+function addEmp(){S.emps.push(newEmp());S.cur=S.emps.length-1;save();render()}
+function delEmp(i){if(!confirm('हा कर्मचारी व त्याचा सर्व पगार डेटा हटवायचा?'))return;S.emps.splice(i,1);if(!S.emps.length)S.emps.push(newEmp());S.cur=0;save();render()}
+const inp=(i,f,v)=>`<td><input type="number" inputmode="decimal" data-i="${i}" data-f="${f}" value="${v==null?'':v}"></td>`;
+function showToast(msg){
+ let t=document.getElementById('toast');
+ if(!t){
+  t=document.createElement('div');t.id='toast';
+  t.style.cssText='position:fixed;bottom:24px;right:24px;z-index:99999;background:#15803d;color:#fff;padding:12px 20px;border-radius:8px;font-size:15px;font-weight:bold;box-shadow:0 6px 16px rgba(0,0,0,0.25);transition:opacity 0.3s;pointer-events:none;';
+  document.body.appendChild(t);
+ }
+ t.textContent='✔️ '+msg;t.style.display='block';t.style.opacity='1';
+ clearTimeout(t._timer);
+ t._timer=setTimeout(()=>{t.style.opacity='0';setTimeout(()=>{t.style.display='none'},300)},2500);
+}
+function manualSave(){save();showToast('माहिती सुरक्षित सेव्ह झाली आहे!')}
+function copyQ(q){
+ const e=cur(),start=q*4,m0=e.rows[start];
+ const qName='Q'+(q+1);
+ if(!m0.pay&&!m0.pf&&!m0.pt&&!m0.it){alert(qName+' च्या पहिल्या महिन्याची माहिती आधी भरा.');return}
+ for(let j=start+1;j<=start+2;j++){
+  const r=e.rows[j];
+  if(m0.pay!=null&&m0.pay!=='')r.pay=m0.pay;
+  if(S.auto&&r.pay){
+   r.da=Math.round(r.pay*S.dar[j]/100);
+   r.hra=Math.round(r.pay*S.hrr[j]/100);
+  }
+  if(m0.ta!=null&&m0.ta!=='')r.ta=m0.ta;
+  if(m0.pf!=null&&m0.pf!=='')r.pf=m0.pf;
+  if(m0.pt!=null&&m0.pt!=='')r.pt=m0.pt;
+  if(m0.it!=null&&m0.it!=='')r.it=m0.it;
+  if(e.nps)npsFill(e,j);
+  knFill(e,j);
+ }
+ save();render();
+ showToast(qName+' मधील पुढील २ महिन्यांत माहिती भरली (Other वगळून)!');
+}
+function copyAllQs(){
+ const e=cur();let count=0;
+ for(let q=0;q<4;q++){
+  const start=q*4,m0=e.rows[start];
+  if(m0.pay||m0.pf||m0.pt||m0.it){
+   for(let j=start+1;j<=start+2;j++){
+    const r=e.rows[j];
+    if(m0.pay!=null&&m0.pay!=='')r.pay=m0.pay;
+    if(S.auto&&r.pay){
+     r.da=Math.round(r.pay*S.dar[j]/100);
+     r.hra=Math.round(r.pay*S.hrr[j]/100);
+    }
+    if(m0.ta!=null&&m0.ta!=='')r.ta=m0.ta;
+    if(m0.pf!=null&&m0.pf!=='')r.pf=m0.pf;
+    if(m0.pt!=null&&m0.pt!=='')r.pt=m0.pt;
+    if(m0.it!=null&&m0.it!=='')r.it=m0.it;
+    if(e.nps)npsFill(e,j);
+    knFill(e,j);
+   }
+   count++;
+  }
+ }
+ if(count===0){alert('किमान एका तरी तिमाहीच्या (Q) पहिल्या महिन्याची माहिती भरा.');return}
+ save();render();
+ showToast('प्रत्येक Q मधील पुढील २ महिन्यांत माहिती भरली (Other वगळून)!');
+}
+function rEnt(){
+ const e=cur(),sa=e.rows.some(r=>r.ar||r.daa||r.hraa),VC=COLS.filter(c=>sa||(c!='daa'&&c!='hraa'));
+ let h=`<div class="bar">
+  ${sel()}
+  <button class="pri" onclick="manualSave()" style="font-weight:bold;background:#167d78">💾 सेव्ह करा</button>
+  <button onclick="copyAllQs()" title="प्रत्येक Q मधील पहिल्या महिन्यानुसार त्या त्या Q मधील पुढील महिने भरा">📋 Q मधील महिने भरा</button>
+  <span class="mut" style="font-weight:700">Q नुसार:</span>
+  <button onclick="copyQ(0)" title="Q1: मार्चचा पगार एप्रिल व मे मध्ये भरा">Q1</button>
+  <button onclick="copyQ(1)" title="Q2: जूनचा पगार जुलै व ऑगस्ट मध्ये भरा">Q2</button>
+  <button onclick="copyQ(2)" title="Q3: सप्टेंबरचा पगार ऑक्टोबर व नोव्हेंबर मध्ये भरा">Q3</button>
+  <button onclick="copyQ(3)" title="Q4: डिसेंबरचा पगार जानेवारी व फेब्रुवारी मध्ये भरा">Q4</button>
+  <label><input type="checkbox" ${S.auto?'checked':''} onchange="S.auto=this.checked;save()"> Pay भरल्यावर D.A व H.R.A आपोआप</label>
+  <label><input type="checkbox" ${S.kna?'checked':''} onchange="S.kna=this.checked;save()"> K.N आपोआप (${S.kn}%)</label>
+  <label><input type="checkbox" ${e.nps?'checked':''} onchange="cur().nps=this.checked;save()"> NPS लागू (14% व 10%)</label>
+  <span class="mut">आकार (${S.z||100}%):</span>
+  <button onclick="zm(-10)">-</button><button onclick="zm(10)">+</button>
+ </div>
+ <div class="mut">PAN: <span class="en">${esc(e.pan)||'-'}</span> | पदनाम: ${esc(e.d)||'-'} | <span style="color:#167d78;font-weight:600">टीप: माहिती फक्त चालू तिमाहीत (Q) भरली जाते, पुढील Q मोकळे राहतात. 'Other' कॉलम आपोआप भरला जात नाही.</span></div>
+ <div class="sc" style="zoom:${(S.z||100)/100}"><table id="et"><tr><th class="l">महिना</th>${VC.map(c=>`<th class="${c=='daa'||c=='hraa'?'arc':''}">${EL[c]}</th>`).join('')}</tr>`;
+ for(let q=0;q<4;q++){
+  for(let k=0;k<4;k++){
+   const i=q*4+k,r=e.rows[i];
+   h+=`<tr><td class="m">${lab(i)}</td>${EF.filter(f=>VC.includes(f)).map(f=>cellE(i,f,r,k)).join('')}<td id="g${i}" class="tt"></td>${DF.map(f=>inp(i,f,r[f])).join('')}<td id="d${i}" class="tt"></td></tr>`;
+  }
+  h+=`<tr class="tt"><td class="l">Total Q${q+1}</td>${VC.map(c=>`<td class="${c=='daa'||c=='hraa'?'arc':''}" id="T${q}_${c}"></td>`).join('')}</tr>`;
+ }
+ h+=`<tr class="tt"><td class="l">एकूण वर्ष</td>${VC.map(c=>`<td class="${c=='daa'||c=='hraa'?'arc':''}" id="T4_${c}"></td>`).join('')}</tr></table></div>`;
+ $('#app').innerHTML=h;
+ refresh();
+
+ const table=$('#et');
+ table.addEventListener('input',ev=>{
+  const t=ev.target;if(!t.dataset.f)return;
+  const i=+t.dataset.i,f=t.dataset.f,r=cur().rows[i];
+  if(t.value==='')delete r[f];else r[f]=+t.value;
+
+  if(S.auto&&f==='pay'&&i%4!==3){
+   if(t.value===''){delete r.da;delete r.hra}
+   else{r.da=Math.round(r.pay*S.dar[i]/100);r.hra=Math.round(r.pay*S.hrr[i]/100)}
+   const daEl=document.querySelector('[data-i="'+i+'"][data-f="da"]');if(daEl)daEl.value=r.da==null?'':r.da;
+   const hraEl=document.querySelector('[data-i="'+i+'"][data-f="hra"]');if(hraEl)hraEl.value=r.hra==null?'':r.hra;
+  }
+  if(cur().nps&&(f==='pay'||f==='da'||f==='daa'))npsFill(cur(),i);
+  if(EF.includes(f))knFill(cur(),i);
+  save();refresh();
+ });
+
+ table.addEventListener('change',ev=>{
+  const t=ev.target;if(!t.dataset.f)return;
+  const i=+t.dataset.i,f=t.dataset.f,r=cur().rows[i];
+  const val=r[f];if(val==null||val==='')return;
+
+  if(f==='pay'&&i%4!==3){
+   fwdPay(cur(),i);
+  } else if(['ta','pf','pt','it'].includes(f)&&i%4!==3){
+   fwdCell(cur(),i,f,val);
+  }
+  save();refresh();
+ });
+}
+function refresh(){const c=calc(cur());c.rows.forEach((r,i)=>{$('#g'+i).textContent=fmt(r.g);$('#d'+i).textContent=fmt(r.d)});
+ c.q.forEach((o,k)=>COLS.forEach(f=>$(`#T${k}_${f}`).textContent=fmt(o[f])));COLS.forEach(f=>$(`#T4_${f}`).textContent=fmt(c.t[f]))}
+function copyFirst(){const e=cur();for(let i=1;i<16;i++)if(i%4!=3){const c=Object.assign({},e.rows[0]);delete c.ar;delete c.daa;delete c.hraa;delete c.oth;e.rows[i]=c}save();render()}
+function stmt(e){const c=calc(e),cell=v=>`<td>${v?fmt(v):''}</td>`,tot=o=>COLS.map(f=>`<td>${fmt(o[f])}</td>`).join('');
+ let b='';for(let q=0;q<4;q++){for(let k=0;k<4;k++){const i=q*4+k,r=c.rows[i];b+=`<tr><td>${i+1}</td><td class="l">${lab(i)}</td>${COLS.map(f=>cell(r[f])).join('')}</tr>`}b+=`<tr class="tt"><td></td><td class="l">Total</td>${tot(c.q[q])}</tr>`}
+ b+=`<tr class="tt"><td></td><td class="l">Total</td>${tot(c.t)}</tr>`;
+ return `<div class="st"><h4>Statement showing Salary paid during the financial year -- 01/04/${S.yr+1} to 31/03/${S.yr+2}</h4><div class="hd">Name of the school: <b>${esc(S.school)}</b> | TAN No: <b>${esc(S.tan)}</b><br>${esc(S.addr)}<br>Name of the employee: <b>${esc(e.n)}</b> (${esc(e.d)}) | PAN NO: <b class="en">${esc(e.pan)}</b></div><div class="sc"><table><tr><th>Sr</th><th class="l">Month</th>${COLS.map(c=>`<th>${EL[c]}</th>`).join('')}</tr>${b}</table></div></div>`}
+function rSt(){$('#app').innerHTML=`<div class="bar no">${sel()}<button class="pri" onclick="window.print()">हे स्टेटमेंट प्रिंट</button><button onclick="printAll()">सर्व कर्मचाऱ्यांचे प्रिंट (प्रत्येकाचे वेगळे पान)</button><button onclick="expXlsx()">Excel (.xlsx) मध्ये एक्सपोर्ट</button><span class="mut">सूचना: एक्सपोर्ट केलेल्या Excel मध्ये बदल करू नका, नाहीतर परत import करताना माहिती नीट येणार नाही.</span></div>${stmt(cur())}`}
+function printAll(){$('#prn').innerHTML=S.emps.map(stmt).join('');document.body.classList.add('pa');window.print();document.body.classList.remove('pa')}
+function rSum(){let h=`<div class="bar no"><button class="pri" onclick="window.print()">प्रिंट</button><button onclick="expXlsx()">Excel (.xlsx) मध्ये एक्सपोर्ट</button><span class="mut">सूचना: एक्सपोर्ट केलेल्या Excel मध्ये बदल करू नका, नाहीतर परत import करताना माहिती नीट येणार नाही. | </span><span class="mut">प्रत्येक तिमाहीतील एकूण पगार व कापलेला आयकर</span></div><div class="sc"><table><tr><th>अ.क्र.</th><th class="l">नाव</th><th>PAN</th>${[1,2,3,4].map(q=>`<th>Q${q} पगार</th><th>Q${q} Inc.Tax</th>`).join('')}<th>एकूण पगार</th><th>एकूण Inc.Tax</th></tr>`;
+ const T=Array(10).fill(0);S.emps.forEach((e,i)=>{const c=calc(e),v=[];c.q.forEach(o=>v.push(o.g,o.it));v.push(c.t.g,c.t.it);v.forEach((x,k)=>T[k]+=x);
+  h+=`<tr><td>${i+1}</td><td class="l">${esc(e.n)}</td><td class="en">${esc(e.pan)}</td>${v.map(x=>`<td>${fmt(x)}</td>`).join('')}</tr>`});
+ $('#app').innerHTML=h+`<tr class="tt"><td></td><td class="l">एकूण</td><td></td>${T.map(x=>`<td>${fmt(x)}</td>`).join('')}</tr></table></div>`}
+function escVal(v){return esc(v==null?'':v)}
+function ensureYearly(){if(!S.yearly)S.yearly={months:Array.from({length:12},()=>({})),quarters:Array.from({length:4},()=>({}))};while(S.yearly.months.length<12)S.yearly.months.push({});while(S.yearly.quarters.length<4)S.yearly.quarters.push({});S.yearly.months.forEach(m=>{if(!m||typeof m!=='object')return});S.yearly.quarters.forEach(q=>{if(!q||typeof q!=='object')return; if(q.due||q.fileDate||q.amount||q.late||q.days){const k=S.dept||'sec';if(!q[k])q[k]={due:q.due||'',fileDate:q.fileDate||'',amount:q.amount||'',late:q.late||'',days:q.days||''};['due','fileDate','amount','late','days'].forEach(x=>delete q[x]);}})}
+const YMONTHS=['मार्च','एप्रिल','मे','जून','जुलै','ऑगस्ट','सप्टेंबर','ऑक्टोबर','नोव्हेंबर','डिसेंबर','जानेवारी','फेब्रुवारी'];
+const REPORT_ROW_INDEX=[0,1,2,4,5,6,8,9,10,12,13,14];
+function monthTaxTotal(i,dept){const rowIndex=REPORT_ROW_INDEX[i];if(rowIndex==null)return 0;const saved=S.departments&&S.departments[dept]&&S.departments[dept].emps;const data=(S.dept===dept)?S.emps:(Array.isArray(saved)?saved:[]);return data.reduce((sum,e)=>sum+(Number(String((e.rows&&e.rows[rowIndex]||{}).it??'').replace(/,/g,''))||0),0)}
+function yval(i,dept,key){ensureYearly();if(key==='amount')return fmt(monthTaxTotal(i,dept));return escVal((S.yearly.months[i][dept]||{})[key]);}
+function ychange(i,dept,key,v){ensureYearly();S.yearly.months[i][dept]=S.yearly.months[i][dept]||{};S.yearly.months[i][dept][key]=v;save()}
+function qTaxTotal(qIndex,dept){const m=qIndex*3;return monthTaxTotal(m,dept)+monthTaxTotal(m+1,dept)+monthTaxTotal(m+2,dept)}
+function rYearly(){
+ ensureYearly();
+ const fields=[['receipt','वती / चलन क्र.'],['amount','रक्कम'],['salaryDate','वेतन जमा दिनांक'],['deductDate','आयकर कपात दिनांक'],['depositDate','आयकर भरणा दिनांक'],['delay','उशीराचे दिवस']];
+ const deps=reportDepts();
+ let h=`<div class="bar no"><button class="pri" onclick="window.print()">प्रपत्र–१ प्रिंट</button><span class="mut">प्रत्येक विभागाची मासिक आयकर रक्कम पगार नोंदीतून आपोआप एकत्रित.</span></div><div class="sc"><table><tr><th>अ.क्र.</th><th>वर्ष / महिना</th><th>विभाग</th>${fields.map(x=>`<th>${x[1]}</th>`).join('')}</tr>`;
+ let sr=0,totalAmt=0;
+ for(let i=0;i<12;i++){
+  for(const [dept,label] of deps){
+   sr++;
+   const amt=monthTaxTotal(i,dept);
+   totalAmt+=amt;
+   h+=`<tr><td>${sr}</td><td>${YMONTHS[i]} ${i<10?S.yr:S.yr+1}</td><td>${esc(label)}</td>${fields.map(([key,label2])=>`<td><input style="min-width:90px;width:100%;box-sizing:border-box" ${key==='amount'||key==='delay'?'type="number"':'type="text"'} value="${key==='amount'?amt:yval(i,dept,key)}" ${key==='amount'?'readonly style="font-weight:bold;text-align:center" title="या विभागातील या महिन्याच्या सर्व कर्मचाऱ्यांच्या Inc. Tax ची बेरीज"':'oninput="ychange('+i+',\''+dept+'\',\''+key+'\',this.value)"'}></td>`).join('')}</tr>`;
+  }
+ }
+ h+=`<tr class="tt" style="font-weight:bold;background:#eef2f6"><td colspan="3" style="text-align:center">एकूण</td><td></td><td style="text-align:center;font-size:14px;font-weight:bold">${fmt(totalAmt)}</td><td></td><td></td><td></td><td></td></tr></table></div>`;
+ $('#app').innerHTML=h;
+}
+function rQuarterReport(){
+ ensureYearly();
+ const qs=[['पहिली तिमाही','एप्रिल ते जून',`31/07/${S.yr}`],['दुसरी तिमाही','जुलै ते सप्टेंबर',`31/10/${S.yr}`],['तिसरी तिमाही','ऑक्टोबर ते डिसेंबर',`31/01/${S.yr+1}`],['चौथी तिमाही','जानेवारी ते मार्च',`31/05/${S.yr+1}`]];
+ const deps=reportDepts();
+ let h=`<div class="bar no"><button class="pri" onclick="window.print()">प्रपत्र–२ प्रिंट</button><span class="mut">प्रत्येक विभागासाठी तिमाही विवरणपत्राची स्वतंत्र पूर्तता नोंद.</span></div>`;
+ deps.forEach(([dept,label])=>{
+  h+=`<h3>${esc(label)}</h3><div class="sc"><table><tr><th>तिमाही / तीन महिने</th><th>अंतिम मुदत</th><th>भरल्याचा दिनांक</th><th>रक्कम</th><th>मुदतीत भरले?</th><th>उशीराचे दिवस</th></tr>`;
+  let total=0;
+  qs.forEach((q,i)=>{
+   const root=S.yearly.quarters[i]||(S.yearly.quarters[i]={});
+   const d=root[dept]||(root[dept]={});
+   if(!d.due)d.due=q[2];
+   const autoAmt=qTaxTotal(i,dept);
+   const valAmt=(d.amount!=null&&d.amount!=='')?d.amount:autoAmt;
+   total+=Number(valAmt)||0;
+   h+=`<tr><td><b>${q[0]}</b><br>${q[1]}</td><td><input style="width:110px" value="${escVal(d.due)}" onchange="S.yearly.quarters[${i}]['${dept}'].due=this.value;save()"></td><td><input style="width:110px" placeholder="DD/MM/YYYY" value="${escVal(d.fileDate)}" onchange="S.yearly.quarters[${i}]['${dept}'].fileDate=this.value;save()"></td><td><input type="number" style="width:100px;font-weight:bold" value="${valAmt||''}" onchange="S.yearly.quarters[${i}]['${dept}'].amount=this.value;save();render()"></td><td><select onchange="S.yearly.quarters[${i}]['${dept}'].late=this.value;save()"><option value="" ${!d.late?'selected':''}>निवडा</option><option value="नाही" ${d.late==='नाही'?'selected':''}>होय, मुदतीत</option><option value="होय" ${d.late==='होय'?'selected':''}>नाही, उशीर</option></select></td><td><input type="number" style="width:80px" value="${escVal(d.days)}" onchange="S.yearly.quarters[${i}]['${dept}'].days=this.value;save()"></td></tr>`;
+  });
+  h+=`<tr class="tt" style="font-weight:bold"><td colspan="3">एकूण रक्कम</td><td style="font-weight:bold">${fmt(total)}</td><td colspan="2"></td></tr></table></div>`;
+ });
+ h+=`<p>शाखाप्रमुख अभिप्राय: __________________________________________________________</p><p style="margin-top:18px">शाखाप्रमुख सही: ____________________</p>`;
+ $('#app').innerHTML=h;
+}
+function rAnnual(){
+ let totalPay=0,totalTax=0;
+ const qTax=[0,0,0,0];
+ let h=`<div class="bar no"><button class="pri" onclick="window.print()">अहवाल प्रिंट</button><button onclick="expXlsx()">Excel (.xlsx) मध्ये एक्सपोर्ट</button></div><h3>कर्मचारीनिहाय व वार्षिक आयकर अहवाल</h3><p class="mut">एका TDS अहवालात विभागांची संख्या: <b>${Object.keys(DEPTS).length}</b> — ${Object.values(DEPTS).map(esc).join(' • ')}. सध्या निवडलेला विभाग: <b>${esc(DEPTS[S.dept]||S.dept)}</b>.</p><div class="sc"><table><tr><th>अ.क्र.</th><th>कर्मचारी</th><th>PAN</th><th>वार्षिक एकूण पगार</th><th>वार्षिक आयकर कपात</th><th>Q1 आयकर</th><th>Q2 आयकर</th><th>Q3 आयकर</th><th>Q4 आयकर</th></tr>`;
+ S.emps.forEach((e,i)=>{
+  const c=calc(e);
+  totalPay+=c.t.g;
+  totalTax+=c.t.it;
+  c.q.forEach((q,k)=>qTax[k]+=q.it);
+  h+=`<tr><td>${i+1}</td><td>${esc(e.n)}</td><td>${esc(e.pan)}</td><td>${fmt(c.t.g)}</td><td>${fmt(c.t.it)}</td>${c.q.map(q=>`<td>${fmt(q.it)}</td>`).join('')}</tr>`;
+ });
+ h+=`<tr class="tt" style="font-weight:bold"><td colspan="3">एकूण</td><td>${fmt(totalPay)}</td><td>${fmt(totalTax)}</td>${qTax.map(t=>`<td>${fmt(t)}</td>`).join('')}</tr></table></div><p class="mut">हा अहवाल सध्याच्या पगार एन्ट्रीतील Total आणि Inc. Tax आकड्यांवर आधारित आहे. PDF मधील प्रपत्र–१ व प्रपत्र–२ साठी स्वतंत्र नोंदी “वार्षिक आयकर नोंद” आणि “तिमाही Q1-Q4” मध्ये भराव्यात.</p>`;
+ $('#app').innerHTML=h;
+}
+function rForm16(){const e=cur(),c=calc(e);$('#app').innerHTML=`<div class="bar no">${sel()}<button class="pri" onclick="window.print()">Form 16 मसुदा प्रिंट</button></div><div class="st"><h2 style="text-align:center">FORM 16 — कर्मचारीनिहाय आयकर विवरण (मसुदा)</h2><p style="text-align:center">आर्थिक वर्ष ${S.yr+1}-${String(S.yr+2).slice(-2)}</p><table><tr><th>शाळा / कार्यालय</th><td>${esc(S.school)}</td><th>TAN</th><td>${esc(S.tan)}</td></tr><tr><th>पत्ता</th><td colspan="3">${esc(S.addr)}</td></tr><tr><th>कर्मचाऱ्याचे नाव</th><td>${esc(e.n)}</td><th>PAN</th><td>${esc(e.pan)}</td></tr><tr><th>पदनाम</th><td>${esc(e.d)}</td><th>विभाग</th><td>${esc(DEPTS[S.dept]||S.dept)}</td></tr><tr><th>वार्षिक पगार (नोंदीनुसार)</th><td>${fmt(c.t.g)}</td><th>एकूण TDS / आयकर कपात</th><td>${fmt(c.t.it)}</td></tr>${c.q.map((q,i)=>`<tr><th>Q${i+1} पगार</th><td>${fmt(q.g)}</td><th>Q${i+1} आयकर</th><td>${fmt(q.it)}</td></tr>`).join('')}</table><p><b>महत्त्वाची सूचना:</b> हा उपलब्ध पगार एन्ट्रीवर आधारित मसुदा आहे; अधिकृत Form 16 नाही. अधिकृत प्रमाणपत्रासाठी लागू आर्थिक वर्षाचे Form 16 Part A/Part B तपशील, करप्रणाली, करपात्र उत्पन्न, वजावटी, कर-स्लॅब, cess आणि TDS return/चालान पडताळणी आवश्यक आहे.</p><p style="margin-top:45px">अधिकृत स्वाक्षरी: ____________________</p></div>`}
+function rSet(){$('#app').innerHTML=`<div style="max-width:560px"><label class="f">शाळेचे नाव</label><input style="width:100%;box-sizing:border-box" value="${esc(S.school)}" oninput="S.school=this.value;save()"><label class="f">TAN</label><input value="${esc(S.tan)}" oninput="S.tan=this.value;save()"><label class="f">पत्ता ओळ</label><input style="width:100%;box-sizing:border-box" value="${esc(S.addr)}" oninput="S.addr=this.value;save()"><label class="f">पगार सुरू होणारे वर्ष (मार्च कोणत्या वर्षाचा; सध्या Mar.${String(S.yr).slice(2)} पासून Feb.${String(S.yr+1).slice(2)})</label><input type="number" value="${S.yr}" oninput="S.yr=+this.value||2025;save()"><h3>विभाग व्यवस्थापन</h3><p class="mut">सुरुवातीला विभाग १ उपलब्ध आहे. आवश्यकतेनुसार + विभाग वाढवा वापरून नवीन विभाग तयार करा. प्रत्येक विभागाची माहिती स्वतंत्र राहते.</p><div class="bar">${Object.keys(DEPTS).map(k=>`<input style="width:230px" value="${esc(DEPTS[k])}" onchange="setDeptName('${k}',this.value)">`).join('')}<button class="pri" onclick="addDept()">+ विभाग वाढवा</button></div><h3>D.A / H.R.A</h3><p class="mut">D.A व H.R.A चे दर बदलणे आणि फरक (arrears) भरणे हे सर्व कर्मचाऱ्यांसाठी एकाच ठिकाणी, वरील <b>D.A / H.R.A दर व फरक</b> पानावर आहे.</p>
+<h3>अक्षरे (फॉन्ट)</h3><div class="bar"><label>फॉन्ट <select onchange="S.font=this.value;save();applyFont()">${[['noto','Noto Sans Devanagari'],['mukta','Mukta'],['hind','Hind'],['sakal','Sakal Marathi']].map(([v,l])=>`<option value="${v}" ${(S.font||'sakal')==v?'selected':''}>${l}</option>`).join('')}</select></label><label>अक्षरांचा आकार <select onchange="S.fs=+this.value;save();applyFont()">${[13,14,15,16,17,18,20].map(v=>`<option ${(S.fs||15)==v?'selected':''}>${v}</option>`).join('')}</select></label></div><p class="mut">सर्व फॉन्टमध्ये अंक नेहमी इंग्रजीत (1, 2, 3) दिसतात. Noto Sans Devanagari, Mukta आणि Hind इंटरनेटवरून येतात. Sakal Marathi तुमच्या संगणकावर इंस्टॉल असेल तरच दिसतो.</p><h3>K.N</h3><div class="bar"><label>K.N % (एकूण पगाराच्या) <input type="number" step="0.01" style="width:80px" value="${S.kn}" oninput="S.kn=+this.value||0;save()"></label></div><p class="mut">K.N = एकूण पगाराच्या त्या %, पूर्ण रुपयांत (पैसे नाहीत, जवळच्या रुपयाला राउंड). हवा तेव्हा रकान्यात थेट बदला.</p><h3>NPS दर</h3><div class="bar"><label>NPS 14% <input type="number" step="0.01" style="width:80px" value="${S.n14}" oninput="S.n14=+this.value||0;save()"></label><label>NPS 10% <input type="number" step="0.01" style="width:80px" value="${S.n10}" oninput="S.n10=+this.value||0;save()"></label><label><input type="checkbox" ${S.npa?'checked':''} onchange="S.npa=this.checked;save()"> NPS All. मध्येही 14% रक्कम भरा</label></div><p class="mut">गणना (Pay + D.A) च्या त्या % नुसार. फक्त NPS लागू असलेल्या कर्मचाऱ्याला (पगार एन्ट्री पानावर चेकबॉक्स). आपोआप भरलेली रक्कम बदलायची असल्यास रकान्यात थेट लिहा.</p><h3>पेज सेटअप (प्रिंट)</h3><div class="bar"><label>कागद <select onchange="S.pg.size=this.value;save();applyPg()">${['A4','A3','Legal','Letter'].map(v=>`<option ${S.pg.size==v?'selected':''}>${v}</option>`).join('')}</select></label><label>दिशा <select onchange="S.pg.or=this.value;save();applyPg()"><option value="landscape" ${S.pg.or=='landscape'?'selected':''}>आडवा (Landscape)</option><option value="portrait" ${S.pg.or=='portrait'?'selected':''}>उभा (Portrait)</option></select></label></div><div class="bar"><label>मार्जिन (mm) <input type="number" min="0" max="40" style="width:80px" value="${S.pg.m}" oninput="S.pg.m=+this.value||0;save();applyPg()"></label><label>स्केल % <input type="number" min="40" max="150" style="width:80px" value="${S.pg.sc}" oninput="S.pg.sc=+this.value||100;save();applyPg()"></label></div><p class="mut">सध्या: A4 आडवा, मार्जिन 8 mm, स्केल 100%. टेबल एका पानात बसत नसेल तर स्केल कमी करा (उद. 85). प्रिंट डायलॉगमध्ये Margins ला Default ठेवा.</p><h3>बॅकअप</h3><p class="mut">डेटा या ब्राउझरमध्ये सेव्ह होतो. दुसऱ्या फोन/संगणकावर नेण्यासाठी किंवा सुरक्षित ठेवण्यासाठी खालील कोड कॉपी करून ठेवा.</p><div class="bar"><button onclick="exp()">बॅकअप कोड तयार करा</button><button class="pri" onclick="imp()">कोडवरून डेटा परत आणा</button></div><textarea id="bk" placeholder="येथे बॅकअप कोड दिसेल / पेस्ट करा"></textarea><h3>Excel मधून डेटा परत आणा (Import)</h3><p class="mut" style="color:#d33">सूचना: फक्त याच पानावरून एक्सपोर्ट केलेली Excel फाईल निवडा. तिच्यात कोणतेही बदल (शीट्स, रकाने, ओळी, नावे) करू नका, नाहीतर माहिती नीट वाचली जाणार नाही. Import केल्यावर सध्याचा डेटा बदलला जाईल. फॉन्टची निवड Excel मध्ये जात नाही.</p><div class="bar"><input type="file" accept=".xlsx" onchange="xiPick(this)"></div><div class="mut" id="xim"></div><div class="bar" id="xia" style="display:none"><button class="pri" onclick="xiApply()">हा डेटा लागू करा (सध्याचा डेटा बदलला जाईल)</button></div><h3>डेटा पुसणे</h3><p class="mut">डेटा फक्त या संगणकाच्या ब्राउझरमध्ये सेव्ह होतो. नवीन वर्षासाठी किंवा दुसऱ्याला संगणक देताना तो पुसा. आधी बॅकअप कोड कॉपी करून ठेवा.</p><div class="bar"><button onclick="clrPay()">फक्त पगाराचे आकडे पुसा (कर्मचारी व सेटिंग्ज तसेच)</button><button onclick="clrAll()" style="border-color:#c0392b">सर्व काही पुसा (पूर्ण रिकामा फॉर्म)</button></div></div>`}
+function exp(){const t=$('#bk');t.value=JSON.stringify(S);t.select();try{document.execCommand('copy')}catch(e){}}
+function imp(){try{const d=JSON.parse($('#bk').value);if(!d.emps)throw 0;if(!confirm('सध्याचा डेटा बदलला जाईल. पुढे जायचे?'))return;S=d;load2()}catch(e){alert('कोड चुकीचा आहे.')}}
+function load2(){S.emps.forEach(e=>{while(e.rows.length<16)e.rows.push({})});S.cur=0;if(!S.dar||S.dar.length<16)S.dar=Array(16).fill(S.da||58);if(!S.hrr||S.hrr.length<16)S.hrr=Array(16).fill(S.hra||10);S.deptNames=S.deptNames||{};Object.assign(DEPTS,S.deptNames);if(!S.ch)S.ch=Array.from({length:4},()=>Array.from({length:3},()=>({})));if(!S.pg)S.pg={size:'A4',or:'landscape',m:8,sc:100};save();render()}
+function fixN(){if(S.fwd==null)S.fwd=true;if(S.kn==null)S.kn=1;if(S.kna==null)S.kna=true;if(S.n14==null)S.n14=14;if(S.n10==null)S.n10=10;if(S.npa==null)S.npa=true}
+function npsFill(e,i){const r=e.rows[i],b=(+r.pay||0)+(+r.da||0)+(+r.daa||0),a=Math.round(b*S.n14/100),c=Math.round(b*S.n10/100);
+ r.n14=a||undefined;r.n10=c||undefined;if(S.npa)r.nps=a||undefined;
+ if(e===cur())['n14','n10','nps'].forEach(f=>{const el=document.querySelector('[data-i="'+i+'"][data-f="'+f+'"]');if(el)el.value=r[f]==null?'':r[f]})}
+const AR={sr:3,f:0,t:2,od:58,nd:58,oh:10,nh:10,all:false};
+function arHtml(){const so=(arr,k)=>arr.map(([v,l])=>`<option value="${v}" ${AR[k]==v?'selected':''}>${l}</option>`).join('');
+ const ms=REG.map(i=>[i,lab(i)]),sp=[[3,'Q1 Supp Bil'],[7,'Q2 Supp Bil'],[11,'Q3 Supp Bil'],[15,'Q4 Supp Bil']];
+ const n=k=>`<input type="number" step="0.01" style="width:70px" value="${AR[k]}" oninput="AR.${k}=+this.value||0">`;
+ return `<details class="no" style="margin:8px 0"><summary>फरक (Arrears) भरा - मागील D.A / H.R.A फरकाची रक्कम</summary><div class="bar" style="margin-top:6px"><label>फरक या Supp Bil मध्ये भरा <select onchange="AR.sr=+this.value">${so(sp,'sr')}</select></label><label>पासून <select onchange="AR.f=+this.value">${so(ms,'f')}</select></label><label>पर्यंत <select onchange="AR.t=+this.value">${so(ms,'t')}</select></label></div><div class="bar"><label>जुना D.A % ${n('od')}</label><label>नवीन D.A % ${n('nd')}</label><label>जुना H.R.A % ${n('oh')}</label><label>नवीन H.R.A % ${n('nh')}</label><label><input type="checkbox" onchange="AR.all=this.checked"> सर्व कर्मचाऱ्यांसाठी</label><button class="pri" onclick="arCalc()">फरक काढून भरा</button></div><div class="bar"><span class="mut">किंवा रक्कम थेट भरा:</span><label>D.A फरक <input type="number" id="ard" style="width:90px"></label><label>H.R.A फरक <input type="number" id="arh" style="width:90px"></label><button onclick="arDirect()">ही रक्कम भरा</button></div><div class="mut" id="arm">फरक = त्या महिन्यांच्या Pay चा (नवीन % - जुना %). रक्कम निवडलेल्या Supp Bil ओळीत जाते.</div></details>`}
+function arMsg(t){render();const m=$('#arm');m.textContent=t;m.closest('details').open=true}
+function arCalc(){const list=AR.all?S.emps:[cur()];let td=0,th=0;
+ list.forEach(e=>{let d=0,h=0;REG.forEach(i=>{if(i>=AR.f&&i<=AR.t){const p=+e.rows[i].pay||0;d+=p*(AR.nd-AR.od)/100;h+=p*(AR.nh-AR.oh)/100}});
+  const r=e.rows[AR.sr];r.da=Math.round(d)||undefined;r.hra=Math.round(h)||undefined;if(e.nps)npsFill(e,AR.sr);td+=Math.round(d);th+=Math.round(h)});
+ save();arMsg('भरले: D.A फरक '+fmt(td)+', H.R.A फरक '+fmt(th)+(AR.all?' (सर्व कर्मचाऱ्यांची एकूण)':'')+' - '+['Q1','Q2','Q3','Q4'][(AR.sr-3)/4]+' Supp Bil मध्ये.')}
+function arDirect(){const e=cur(),r=e.rows[AR.sr],d=+$('#ard').value||0,h=+$('#arh').value||0;
+ r.da=d||undefined;r.hra=h||undefined;if(e.nps)npsFill(e,AR.sr);save();arMsg('भरले: D.A फरक '+fmt(d)+', H.R.A फरक '+fmt(h)+' - '+['Q1','Q2','Q3','Q4'][(AR.sr-3)/4]+' Supp Bil मध्ये.')}
+function arList(){return S.emps.map(e=>{let d=0,h=0;REG.forEach(i=>{if(i>=AR.f&&i<=AR.t){const p=+e.rows[i].pay||0;d+=p*(AR.nd-AR.od)/100;h+=p*(AR.nh-AR.oh)/100}});return [e,Math.round(d),Math.round(h)]})}
+function arPrev(){let a=0,b=0;$('#arp').innerHTML='<table><tr><th>अ.क्र.</th><th class="l">नाव</th><th>D.A फरक</th><th>H.R.A फरक</th></tr>'+arList().map(([e,d,h],i)=>{a+=d;b+=h;return `<tr><td>${i+1}</td><td class="l">${esc(e.n)}</td><td>${fmt(d)}</td><td>${fmt(h)}</td></tr>`}).join('')+`<tr class="tt"><td></td><td class="l">एकूण</td><td>${fmt(a)}</td><td>${fmt(b)}</td></tr></table>`}
+function arSet(k,v){AR[k]=v;arPrev()}
+function rAr(){const so=(arr,k)=>arr.map(([v,l])=>`<option value="${v}" ${AR[k]==v?'selected':''}>${l}</option>`).join('');
+ const ms=REG.map(i=>[i,lab(i)]),sp=[[3,'Q1 Supp Bil (Mar-May)'],[7,'Q2 Supp Bil (Jun-Aug)'],[11,'Q3 Supp Bil (Sep-Nov)'],[15,'Q4 Supp Bil (Dec-Feb)']];
+ const n=k=>`<input type="number" step="0.01" style="width:70px" value="${AR[k]}" oninput="arSet('${k}',+this.value||0)">`;
+ $('#app').innerHTML=`<p class="mut">सर्व कर्मचाऱ्यांसाठी एकदम फरक भरा. फरक निवडलेल्या Supp Bil ओळीत जातो (त्या ओळीतील आधीची D.A / H.R.A रक्कम बदलली जाते). फरक = त्या महिन्यांच्या Pay चा (नवीन % - जुना %).</p><div class="bar"><label>फरक भरायचा: <select onchange="arSet('sr',+this.value)">${so(sp,'sr')}</select></label><label>कोणत्या महिन्यापासून <select onchange="arSet('f',+this.value)">${so(ms,'f')}</select></label><label>कोणत्या महिन्यापर्यंत <select onchange="arSet('t',+this.value)">${so(ms,'t')}</select></label></div><div class="bar"><label>जुना D.A % ${n('od')}</label><label>नवीन D.A % ${n('nd')}</label><label>जुना H.R.A % ${n('oh')}</label><label>नवीन H.R.A % ${n('nh')}</label></div><div class="bar"><button class="pri" onclick="arApply()">सर्व कर्मचाऱ्यांना लागू करा</button><span class="mut" id="arx"></span></div><div class="sc" id="arp"></div>`;arPrev()}
+function arApply(){if(!confirm('खालील फरक सर्व कर्मचाऱ्यांच्या निवडलेल्या Supp Bil ओळीत भरला जाईल. पुढे जायचे?'))return;arList().forEach(([e,d,h])=>{const r=e.rows[AR.sr];r.da=d||undefined;r.hra=h||undefined;if(e.nps)npsFill(e,AR.sr)});save();$('#arx').textContent='भरले.'}
+const arRow=(i,r)=>`<tr class="tt"><td colspan="15"><label>D.A फरक <input type="number" style="width:90px" value="${r.ada==null?'':r.ada}" oninput="arIn(${i},'ada',this.value)"></label> <label>H.R.A फरक <input type="number" style="width:90px" value="${r.ahr==null?'':r.ahr}" oninput="arIn(${i},'ahr',this.value)"></label> <span class="mut">(रक्कम Supp Bil ओळीत आपोआप जमा होते)</span></td></tr>`;
+function arSupp(e,q){const rs=e.rows,si=q*4+3,s=rs[si];let d=0,h=0;for(let k=0;k<3;k++){d+=+rs[q*4+k].ada||0;h+=+rs[q*4+k].ahr||0}
+ s.da=d||undefined;s.hra=h||undefined;if(e.nps)npsFill(e,si);
+ if(e===cur())['da','hra'].forEach(f=>{const el=document.querySelector('[data-i="'+si+'"][data-f="'+f+'"]');if(el)el.value=s[f]==null?'':s[f]})}
+function arTog(i,on){const e=cur(),r=e.rows[i];r.ar=on||undefined;if(!on){r.ada=undefined;r.ahr=undefined}arSupp(e,i>>2);save();render()}
+function arIn(i,f,v){const e=cur(),r=e.rows[i];r[f]=v===''?undefined:+v;arSupp(e,i>>2);save();refresh()}
+function arGrid(i,f,v){const e=S.emps[i],m=AR.m||0,r=e.rows[m];r[f]=v===''?undefined:+v;r.ar=(r.ada||r.ahr)?true:undefined;arSupp(e,m>>2);save()}
+function rAr(){const m=AR.m||0;
+ $('#app').innerHTML=`<p class="mut">ज्या महिन्यात फरक मिळाला तो महिना निवडा आणि प्रत्येक कर्मचाऱ्यासमोर रक्कम थेट टाइप करा. रक्कम त्या तिमाहीच्या Supp Bil ओळीत आपोआप जमा होते.</p><div class="bar"><label>महिना <select onchange="AR.m=+this.value;rAr()">${REG.map(i=>`<option value="${i}" ${i==m?'selected':''}>${lab(i)}</option>`).join('')}</select></label></div><div class="sc"><table><tr><th>अ.क्र.</th><th class="l">नाव</th><th>D.A फरक</th><th>H.R.A फरक</th></tr>${S.emps.map((e,i)=>{const r=e.rows[m];return `<tr><td>${i+1}</td><td class="l">${esc(e.n)}</td><td><input type="number" value="${r.ada==null?'':r.ada}" oninput="arGrid(${i},'ada',this.value)"></td><td><input type="number" value="${r.ahr==null?'':r.ahr}" oninput="arGrid(${i},'ahr',this.value)"></td></tr>`}).join('')}</table></div>`}
+function cellE(i,f,r,k){if((f=='daa'||f=='hraa')&&k<3&&!r.ar)return `<td>${r[f]?fmt(r[f]):''}</td>`;return inp(i,f,r[f])}
+function arTog(i,on){cur().rows[i].ar=on||undefined;save();render()}
+function arGrid(i,f,v){const e=S.emps[i],m=AR.m||0,r=e.rows[m];r[f]=v===''?undefined:+v;r.ar=(r.daa||r.hraa)?true:undefined;if(e.nps)npsFill(e,m);knFill(e,m);save()}
+function rAr(){const m=AR.m||0;
+ $('#app').innerHTML=`<p class="mut">ज्या महिन्यात फरक मिळाला तो महिना निवडा आणि प्रत्येक कर्मचार्यासमोर रक्कम थेट टाइप करा. रक्कम त्या महिन्याच्या D.A Arr / H.R.A Arr रकान्यात जाते.</p><div class="bar"><label>महिना <select onchange="AR.m=+this.value;rAr()">${REG.map(i=>`<option value="${i}" ${i==m?'selected':''}>${lab(i)}</option>`).join('')}</select></label></div><div class="sc"><table><tr><th>अ.क्र.</th><th class="l">नाव</th><th>D.A Arr</th><th>H.R.A Arr</th></tr>${S.emps.map((e,i)=>{const r=e.rows[m];return `<tr><td>${i+1}</td><td class="l">${esc(e.n)}</td><td><input type="number" value="${r.daa==null?'':r.daa}" oninput="arGrid(${i},'daa',this.value)"></td><td><input type="number" value="${r.hraa==null?'':r.hraa}" oninput="arGrid(${i},'hraa',this.value)"></td></tr>`}).join('')}</table></div>`}
+function applyFont(){let el=$('#fnt');if(!el){el=document.createElement('style');el.id='fnt';document.head.appendChild(el)}
+ const fm={noto:'"Noto Sans Devanagari"',mukta:'"Mukta"',hind:'"Hind"',sakal:'"Sakal Marathi"'}[S.font||'sakal'],fs=S.fs||15;
+ el.textContent='body{font-family:"EnNum",'+fm+',"Noto Sans Devanagari","Mangal",system-ui,sans-serif;font-size:'+fs+'px}#et,#et td input{font-size:'+Math.max(11,fs-3)+'px}'}
+function cellE(i,f,r,k){const a=f=='daa'||f=='hraa';if(a&&k<3&&!r.ar)return `<td class="arc">${r[f]?fmt(r[f]):''}</td>`;const t=inp(i,f,r[f]);return a?t.replace('<td>','<td class="arc">'):t}
+function refresh(){const c=calc(cur()),sv=(id,v)=>{const x=document.getElementById(id);if(x)x.textContent=v};c.rows.forEach((r,i)=>{sv('g'+i,fmt(r.g));sv('d'+i,fmt(r.d))});c.q.forEach((o,k)=>COLS.forEach(f=>sv('T'+k+'_'+f,fmt(o[f]))));COLS.forEach(f=>sv('T4_'+f,fmt(c.t[f])))}
+function gate(){render()}
+function setS(){return [['Setting','Value'],['Department',DEPTS[S.dept]||S.dept],['School',S.school],['TAN',S.tan],['Address',S.addr],['Start Year',S.yr],['D.A %',S.da],['H.R.A %',S.hra],['NPS 14 %',S.n14],['NPS 10 %',S.n10],['NPS All. = 14%',S.npa?'Yes':'No'],['K.N %',S.kn],['D.A % months',...REG.map(i=>lab(i))],['D.A % values',...REG.map(i=>S.dar[i])],['H.R.A % values',...REG.map(i=>S.hrr[i])]]}
+let XI=null;
+function xiParse(buf){const wb=XLSX.read(buf,{type:'array'});
+ const sh=n=>{if(!wb.Sheets[n])throw new Error('x');return XLSX.utils.sheet_to_json(wb.Sheets[n],{header:1,defval:''})};
+ const ns=sh('Name Sheet'),nh=ns.findIndex(r=>r[0]==='Sr No');const emps=ns.slice(nh>=0?nh+1:1).filter(r=>String(r[1]).trim()).map(r=>{const e=newEmp(String(r[1]),String(r[2]));e.pan=String(r[3]).toUpperCase();e.aad=String(r[4]).replace(/\D/g,'');e.mob=String(r[5]).replace(/\D/g,'');if(String(r[6]).toLowerCase()=='yes')e.nps=true;return e});
+ if(!emps.length)throw new Error('x');
+ const inv={};Object.keys(EL).forEach(k=>inv[EL[k]]=k);
+ const st=sh('Sheet1'),used=[];let bi=-1,cols=null,n=0,cnt=-1;
+ for(const r of st){
+  if(String(r[0]).startsWith('Statement showing')){cnt++;cols=null;bi=-1;continue}
+  if(r[0]==='Name of the employee'){let j=emps.findIndex((e,x)=>e.n===String(r[1])&&!used[x]);if(j<0&&emps[cnt]&&!used[cnt])j=cnt;bi=j;if(j>=0)used[j]=true;continue}
+  if(r[0]==='Sr'&&r[1]==='Month'){cols=r;continue}
+  if(cols&&bi>=0&&typeof r[0]==='number'&&r[0]>=1&&r[0]<=16){const row=emps[bi].rows[r[0]-1];
+   for(let c=2;c<cols.length;c++){const k=inv[cols[c]];if(!k||k=='g'||k=='d')continue;const v=r[c];if(v!==''&&!isNaN(+v)&&+v)row[k]=+v}n++}}
+ emps.forEach(e=>e.rows.forEach(r=>{if(r.daa||r.hraa)r.ar=true}));
+ const set={};try{const ss=sh('Settings'),g=k=>{const r=ss.find(x=>x[0]===k);return r?r[1]:''};
+  const dn=String(g('Department'));set.dept=Object.keys(DEPTS).find(k=>DEPTS[k]===dn)||({'माध्यमिक विभाग':'sec','उच्च माध्यमिक विभाग':'hsec','कनिष्ठ महाविद्यालय':'jc'}[dn])||'sec';set.school=String(g('School'));set.tan=String(g('TAN'));set.addr=String(g('Address'));set.yr=+g('Start Year')||2025;set.da=+g('D.A %')||0;set.hra=+g('H.R.A %')||0;set.n14=+g('NPS 14 %')||0;set.n10=+g('NPS 10 %')||0;set.npa=String(g('NPS All. = 14%')).toLowerCase()=='yes';const kv=g('K.N %');if(kv!=='')set.kn=+kv;
+  const dv=ss.find(x=>x[0]==='D.A % values');if(dv){const d=Array(16).fill(set.da);REG.forEach((i,j)=>d[i]=+dv[j+1]||0);set.dar=d}const hv=ss.find(x=>x[0]==='H.R.A % values');if(hv){const d=Array(16).fill(set.hra);REG.forEach((i,j)=>d[i]=+hv[j+1]||0);set.hrr=d}}catch(e){}
+ const ch=Array.from({length:4},()=>Array.from({length:3},()=>({})));
+ [0,1,2,3].forEach(q=>{try{const a=sh('Q'+(q+1)),x=a.findIndex(r=>r[0]==='SR.NO');if(x>=0)for(let k=0;k<3;k++){const r=a[x+1+k]||[];ch[q][k]={ds:String(r[2]||''),dc:String(r[3]||''),amt:r[4]===''||r[4]==null?undefined:+r[4]}}}catch(e){}});
+ return {emps,set,ch,n}}
+function xiPick(inp){const f=inp.files[0],m=document.getElementById('xim'),a=document.getElementById('xia');if(!f)return;a.style.display='none';
+ if(typeof XLSX==='undefined'){m.textContent='Excel लायब्ररी लोड झाली नाही. इंटरनेट तपासा.';return}
+ const rd=new FileReader();rd.onload=()=>{try{XI=xiParse(rd.result);m.textContent='वाचले: '+XI.emps.length+' कर्मचारी, '+XI.n+' महिन्यांच्या ओळी. खात्री असेल तर खालील बटण दाबा.';a.style.display=''}catch(e){XI=null;m.textContent='ही फाईल वाचता आली नाही. फक्त या पानावरून एक्सपोर्ट केलेली, न बदललेली Excel फाईल निवडा.'}};rd.readAsArrayBuffer(f)}
+function xiApply(){if(!XI)return;const target=XI.set.dept||S.dept||'sec';S.dept=target;Object.assign(S,XI.set);S.emps=XI.emps;S.ch=XI.ch;S.cur=0;XI=null;save();render();const m=document.getElementById('xim');if(m)m.textContent='डेटा परत आणला.'}
+function syncRow(j){const r=cur().rows[j];document.querySelectorAll('[data-i="'+j+'"]').forEach(el=>{const v=r[el.dataset.f];el.value=v==null?'':v})}
+function fwdPay(e,i){
+ const v=e.rows[i].pay;if(v==null||v==='')return;
+ const q=i>>2,qEnd=q*4+2;
+ for(let j=i+1;j<=qEnd;j++){
+  const r=e.rows[j];
+  if(r.pay==null||r.pay===''){
+   r.pay=v;
+   if(S.auto){
+    if(r.da==null||r.da==='')r.da=Math.round(Number(v)*S.dar[j]/100);
+    if(r.hra==null||r.hra==='')r.hra=Math.round(Number(v)*S.hrr[j]/100);
+   }
+   if(e.nps)npsFill(e,j);
+   knFill(e,j);
+   syncRow(j);
+  }
+ }
+}
+function fwdCell(e,i,f,v){
+ if(f==='oth'||f==='daa'||f==='hraa'||v==null||v==='')return;
+ const q=i>>2,qEnd=q*4+2;
+ for(let j=i+1;j<=qEnd;j++){
+  const r=e.rows[j];
+  if(r[f]==null||r[f]===''){
+   r[f]=v;
+   const el=document.querySelector('[data-i="'+j+'"][data-f="'+f+'"]');
+   if(el)el.value=v;
+  }
+ }
+}
+function knFill(e,i){if(!S.kna||i%4==3)return;const r=e.rows[i],g=EF.reduce((a,f)=>a+(+r[f]||0),0);r.kn=g>0?Math.round(g*S.kn/100):undefined;if(e===cur()){const el=document.querySelector('[data-i="'+i+'"][data-f="kn"]');if(el)el.value=r.kn==null?'':r.kn}}
+function rHelp(){if(!S.ack)$('#nav').innerHTML='';$('#app').innerHTML=`<div style="max-width:860px;margin:0 auto"><div class="bar no"><button class="pri" onclick="window.print()">हे मार्गदर्शन प्रिंट</button></div>
+<h2>वापरण्याचे मार्गदर्शन</h2><p><b>विभाग निवड:</b> संपूर्ण नियमावली वाचून शेवटी टिक करून ओके दाबल्यानंतर वर विभाग निवडण्याचा पर्याय दिसेल. माध्यमिक, उच्च माध्यमिक किंवा कनिष्ठ महाविद्यालय विभाग निवडा. प्रत्येक विभागातील कर्मचारी, पगार आणि Challan माहिती स्वतंत्रपणे जतन होते. Excel एक्सपोर्ट त्या निवडलेल्या विभागासाठी तयार होतो. विभागाचे नाव बदलायचे असल्यास विभाग निवडीशेजारील <b>नाव बदला</b> बटण वापरा.</p>${S.ack?'':'<p><b>सुरू करण्यापूर्वी हे मार्गदर्शन पूर्ण वाचा. शेवटी टिक करून ओके दाबल्यावर पुढील सर्व पाने दिसतील.</b></p>'}
+<p>ही प्रणाली Excel ला पर्याय आहे. कर्मचारी निहाय पगार व कपात भरा. तिमाही बेरीज, स्टेटमेंट, Q1 ते Q4 माहिती आणि Excel आपोआप तयार होते. <b>सर्व माहिती तुमच्या स्वतःच्या ब्राउझरमध्येच साठवली जाते</b>, ती कोणत्याही सर्व्हरवर जात नाही.</p>
+<h3>1. पहिल्यांदा वापरताना</h3><ol><li><b>सेटिंग्ज / बॅकअप</b> उघडा. शाळेचे नाव, TAN आणि पत्ता भरा.</li><li>पगार सुरू होणारे वर्ष योग्य ठेवा (मार्च कोणत्या वर्षाचा). D.A % आणि H.R.A % तपासा.</li><li><b>कर्मचारी</b> पानावर <b>+ नवीन कर्मचारी</b> दाबून सर्वांची नावे, पदनाम, PAN, आधार व मोबाईल भरा.</li></ol>
+<h3>2. कर्मचारी पान</h3><ul><li>PAN 10 अक्षरांचा (5 अक्षरे, 4 अंक, 1 अक्षर, उद. ABCDE1234F). अक्षरे आपोआप कॅपिटल होतात.</li><li>नाव <b>पूर्ण</b> लिहा. नाव, PAN व आधार तिन्ही सारखे असतील तर डबल एन्ट्रीचा इशारा येतो (एकाच नावाचे वेगळे कर्मचारी चालतात).</li><li>आधार 12 अंकी आणि मोबाईल 10 अंकी. चूक असेल तर रकान्याखाली लाल संदेश येतो, तो दुरुस्त करा.</li></ul>
+<h3>3. पगार एन्ट्री</h3><ul><li>वरून कर्मचारी निवडा. मार्चचा <b>Pay</b> भरा. तो पुढील सर्व महिन्यांत आपोआप येतो. वेतनवाढ असेल तर त्या महिन्यात नवीन Pay भरा.</li><li>D.A व H.R.A महिन्याच्या दरानुसार आपोआप येतात.</li><li>NPS लागू असल्यास <b>या कर्मचार्याला NPS लागू</b> यावर टिक करा. (Pay + D.A) चे 14% आणि 10% आपोआप येतात.</li><li>K.N एकूण पगाराच्या 1% पूर्ण रुपयांत आपोआप येतो (Supp Bil मध्ये नाही).</li><li>P.F, P.T, Other आणि Inc. Tax हाताने भरा. आपोआप भरलेली कोणतीही रक्कम रकान्यात थेट टाइप करून बदलता येते.</li><li>तिमाही Total आणि वार्षिक एकूण आपोआप होतात. तक्ता मोठा वाटत असेल तर <b>आकार</b> चे - बटण दाबा.</li></ul>
+<h3>4. D.A / H.R.A दर बदलला तर</h3><p><b>D.A / H.R.A दर व फरक</b> पानावर महिन्यानुसार D.A % व H.R.A % बदला, <b>पुढे सर्वांना हाच दर</b> दाबा, मग <b>सर्व कर्मचाऱ्यांचे D.A व H.R.A दरानुसार पुन्हा काढा</b> दाबा. हे सर्व कर्मचाऱ्यांना एकदम लागू होते.</p><h3>5. फरक (Arrears)</h3><ul><li>त्याच पानावर खाली: फरक कोणत्या ओळीत भरायचा, कोणत्या महिन्यापासून कोणत्या महिन्यापर्यंत, जुना व नवीन D.A % / H.R.A % भरा आणि <b>सर्व कर्मचाऱ्यांना लागू करा</b> दाबा. फरक सर्वांचा आपोआप निघतो, प्रत्येकाचा वेगळा भरावा लागत नाही.</li></ul><h3>6. स्टेटमेंट, सारांश आणि तिमाही</h3><ul><li><b>स्टेटमेंट</b>: निवडलेल्या कर्मचार्याचे Excel सारखे स्टेटमेंट.</li><li><b>सारांश</b>: सर्वांचा तिमाहीनुसार एकूण पगार व आयकर.</li><li><b>तिमाही Q1-Q4</b>: तिमाहीची सर्व कर्मचाऱ्यांची यादी आणि challan तपशील. <b>Challan रक्कम = कापलेला आयकर</b> बटणाने रक्कम आपोआप भरता येते.</li></ul>
+<h3>7. प्रिंट आणि Excel</h3><ul><li>प्रिंटसाठी कागद, दिशा, मार्जिन व स्केल <b>सेटिंग्ज / बॅकअप</b> मधून ठरवा. प्रिंट डायलॉगमध्ये Margins ला Default ठेवा.</li><li><b>Excel (.xlsx) मध्ये एक्सपोर्ट</b> बटण स्टेटमेंट, सारांश आणि तिमाही पानावर आहे. फाईलमध्ये सर्व रकाने (फरकाचे सुद्धा) काहीही लपवल्याशिवाय येतात.</li></ul>
+<h3>8. बॅकअप आणि परत आणणे</h3><ul><li><b>सेटिंग्ज / बॅकअप</b> मध्ये <b>बॅकअप कोड तयार करा</b> दाबा, कोड कॉपी करून Notepad किंवा मेसेजमध्ये साठवा. नंतर तो पेस्ट करून <b>कोडवरून डेटा परत आणा</b> दाबल्यावर सर्व माहिती परत येते. दुसऱ्या संगणकावर नेण्यासाठीही हेच.</li><li>एक्सपोर्ट केलेली Excel फाईल <b>Excel मधून डेटा परत आणा (Import)</b> विभागात निवडूनही डेटा परत आणता येतो.</li><li>फॉन्टची निवडही त्याच ठिकाणी आहे.</li></ul>
+<h3>हे करा</h3><ul><li>रोज किंवा आठवड्याला <b>बॅकअप कोड</b> आणि Excel एक्सपोर्ट करून पेनड्राइव्ह किंवा ईमेलमध्ये ठेवा.</li><li>स्टेटमेंट सादर करण्यापूर्वी आपोआप भरलेले आकडे (D.A, H.R.A, NPS, K.N) तुमच्या कार्यालयाच्या नियमाशी तपासा. ही प्रणाली मदतीसाठी आहे, अंतिम तपासणीची जबाबदारी वापरकर्त्याची आहे.</li><li>PAN, आधार आणि मोबाइलचे लाल संदेश दुरुस्त करा.</li><li>नवीन वर्षासाठी: आधी बॅकअप घ्या, मग <b>फक्त पगाराचे आकडे पुसा</b> दाबा आणि वर्ष बदला.</li></ul>
+<h3>हे करू नका</h3><ul><li>एक्सपोर्ट केलेल्या Excel मध्ये शीट्स, रकाने, ओळी किंवा नावे बदलू नका. बदल केल्यास परत import करताना माहिती नीट वाचली जाणार नाही. बदल पानातच करा.</li><li>गुप्त (Incognito / Private) विंडोमध्ये वापरू नका. विंडो बंद केल्यावर डेटा जातो.</li><li>बॅकअपशिवाय ब्राउझरचा “Clear browsing data / Cookies and site data” करू नका. डेटा जातो.</li><li>बॅकअप घेतल्याशिवाय <b>सर्व काही पुसा</b> किंवा <b>फक्त पगाराचे आकडे पुसा</b> दाबू नका.</li><li>दुसऱ्याच्या किंवा सार्वजनिक संगणकावर वापरू नका. वापरल्यास शेवटी सर्व काही पुसा.</li><li>दुसरा ब्राउझर किंवा संगणक वापरल्यास तिथे डेटा दिसणार नाही. तिथे बॅकअप कोड पेस्ट करा.</li><li>एकाच वेळी दोन टॅबमध्ये हे पान उघडून काम करू नका. शेवटचा टॅब आधीचे बदल पुसू शकतो.</li></ul>
+<h3>संपर्क</h3><p>यात काही बदल किंवा नवीन काही सुचवायचे असल्यास संपर्क करा: <b>सुजित पाटील (रयत सेवक) - ९३३३४१११११</b></p><h3>आणखी उपयुक्त अर्ज</h3><div class="promo"><div><span class="en" style="font-weight:800">eDost</span> <span class="en" style="color:#2f7be8;font-weight:700">(Digital Sathidar)</span> - उपयुक्त tools साठी येथे खालील लिंक वर क्लिक करा:</div><a class="pl" href="https://rayatsevaksujit.github.io/applications/" target="_blank" rel="noopener">https://rayatsevaksujit.github.io/applications/</a></div>${S.ack?'':ackHtml()}</div>`}
+function ackHtml(){return '<div class="ack"><label><input type="checkbox" onchange="document.getElementById(\'acko\').disabled=!this.checked"> मी संपूर्ण नियमावली वाचली असून ती समजली आहे.</label><button class="pri" id="acko" disabled onclick="ackOk()">ओके</button></div>'}
+function ackOk(){S.ack=true;save();tab='set';render()}
+function clrPay(){if(!confirm('सर्व कर्मचाऱ्यांचे पगार, कपात व challan चे आकडे पुसले जातील. कर्मचारी यादी तशीच राहील. पुढे जायचे?'))return;S.emps.forEach(e=>e.rows=Array.from({length:16},()=>({})));S.ch=Array.from({length:4},()=>Array.from({length:3},()=>({})));save();render()}
+function clrAll(){if(!confirm('सर्व डेटा (कर्मचारी, पगार, सेटिंग्ज) कायमचा पुसला जाईल. आधी बॅकअप घेतला आहे का? पुढे जायचे?'))return;try{localStorage.removeItem('sal-stmt-v1')}catch(e){}S=null;load();tab='emp';save();render()}
+function zm(d){S.z=Math.min(150,Math.max(50,(S.z||100)+d));save();render()}
+let qs=0;
+const QL=[['MARCH PAID IN APRIL','APRIL PAID IN MAY','MAY PAID IN JUNE'],['JUNE PAID IN JULY','JULY PAID IN AUGUST','AUGUST PAID IN SEPTEMBER'],['SEPTEMBER PAID IN OCTOBER','OCTOBER PAID IN NOVEMBER','NOVEMBER PAID IN DECEMBER'],['DECEMBER PAID IN JANUARY','JANUARY PAID IN FEBRUARY','FEBRUARY PAID IN MARCH']];
+const QH=['Pay','D.A','D.A Arr','NPS All.','H.R.A','H.R.A Arr','T.A','Total','P.F','P.T','NPS 14%','NPS 10%','K.N','Other','Inc. Tax'];
+const QC=COLS.slice(0,15);
+const fy=()=>(S.yr+1)+'-'+String(S.yr+2).slice(2);
+const chIt=(q,k)=>S.emps.reduce((a,e)=>a+(+e.rows[q*4+k].it||0),0);
+const chA=(q,k)=>{const a=S.ch[q][k].amt;return a==null?(chIt(q,k)||''):a};
+const chTot=q=>[0,1,2].reduce((t,k)=>t+(+chA(q,k)||0),0);
+function chAmt(q,k,v){S.ch[q][k].amt=v===''?undefined:+v;save();$('#cat'+q).textContent=fmt(chTot(q))}
+function fillCh(q){for(let k=0;k<3;k++)S.ch[q][k].amt=chIt(q,k);save();render()}
+function qHtml(q){const cs=S.emps.map(e=>calc(e).q[q]),T=QC.map(f=>cs.reduce((a,o)=>a+o[f],0)),ch=S.ch[q];
+ const rows=S.emps.map((e,i)=>`<tr><td>${i+1}</td><td class="l">${esc(e.n)}</td><td class="en">${esc(e.pan)}</td><td class="l">${esc(e.d)}</td>${QC.map(f=>`<td>${cs[i][f]?fmt(cs[i][f]):''}</td>`).join('')}</tr>`).join('');
+ return `<div class="st"><div class="hd"><b>QUARTER ${q+1}</b> | TAN No: <b>${esc(S.tan)}</b> | FY YEAR <b>${fy()}</b><br>Name of the school: <b>${esc(S.school)}</b><br>${esc(DEPTS[S.dept]||S.dept)} - INCOME TAX QUARTER RETURN INFORMATION</div><div class="sc"><table><tr><th>Sr</th><th class="l">Name of Employees</th><th>PAN No</th><th class="l">DESIGNATION</th>${QH.map(h=>`<th>${h}</th>`).join('')}</tr>${rows}<tr class="tt"><td></td><td class="l">Total Rs</td><td></td><td></td>${T.map(v=>`<td>${fmt(v)}</td>`).join('')}</tr></table></div><h4 style="margin:14px 0 4px">Challan तपशील</h4><div class="sc"><table><tr><th>SR.NO</th><th class="l">MONTH</th><th>DATE OF SALARY PAID</th><th>DATE OF CHALLAN</th><th>AMOUNT</th></tr>${[0,1,2].map(k=>`<tr><td>${k+1}</td><td class="m">${QL[q][k]}</td><td><input type="date" style="width:140px" value="${esc(ch[k].ds)}" oninput="S.ch[${q}][${k}].ds=this.value;save()"></td><td><input type="date" style="width:140px" value="${esc(ch[k].dc)}" oninput="S.ch[${q}][${k}].dc=this.value;save()"></td><td><input type="number" value="${chA(q,k)}" oninput="chAmt(${q},${k},this.value)"></td></tr>`).join('')}<tr class="tt"><td></td><td></td><td></td><td class="l">TOTAL</td><td id="cat${q}">${fmt(chTot(q))}</td></tr></table></div></div>`}
+function rQ(){$('#app').innerHTML=`<div class="bar no">${[0,1,2,3].map(q=>`<button class="${q==qs?'on':''}" onclick="qs=${q};render()">Q${q+1}</button>`).join('')}<button class="pri" onclick="window.print()">प्रिंट</button><button onclick="fillCh(qs)">Challan रक्कम = कापलेला आयकर (आपोआप)</button><button onclick="expXlsx()">Excel (.xlsx) मध्ये एक्सपोर्ट</button><span class="mut">सूचना: एक्सपोर्ट केलेल्या Excel मध्ये बदल करू नका, नाहीतर परत import करताना माहिती नीट येणार नाही.</span></div>${qHtml(qs)}`}
+function qa(q){const cs=S.emps.map(e=>calc(e).q[q]),r=v=>v?Math.round(v):'';
+ const a=[['','TAN No -',S.tan,'','','','QUARTER '+(q+1)],['','Name of the school :-',S.school],['',(DEPTS[S.dept]||S.dept).toUpperCase(),'INCOME TAX QUARTER RETURN INFORMATION','','','','FY YEAR '+fy()],['Sr No','Name of Employees','PAN No of employee','DESIGNATION',...QH]];
+ S.emps.forEach((e,i)=>a.push([i+1,e.n,e.pan,e.d,...QC.map(f=>r(cs[i][f]))]));
+ a.push(['','Total Rs','','',...QC.map(f=>Math.round(cs.reduce((x,o)=>x+o[f],0)))],[],[]);
+ a.push(['SR.NO','MONTH','DATE OF SALARY PAID','DATE OF CHALLAN','AMOUNT']);
+ S.ch[q].forEach((c,k)=>a.push([k+1,QL[q][k],c.ds||'',c.dc||'',chA(q,k)]));
+ a.push(['','','','TOTAL',chTot(q)]);return a}
+async function expXlsx(){
+ if(typeof XLSX==='undefined'){alert('Excel लायब्ररी लोड झाली नाही. इंटरनेट तपासा.');return}
+ let dl=null;try{dl=await claude.use('downloads')}catch(e){}
+ if(false){alert('येथे फाईल सेव्ह करता येत नाही. पान claude.ai मध्ये उघडून पुन्हा प्रयत्न करा.');return}
+ const nz=v=>v?Math.round(v):'';
+ const names=[['Department',DEPTS[S.dept]||S.dept],['Sr No','Full Name','Designation','Pan Number','Aadhar Number','Mobile Number','NPS'],...S.emps.map((e,i)=>[i+1,e.n,e.d,e.pan,e.aad,e.mob,e.nps?'Yes':''])];
+ const st=[];
+ S.emps.forEach(e=>{const c=calc(e);
+  st.push([`Statement showing Salary paid during the financial year -- 01/04/${S.yr+1} to 31/03/${S.yr+2}`]);
+  st.push(['Department',DEPTS[S.dept]||S.dept]);st.push(['Name of the school :-',S.school,'TAN No -',S.tan]);st.push([S.addr]);
+  st.push(['Name of the employee',e.n,'PAN NO',e.pan]);
+  st.push(['Sr','Month',...COLS.map(f=>EL[f])]);
+  for(let q=0;q<4;q++){for(let k=0;k<4;k++){const i=q*4+k,r=c.rows[i];st.push([i+1,lab(i),...COLS.map(f=>nz(r[f]))])}st.push(['','Total',...COLS.map(f=>Math.round(c.q[q][f]))])}
+  st.push(['','Total',...COLS.map(f=>Math.round(c.t[f]))]);st.push([]);st.push([])});
+ const sm=[['Sr','Name','PAN',...[1,2,3,4].flatMap(q=>['Q'+q+' Salary','Q'+q+' Inc.Tax']),'Total Salary','Total Inc.Tax'],...S.emps.map((e,i)=>{const c=calc(e),v=[];c.q.forEach(o=>v.push(Math.round(o.g),Math.round(o.it)));v.push(Math.round(c.t.g),Math.round(c.t.it));return [i+1,e.n,e.pan,...v]})];
+ const wb=XLSX.utils.book_new();
+ [['Name Sheet',names],['Sheet1',st],['Summary',sm],...[0,1,2,3].map(q=>['Q'+(q+1),qa(q)]),['Settings',setS()]].forEach(([n,a])=>{const ws=XLSX.utils.aoa_to_sheet(a),m=S.pg.m/25.4;ws['!margins']={left:m,right:m,top:m,bottom:m,header:0.3,footer:0.3};XLSX.utils.book_append_sheet(wb,ws,n)});
+ const buf=XLSX.write(wb,{bookType:'xlsx',type:'array'});
+ const fn='Income_tax_'+(S.dept||'sec')+'_salary_'+(S.yr+1)+'-'+String(S.yr+2).slice(2)+'.xlsx';if(!dl){XLSX.writeFile(wb,fn);return}
+ try{await dl.save({filename:fn,data:buf})}catch(e){if(!e||e.code!=='declined')alert('फाईल सेव्ह झाली नाही'+(e&&e.code?': '+e.code:''))}
+}
+const REG=[0,1,2,4,5,6,8,9,10,12,13,14];
+function fwd(i){const v=S.dar[i];REG.forEach(j=>{if(j>i){S.dar[j]=v;const el=$('#dr'+j);if(el)el.value=v}});save()}
+function recalcDA(all){if(!confirm(all?'सर्व कर्मचाऱ्यांचे D.A (Pay असलेल्या महिन्यांचे) दरानुसार बदलले जाईल. पुढे जायचे?':'या कर्मचाऱ्याचे D.A दरानुसार बदलले जाईल. पुढे जायचे?'))return;(all?S.emps:[cur()]).forEach(e=>REG.forEach(i=>{const r=e.rows[i];if(r.pay){r.da=Math.round(r.pay*S.dar[i]/100);if(e.nps)npsFill(e,i);knFill(e,i)}}));save();if(tab=='ent')render();else alert('D.A पुन्हा काढले.')}
+
+/* ---- विभाग नावे ---- */
+function renDept(){const n=prompt('या विभागाचे नवीन नाव',DEPTS[S.dept]);if(n&&n.trim())setDeptName(S.dept,n)}
+function setDeptName(k,v){v=String(v||'').trim();if(!v)return render();DEPTS[k]=v;S.deptNames=S.deptNames||{};S.deptNames[k]=v;save();render()}
+/* ---- डबल एन्ट्री: नाव + PAN + आधार तिन्ही सारखे असतील तरच ---- */
+const nm=x=>String(x||'').replace(/\s+/g,' ').trim().toLowerCase();
+function dupOf(i){const a=S.emps[i];if(!nm(a.n)||!a.pan||!a.aad)return -1;return S.emps.findIndex((b,j)=>j!=i&&nm(b.n)==nm(a.n)&&b.pan==a.pan&&b.aad==a.aad)}
+function dupChk(){let c=0;S.emps.forEach((e,i)=>{const j=dupOf(i),el=document.getElementById('dn'+i);if(j>=0)c++;if(el)el.textContent=j>=0?'⚠ डबल एन्ट्री: अ.क्र. '+(j+1)+' सारखीच (नाव, PAN व आधार सेम)':''});const t=document.getElementById('dupt');if(t)t.textContent=c?'⚠ '+c+' डबल एन्ट्री आढळल्या - खालील लाल संदेश पहा.':''}
+/* ---- D.A / H.R.A दर व फरक: सर्व कर्मचाऱ्यांसाठी एकाच ठिकाणी ---- */
+const arLab=i=>MONTHS[i]=='Supp'?'Q'+((i>>2)+1)+' Supp Bil':lab(i);
+function rateSet(k,i,v){S[k][i]=+v||0;save()}
+function rateFwd(i){REG.forEach(j=>{if(j>i){S.dar[j]=S.dar[i];S.hrr[j]=S.hrr[i];const a=document.getElementById('dr'+j),b=document.getElementById('hr'+j);if(a)a.value=S.dar[i];if(b)b.value=S.hrr[i]}});save()}
+function arNote(t){const m=document.getElementById('arx');if(m)m.textContent=t}
+function recalcRates(){if(!confirm('सर्व कर्मचाऱ्यांचे D.A व H.R.A (Pay असलेल्या महिन्यांचे) वरील दरानुसार पुन्हा काढले जाईल. पुढे जायचे?'))return;S.emps.forEach(e=>REG.forEach(i=>{const r=e.rows[i];if(r.pay){r.da=Math.round(r.pay*S.dar[i]/100);r.hra=Math.round(r.pay*S.hrr[i]/100);if(e.nps)npsFill(e,i);knFill(e,i)}}));save();arNote('सर्व '+S.emps.length+' कर्मचाऱ्यांचे D.A व H.R.A पुन्हा काढले.')}
+function arAmt(e){let d=0,h=0;REG.forEach(i=>{if(i>=AR.f&&i<=AR.t){const p=+e.rows[i].pay||0;d+=p*(AR.nd-AR.od)/100;h+=p*(AR.nh-AR.oh)/100}});return[Math.round(d),Math.round(h)]}
+function arSet2(k,v){AR[k]=v;arPrev2()}
+function arPrev2(){const el=document.getElementById('arp');if(!el)return;let a=0,b=0;el.innerHTML='<table><tr><th>अ.क्र.</th><th class="l">नाव</th><th>D.A फरक</th><th>H.R.A फरक</th></tr>'+S.emps.map((e,i)=>{const[d,h]=arAmt(e);a+=d;b+=h;return `<tr><td>${i+1}</td><td class="l">${esc(e.n)}</td><td>${fmt(d)}</td><td>${fmt(h)}</td></tr>`}).join('')+`<tr class="tt"><td></td><td class="l">एकूण</td><td>${fmt(a)}</td><td>${fmt(b)}</td></tr></table>`}
+function arApply2(){if(!confirm('खालील फरक सर्व कर्मचाऱ्यांच्या '+arLab(AR.sr)+' ओळीत भरला जाईल (त्या ओळीतील आधीचा फरक बदलला जाईल). पुढे जायचे?'))return;S.emps.forEach(e=>{const[d,h]=arAmt(e),r=e.rows[AR.sr];r.daa=d||undefined;r.hraa=h||undefined;r.ar=(d||h)?true:undefined;if(e.nps)npsFill(e,AR.sr);knFill(e,AR.sr)});save();arNote('भरले: '+arLab(AR.sr)+' ओळीत, सर्व कर्मचाऱ्यांसाठी.')}
+function rAr(){const all=[...Array(16).keys()],so=(arr,k)=>arr.map(i=>`<option value="${i}" ${AR[k]==i?'selected':''}>${arLab(i)}</option>`).join(''),n=k=>`<input type="number" step="0.01" style="width:80px" value="${AR[k]}" oninput="arSet2('${k}',+this.value||0)">`;
+ $('#app').innerHTML=`<h3>1. महिन्यानुसार दर (सर्व कर्मचाऱ्यांसाठी)</h3><p class="mut">दर वाढला की त्या महिन्याचा दर बदला आणि <b>पुढे सर्वांना हाच दर</b> दाबा. नंतर खालील <b>पुन्हा काढा</b> बटण दाबा. हे सर्व कर्मचाऱ्यांना एकदम लागू होते.</p><div class="sc"><table><tr><th class="l">महिना</th><th>D.A %</th><th>H.R.A %</th><th></th></tr>${REG.map(i=>`<tr><td class="m">${lab(i)}</td><td><input type="number" step="0.01" id="dr${i}" value="${S.dar[i]}" oninput="rateSet('dar',${i},this.value)"></td><td><input type="number" step="0.01" id="hr${i}" value="${S.hrr[i]}" oninput="rateSet('hrr',${i},this.value)"></td><td><button onclick="rateFwd(${i})">पुढे सर्वांना हाच दर</button></td></tr>`).join('')}</table></div><div class="bar" style="margin-top:8px"><button class="pri" onclick="recalcRates()">सर्व कर्मचाऱ्यांचे D.A व H.R.A दरानुसार पुन्हा काढा</button></div><h3>2. फरक (Arrears) - सर्व कर्मचाऱ्यांसाठी एकदम</h3><p class="mut">फरक = निवडलेल्या महिन्यांच्या Pay चा (नवीन % - जुना %). रक्कम निवडलेल्या ओळीतील D.A Arr / H.R.A Arr रकान्यात जाते.</p><div class="bar"><label>फरक भरायचा: <select onchange="arSet2('sr',+this.value)">${so(all,'sr')}</select></label><label>कोणत्या महिन्यापासून <select onchange="arSet2('f',+this.value)">${so(REG,'f')}</select></label><label>कोणत्या महिन्यापर्यंत <select onchange="arSet2('t',+this.value)">${so(REG,'t')}</select></label></div><div class="bar"><label>जुना D.A % ${n('od')}</label><label>नवीन D.A % ${n('nd')}</label><label>जुना H.R.A % ${n('oh')}</label><label>नवीन H.R.A % ${n('nh')}</label></div><div class="bar"><button class="pri" onclick="arApply2()">सर्व कर्मचाऱ्यांना लागू करा</button><span class="mut" id="arx"></span></div><div class="sc" id="arp"></div>`;arPrev2()}
+load();gate();
+</script></body></html>
