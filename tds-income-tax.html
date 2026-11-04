@@ -136,7 +136,7 @@ input[type=number],input[type=date]{font-family:Arial,Helvetica,Roboto,sans-seri
 <script>
 const MONTHS=['Mar','Apr','May','Supp','Jun','Jul','Aug','Supp','Sep','Oct','Nov','Supp','Dec','Jan','Feb','Supp'];
 const EF=['pay','da','daa','nps','hra','hraa','ta'],DF=['pf','pt','n14','n10','kn','oth','it'],COLS=[...EF,'g',...DF,'d'];
-const EL={pay:'Pay',da:'D.A',daa:'D.A Arr',nps:'NPS All.',hra:'H.R.A',hraa:'H.R.A Arr',ta:'T.A',g:'Total',pf:'P.F',pt:'P.T',n14:'NPS 14%',n10:'NPS 10%',kn:'K.N',oth:'Other',it:'Inc. Tax',d:'Total Ded'};
+const EL={pay:'Pay',da:'D.A',daa:'DA ARR',nps:'NPS All.',hra:'H.R.A',hraa:'HRA ARR',ta:'T.A',g:'Total',pf:'P.F',pt:'P.T',n14:'NPS 14%',n10:'NPS 10%',kn:'K.N',oth:'Other',it:'Inc. Tax',d:'Total Ded'};
 const $=s=>document.querySelector(s);
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fmt=v=>v?Math.round(v).toLocaleString('en-IN'):'0';
@@ -242,7 +242,7 @@ function copyAllQs(){
  showToast('प्रत्येक Q मधील पुढील २ महिन्यांत माहिती भरली (Other वगळून)!');
 }
 function rEnt(){
- const e=cur(),sa=e.rows.some(r=>r.ar||r.daa||r.hraa),VC=COLS.filter(c=>sa||(c!='daa'&&c!='hraa'));
+ const e=cur(),sa=e.rows.some(r=>!!r.ar),VC=COLS.filter(c=>sa||(c!='daa'&&c!='hraa'));
  let h=`<div class="bar">
   ${sel()}
   <button class="pri" onclick="manualSave()" style="font-weight:bold;background:#167d78">💾 सेव्ह करा</button>
@@ -263,7 +263,7 @@ function rEnt(){
  for(let q=0;q<4;q++){
   for(let k=0;k<4;k++){
    const i=q*4+k,r=e.rows[i];
-   h+=`<tr><td class="m">${lab(i)}</td>${EF.filter(f=>VC.includes(f)).map(f=>cellE(i,f,r,k)).join('')}<td id="g${i}" class="tt"></td>${DF.map(f=>inp(i,f,r[f])).join('')}<td id="d${i}" class="tt"></td></tr>`;
+   h+=`<tr><td class="m"><label style="display:flex;align-items:center;gap:5px;white-space:nowrap"><input type="checkbox" ${r.ar?'checked':''} onchange="arTog(${i},this.checked)" title="या महिन्यात DA ARR / HRA ARR दाखवा">${lab(i)}</label></td>${EF.filter(f=>VC.includes(f)).map(f=>cellE(i,f,r,k)).join('')}<td id="g${i}" class="tt"></td>${DF.map(f=>inp(i,f,r[f])).join('')}<td id="d${i}" class="tt"></td></tr>`;
   }
   h+=`<tr class="tt"><td class="l">Total Q${q+1}</td>${VC.map(c=>`<td class="${c=='daa'||c=='hraa'?'arc':''}" id="T${q}_${c}"></td>`).join('')}</tr>`;
  }
@@ -409,7 +409,7 @@ const arRow=(i,r)=>`<tr class="tt"><td colspan="15"><label>D.A फरक <input 
 function arSupp(e,q){const rs=e.rows,si=q*4+3,s=rs[si];let d=0,h=0;for(let k=0;k<3;k++){d+=+rs[q*4+k].ada||0;h+=+rs[q*4+k].ahr||0}
  s.da=d||undefined;s.hra=h||undefined;if(e.nps)npsFill(e,si);
  if(e===cur())['da','hra'].forEach(f=>{const el=document.querySelector('[data-i="'+si+'"][data-f="'+f+'"]');if(el)el.value=s[f]==null?'':s[f]})}
-function arTog(i,on){const e=cur(),r=e.rows[i];r.ar=on||undefined;if(!on){r.ada=undefined;r.ahr=undefined}arSupp(e,i>>2);save();render()}
+function arTog(i,on){const e=cur(),r=e.rows[i];r.ar=on||undefined;arSupp(e,i>>2);save();render()}
 function arIn(i,f,v){const e=cur(),r=e.rows[i];r[f]=v===''?undefined:+v;arSupp(e,i>>2);save();refresh()}
 function arGrid(i,f,v){const e=S.emps[i],m=AR.m||0,r=e.rows[m];r[f]=v===''?undefined:+v;r.ar=(r.ada||r.ahr)?true:undefined;arSupp(e,m>>2);save()}
 function rAr(){const m=AR.m||0;
@@ -422,7 +422,7 @@ function rAr(){const m=AR.m||0;
 function applyFont(){let el=$('#fnt');if(!el){el=document.createElement('style');el.id='fnt';document.head.appendChild(el)}
  const fm={noto:'"Noto Sans Devanagari"',mukta:'"Mukta"',hind:'"Hind"',sakal:'"Sakal Marathi"'}[S.font||'sakal'],fs=S.fs||15;
  el.textContent='body{font-family:"EnNum",'+fm+',"Noto Sans Devanagari","Mangal",system-ui,sans-serif;font-size:'+fs+'px}#et,#et td input{font-size:'+Math.max(11,fs-3)+'px}'}
-function cellE(i,f,r,k){const a=f=='daa'||f=='hraa';if(a&&k<3&&!r.ar)return `<td class="arc">${r[f]?fmt(r[f]):''}</td>`;const t=inp(i,f,r[f]);return a?t.replace('<td>','<td class="arc">'):t}
+function cellE(i,f,r,k){const a=f=='daa'||f=='hraa';if(a&&!r.ar)return `<td class="arc"></td>`;const t=inp(i,f,r[f]);return a?t.replace('<td>','<td class="arc">'):t}
 function refresh(){const c=calc(cur()),sv=(id,v)=>{const x=document.getElementById(id);if(x)x.textContent=v};c.rows.forEach((r,i)=>{sv('g'+i,fmt(r.g));sv('d'+i,fmt(r.d))});c.q.forEach((o,k)=>COLS.forEach(f=>sv('T'+k+'_'+f,fmt(o[f]))));COLS.forEach(f=>sv('T4_'+f,fmt(c.t[f])))}
 function gate(){render()}
 function setS(){return [['Setting','Value'],['Department',DEPTS[S.dept]||S.dept],['School',S.school],['TAN',S.tan],['Address',S.addr],['Start Year',S.yr],['D.A %',S.da],['H.R.A %',S.hra],['NPS 14 %',S.n14],['NPS 10 %',S.n10],['NPS All. = 14%',S.npa?'Yes':'No'],['K.N %',S.kn],['D.A % months',...REG.map(i=>lab(i))],['D.A % values',...REG.map(i=>S.dar[i])],['H.R.A % values',...REG.map(i=>S.hrr[i])]]}
