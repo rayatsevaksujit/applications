@@ -127,7 +127,28 @@ button.pri{background:linear-gradient(135deg,#174a70,#167d78) !important}
 @font-face{font-family:"EnNum";src:local("Arial"),local("Helvetica Neue"),local("Helvetica"),local("Liberation Sans"),local("Roboto"),local("Segoe UI"),local("Noto Sans"),local("DejaVu Sans");unicode-range:U+0030-0039,U+002C,U+002E}
 body{font-family:"EnNum","Sakal Marathi","Noto Sans Devanagari","Mangal",system-ui,sans-serif}
 input[type=number],input[type=date]{font-family:Arial,Helvetica,Roboto,sans-serif!important}
-</style></head><body>
+</style><style>
+/* Compact salary-entry toolbar; existing calculations and saved data are untouched */
+.ent-toolbar{gap:6px;margin-bottom:5px;padding:5px 7px;background:var(--card);border:1px solid var(--bd);border-radius:9px}
+.ent-main{display:flex;align-items:center;gap:6px;flex-wrap:wrap;width:100%}
+.ent-main>select{max-width:min(360px,55vw);padding:5px 8px}
+.ent-main>button,.ent-menu>summary{padding:5px 9px;font-size:13px;line-height:1.35}
+.ent-menu{position:relative;display:inline-block}
+.ent-menu>summary{cursor:pointer;list-style:none;border:1px solid var(--bd);border-radius:8px;background:var(--bg);font-weight:600}
+.ent-menu>summary::-webkit-details-marker{display:none}
+.ent-menu[open]>summary{background:var(--ac);color:var(--acf)}
+.ent-menu-panel{position:absolute;z-index:30;top:calc(100% + 5px);left:0;min-width:190px;padding:8px;display:flex;flex-wrap:wrap;gap:5px;background:var(--bg);border:1px solid var(--bd);border-radius:9px;box-shadow:0 6px 18px rgba(0,0,0,.16)}
+.ent-menu-panel button{padding:5px 8px;font-size:13px}
+.ent-settings{min-width:250px;display:flex;flex-direction:column;align-items:flex-start}
+.ent-settings label{display:flex;align-items:center;gap:5px;font-size:13px}
+.ent-settings input{width:auto}
+.ent-note{font-size:12px;line-height:1.35;margin:3px 0 6px}
+#et input[data-f]{appearance:textfield;-moz-appearance:textfield}
+#et input[data-f]::-webkit-inner-spin-button,#et input[data-f]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+#et td input[data-f]{width:76px;max-width:100%;box-sizing:border-box}
+@media(max-width:700px){.ent-main>select{max-width:48vw}.ent-toolbar{padding:4px}.ent-note{font-size:11px}}
+</style>
+</head><body>
 <header class="no"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px"><div class="logo"><span class="bd en">eD</span><span class="lg en">eDost</span><span class="ds en">(Digital Sathidar)</span></div><a href="index.html" class="btn-nav-home">🏠 सर्व टूल्स (Home)</a></div><h1>TDS / Income Tax प्रणाली</h1><p>आयकर माहिती फॉर्म: Excel ला पर्याय. कर्मचारी निहाय पगार व कपात भरा, तिमाही बेरीज आपोआप, प्रिंट स्टेटमेंट तयार.</p></header>
 <div id="nav" class="no"></div>
 <main id="app"></main><div id="prn"></div>
@@ -181,7 +202,7 @@ function vmsg(i,k){const v=S.emps[i][k]||'',m=document.getElementById('e'+i+k);i
 function vf(i,k,el){const c=VF[k];let v=el.value.replace(c.re,'');if(k=='pan')v=v.toUpperCase();v=v.slice(0,c.max);el.value=v;S.emps[i][k]=v;save();vmsg(i,k);dupChk()}
 function addEmp(){S.emps.push(newEmp());S.cur=S.emps.length-1;save();render()}
 function delEmp(i){if(!confirm('हा कर्मचारी व त्याचा सर्व पगार डेटा हटवायचा?'))return;S.emps.splice(i,1);if(!S.emps.length)S.emps.push(newEmp());S.cur=0;save();render()}
-const inp=(i,f,v)=>`<td><input type="number" inputmode="decimal" data-i="${i}" data-f="${f}" value="${v==null?'':v}"></td>`;
+const inp=(i,f,v)=>`<td><input type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" data-i="${i}" data-f="${f}" value="${v==null?'':v}" aria-label="${EL[f]}"></td>`;
 function showToast(msg){
  let t=document.getElementById('toast');
  if(!t){
@@ -243,22 +264,20 @@ function copyAllQs(){
 }
 function rEnt(){
  const e=cur(),sa=e.rows.some(r=>!!r.ar),VC=COLS.filter(c=>sa||(c!='daa'&&c!='hraa'));
- let h=`<div class="bar">
-  ${sel()}
-  <button class="pri" onclick="manualSave()" style="font-weight:bold;background:#167d78">💾 सेव्ह करा</button>
-  <button onclick="copyAllQs()" title="प्रत्येक Q मधील पहिल्या महिन्यानुसार त्या त्या Q मधील पुढील महिने भरा">📋 Q मधील महिने भरा</button>
-  <span class="mut" style="font-weight:700">Q नुसार:</span>
-  <button onclick="copyQ(0)" title="Q1: मार्चचा पगार एप्रिल व मे मध्ये भरा">Q1</button>
-  <button onclick="copyQ(1)" title="Q2: जूनचा पगार जुलै व ऑगस्ट मध्ये भरा">Q2</button>
-  <button onclick="copyQ(2)" title="Q3: सप्टेंबरचा पगार ऑक्टोबर व नोव्हेंबर मध्ये भरा">Q3</button>
-  <button onclick="copyQ(3)" title="Q4: डिसेंबरचा पगार जानेवारी व फेब्रुवारी मध्ये भरा">Q4</button>
-  <label><input type="checkbox" ${S.auto?'checked':''} onchange="S.auto=this.checked;save()"> Pay भरल्यावर D.A व H.R.A आपोआप</label>
-  <label><input type="checkbox" ${S.kna?'checked':''} onchange="S.kna=this.checked;save()"> K.N आपोआप (${S.kn}%)</label>
-  <label><input type="checkbox" ${e.nps?'checked':''} onchange="cur().nps=this.checked;save()"> NPS लागू (14% व 10%)</label>
-  <span class="mut">आकार (${S.z||100}%):</span>
-  <button onclick="zm(-10)">-</button><button onclick="zm(10)">+</button>
+ let h=`<div class="bar ent-toolbar">
+  <div class="ent-main">${sel()}<button class="pri" onclick="manualSave()" style="font-weight:bold;background:#167d78">💾 सेव्ह</button>
+  <details class="ent-menu"><summary>📋 तिमाही पर्याय</summary><div class="ent-menu-panel">
+   <button onclick="copyAllQs()">सर्व Q मधील महिने भरा</button>
+   <button onclick="copyQ(0)">Q1</button><button onclick="copyQ(1)">Q2</button><button onclick="copyQ(2)">Q3</button><button onclick="copyQ(3)">Q4</button>
+  </div></details>
+  <details class="ent-menu"><summary>⚙️ सेटिंग्ज</summary><div class="ent-menu-panel ent-settings">
+   <label><input type="checkbox" ${S.auto?'checked':''} onchange="S.auto=this.checked;save()"> Pay नंतर D.A / H.R.A आपोआप</label>
+   <label><input type="checkbox" ${S.kna?'checked':''} onchange="S.kna=this.checked;save()"> K.N आपोआप (${S.kn}%)</label>
+   <label><input type="checkbox" ${e.nps?'checked':''} onchange="cur().nps=this.checked;save()"> NPS लागू (14% व 10%)</label>
+   <span class="mut">टेबल आकार: ${S.z||100}%</span><button onclick="zm(-10)">−</button><button onclick="zm(10)">+</button>
+  </div></details></div>
  </div>
- <div class="mut">PAN: <span class="en">${esc(e.pan)||'-'}</span> | पदनाम: ${esc(e.d)||'-'} | <span style="color:#167d78;font-weight:600">टीप: माहिती फक्त चालू तिमाहीत (Q) भरली जाते, पुढील Q मोकळे राहतात. 'Other' कॉलम आपोआप भरला जात नाही.</span></div>
+ <div class="mut ent-note">PAN: <span class="en">${esc(e.pan)||'-'}</span> | पदनाम: ${esc(e.d)||'-'} | टीप: माहिती चालू तिमाहीत भरा; 'Other' कॉलम आपोआप भरला जात नाही.</div>`;
  <div class="sc" style="zoom:${(S.z||100)/100}"><table id="et"><tr><th class="l">महिना</th>${VC.map(c=>`<th class="${c=='daa'||c=='hraa'?'arc':''}">${EL[c]}</th>`).join('')}</tr>`;
  for(let q=0;q<4;q++){
   for(let k=0;k<4;k++){
