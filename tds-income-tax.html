@@ -278,7 +278,7 @@ function rEnt(){
   </div></details></div>
  </div>
  <div class="mut ent-note">PAN: <span class="en">${esc(e.pan)||'-'}</span> | पदनाम: ${esc(e.d)||'-'} | टीप: माहिती चालू तिमाहीत भरा; 'Other' कॉलम आपोआप भरला जात नाही.</div>`;
- <div class="sc" style="zoom:${(S.z||100)/100}"><table id="et"><tr><th class="l">महिना</th>${VC.map(c=>`<th class="${c=='daa'||c=='hraa'?'arc':''}">${EL[c]}</th>`).join('')}</tr>`;
+ h+=`<div class="sc" style="zoom:${(S.z||100)/100}"><table id="et"><tr><th class="l">महिना</th>${VC.map(c=>`<th class="${c=='daa'||c=='hraa'?'arc':''}">${EL[c]}</th>`).join('')}</tr>`;
  for(let q=0;q<4;q++){
   for(let k=0;k<4;k++){
    const i=q*4+k,r=e.rows[i];
