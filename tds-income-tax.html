@@ -15,9 +15,10 @@
   #app th,#app td{padding:3px 4px!important;line-height:1.2!important}
   #app .sc{overflow:visible!important;max-height:none!important}
   #app .mut.no{display:none!important}
-  body:before{content:"eDost (Digital Sathidar)";position:fixed;z-index:-1;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-28deg);font-size:34px;font-weight:700;letter-spacing:1px;color:rgba(90,100,110,.045);white-space:nowrap;pointer-events:none}
+  body:before{content:none!important}
+  body:after{content:"Sujit Patil (Rayat Sevak) eDost";position:fixed;z-index:9999;left:0;right:0;bottom:2mm;text-align:center;font-size:9px;font-weight:600;letter-spacing:.2px;color:#dedede;white-space:nowrap;pointer-events:none}
 }
-@page{ @bottom-center{content:"पृष्ठ " counter(page) " / " counter(pages);font-size:9px;color:#777} }
+@page{margin-bottom:14mm;@bottom-left{content:"Sujit Patil (Rayat Sevak) eDost";font-size:8px;color:#e2e2e2}@bottom-center{content:"पृष्ठ " counter(page) " / " counter(pages);font-size:9px;color:#777}}
 
 </style>
 <style>
