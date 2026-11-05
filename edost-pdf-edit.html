@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>eDost PDF Edit — PDF संपादन व स्वाक्षरी | Digital SATHIDAR</title>
+  
+  <!-- Inter Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Online Verified CDNs (GitHub Pages Ready) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.9/dist/pdf-lib.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-light: #eef2ff;
+      --primary-glow: rgba(79, 70, 229, 0.25);
+      --danger: #ef4444;
+      --danger-light: #fef2f2;
+      
+      --bg-workspace: #0f172a;
+      --bg-surface: #ffffff;
+      --bg-subtle: #f8fafc;
+      
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --text-light: #94a3b8;
+      
+      --border-color: #e2e8f0;
+      --border-focus: #4f46e5;
+      
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --radius-full: 9999px;
+      
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+      --shadow-canvas: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-workspace);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Header */
+    .app-header {
+      background: var(--bg-surface);
+      height: 64px;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+      z-index: 20;
+      box-shadow: var(--shadow-sm);
+    }
+    .header-brand { display: flex; align-items: center; gap: 12px; }
+    .brand-badge {
+      width: 38px; height: 38px; border-radius: var(--radius-md);
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      display: flex; align-items: center; justify-content: center;
+      color: white; box-shadow: 0 4px 10px var(--primary-glow);
+    }
+    .brand-title { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.02em; color: #0f172a; line-height: 1.2; }
+    .brand-title span { color: var(--primary); }
+    .brand-subtitle { font-size: 0.72rem; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    .header-actions { display: flex; gap: 10px; align-items: center; }
+
+    /* Buttons */
+    .btn {
+      height: 38px; padding: 0 16px; border-radius: var(--radius-md);
+      border: 1px solid transparent; font-size: 0.86rem; font-weight: 600;
+      cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); font-family: inherit;
+    }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; box-shadow: none !important; }
+    .btn-primary {
+      background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+      color: white; box-shadow: 0 4px 12px var(--primary-glow);
+    }
+    .btn-primary:hover:not(:disabled) {
+      background: linear-gradient(135deg, #4338ca 0%, #4f46e5 100%);
+      box-shadow: 0 6px 16px rgba(79, 70, 229, 0.35); transform: translateY(-1px);
+    }
+    .btn-secondary {
+      background: var(--bg-surface); color: var(--text-main); border-color: var(--border-color);
+    }
+    .btn-secondary:hover:not(:disabled) { background: var(--bg-subtle); border-color: #cbd5e1; }
+
+    /* Toolbar */
+    .toolbar {
+      background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px);
+      padding: 8px 24px; display: flex; align-items: center; gap: 16px;
+      border-bottom: 1px solid var(--border-color); overflow-x: auto; z-index: 10;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+    .tool-section { display: flex; flex-direction: column; gap: 4px; }
+    .section-label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: var(--text-light); letter-spacing: 0.05em; padding-left: 2px; }
+    .tool-group { display: flex; align-items: center; gap: 6px; }
+    .tool-btn {
+      height: 36px; padding: 0 12px; border-radius: var(--radius-sm); border: 1px solid transparent;
+      background-color: transparent; color: var(--text-main); font-size: 0.84rem; font-weight: 500;
+      cursor: pointer; display: inline-flex; align-items: center; gap: 7px;
+      transition: all 0.15s ease; font-family: inherit;
+    }
+    .tool-btn:hover:not(:disabled) { background-color: #f1f5f9; color: #0f172a; }
+    .tool-btn.active { background-color: var(--primary-light); color: var(--primary); font-weight: 600; }
+    .tool-btn.icon-only { padding: 0 10px; }
+    .tool-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+    .tool-btn-danger:hover:not(:disabled) { background-color: var(--danger-light); color: var(--danger); }
+    .toolbar-divider { width: 1px; height: 32px; background-color: var(--border-color); margin: 0 4px; }
+
+    /* Style Controls */
+    .style-group { display: flex; align-items: center; gap: 8px; }
+    .color-picker-wrapper {
+      position: relative; width: 34px; height: 34px; border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color); overflow: hidden; cursor: pointer; background: white;
+    }
+    .color-picker-wrapper input[type="color"] { position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; opacity: 0; cursor: pointer; }
+    .color-swatch { width: 100%; height: 100%; border-radius: var(--radius-sm); }
+    .select-wrapper select {
+      height: 34px; padding: 0 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);
+      background-color: white; color: var(--text-main); font-size: 0.84rem; font-weight: 500; cursor: pointer; outline: none;
+    }
+
+    /* Workspace */
+    .workspace {
+      flex: 1; overflow: auto; display: flex; justify-content: center; align-items: flex-start;
+      padding: 40px 24px 80px 24px; position: relative;
+    }
+    .workspace::-webkit-scrollbar { width: 10px; height: 10px; }
+    .workspace::-webkit-scrollbar-track { background: #0b1120; }
+    .workspace::-webkit-scrollbar-thumb { background: #334155; border-radius: 5px; }
+
+    .drop-zone {
+      background: #1e293b; border: 2px dashed #475569; border-radius: var(--radius-lg);
+      padding: 60px 48px; text-align: center; max-width: 540px; margin-top: 40px;
+      color: #94a3b8; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); animation: fadeIn 0.3s ease;
+    }
+    .drop-icon-container {
+      width: 72px; height: 72px; border-radius: 50%; background: rgba(99, 102, 241, 0.12);
+      display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto;
+    }
+    .drop-zone h3 { font-size: 1.35rem; font-weight: 700; color: #f8fafc; margin-bottom: 8px; }
+    .drop-desc { font-size: 0.92rem; line-height: 1.5; color: #94a3b8; margin-bottom: 24px; }
+    .drop-actions { display: flex; justify-content: center; gap: 12px; }
+
+    /* Canvas */
+    .canvas-wrapper { display: flex; justify-content: center; animation: fadeIn 0.25s ease; }
+    .editor-board {
+      position: relative; box-shadow: var(--shadow-canvas); background-color: #ffffff;
+      border-radius: 4px; overflow: hidden;
+    }
+    #pdf-canvas { position: absolute; left: 0; top: 0; z-index: 1; display: block; }
+    .fabric-overlay { position: absolute; left: 0; top: 0; z-index: 2; }
+
+    /* Floating Pagination */
+    .pagination-bar {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 14px;
+      border-radius: var(--radius-full); display: flex; align-items: center; gap: 12px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5); z-index: 30;
+    }
+    .dock-btn {
+      width: 32px; height: 32px; border-radius: 50%; border: none;
+      background: rgba(255, 255, 255, 0.1); color: #f8fafc;
+      display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s ease;
+    }
+    .dock-btn:hover:not(:disabled) { background: rgba(255, 255, 255, 0.2); transform: scale(1.05); }
+    .dock-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .page-badge { display: flex; align-items: center; gap: 6px; font-size: 0.84rem; font-weight: 500; color: #cbd5e1; }
+    .page-num { color: #ffffff; font-weight: 700; }
+    .page-slash { color: #64748b; }
+
+    /* Modal */
+    .modal {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(6px);
+      display: flex; justify-content: center; align-items: center; z-index: 1000; animation: fadeIn 0.15s ease;
+    }
+    .modal-card {
+      background: var(--bg-surface); padding: 28px; border-radius: var(--radius-lg);
+      width: 92%; max-width: 460px; box-shadow: var(--shadow-lg); border: 1px solid var(--border-color);
+    }
+    .modal-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .modal-badge { width: 40px; height: 40px; border-radius: var(--radius-md); background: var(--primary-light); display: flex; align-items: center; justify-content: center; }
+    .modal-header h3 { font-size: 1.15rem; font-weight: 700; color: #0f172a; }
+    .modal-header p { font-size: 0.8rem; color: var(--text-muted); }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: #334155; margin-bottom: 6px; }
+    .form-control {
+      width: 100%; height: 40px; padding: 0 12px; border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color); background: white; font-size: 0.88rem; color: var(--text-main); outline: none;
+    }
+    .form-control:focus { border-color: var(--border-focus); box-shadow: 0 0 0 3px var(--primary-glow); }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px; }
+    .hidden { display: none !important; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+  </style>
+</head>
+<body>
+
+  <!-- Top App Navigation Bar -->
+  <header class="app-header">
+    <div class="header-brand">
+      <div class="brand-badge">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+      </div>
+      <div>
+        <h1 class="brand-title">eDost <span>PDF Edit</span></h1>
+        <p class="brand-subtitle">Pro PDF Editor & Annotation Suite</p>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none;">← Digital SATHIDAR</a>
+      <label class="btn btn-secondary upload-btn">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="17 8 12 3 7 8"></polyline>
+          <line x1="12" y1="3" x2="12" y2="15"></line>
+        </svg>
+        <span>Open PDF</span>
+        <input type="file" id="file-input" accept="application/pdf" style="display: none;">
+      </label>
+
+      <button id="save-pdf-btn" class="btn btn-primary" disabled>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        <span>Save & Export</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Modern Floating Action Toolbar -->
+  <nav class="toolbar" id="main-toolbar">
+    <div class="tool-section">
+      <span class="section-label">Tools</span>
+      <div class="tool-group">
+        <button id="btn-text" class="tool-btn" title="Add Text Box">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="4 7 4 4 20 4 20 7"></polyline>
+            <line x1="9" y1="20" x2="15" y2="20"></line>
+            <line x1="12" y1="4" x2="12" y2="20"></line>
+          </svg>
+          <span>Text</span>
+        </button>
+
+        <button id="btn-whiteout" class="tool-btn" title="Erase / Whiteout Content">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          </svg>
+          <span>Whiteout</span>
+        </button>
+
+        <button id="btn-draw" class="tool-btn" title="Draw / Signature Pencil">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+            <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+            <path d="M2 2l7.586 7.586"></path>
+            <circle cx="11" cy="11" r="2"></circle>
+          </svg>
+          <span>Sign & Draw</span>
+        </button>
+
+        <button id="btn-link" class="tool-btn" title="Add Clickable Link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+          </svg>
+          <span>Link</span>
+        </button>
+
+        <label class="tool-btn file-tool-btn" style="cursor: pointer;" title="Insert Image or Signature Stamp">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+            <polyline points="21 15 16 10 5 21"></polyline>
+          </svg>
+          <span>Image</span>
+          <input type="file" id="image-input" accept="image/*" style="display: none;">
+        </label>
+      </div>
+    </div>
+
+    <div class="toolbar-divider"></div>
+
+    <div class="tool-section">
+      <span class="section-label">Appearance</span>
+      <div class="tool-group style-group">
+        <div class="color-picker-wrapper" title="Text & Pen Color">
+          <input type="color" id="color-picker" value="#000000">
+          <div class="color-swatch" id="color-swatch" style="background-color: #000000;"></div>
+        </div>
+
+        <div class="select-wrapper" title="Font Size">
+          <select id="font-size">
+            <option value="12">12 px</option>
+            <option value="14">14 px</option>
+            <option value="18" selected>18 px</option>
+            <option value="24">24 px</option>
+            <option value="32">32 px</option>
+            <option value="48">48 px</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="toolbar-divider"></div>
+
+    <div class="tool-section">
+      <span class="section-label">History</span>
+      <div class="tool-group">
+        <button id="btn-undo" class="tool-btn icon-only" title="Undo (Ctrl+Z)" disabled>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="1 4 1 10 7 10"></polyline>
+            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+          </svg>
+        </button>
+
+        <button id="btn-redo" class="tool-btn icon-only" title="Redo (Ctrl+Y)" disabled>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="23 4 23 10 17 10"></polyline>
+            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+          </svg>
+        </button>
+
+        <button id="btn-delete" class="tool-btn tool-btn-danger" title="Delete Selected (Del)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          </svg>
+          <span>Delete</span>
+        </button>
+
+        <button id="btn-clear" class="tool-btn" title="Clear Page Annotations">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 2v6h6"></path>
+            <path d="M21 12A9 9 0 0 0 6 5.3L3 8"></path>
+            <path d="M21 22v-6h-6"></path>
+            <path d="M3 12a9 9 0 0 0 15 6.7l3-2.7"></path>
+          </svg>
+          <span>Clear</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Workspace Area -->
+  <main class="workspace">
+    <div id="drop-zone" class="drop-zone">
+      <div class="drop-icon-container">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"></path>
+          <path d="M12 12v9"></path>
+          <path d="m16 16-4-4-4 4"></path>
+        </svg>
+      </div>
+      <h3>Drop your PDF file here</h3>
+      <p class="drop-desc">Edit text, whiteout areas, sign documents, and add links seamlessly in your browser.</p>
+      
+      <div class="drop-actions">
+        <label class="btn btn-primary" style="cursor: pointer;">
+          <span>Browse Document</span>
+          <input type="file" id="drop-file-input" accept="application/pdf" style="display: none;">
+        </label>
+        <button id="btn-demo-pdf" class="btn btn-secondary">
+          <span>Try Sample PDF</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="canvas-wrapper" class="canvas-wrapper hidden">
+      <div id="editor-board" class="editor-board">
+        <canvas id="pdf-canvas"></canvas>
+        <div class="fabric-overlay">
+          <canvas id="fabric-canvas"></canvas>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Floating Page Dock -->
+  <footer class="pagination-bar" id="pagination-bar">
+    <button id="prev-page" class="dock-btn" title="Previous Page" disabled>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+    
+    <div class="page-badge">
+      <span>Page</span>
+      <span class="page-num" id="current-page">1</span>
+      <span class="page-slash">/</span>
+      <span id="total-pages">1</span>
+    </div>
+
+    <button id="next-page" class="dock-btn" title="Next Page" disabled>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
+  </footer>
+
+  <!-- Link Modal -->
+  <div id="link-modal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-badge">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+          </svg>
+        </div>
+        <div>
+          <h3>Add Hyperlink</h3>
+          <p>Create a clickable destination on your document</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="link-url-input">Target URL or Destination</label>
+        <input type="text" id="link-url-input" class="form-control" placeholder="https://example.com or mailto:info@domain.com" />
+      </div>
+
+      <div class="form-group">
+        <label for="link-type-select">Link Placement Mode</label>
+        <select id="link-type-select" class="form-control">
+          <option value="area">Clickable Area Box (Drag over existing text / email / logo)</option>
+          <option value="text">New Clickable Text (Blue underlined text)</option>
+        </select>
+      </div>
+
+      <div id="link-text-container" class="form-group hidden">
+        <label for="link-text-input">Display Label</label>
+        <input type="text" id="link-text-input" class="form-control" placeholder="e.g. Click Here to Learn More" value="Click Here" />
+      </div>
+
+      <div class="modal-actions">
+        <button id="btn-cancel-link" class="btn btn-secondary">Cancel</button>
+        <button id="btn-confirm-link" class="btn btn-primary">Apply Link</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const workerBlob = new Blob(
+      [`importScripts("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js");`],
+      { type: "application/javascript" }
+    );
+    pdfjsLib.GlobalWorkerOptions.workerSrc = URL.createObjectURL(workerBlob);
+
+    let rawPdfBytes = null;
+    let pdfDoc = null;
+    let totalPages = 0;
+    let currentPageNumber = 1;
+    let pdfScale = 1.5;
+
+    let fabricCanvas = null;
+    let pageAnnotations = {};
+
+    let undoStack = [];
+    let redoStack = [];
+    let isHistoryAction = false;
+    const CUSTOM_PROPS = ['linkUrl', 'isLink', 'isLinkArea', 'isWhiteout'];
+
+    const fileInput = document.getElementById('file-input');
+    const dropFileInput = document.getElementById('drop-file-input');
+    const savePdfBtn = document.getElementById('save-pdf-btn');
+    const dropZone = document.getElementById('drop-zone');
+    const canvasWrapper = document.getElementById('canvas-wrapper');
+    const editorBoard = document.getElementById('editor-board');
+    const pdfCanvas = document.getElementById('pdf-canvas');
+    const colorPicker = document.getElementById('color-picker');
+    const colorSwatch = document.getElementById('color-swatch');
+    const fontSizeSelect = document.getElementById('font-size');
+
+    const btnText = document.getElementById('btn-text');
+    const btnWhiteout = document.getElementById('btn-whiteout');
+    const btnDraw = document.getElementById('btn-draw');
+    const btnLink = document.getElementById('btn-link');
+    const imageInput = document.getElementById('image-input');
+    const btnDelete = document.getElementById('btn-delete');
+    const btnClear = document.getElementById('btn-clear');
+    const btnUndo = document.getElementById('btn-undo');
+    const btnRedo = document.getElementById('btn-redo');
+    const btnDemoPdf = document.getElementById('btn-demo-pdf');
+
+    const linkModal = document.getElementById('link-modal');
+    const linkUrlInput = document.getElementById('link-url-input');
+    const linkTypeSelect = document.getElementById('link-type-select');
+    const linkTextContainer = document.getElementById('link-text-container');
+    const linkTextInput = document.getElementById('link-text-input');
+    const btnCancelLink = document.getElementById('btn-cancel-link');
+    const btnConfirmLink = document.getElementById('btn-confirm-link');
+
+    const prevPageBtn = document.getElementById('prev-page');
+    const nextPageBtn = document.getElementById('next-page');
+    const currentPageSpan = document.getElementById('current-page');
+    const totalPagesSpan = document.getElementById('total-pages');
+
+    function saveHistory() {
+      if (isHistoryAction || !fabricCanvas) return;
+      const json = JSON.stringify(fabricCanvas.toJSON(CUSTOM_PROPS));
+      if (undoStack.length === 0 || undoStack[undoStack.length - 1] !== json) {
+        undoStack.push(json);
+        redoStack = [];
+        updateUndoRedoUI();
+      }
+    }
+
+    function undo() {
+      if (undoStack.length > 1) {
+        isHistoryAction = true;
+        const currentState = undoStack.pop();
+        redoStack.push(currentState);
+        const prevState = undoStack[undoStack.length - 1];
+
+        fabricCanvas.loadFromJSON(JSON.parse(prevState), () => {
+          fabricCanvas.renderAll();
+          isHistoryAction = false;
+          updateUndoRedoUI();
+        });
+      }
+    }
+
+    function redo() {
+      if (redoStack.length > 0) {
+        isHistoryAction = true;
+        const nextState = redoStack.pop();
+        undoStack.push(nextState);
+
+        fabricCanvas.loadFromJSON(JSON.parse(nextState), () => {
+          fabricCanvas.renderAll();
+          isHistoryAction = false;
+          updateUndoRedoUI();
+        });
+      }
+    }
+
+    function updateUndoRedoUI() {
+      btnUndo.disabled = undoStack.length <= 1;
+      btnRedo.disabled = redoStack.length === 0;
+    }
+
+    function resetHistory() {
+      undoStack = [];
+      redoStack = [];
+      saveHistory();
+    }
+
+    function initApp() {
+      fabricCanvas = new fabric.Canvas('fabric-canvas', { selection: true });
+
+      fabricCanvas.on('object:added', () => saveHistory());
+      fabricCanvas.on('object:modified', () => saveHistory());
+      fabricCanvas.on('object:removed', () => saveHistory());
+
+      window.addEventListener('keydown', (e) => {
+        const activeObj = fabricCanvas.getActiveObject();
+        const isTyping = activeObj && activeObj.isEditing;
+
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'z' || e.key === 'Z')) {
+          if (!isTyping) {
+            e.preventDefault();
+            if (e.shiftKey) redo(); else undo();
+          }
+        } else if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || e.key === 'Y')) {
+          if (!isTyping) {
+            e.preventDefault();
+            redo();
+          }
+        } else if (e.key === 'Delete' || e.key === 'Backspace') {
+          if (activeObj && !isTyping) fabricCanvas.remove(activeObj);
+        }
+      });
+
+      setupEventListeners();
+      setupDragAndDrop();
+    }
+
+    function setupEventListeners() {
+      btnUndo.addEventListener('click', undo);
+      btnRedo.addEventListener('click', redo);
+
+      fileInput.addEventListener('change', handleFileSelect);
+      if (dropFileInput) dropFileInput.addEventListener('change', handleFileSelect);
+      btnDemoPdf.addEventListener('click', generateDemoPdf);
+
+      prevPageBtn.addEventListener('click', () => changePage(currentPageNumber - 1));
+      nextPageBtn.addEventListener('click', () => changePage(currentPageNumber + 1));
+
+      btnText.addEventListener('click', () => {
+        disableDrawMode();
+        const text = new fabric.IText('Type your text here', {
+          left: 100, top: 100,
+          fontSize: parseInt(fontSizeSelect.value, 10),
+          fill: colorPicker.value,
+          fontFamily: 'Inter, sans-serif',
+          cornerColor: '#4f46e5', cornerSize: 8, borderColor: '#4f46e5',
+        });
+        fabricCanvas.add(text);
+        fabricCanvas.setActiveObject(text);
+        text.enterEditing();
+      });
+
+      btnWhiteout.addEventListener('click', () => {
+        disableDrawMode();
+        const rect = new fabric.Rect({
+          left: 100, top: 100, width: 150, height: 32,
+          fill: '#ffffff', stroke: '#ffffff', strokeWidth: 0,
+          transparentCorners: false,
+          cornerColor: '#4f46e5', cornerSize: 8, borderColor: '#4f46e5',
+          isWhiteout: true,
+        });
+        fabricCanvas.add(rect);
+        fabricCanvas.setActiveObject(rect);
+      });
+
+      btnDraw.addEventListener('click', () => {
+        const isDrawing = !fabricCanvas.isDrawingMode;
+        fabricCanvas.isDrawingMode = isDrawing;
+        btnDraw.classList.toggle('active', isDrawing);
+        if (isDrawing) {
+          fabricCanvas.freeDrawingBrush.width = 3;
+          fabricCanvas.freeDrawingBrush.color = colorPicker.value;
+        }
+      });
+
+      colorPicker.addEventListener('input', (e) => {
+        colorSwatch.style.backgroundColor = e.target.value;
+        const active = fabricCanvas.getActiveObject();
+        if (active && (active.type === 'i-text' || active.type === 'text')) {
+          active.set('fill', e.target.value);
+          fabricCanvas.renderAll();
+          saveHistory();
+        }
+        if (fabricCanvas.isDrawingMode) fabricCanvas.freeDrawingBrush.color = e.target.value;
+      });
+
+      fontSizeSelect.addEventListener('change', (e) => {
+        const active = fabricCanvas.getActiveObject();
+        if (active && (active.type === 'i-text' || active.type === 'text')) {
+          active.set('fontSize', parseInt(e.target.value, 10));
+          fabricCanvas.renderAll();
+          saveHistory();
+        }
+      });
+
+      btnLink.addEventListener('click', () => {
+        disableDrawMode();
+        linkUrlInput.value = 'https://';
+        linkModal.classList.remove('hidden');
+        linkUrlInput.focus();
+      });
+
+      linkTypeSelect.addEventListener('change', () => {
+        if (linkTypeSelect.value === 'text') linkTextContainer.classList.remove('hidden');
+        else linkTextContainer.classList.add('hidden');
+      });
+
+      btnCancelLink.addEventListener('click', () => linkModal.classList.add('hidden'));
+
+      btnConfirmLink.addEventListener('click', () => {
+        let url = linkUrlInput.value.trim();
+        if (!url || url === 'https://') {
+          alert('Please enter a valid URL, email (mailto:), or phone link.');
+          return;
+        }
+        if (!url.startsWith('http://') && !url.startsWith('https://') && !url.startsWith('mailto:') && !url.startsWith('tel:')) {
+          url = 'https://' + url;
+        }
+
+        const type = linkTypeSelect.value;
+        if (type === 'text') {
+          const textVal = linkTextInput.value.trim() || url;
+          const textObj = new fabric.IText(textVal, {
+            left: 120, top: 120,
+            fontSize: parseInt(fontSizeSelect.value, 10),
+            fill: '#4f46e5', underline: true, fontFamily: 'Inter, sans-serif',
+            cornerColor: '#4f46e5', cornerSize: 8, borderColor: '#4f46e5',
+          });
+          textObj.linkUrl = url;
+          textObj.isLink = true;
+          fabricCanvas.add(textObj);
+          fabricCanvas.setActiveObject(textObj);
+        } else {
+          const rectObj = new fabric.Rect({
+            left: 120, top: 120, width: 160, height: 34,
+            fill: 'rgba(79, 70, 229, 0.12)', stroke: '#4f46e5', strokeWidth: 1.5,
+            strokeDashArray: [4, 4], transparentCorners: false,
+            cornerColor: '#4f46e5', cornerSize: 8, borderColor: '#4f46e5',
+          });
+          rectObj.linkUrl = url;
+          rectObj.isLinkArea = true;
+          fabricCanvas.add(rectObj);
+          fabricCanvas.setActiveObject(rectObj);
+        }
+        linkModal.classList.add('hidden');
+      });
+
+      imageInput.addEventListener('change', (e) => {
+        disableDrawMode();
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (f) => {
+          fabric.Image.fromURL(f.target.result, (img) => {
+            if (img.width > 220) img.scaleToWidth(220);
+            img.set({ left: 120, top: 120, cornerColor: '#4f46e5', cornerSize: 8, borderColor: '#4f46e5' });
+            fabricCanvas.add(img);
+            fabricCanvas.setActiveObject(img);
+          });
+        };
+        reader.readAsDataURL(file);
+        e.target.value = '';
+      });
+
+      btnDelete.addEventListener('click', () => {
+        const active = fabricCanvas.getActiveObject();
+        if (active) fabricCanvas.remove(active);
+      });
+
+      btnClear.addEventListener('click', () => {
+        if (confirm('Clear all annotations on this page?')) {
+          fabricCanvas.clear();
+          saveHistory();
+        }
+      });
+
+      savePdfBtn.addEventListener('click', exportAndDownloadPdf);
+    }
+
+    function disableDrawMode() {
+      if (fabricCanvas.isDrawingMode) {
+        fabricCanvas.isDrawingMode = false;
+        btnDraw.classList.remove('active');
+      }
+    }
+
+    function setupDragAndDrop() {
+      ['dragenter', 'dragover'].forEach(name => {
+        dropZone.addEventListener(name, (e) => {
+          e.preventDefault();
+          dropZone.style.borderColor = '#4f46e5';
+          dropZone.style.backgroundColor = '#1e1b4b';
+        });
+      });
+      ['dragleave', 'drop'].forEach(name => {
+        dropZone.addEventListener(name, (e) => {
+          e.preventDefault();
+          dropZone.style.borderColor = '#475569';
+          dropZone.style.backgroundColor = '#1e293b';
+        });
+      });
+      dropZone.addEventListener('drop', async (e) => {
+        const files = e.dataTransfer.files;
+        if (files && files[0] && files[0].type === 'application/pdf') {
+          rawPdfBytes = await files[0].arrayBuffer();
+          await loadPdfDocument(rawPdfBytes);
+        }
+      });
+    }
+
+    async function handleFileSelect(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      rawPdfBytes = await file.arrayBuffer();
+      await loadPdfDocument(rawPdfBytes);
+    }
+
+    async function generateDemoPdf() {
+      const { PDFDocument, rgb, StandardFonts } = PDFLib;
+      const demo = await PDFDocument.create();
+      const font = await demo.embedFont(StandardFonts.Helvetica);
+      const boldFont = await demo.embedFont(StandardFonts.HelveticaBold);
+
+      const p1 = demo.addPage([600, 420]);
+      p1.drawText('Sample Document for Editing & Signing', { x: 50, y: 350, size: 20, font: boldFont, color: rgb(0.31, 0.27, 0.9) });
+      p1.drawText('You can directly edit text, erase sections, or add your digital signature.', { x: 50, y: 310, size: 13, font, color: rgb(0.2, 0.2, 0.2) });
+      p1.drawText('1. Use "Whiteout" to cleanly erase any text.', { x: 50, y: 260, size: 12, font, color: rgb(0.3, 0.3, 0.3) });
+      p1.drawText('2. Click "Sign & Draw" to sign anywhere on this form.', { x: 50, y: 230, size: 12, font, color: rgb(0.3, 0.3, 0.3) });
+      p1.drawText('3. Click "Link" to insert clickable hyperlinks.', { x: 50, y: 200, size: 12, font, color: rgb(0.3, 0.3, 0.3) });
+      p1.drawText('Authorized Signature: ____________________________', { x: 50, y: 90, size: 13, font: boldFont });
+
+      const p2 = demo.addPage([600, 420]);
+      p2.drawText('Page 2 — Document Terms & Notes', { x: 50, y: 350, size: 18, font: boldFont });
+
+      rawPdfBytes = await demo.save();
+      await loadPdfDocument(rawPdfBytes);
+    }
+
+    async function loadPdfDocument(bytes) {
+      try {
+        pageAnnotations = {};
+        currentPageNumber = 1;
+        const task = pdfjsLib.getDocument({ data: bytes.slice(0) });
+        pdfDoc = await task.promise;
+        totalPages = pdfDoc.numPages;
+
+        totalPagesSpan.textContent = totalPages;
+        savePdfBtn.disabled = false;
+        dropZone.classList.add('hidden');
+        canvasWrapper.classList.remove('hidden');
+
+        await renderPage(currentPageNumber);
+        updatePaginationUI();
+      } catch (err) {
+        alert('Failed to load PDF document: ' + err.message);
+      }
+    }
+
+    async function renderPage(pageNum) {
+      const page = await pdfDoc.getPage(pageNum);
+      const viewport = page.getViewport({ scale: pdfScale });
+
+      editorBoard.style.width = `${viewport.width}px`;
+      editorBoard.style.height = `${viewport.height}px`;
+
+      pdfCanvas.width = viewport.width;
+      pdfCanvas.height = viewport.height;
+
+      fabricCanvas.setWidth(viewport.width);
+      fabricCanvas.setHeight(viewport.height);
+      fabricCanvas.calcOffset();
+
+      await page.render({ canvasContext: pdfCanvas.getContext('2d'), viewport }).promise;
+
+      fabricCanvas.clear();
+      if (pageAnnotations[pageNum]) {
+        await new Promise((res) => {
+          fabricCanvas.loadFromJSON(pageAnnotations[pageNum], () => {
+            fabricCanvas.renderAll();
+            res();
+          });
+        });
+      }
+      resetHistory();
+    }
+
+    async function changePage(newPageNum) {
+      if (newPageNum < 1 || newPageNum > totalPages) return;
+      saveCurrentPageAnnotations();
+      currentPageNumber = newPageNum;
+      await renderPage(currentPageNumber);
+      updatePaginationUI();
+    }
+
+    function saveCurrentPageAnnotations() {
+      if (fabricCanvas.getObjects().length > 0) {
+        pageAnnotations[currentPageNumber] = fabricCanvas.toJSON(CUSTOM_PROPS);
+      } else {
+        delete pageAnnotations[currentPageNumber];
+      }
+    }
+
+    function updatePaginationUI() {
+      currentPageSpan.textContent = currentPageNumber;
+      prevPageBtn.disabled = currentPageNumber <= 1;
+      nextPageBtn.disabled = currentPageNumber >= totalPages;
+    }
+
+    async function exportAndDownloadPdf() {
+      if (!rawPdfBytes) return;
+      savePdfBtn.innerHTML = `<span>Exporting...</span>`;
+      savePdfBtn.disabled = true;
+
+      try {
+        saveCurrentPageAnnotations();
+        const { PDFDocument, PDFString } = PDFLib;
+        const modifiedPdf = await PDFDocument.load(rawPdfBytes);
+        const pages = modifiedPdf.getPages();
+
+        for (let i = 1; i <= totalPages; i++) {
+          if (pageAnnotations[i] || (i === currentPageNumber && fabricCanvas.getObjects().length > 0)) {
+            const page = pages[i - 1];
+            const pageWidth = page.getWidth();
+            const pageHeight = page.getHeight();
+
+            const tempCanvas = new fabric.Canvas(null, {
+              width: fabricCanvas.getWidth(),
+              height: fabricCanvas.getHeight(),
+            });
+
+            const data = i === currentPageNumber 
+              ? fabricCanvas.toJSON(CUSTOM_PROPS) 
+              : pageAnnotations[i];
+
+            await new Promise((res) => {
+              tempCanvas.loadFromJSON(data, () => {
+                tempCanvas.getObjects().forEach((o) => {
+                  if (o.isWhiteout || (o.type === 'rect' && o.fill === '#ffffff')) {
+                    o.set('stroke', '#ffffff');
+                    o.set('strokeWidth', 0);
+                  }
+                  if (o.isLinkArea) o.set('opacity', 0);
+                });
+                tempCanvas.renderAll();
+                res();
+              });
+            });
+
+            const pngDataUrl = tempCanvas.toDataURL({ format: 'png', multiplier: 2 });
+            const embeddedImage = await modifiedPdf.embedPng(pngDataUrl);
+            page.drawImage(embeddedImage, { x: 0, y: 0, width: pageWidth, height: pageHeight });
+
+            const scaleRatio = 1 / pdfScale;
+            tempCanvas.getObjects().forEach((obj) => {
+              if (obj.linkUrl) {
+                const w = obj.getScaledWidth ? obj.getScaledWidth() : (obj.width * (obj.scaleX || 1));
+                const h = obj.getScaledHeight ? obj.getScaledHeight() : (obj.height * (obj.scaleY || 1));
+
+                const x1 = obj.left * scaleRatio;
+                const x2 = (obj.left + w) * scaleRatio;
+                const y2 = pageHeight - (obj.top * scaleRatio);
+                const y1 = pageHeight - ((obj.top + h) * scaleRatio);
+
+                const linkAnnot = modifiedPdf.context.obj({
+                  Type: 'Annot',
+                  Subtype: 'Link',
+                  Rect: [x1, y1, x2, y2],
+                  Border: [0, 0, 0],
+                  A: { Type: 'Action', S: 'URI', URI: PDFString.of(obj.linkUrl) },
+                });
+                const linkRef = modifiedPdf.context.register(linkAnnot);
+                page.node.addAnnot(linkRef);
+              }
+            });
+
+            tempCanvas.dispose();
+          }
+        }
+
+        const pdfBytes = await modifiedPdf.save();
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        const downloadUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = downloadUrl;
+        a.download = `PDFFlow_Document_${Date.now()}.pdf`;
+        a.click();
+      } catch (err) {
+        alert('Failed to save PDF: ' + err.message);
+      } finally {
+        savePdfBtn.innerHTML = `
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Save & Export</span>
+        `;
+        savePdfBtn.disabled = false;
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', initApp);
+  </script>
+</body>
+</html>
