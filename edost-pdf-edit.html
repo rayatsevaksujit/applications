@@ -480,6 +480,7 @@
     pdfjsLib.GlobalWorkerOptions.workerSrc = URL.createObjectURL(workerBlob);
 
     let rawPdfBytes = null;
+    let currentPdfFileName = 'Document';
     let pdfDoc = null;
     let totalPages = 0;
     let currentPageNumber = 1;
@@ -785,6 +786,7 @@
       dropZone.addEventListener('drop', async (e) => {
         const files = e.dataTransfer.files;
         if (files && files[0] && files[0].type === 'application/pdf') {
+          currentPdfFileName = files[0].name.replace(/\.[^/.]+$/, "");
           rawPdfBytes = await files[0].arrayBuffer();
           await loadPdfDocument(rawPdfBytes);
         }
@@ -794,11 +796,13 @@
     async function handleFileSelect(e) {
       const file = e.target.files[0];
       if (!file) return;
+      currentPdfFileName = file.name.replace(/\.[^/.]+$/, "");
       rawPdfBytes = await file.arrayBuffer();
       await loadPdfDocument(rawPdfBytes);
     }
 
     async function generateDemoPdf() {
+      currentPdfFileName = 'Demo_Document';
       const { PDFDocument, rgb, StandardFonts } = PDFLib;
       const demo = await PDFDocument.create();
       const font = await demo.embedFont(StandardFonts.Helvetica);
@@ -965,8 +969,10 @@
         const downloadUrl = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = downloadUrl;
-        a.download = `PDFFlow_Document_${Date.now()}.pdf`;
+        const outFileName = `${currentPdfFileName || 'Document'}_eDost_edited.pdf`;
+        a.download = outFileName;
         a.click();
+        setTimeout(() => URL.revokeObjectURL(downloadUrl), 10000);
       } catch (err) {
         alert('Failed to save PDF: ' + err.message);
       } finally {
