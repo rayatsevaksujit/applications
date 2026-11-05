@@ -1,1325 +1,548 @@
 <!DOCTYPE html>
 <html lang="mr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital SATHIDAR | डिजिटल साथीदार | शिक्षक व कर्मचारी डिजिटल टूल्स</title>
-    <meta name="description" content="डिजिटल साथीदार (Digital SATHIDAR) वर शिक्षक व शाळांसाठी मोफत मराठी ऑनलाइन टूल्स: PDF to Excel OCR, PDF Editor, फोटो-सही कटर, DA/HRA कॅलक्युलेटर, वेतनवाढ, आयकर, संच मान्यता आणि शालेय कार्यालयीन साधने. मोबाइलवर सहज वापरा.">
-    <meta name="keywords" content="Digital SATHIDAR, डिजिटल साथीदार, PDF to Excel Marathi OCR, PDF to Excel Converter, PDF Editor Marathi, मोफत PDF टूल्स, SSC HSC फोटो सही कटर, फोटो सिग्नेचर रिसाइजर, ७ वा वेतन आयोग वेतनवाढ, DA Calculator Marathi, HRA Calculator Marathi, आयकर कॅलक्युलेटर, संच मान्यता शिक्षक गणना, शालेय कार्यालयीन साधने, eDost Scan Clean, सुजित पाटील">
-    <meta name="author" content="Sujit Patil (SP)">
-    <meta name="robots" content="index, follow, max-image-preview:large">
-    <meta name="theme-color" content="#1e40af">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital SATHIDAR | डिजिटल साथीदार | शिक्षक व कर्मचारी डिजिटल टूल्स</title>
+  <meta name="description" content="डिजिटल साथीदार (Digital SATHIDAR) वर शिक्षक व शाळांसाठी मोफत मराठी ऑनलाईन टूल्स: eDost PDF Edit, TDS / Income Tax, वेतनवाढ, DA/HRA फरक, फोटो-सही कटर, संच मान्यता आणि शालेय कार्यालयाचे साधने.">
+  <meta name="keywords" content="Digital SATHIDAR, डिजिटल साथीदार, eDost PDF Edit, PDF Editor Marathi, TDS Income Tax, ७ वा वेतन आयोग वेतनवाढ, DA Calculator Marathi, HRA Calculator Marathi, संच मान्यता शिक्षक गणना, सुजित पाटील">
+  <meta name="author" content="सुजित पाटील (रयत सेवक)">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#1e40af">
 
-    <!-- Open Graph: social link previews -->
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Digital SATHIDAR">
-    <meta property="og:title" content="Digital SATHIDAR | डिजिटल साथीदार">
-    <meta property="og:description" content="शिक्षक, शाळा, कर्मचारी आणि नागरिकांसाठी मोफत मराठी डिजिटल टूल्स व ऑनलाइन सेवा. PDF Tools, शालेय साधने, कॅलक्युलेटर आणि अधिक.">
-    <meta property="og:url" content="https://rayatsevaksujit.github.io/applications/">
-    <meta property="og:image" content="https://rayatsevaksujit.github.io/applications/og-image.svg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Digital SATHIDAR eDost - तुमचा डिजिटल साथीदार">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Digital SATHIDAR | डिजिटल साथीदार">
-    <meta name="twitter:description" content="शिक्षक, शाळा, कर्मचारी आणि नागरिकांसाठी मोफत मराठी डिजिटल टूल्स व ऑनलाइन सेवा.">
-    <meta name="twitter:image" content="https://rayatsevaksujit.github.io/applications/og-image.svg">
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Digital SATHIDAR">
+  <meta property="og:title" content="Digital SATHIDAR | डिजिटल साथीदार">
+  <meta property="og:description" content="शिक्षक, शाळा, कर्मचारी आणि नागरिकांसाठी मोफत मराठी डिजिटल टूल्स व ऑनलाईन सेवा. PDF Tools, TDS, वेतनवाढ, शालेय साधने व अधिक.">
+  <meta property="og:url" content="https://rayatsevaksujit.github.io/applications/">
+  <meta property="og:image" content="https://rayatsevaksujit.github.io/applications/og-image.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Digital SATHIDAR - शिक्षक व कर्मचारी डिजिटल पोर्टल">
 
-    <!-- Google Fonts for Beautiful Marathi Typography -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Digital SATHIDAR | डिजिटल साथीदार">
+  <meta name="twitter:description" content="शिक्षक, शाळा, कर्मचारी आणि नागरिकांसाठी मोफत मराठी डिजिटल टूल्स व ऑनलाईन सेवा.">
+  <meta name="twitter:image" content="https://rayatsevaksujit.github.io/applications/og-image.svg">
 
-    <!-- Schema.org -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Digital SATHIDAR",
-      "alternateName": ["डिजिटल साथीदार"],
-      "url": "https://rayatsevaksujit.github.io/applications/",
-      "description": "शिक्षक, शाळा, कर्मचारी आणि विद्यार्थ्यांसाठी मराठी ऑनलाइन डिजिटल टूल्स."
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Digital SATHIDAR",
+    "alternateName": ["डिजिटल साथीदार"],
+    "url": "https://rayatsevaksujit.github.io/applications/",
+    "description": "शिक्षक, शाळा, कर्मचारी आणि विद्यार्थ्यांसाठी मराठी ऑनलाईन डिजिटल टूल्स."
+  }
+  </script>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Mukta & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Mukta', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     }
-    </script>
 
-    <style>
-        :root {
-            --primary: #1d4ed8;
-            --primary-dark: #1e3a8a;
-            --primary-light: #3b82f6;
-            --accent: #f59e0b;
-            --emerald: #059669;
-            --bg-page: #f8fafc;
-            --text-dark: #0f172a;
-            --text-sub: #475569;
-            --border-ui: #e2e8f0;
-            --radius-md: 12px;
-            --radius-lg: 16px;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Mukta', 'Poppins', -apple-system, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            background-color: var(--bg-page);
-            color: var(--text-dark);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            line-height: 1.5;
-        }
-
-        /* Sleek Top Navigation */
-        .portal-header {
-            background: #ffffff;
-            border-bottom: 1px solid var(--border-ui);
-            padding: 10px 20px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-        }
-
-        .header-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .brand-block {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .brand-logo-badge {
-            background: linear-gradient(135deg, #1e40af, #2563eb);
-            color: #ffffff;
-            font-weight: 800;
-            font-size: 18px;
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 3px 8px rgba(37,99,235,0.3);
-            letter-spacing: -0.5px;
-        }
-
-        .brand-text h1 {
-            font-size: 19px;
-            font-weight: 800;
-            color: #1e3a8a;
-            line-height: 1.1;
-        }
-
-        .brand-text p {
-            font-size: 11px;
-            color: var(--text-sub);
-            font-weight: 500;
-        }
-
-        .header-nav {
-            display: flex;
-            gap: 6px;
-            align-items: center;
-        }
-
-        .nav-link {
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 600;
-            color: #334155;
-            padding: 6px 12px;
-            border-radius: 8px;
-            transition: all 0.15s;
-        }
-
-        .nav-link:hover {
-            background: #f1f5f9;
-            color: var(--primary);
-        }
-
-        .btn-top-cta {
-            background: linear-gradient(135deg, #1d4ed8, #0284c7);
-            color: #fff;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 13px;
-            padding: 7px 14px;
-            border-radius: 9px;
-            box-shadow: 0 3px 8px rgba(29,78,216,0.25);
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.15s;
-        }
-
-        .btn-top-cta:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 5px 14px rgba(29,78,216,0.35);
-        }
-
-        /* Compact & Stylish Hero Section */
-        .hero-stylish {
-            max-width: 1200px;
-            margin: 14px auto 8px;
-            padding: 0 16px;
-            width: 100%;
-        }
-
-        .hero-card {
-            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #1d4ed8 100%);
-            border-radius: var(--radius-lg);
-            padding: 20px 24px;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
-            box-shadow: 0 8px 24px rgba(15,23,42,0.12);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-card::after {
-            content: '';
-            position: absolute;
-            right: -40px;
-            bottom: -50px;
-            width: 220px;
-            height: 220px;
-            background: radial-gradient(circle, rgba(56,189,248,0.2) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-        }
-
-        .hero-left {
-            max-width: 700px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-kicker {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(255,255,255,0.15);
-            border: 1px solid rgba(255,255,255,0.25);
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-            color: #38bdf8;
-            margin-bottom: 6px;
-            letter-spacing: 0.5px;
-        }
-
-        .hero-title {
-            font-size: 26px;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 4px;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .hero-title span {
-            font-size: 16px;
-            font-weight: 600;
-            color: #93c5fd;
-            background: rgba(255,255,255,0.1);
-            padding: 2px 8px;
-            border-radius: 6px;
-        }
-
-        .hero-desc {
-            font-size: 13px;
-            color: #cbd5e1;
-            line-height: 1.4;
-        }
-
-        .hero-stats {
-            display: flex;
-            gap: 10px;
-            position: relative;
-            z-index: 1;
-            flex-shrink: 0;
-        }
-
-        .stat-badge {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255,255,255,0.15);
-            padding: 8px 14px;
-            border-radius: 12px;
-            text-align: center;
-            min-width: 85px;
-        }
-
-        .stat-badge .stat-num {
-            font-size: 18px;
-            font-weight: 800;
-            color: #38bdf8;
-            line-height: 1.1;
-        }
-
-        .stat-badge .stat-lbl {
-            font-size: 10px;
-            color: #e2e8f0;
-            font-weight: 600;
-        }
-
-        /* Search & Filter Bar */
-        .controls-wrapper {
-            max-width: 1200px;
-            margin: 12px auto 14px;
-            padding: 0 16px;
-            width: 100%;
-        }
-
-        .search-row {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .search-box {
-            flex: 1;
-            min-width: 280px;
-            position: relative;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 11px 16px 11px 42px;
-            border: 2px solid #cbd5e1;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: 500;
-            outline: none;
-            background: #ffffff;
-            transition: all 0.2s;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-            color: #0f172a;
-        }
-
-        .search-box input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
-        }
-
-        .search-box .search-icon {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 16px;
-            pointer-events: none;
-            opacity: 0.6;
-        }
-
-        .filter-tabs {
-            display: flex;
-            gap: 6px;
-            overflow-x: auto;
-            padding: 2px 0;
-            scrollbar-width: none;
-        }
-
-        .filter-tabs::-webkit-scrollbar {
-            display: none;
-        }
-
-        .filter-pill {
-            padding: 8px 14px;
-            border-radius: 10px;
-            border: 1.5px solid var(--border-ui);
-            background: #ffffff;
-            color: #334155;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.15s;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .filter-pill:hover {
-            border-color: var(--primary-light);
-            background: #f8fafc;
-        }
-
-        .filter-pill.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-            box-shadow: 0 2px 8px rgba(37,99,235,0.25);
-        }
-
-        /* Dashboard Container */
-        .dashboard-main {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 16px 36px;
-            width: 100%;
-            flex: 1;
-        }
-
-        .tool-section {
-            margin-bottom: 22px;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            padding-bottom: 6px;
-            border-bottom: 1.5px solid #e2e8f0;
-        }
-
-        .section-header h2 {
-            font-size: 17px;
-            font-weight: 800;
-            color: #1e293b;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .section-count {
-            font-size: 11px;
-            font-weight: 700;
-            background: #e2e8f0;
-            color: #475569;
-            padding: 2px 8px;
-            border-radius: 12px;
-        }
-
-        /* Card Grid - Compact & Stylish */
-        .grid-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-            gap: 12px;
-        }
-
-        .tool-card {
-            background: #ffffff;
-            border: 1.5px solid #e2e8f0;
-            border-radius: var(--radius-md);
-            padding: 14px 16px;
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            position: relative;
-            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-        }
-
-        .tool-card:hover {
-            transform: translateY(-2px);
-            border-color: #93c5fd;
-            box-shadow: 0 8px 20px rgba(37,99,235,0.09);
-        }
-
-        .tool-card.featured {
-            background: linear-gradient(145deg, #f0f7ff 0%, #ffffff 100%);
-            border-color: #bfdbfe;
-        }
-
-        .tool-card.featured:hover {
-            border-color: #3b82f6;
-        }
-
-        .tool-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 11px;
-            background: #f1f5f9;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            flex-shrink: 0;
-            transition: all 0.2s;
-        }
-
-        .tool-card:hover .tool-icon {
-            background: #dbeafe;
-            transform: scale(1.05);
-        }
-
-        .tool-body {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .tool-badge-row {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-bottom: 2px;
-        }
-
-        .badge-new {
-            background: #2563eb;
-            color: white;
-            font-size: 9px;
-            font-weight: 800;
-            padding: 1px 6px;
-            border-radius: 4px;
-            text-transform: uppercase;
-        }
-
-        .badge-hot {
-            background: #059669;
-            color: white;
-            font-size: 9px;
-            font-weight: 800;
-            padding: 1px 6px;
-            border-radius: 4px;
-        }
-
-        .tool-title {
-            font-size: 15px;
-            font-weight: 700;
-            color: #0f172a;
-            line-height: 1.25;
-            margin-bottom: 3px;
-        }
-
-        .tool-desc {
-            font-size: 12px;
-            color: var(--text-sub);
-            line-height: 1.35;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .tool-arrow {
-            color: #2563eb;
-            font-weight: 800;
-            font-size: 16px;
-            margin-top: 2px;
-            opacity: 0.7;
-            transition: all 0.2s;
-        }
-
-        .tool-card:hover .tool-arrow {
-            opacity: 1;
-            transform: translateX(3px);
-        }
-
-        .btn-ui {
-            padding: 8px 14px;
-            border-radius: 8px;
-            border: none;
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 13px;
-            transition: all 0.15s;
-        }
-
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-outline { background: white; border: 1px solid #cbd5e1; color: #334155; }
-        .btn-danger { background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; }
-
-        /* Footer */
-        .portal-footer {
-            background: #0f172a;
-            color: #94a3b8;
-            padding: 20px 16px;
-            text-align: center;
-            font-size: 13px;
-            margin-top: auto;
-            border-top: 1px solid #1e293b;
-        }
-
-        .footer-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .visitor-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: #1e293b;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-        }
-
-        /* Floating WhatsApp */
-        .wa-float {
-            position: fixed;
-            bottom: 22px;
-            right: 22px;
-            background: #25d366;
-            color: white;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 14px rgba(37,211,102,0.4);
-            z-index: 99;
-            transition: all 0.2s;
-            text-decoration: none;
-        }
-
-        .wa-float:hover {
-            transform: scale(1.1);
-        }
-
-        @media (max-width: 768px) {
-            .header-nav { display: none; }
-            .hero-card { flex-direction: column; align-items: flex-start; padding: 16px; }
-            .hero-title { font-size: 22px; }
-            .hero-stats { width: 100%; justify-content: space-between; }
-            .stat-badge { flex: 1; padding: 6px 8px; min-width: auto; }
-            .review-form { grid-template-columns: 1fr; }
-        }
-    
-        /* Language and appearance settings */
-        .site-settings{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
-        .site-settings select,.site-settings button{font:600 12px inherit;border:1px solid #cbd5e1;border-radius:9px;padding:7px 9px;background:#fff;color:#1e293b;cursor:pointer}
-        .site-settings button:hover,.site-settings select:focus{border-color:#3b82f6;outline:2px solid rgba(59,130,246,.15)}
-        .site-settings .theme-toggle{white-space:nowrap}
-        @media(max-width:768px){.header-inner{flex-wrap:wrap;gap:8px}.site-settings{width:100%;justify-content:flex-end}.site-settings select,.site-settings button{padding:6px 8px}}
-        body[data-theme="dark"]{--bg-page:#0b1220;--text-dark:#e5e7eb;--text-sub:#aab6c8;--border-ui:#334155;background:#0b1220;color:#e5e7eb;color-scheme:dark}
-        body[data-theme="dark"] .portal-header,body[data-theme="dark"] .tool-card,body[data-theme="dark"] .search-box input,body[data-theme="dark"] .filter-pill,body[data-theme="dark"] .review-box,body[data-theme="dark"] .site-settings select,body[data-theme="dark"] .site-settings button{background:#111c2e;color:#e5e7eb;border-color:#334155}
-        body[data-theme="dark"] .brand-text h1,body[data-theme="dark"] .nav-link,body[data-theme="dark"] .section-header h2,body[data-theme="dark"] .tool-title,body[data-theme="dark"] .review-title,body[data-theme="dark"] .review-header{color:#e5e7eb}
-        body[data-theme="dark"] .brand-text p,body[data-theme="dark"] .tool-desc,body[data-theme="dark"] .nav-link{color:#b8c4d6}
-        body[data-theme="dark"] .section-header{border-color:#334155}
-        body[data-theme="dark"] .tool-card.featured{background:linear-gradient(145deg,#172a46,#111c2e);border-color:#31517c}
-        body[data-theme="dark"] .tool-icon,body[data-theme="dark"] .review-item{background:#1e293b!important;color:#e5e7eb}
-        body[data-theme="dark"] .review-box input,body[data-theme="dark"] .review-box select,body[data-theme="dark"] .review-box textarea{background:#0f172a;color:#e5e7eb;border-color:#475569}
-        body[data-theme="dark"] .btn-outline{background:#1e293b;color:#e5e7eb;border-color:#475569}
-        body[data-theme="dark"] .section-count{background:#263449;color:#cbd5e1}
-        body[data-theme="dark"] .filter-pill.active{background:#1d4ed8;color:#fff;border-color:#3b82f6}
-        body[data-theme="dark"] .portal-footer{background:#070d17;border-color:#1e293b}
-        body[data-theme="dark"] .portal-footer a{color:#93c5fd!important}
-        body[data-theme="dark"] .search-box input::placeholder,body[data-theme="dark"] .review-box input::placeholder,body[data-theme="dark"] .review-box textarea::placeholder{color:#94a3b8}
-        body[data-theme="dark"] .review-reply{background:#12324a;color:#bae6fd}
-
-    
-        /* Education Green theme — visual-only overrides */
-        :root {
-            --primary: #15803d;
-            --primary-dark: #14532d;
-            --primary-light: #22c55e;
-            --emerald: #16a34a;
-            --bg-page: #f4faf5;
-            --text-dark: #14251a;
-            --text-sub: #52665a;
-            --border-ui: #d8e7dc;
-            --radius-md: 10px;
-            --radius-lg: 14px;
-        }
-        body { background: var(--bg-page); color: var(--text-dark); }
-        .portal-header { background: rgba(255,255,255,.97); border-bottom-color: #d7e8db; }
-        .brand-logo-badge { background: linear-gradient(135deg,#166534,#22c55e); box-shadow: 0 3px 8px rgba(22,101,52,.22); }
-        .brand-text h1 { color: #166534; }
-        .nav-link:hover { color: #166534; background: #ecfdf3; }
-        .btn-top-cta { background: #15803d; border-color: #15803d; }
-        .btn-top-cta:hover { background: #166534; }
-        .hero-card { background: linear-gradient(120deg,#123b25 0%,#166534 55%,#22a052 100%); box-shadow: 0 8px 22px rgba(20,83,45,.14); }
-        .hero-card::after { background: radial-gradient(circle,rgba(187,247,208,.18) 0%,transparent 70%); }
-        .hero-kicker { color: #bbf7d0; }
-        .hero-title span { color: #dcfce7; }
-        .stat-badge { border-color: rgba(220,252,231,.24); }
-        .search-box:focus-within { border-color: #22a052; box-shadow: 0 0 0 3px rgba(34,160,82,.12); }
-        .filter-pill.active { background: #166534; border-color: #166534; color: #fff; }
-        .filter-pill:hover:not(.active) { border-color: #86c99b; color: #166534; background: #f0fdf4; }
-        .section-header { border-bottom-color: #d7e8db; }
-        .section-header h2 { color: #17452b; }
-        .section-count { background: #e7f6eb; color: #166534; }
-        .grid-cards { grid-template-columns: repeat(auto-fill,minmax(225px,1fr)); gap: 9px; }
-        .tool-card { padding: 10px 11px; gap: 10px; border-color: #dce9df; border-radius: 10px; box-shadow: 0 1px 4px rgba(20,83,45,.035); }
-        .tool-card:hover { transform: translateY(-2px); border-color: #86c99b; box-shadow: 0 6px 15px rgba(22,101,52,.09); }
-        .tool-card.featured { background: linear-gradient(145deg,#eaf8ee 0%,#fff 100%); border-color: #b9dfc3; }
-        .tool-card.featured:hover { border-color: #22a052; }
-        .tool-icon { width: 36px; height: 36px; border-radius: 9px; font-size: 19px; }
-        .tool-title { font-size: 14px; line-height: 1.22; }
-        .tool-desc { font-size: 11.5px; line-height: 1.3; }
-        .badge-new { background: #15803d; }
-        .badge-hot { background: #0f766e; }
-        .tool-arrow { color: #15803d; }
-        .btn-primary { background: #15803d; }
-        .btn-primary:hover { background: #166534; }
-        .site-settings select,.site-settings button { border-color: #cfe1d3; }
-        .site-settings button:hover,.site-settings select:focus { border-color: #22a052; outline-color: rgba(34,160,82,.16); }
-        .portal-footer { background: #123b25; border-color: #1e5a36; }
-        .wa-float { box-shadow: 0 4px 14px rgba(22,163,74,.3); }
-        @media (min-width: 769px) {
-            .portal-header { padding: 8px 18px; }
-            .hero-stylish { margin-top: 10px; margin-bottom: 5px; }
-            .hero-card { padding: 16px 20px; }
-            .controls-wrapper { margin-top: 8px; margin-bottom: 10px; }
-            .tool-section { margin-bottom: 20px; }
-        }
-        @media (max-width: 768px) {
-            .grid-cards { grid-template-columns: repeat(auto-fill,minmax(min(100%,220px),1fr)); gap: 8px; }
-            .tool-card { padding: 10px; gap: 9px; }
-            .tool-icon { width: 34px; height: 34px; font-size: 18px; }
-            .hero-card { padding: 14px; }
-            .hero-stats { gap: 6px; }
-            .stat-num { font-size: 18px; }
-            .site-settings { padding-top: 2px; }
-        }
-        /* Dark mode retains the green identity and preserves text contrast */
-        body[data-theme="dark"] {
-            --primary: #4ade80;
-            --primary-dark: #166534;
-            --primary-light: #86efac;
-            --emerald: #4ade80;
-            --bg-page: #0b1710;
-            --text-dark: #e4f3e8;
-            --text-sub: #b0c8b8;
-            --border-ui: #294735;
-            background: #0b1710;
-            color: #e4f3e8;
-        }
-        body[data-theme="dark"] .portal-header,
-        body[data-theme="dark"] .tool-card,
-        body[data-theme="dark"] .search-box input,
-        body[data-theme="dark"] .filter-pill,
-        body[data-theme="dark"] .site-settings select,
-        body[data-theme="dark"] .site-settings button {
-            background: #12251a; color: #e4f3e8; border-color: #294735;
-        }
-        body[data-theme="dark"] .brand-logo-badge { background: linear-gradient(135deg,#166534,#22a052); }
-        body[data-theme="dark"] .brand-text h1,
-        body[data-theme="dark"] .nav-link,
-        body[data-theme="dark"] .section-header h2,
-        body[data-theme="dark"] .tool-title { color: #dcfce7; }
-        body[data-theme="dark"] .brand-text p,
-        body[data-theme="dark"] .tool-desc { color: #b0c8b8; }
-        body[data-theme="dark"] .nav-link:hover { background: #1b3a27; color: #bbf7d0; }
-        body[data-theme="dark"] .btn-top-cta,
-        body[data-theme="dark"] .filter-pill.active { background: #166534; color: #fff; border-color: #22a052; }
-        body[data-theme="dark"] .hero-card { background: linear-gradient(120deg,#102c1c 0%,#14532d 58%,#166534 100%); }
-        body[data-theme="dark"] .section-header { border-color: #294735; }
-        body[data-theme="dark"] .section-count { background: #1b3a27; color: #bbf7d0; }
-        body[data-theme="dark"] .tool-card.featured { background: linear-gradient(145deg,#173a25,#12251a); border-color: #356c47; }
-        body[data-theme="dark"] .tool-icon { background: #1b3a27 !important; color: #dcfce7 !important; }
-        body[data-theme="dark"] .tool-arrow { color: #86efac; }
-        body[data-theme="dark"] .filter-pill:hover:not(.active) { background: #1b3a27; color: #dcfce7; border-color: #356c47; }
-        body[data-theme="dark"] .portal-footer { background: #07110b; border-color: #203c2a; }
-        body[data-theme="dark"] .portal-footer a { color: #86efac !important; }
-        body[data-theme="dark"] .search-box input::placeholder { color: #91aa99; }
-        body[data-theme="dark"] .btn-outline { background: #1b3a27; color: #dcfce7; border-color: #356c47; }
-
-    
-        /* Standard Glass UI — compact spacing, responsive cards */
-        :root {
-            --primary: #176b62 !important;
-            --primary-dark: #124e49 !important;
-            --primary-light: #26988a !important;
-            --accent: #d5a84b !important;
-            --bg-page: #edf3f5 !important;
-            --text-dark: #172b35 !important;
-            --text-sub: #60727b !important;
-            --border-ui: rgba(128,153,163,.24) !important;
-            --radius-md: 13px !important;
-            --radius-lg: 17px !important;
-        }
-        html { scroll-behavior:smooth; }
-        body {
-            background:
-              radial-gradient(ellipse at 8% 0%, rgba(45,153,139,.11), transparent 34%),
-              radial-gradient(ellipse at 95% 12%, rgba(67,119,173,.10), transparent 32%),
-              #edf3f5 !important;
-            line-height:1.38 !important;
-        }
-        .portal-header {
-            background:rgba(255,255,255,.78) !important;
-            border-bottom:1px solid rgba(255,255,255,.85) !important;
-            padding:7px 16px !important;
-            box-shadow:0 5px 22px rgba(24,49,60,.07) !important;
-            -webkit-backdrop-filter:blur(18px) saturate(150%);
-            backdrop-filter:blur(18px) saturate(150%);
-        }
-        .header-inner { max-width:1320px !important; gap:10px !important; }
-        .brand-logo-badge {
-            background:linear-gradient(145deg,#176b62,#278f83) !important;
-            border-radius:11px !important;
-            box-shadow:0 5px 13px rgba(23,107,98,.2) !important;
-        }
-        .brand-text h1 { color:#164e49 !important; font-size:18px !important; }
-        .hero-stylish { max-width:1320px !important; margin:10px auto 7px !important; padding:0 13px !important; }
-        .hero-card {
-            background:linear-gradient(112deg,rgba(18,62,65,.96),rgba(25,103,96,.92) 58%,rgba(39,125,130,.90)) !important;
-            border:1px solid rgba(255,255,255,.24) !important;
-            border-radius:17px !important;
-            padding:14px 19px !important;
-            gap:14px !important;
-            box-shadow:0 9px 26px rgba(24,64,68,.14), inset 0 1px 0 rgba(255,255,255,.18) !important;
-        }
-        .hero-kicker { margin-bottom:3px !important; }
-        .hero-title { font-size:23px !important; margin-bottom:2px !important; }
-        .hero-desc { font-size:12.5px !important; }
-        .stat-badge {
-            background:rgba(255,255,255,.13) !important;
-            border:1px solid rgba(255,255,255,.22) !important;
-            -webkit-backdrop-filter:blur(12px);
-            backdrop-filter:blur(12px);
-            padding:6px 11px !important;
-            border-radius:11px !important;
-        }
-        .controls-wrapper { max-width:1320px !important; margin:8px auto 9px !important; padding:0 13px !important; }
-        .search-row { gap:8px !important; }
-        .search-box { min-width:220px !important; }
-        .search-box input {
-            padding:8px 13px 8px 38px !important;
-            border:1px solid rgba(113,143,153,.32) !important;
-            border-radius:11px !important;
-            background:rgba(255,255,255,.78) !important;
-            box-shadow:0 3px 12px rgba(24,49,60,.045) !important;
-            -webkit-backdrop-filter:blur(12px);
-            backdrop-filter:blur(12px);
-        }
-        .filter-tabs { gap:5px !important; }
-        .filter-pill {
-            padding:6px 11px !important;
-            border:1px solid rgba(113,143,153,.25) !important;
-            border-radius:9px !important;
-            background:rgba(255,255,255,.68) !important;
-        }
-        .filter-pill.active {
-            background:linear-gradient(135deg,#176b62,#258b80) !important;
-            border-color:#176b62 !important;
-            box-shadow:0 3px 9px rgba(23,107,98,.17) !important;
-        }
-        .dashboard-main { max-width:1320px !important; padding:0 13px 20px !important; }
-        .tool-section { margin-bottom:13px !important; }
-        .section-header {
-            margin-bottom:7px !important;
-            padding-bottom:4px !important;
-            border-bottom:1px solid rgba(110,139,148,.25) !important;
-        }
-        .section-header h2 { font-size:15.5px !important; gap:6px !important; color:#23434b !important; }
-        .section-count { padding:2px 7px !important; }
-        .grid-cards {
-            grid-template-columns:repeat(auto-fill,minmax(245px,1fr)) !important;
-            gap:9px !important;
-        }
-        .tool-card {
-            background:rgba(255,255,255,.70) !important;
-            border:1px solid rgba(255,255,255,.92) !important;
-            border-radius:13px !important;
-            padding:10px 11px !important;
-            gap:9px !important;
-            box-shadow:0 3px 12px rgba(25,54,65,.055), inset 0 1px 0 rgba(255,255,255,.9) !important;
-            -webkit-backdrop-filter:blur(14px) saturate(135%);
-            backdrop-filter:blur(14px) saturate(135%);
-        }
-        .tool-card:hover {
-            transform:translateY(-2px) !important;
-            border-color:rgba(38,137,126,.42) !important;
-            box-shadow:0 8px 19px rgba(25,75,75,.11) !important;
-        }
-        .tool-card.featured {
-            background:linear-gradient(135deg,rgba(226,245,240,.88),rgba(255,255,255,.76)) !important;
-            border-color:rgba(61,148,133,.24) !important;
-        }
-        .tool-icon { width:37px !important; height:37px !important; border-radius:10px !important; font-size:19px !important; }
-        .tool-title { font-size:14px !important; line-height:1.22 !important; margin-bottom:2px !important; color:#203740 !important; }
-        .tool-desc { font-size:11.5px !important; line-height:1.28 !important; -webkit-line-clamp:2 !important; }
-        .tool-arrow { color:#237e73 !important; font-size:15px !important; }
-        .portal-footer { padding:12px 12px !important; font-size:12px !important; }
-        .footer-inner { gap:5px !important; }
-        .visitor-badge { padding:3px 9px !important; }
-        .wa-float { width:43px !important; height:43px !important; right:15px !important; bottom:15px !important; }
-        body[data-theme="dark"] {
-            background:radial-gradient(ellipse at 8% 0%,rgba(34,119,108,.17),transparent 35%),#0d1820 !important;
-            --bg-page:#0d1820 !important;
-            --text-dark:#e7f0f1 !important;
-            --text-sub:#a9bdc2 !important;
-        }
-        body[data-theme="dark"] .portal-header {
-            background:rgba(13,27,35,.82) !important;
-            border-color:rgba(255,255,255,.09) !important;
-            -webkit-backdrop-filter:blur(18px);
-            backdrop-filter:blur(18px);
-        }
-        body[data-theme="dark"] .brand-text h1 { color:#d8f4ed !important; }
-        body[data-theme="dark"] .hero-card { background:linear-gradient(112deg,rgba(10,42,45,.97),rgba(17,78,72,.94),rgba(20,82,91,.92)) !important; }
-        body[data-theme="dark"] .search-box input,
-        body[data-theme="dark"] .filter-pill,
-        body[data-theme="dark"] .tool-card {
-            background:rgba(22,39,49,.76) !important;
-            color:#e5eff0 !important;
-            border-color:rgba(174,205,209,.15) !important;
-            box-shadow:0 4px 14px rgba(0,0,0,.12),inset 0 1px 0 rgba(255,255,255,.035) !important;
-        }
-        body[data-theme="dark"] .tool-card.featured { background:linear-gradient(135deg,rgba(23,66,61,.86),rgba(22,39,49,.78)) !important; }
-        body[data-theme="dark"] .section-header h2,
-        body[data-theme="dark"] .tool-title { color:#e2f0ef !important; }
-        body[data-theme="dark"] .section-header { border-color:rgba(174,205,209,.16) !important; }
-        body[data-theme="dark"] .tool-desc { color:#afc2c6 !important; }
-        body[data-theme="dark"] .filter-pill.active { background:linear-gradient(135deg,#176b62,#258b80) !important; color:#fff !important; }
-        @media(max-width:768px) {
-            .portal-header { padding:6px 10px !important; }
-            .header-inner { gap:6px !important; }
-            .hero-stylish { margin:7px auto 6px !important; padding:0 9px !important; }
-            .hero-card { padding:12px 13px !important; gap:8px !important; }
-            .hero-title { font-size:20px !important; }
-            .hero-desc { font-size:11.5px !important; }
-            .hero-stats { gap:6px !important; }
-            .stat-badge { padding:5px 6px !important; }
-            .controls-wrapper { margin:7px auto 7px !important; padding:0 9px !important; }
-            .search-box { min-width:100% !important; }
-            .search-box input { padding:8px 12px 8px 37px !important; }
-            .filter-tabs { width:100%; }
-            .filter-pill { padding:6px 9px !important; font-size:12px !important; }
-            .dashboard-main { padding:0 9px 15px !important; }
-            .tool-section { margin-bottom:11px !important; }
-            .grid-cards { grid-template-columns:repeat(2,minmax(0,1fr)) !important; gap:7px !important; }
-            .tool-card { padding:9px 8px !important; gap:7px !important; border-radius:11px !important; }
-            .tool-icon { width:32px !important; height:32px !important; font-size:17px !important; border-radius:9px !important; }
-            .tool-title { font-size:12.5px !important; }
-            .tool-desc { font-size:10.5px !important; }
-            .tool-arrow { font-size:13px !important; }
-            .section-header h2 { font-size:14px !important; }
-        }
-        @media(max-width:380px) {
-            .grid-cards { grid-template-columns:1fr !important; }
-        }
-
-    </style>
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulseSoft {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @keyframes shine {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .badge-pulse {
+      animation: pulseSoft 2.5s infinite ease-in-out;
+    }
+
+    .shimmer-badge {
+      background: linear-gradient(90deg, #4f46e5 0%, #9333ea 50%, #4f46e5 100%);
+      background-size: 200% auto;
+      animation: shine 3s linear infinite;
+    }
+
+    .gradient-hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 35%, #1e3a8a 75%, #2563eb 100%);
+    }
+
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(14px);
+    }
+
+    .tool-card {
+      transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .tool-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 30px -8px rgba(37, 99, 235, 0.16), 0 4px 10px -2px rgba(0, 0, 0, 0.04);
+      border-color: #93c5fd;
+    }
+
+    .tool-card:hover .card-icon {
+      transform: scale(1.08) rotate(-2deg);
+      transition: transform 0.25s ease;
+    }
+
+    .tool-card:hover .card-arrow {
+      transform: translateX(4px);
+      color: #2563eb;
+    }
+
+    /* WhatsApp Floating Button */
+    .wa-float {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 52px;
+      height: 52px;
+      background: #25d366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      box-shadow: 0 4px 18px rgba(37, 211, 102, 0.4);
+      z-index: 100;
+      transition: all 0.2s ease;
+    }
+    .wa-float:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 22px rgba(37, 211, 102, 0.55);
+    }
+  </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
 
-    <!-- Top Navigation -->
-    <header class="portal-header">
-        <div class="header-inner">
-            <a href="index.html" class="brand-block">
-                <div class="brand-logo-badge">SP</div>
-                <div class="brand-text">
-                    <h1>डिजिटल साथीदार</h1>
-                    <p>Digital SATHIDAR • शिक्षक व कर्मचारी डिजिटल टूल्स</p>
-                </div>
-            </a>
-            
-            <nav class="header-nav">
-                <a href="#salary-section" class="nav-link">📈 वेतन व कर</a>
-                <a href="#pdf-section" class="nav-link">📄 PDF टूल्स</a>
-                <a href="#school-section" class="nav-link">🏫 शाळा कार्यालय</a>
-                <a href="pdf-tools-plus.html" class="btn-top-cta">🧰 PDF Tools Plus →</a>
-            </nav>
+  <!-- Header -->
+  <header class="glass-nav sticky top-0 z-50 border-b border-slate-200/80 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-700 to-indigo-600 flex items-center justify-center text-white font-black text-lg shadow-md shadow-blue-500/25">
+          DS
         </div>
-
-            <div class="site-settings" role="group" aria-label="Website settings">
-                <select id="siteLanguage" aria-label="Language / भाषा" title="Language / भाषा">
-                    <option value="mr">मराठी</option>
-                    <option value="en">English</option>
-                </select>
-                <button type="button" id="siteThemeToggle" class="theme-toggle" aria-label="Switch appearance">🌙 Dark Mode</button>
-            </div>
-    </header>
-
-    <!-- Compact Stylish Hero Banner (No Wasted Space) -->
-    <div class="hero-stylish">
-        <div class="hero-card">
-            <div class="hero-left">
-                <div class="hero-kicker">✨ DIGITAL SATHIDAR • ONLINE TOOLS</div>
-                <h2 class="hero-title">डिजिटल साथीदार <span>सुजित पाटील (रयत सेवक)</span></h2>
-                <p class="hero-desc">शिक्षक, शिक्षकेतर कर्मचारी, शाळा आणि विद्यार्थ्यांसाठी सर्व मराठी डिजिटल साधने — जलद, सोपी व मोफत.</p>
-            </div>
-            <div class="hero-stats">
-                <div class="stat-badge">
-                    <div class="stat-num">१२+</div>
-                    <div class="stat-lbl">डिजिटल टूल्स</div>
-                </div>
-                <div class="stat-badge">
-                    <div class="stat-num">१००%</div>
-                    <div class="stat-lbl">मोफत वापर</div>
-                </div>
-                <div class="stat-badge">
-                    <div class="stat-num">⚡</div>
-                    <div class="stat-lbl">जलद व सुरक्षित</div>
-                </div>
-            </div>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span class="font-extrabold text-lg text-slate-900 tracking-tight leading-tight">Digital <span class="text-blue-600">SATHIDAR</span></span>
+            <span class="bg-blue-50 text-blue-700 border border-blue-200 text-xs px-1.5 py-0.5 rounded font-bold">PRO</span>
+          </div>
+          <p class="text-xs text-slate-500 font-medium">शिक्षक, शाळा व कर्मचारी डिजिटल पोर्टल</p>
         </div>
+      </div>
+
+      <nav class="flex items-center gap-1 text-xs sm:text-sm font-semibold text-slate-600">
+        <a href="#salary-section" class="px-3 py-1.5 rounded-lg hover:bg-slate-100 hover:text-blue-600 transition">💰 वेतन व TDS</a>
+        <a href="#pdf-section" class="px-3 py-1.5 rounded-lg hover:bg-slate-100 hover:text-blue-600 transition">📄 PDF टूल्स</a>
+        <a href="#school-section" class="px-3 py-1.5 rounded-lg hover:bg-slate-100 hover:text-blue-600 transition">🏫 शालेय साधने</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="max-w-6xl mx-auto px-4 pt-6 pb-2 w-full">
+    <div class="gradient-hero rounded-2xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden border border-slate-700/50">
+      <div class="relative z-10 max-w-2xl">
+        <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 text-cyan-300 text-xs font-bold px-3 py-1 rounded-full mb-3">
+          <span>✨</span>
+          <span>महाराष्ट्रातील शिक्षक व कर्मचाऱ्यांचे #१ डिजिटल पोर्टल</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold leading-tight mb-2 tracking-tight">
+          सर्व महत्त्वाची शासकीय, वेतन व शालेय साधने एकाच ठिकाणी.
+        </h1>
+        <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-5">
+          TDS / Income Tax, वेतनवाढ, DA/HRA फरक, PDF संपादन, दाखले स्कॅन क्लीन, आणि संच मान्यता — १००% मोफत आणि खाजगी.
+        </p>
+
+        <!-- Stats Chips with Live Visitor Count -->
+        <div class="flex flex-wrap gap-2.5">
+          <div class="bg-white/10 backdrop-blur-md border border-white/15 px-3 py-1.5 rounded-xl flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+            <span class="text-xs font-bold text-slate-100">१३+ मोफत टूल्स</span>
+          </div>
+
+          <!-- Visitor Count Chip in Hero -->
+          <div class="bg-blue-500/20 backdrop-blur-md border border-blue-400/30 px-3 py-1.5 rounded-xl flex items-center gap-2">
+            <span class="text-sm">👁️</span>
+            <span class="text-xs font-bold text-cyan-200">एकूण भेटी:</span>
+            <span class="text-xs font-extrabold text-white bg-blue-600/60 px-1.5 py-0.5 rounded border border-blue-400/40" id="heroVisitorCount">७,३२२+</span>
+          </div>
+
+          <div class="bg-white/10 backdrop-blur-md border border-white/15 px-3 py-1.5 rounded-xl flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+            <span class="text-xs font-bold text-slate-200">डेटा सुरक्षित (Browser Only)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Search & Category Filters -->
+  <section class="max-w-6xl mx-auto px-4 py-4 w-full">
+    <div class="flex flex-col sm:flex-row gap-3 items-center justify-between">
+      <div class="relative w-full sm:w-80">
+        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 text-sm">
+          🔍
+        </span>
+        <input type="text" id="toolSearchInput" placeholder="कोणतेही टूल शोधा (उदा. TDS, वेतन, PDF)..." class="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm transition">
+      </div>
+
+      <div class="flex gap-1.5 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0 scrollbar-none" id="categoryFilters">
+        <button type="button" data-cat="all" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white shadow-sm transition cursor-pointer">सर्व साधने (13)</button>
+        <button type="button" data-cat="salary-section" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 transition cursor-pointer">💰 वेतन व TDS (5)</button>
+        <button type="button" data-cat="pdf-section" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 transition cursor-pointer">📄 PDF साधने (5)</button>
+        <button type="button" data-cat="school-section" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 transition cursor-pointer">🏫 शालेय व इतर (3)</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- All Actual Main Tools -->
+  <main class="max-w-6xl mx-auto px-4 py-2 w-full flex-1">
+    
+    <!-- विभाग १: वेतन, आयकर व TDS साधने -->
+    <div class="mb-8" id="salary-section">
+      <div class="flex items-center justify-between pb-2 mb-3 border-b border-slate-200">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">💰</span>
+          <h2 class="text-base sm:lg font-bold text-slate-900">वेतन, आयकर व TDS साधने (Salary & Tax)</h2>
+        </div>
+        <span class="text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full">5 Tools</span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+        
+        <!-- 1. TDS / Income Tax प्रणाली -->
+        <a href="tds-income-tax.html" class="tool-card bg-white p-4 rounded-2xl border-2 border-emerald-200 shadow-sm flex items-start gap-3.5 group">
+          <div class="card-icon w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-600 flex items-center justify-center text-2xl flex-shrink-0">
+            📊
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-emerald-600 text-white text-[10px] font-extrabold px-1.5 py-0.5 rounded uppercase">महत्त्वाचे</span>
+            </div>
+            <h3 class="font-extrabold text-sm sm:text-base text-slate-900 group-hover:text-emerald-600 transition">TDS / Income Tax प्रणाली</h3>
+            <p class="text-xs text-slate-500 line-clamp-2 mt-0.5">मासिक TDS कपात, 24Q विवरण, फॉर्म 16 आणि आयकर कपात नियोजन.</p>
+          </div>
+          <span class="card-arrow text-slate-300 transition-transform font-bold text-base mt-2">→</span>
+        </a>
+
+        <!-- 2. ७ वा वेतन आयोग वेतनवाढ -->
+        <a href="increment-calculator.html" class="tool-card bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-start gap-3.5 group">
+          <div class="card-icon w-12 h-12 rounded-xl bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center text-2xl flex-shrink-0">
+            📈
+          </div>
+          <div class="flex-1 min-w-0">
+            <h3 class="font-extrabold text-sm sm:text-base text-slate-900 group-hover:text-blue-600 transition">७ वा वेतन आयोग वेतनवाढ</h3>
+            <p class="text-xs text-slate-500 line-clamp-2 mt-0.5">१ जुलै किंवा १ जानेवारी वार्षिक वेतनवाढ (Increment) अचूक गणना.</p>
+          </div>
+          <span class="card-arrow text-slate-300 transition-transform font-bold text-base mt-2">→</span>
+        </a>
+
+        <!-- 3. आयकर तुलना (Old vs New) -->
+        <a href="income-tax-calculator.html" class="tool-card bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-start gap-3.5 group">
+          <div class="card-icon w-12 h-12 rounded-xl bg-rose-50 border border-rose-100 text-rose-600 flex items-center justify-center text-2xl flex-shrink-0">
+            ⚖️
+          </div>
+          <div class="flex-1 min-w-0">
+            <h3 class="font-extrabold text-sm sm:text-base text-slate-900 group-hover:text-rose-600 transition">आयकर तुलना (Old vs New)</h3>
+            <p class="text-xs text-slate-500 line-clamp-2 mt-0.5">जुनी व नवीन कर प्रणाली तुलना करून कोणत्या पर्यायात जास्त फायदा आहे ते तपासा.</p>
+          </div>
+          <span class="card-arrow text-slate-300 transition-transform font-bold text-base mt-2">→</span>
+        </a>
+
+        <!-- 4. DA फरक कॅलक्युलेटर -->
+        <a href="da-calculator.html" class="tool-card bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-start gap-3.5 group">
+          <div class="card-icon w-12 h-12 rounded-xl bg-cyan-50 border border-cyan-100 text-cyan-600 flex items-center justify-center text-2xl flex-shrink-0">
+            💵
+          </div>
+          <div class="flex-1 min-w-0">
+            <h3 class="font-extrabold text-sm sm:text-base text-slate-900 group-hover:text-cyan-600 transition">DA फरक कॅलक्युलेटर</h3>
+            <p class="text-xs text-slate-500 line-clamp-2 mt-0.5">शासनाने जाहीर केलेल्या महागाई भत्ता फरकाची गणना व पत्रक.</p>
+          </div>
+          <span class="card-arrow text-slate-300 transition-transform font-bold text-base mt-2">→</span>
+        </a>
+
+        <!-- 5. HRA फरक कॅलक्युलेटर -->
+        <a href="hra-calculator.html" class="tool-card bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-start gap-3.5 group">
+          <div class="card-icon w-12 h-12 rounded-xl bg-indigo-50 border border-indigo-100 text-indigo-600 flex items-center justify-center text-2xl flex-shrink-0">
+            🏠
+          </div>
+          <div class="flex-1 min-w-0">
+            <h3 class="font-extrabold text-sm sm:text-base text-slate-900 group-hover:text-indigo-600 transition">HRA फरक कॅलक्युलेटर</h3>
+            <p class="text-xs text-slate-500 line-clamp-2 mt-0.5">घरभाडे भत्ता वाढ व फरकाची अचूक माहिती मिळवा.</p>
+          </div>
+          <span class="card-arrow text-slate-300 transition-transform font-bold text-base mt-2">→</span>
+        </a>
+
+      </div>
     </div>
 
-    <!-- Live Search & Category Filter Bar -->
-    <div class="controls-wrapper">
-        <div class="search-row">
-            <div class="search-box">
-                <span class="search-icon">🔍</span>
-                <input type="text" id="toolSearchInput" placeholder="कोणतेही टूल शोधा... (उदा. पगार, वेतनवाढ, आयकर, DA, फोटो सही, PDF, संच मान्यता...)" oninput="filterTools()">
-            </div>
-            <div class="filter-tabs">
-                <button class="filter-pill active" onclick="setCategory('all', this)">🌟 सर्व (All)</button>
-                <button class="filter-pill" onclick="setCategory('salary', this)">💼 वेतन व कर</button>
-                <button class="filter-pill" onclick="setCategory('pdf', this)">📄 PDF व स्कॅन</button>
-                <button class="filter-pill" onclick="setCategory('school', this)">🏫 शाळा व कार्यालय</button>
-            </div>
+    <!-- विभाग २: PDF व दस्तऐवज साधने -->
+    <div class="mb-8" id="pdf-section">
+      <div class="flex items-center justify-between pb-2 mb-3 border-b border-slate-200">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">📄</span>
+          <h2 class="text-base sm:text-lg font-bold text-slate-900">PDF व दस्तऐवज साधने (PDF & Documents)</h2>
         </div>
-    </div>
+        <span class="text-xs font-semibold text-blue-700 bg-blue-50 border border-blue-200 px-2.5 py-0.5 rounded-full">5 Tools</span>
+      </div>
 
-    <!-- Main Dashboard Grid -->
-    <main class="dashboard-main">
-
-        <!-- 1. Salary & Tax Calculators -->
-        <section class="tool-section" id="salary-section" data-cat="salary">
-            <div class="section-header">
-                <h2>📈 वेतन, कर व भत्ते साधने (Salary & Tax)</h2>
-                <span class="section-count">6 Tools</span>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+        
+        <!-- eDost PDF Edit -->
+        <a href="edost-pdf-edit.html" class="tool-card bg-white p-4 rounded-2xl border-2 border-indigo-200 shadow-sm flex items-start gap-3.5 relative overflow-hidden group">
+          <div class="card-icon w-12 h-12 rounded-xl bg-indigo-50 border border-indigo-100 text-indigo-600 flex items-center justify-center text-2xl flex-shrink-0">
+            📝
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="shimmer-badge badge-pulse text-white text-[10px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wide">
+                नवीन • NEW
+              </span>
+              <span class="bg-indigo-50 text-indigo-700 text-[10px] font-bold px-1.5 py-0.5 rounded">Pro Editor</span>
             </div>
-            <div class="grid-cards">
-                <!-- TDS / Income Tax System -->
-                <a class="tool-card featured" href="tds-income-tax.html" data-keywords="tds income tax प्रणाली आयकर माहिती फॉर्म वेतन विवरण पत्रक form 16 challan पगार q1 q4">
-                    <div class="tool-icon" style="background:#fef3c7; color:#d97706;">📑</div>
-                    <div class="tool-body">
-                        <div class="tool-badge-row">
-                            <span class="badge-new">NEW</span>
-                        </div>
-                        <div class="tool-title">TDS / Income Tax प्रणाली</div>
-                        <div class="tool-desc">कर्मचारीनिहाय पगार व कपात, तिमाही Q1-Q4 बेरीज, प्रपत्र १ व २ आणि प्रिंट स्टेटमेंट.</div>
-                    </div>
-                    <span class="tool-arrow">→</span>
-                </a>
-                <!-- Increment Calculator -->
-                <a class="tool-card featured" href="increment-calculator.html" data-keywords="वेतनवाढ increment pay matrix 7th pay commission 3% macp पदोन्नती पगार">
-                    <div class="tool-icon" style="background:#dbeafe; color:#1d4ed8;">📈</div>
-                    <div class="tool-body">
-                        <div class="tool-badge-row">
-                            <span class="badge-new">NEW</span>
-                        </div>
-                        <div class="tool-title">७ वा वेतन आयोग वेतनवाढ</div>
-                        <div class="tool-desc">१ जुलै/जानेवारी ३% वार्षिक वेतनवाढ व पदोन्नती/MACP फिक्सेशन पत्रक.</div>
-                    </div>
-                    <span class="tool-arrow">→</span>
-                </a>
+            <h3 class="font-extrabold text-sm sm:text-base text-slate-900 group-hover:text-indigo-600 transition">eDost PDF Edit</h3>
+            <p class="text-xs text-slate-500 line-clamp-2 mt-0.5">PDF मजकूर संपादन, व्हाईटआउट (Erase), डिजिटल सही व क्लिकेबल लिंक्स जोडा.</p>
+          </div>
+          <span class="card-arrow text-slate-300 transition-transform font-bold text-base mt-2">→</span>
+        </a>
 
-                <!-- Income Tax Calculator -->
-                <a class="tool-card featured" href="income-tax-calculator.html" data-keywords="आयकर income tax old new regime कर गणना 80c rebate टॅक्स">
-                    <div class="tool-icon" style="background:#dcfce7; color:#15803d;">💰</div>
-                    <div class="tool-body">
-                        <div class="tool-badge-row">
-                            <span class="badge-hot">नवीन स्लॅब</span>
-                        </div>
-                        <div class="tool-title">आयकर तुलना (Old vs New)</div>
-                        <div class="tool-desc">FY 2024-25 / 2025-26 जुनी वि. नवीन कर पद्धत तुलना व कर बचत अहवाल.</div>
-                    </div>
-                    <span class="tool-arrow">→</span>
-                </a>
-
-                <!-- DA Calculator -->
-                <a class="tool-card" href="da-calculator.html" data-keywords="da calculator महागाई भत्ता फरक dearance allowance पगार फरक">
-                    <div class="tool-icon">📊</div>
-                    <div class="tool-body">
-                        <div class="tool-title">DA फरक कॅलक्युलेटर</div>
-                        <div class="tool-desc">महागाई भत्ता वाढीचा फरक आणि अधिकृत विवरण पत्रक.</div>
-                    </div>
-                    <span class="tool-arrow">→</span>
-                </a>
-
-                <!-- HRA Calculator -->
-                <a class="tool-card" href="hra-calculator.html" data-keywords="hra calculator घरभाडे भत्ता house rent allowance">
-                    <div class="tool-icon">🏠</div>
-                    <div class="tool-body">
-                        <div class="tool-title">HRA फरक कॅलक्युलेटर</div>
-                        <div class="tool-desc">घरभाडे भत्ता फरकाची अचूक व सोपी गणना.</div>
-                    </div>
-                    <span class="tool-arrow">→</span>
-                </a>
-
-                <!-- Anki to Akshari -->
-                <a class="tool-card" href="anki-to-akshari.html" data-keywords="अंकी ते अक्षरी वय गणना age calculator number to words marathi">
-                    <div class="tool-icon">🔢</div>
-                    <div class="tool-body">
-                        <div class="tool-title">अंकी ते अक्षरी व वय गणना</div>
-                        <div class="tool-desc">रक्कम मराठी अक्षरात आणि जन्मदिनांकावरून अचूक वय गणना.</div>
-                    </div>
-                    <span class="tool-arrow">→</span>
-                </a>
+        <!-- PDF Tools Plus -->
+        <a href="pdf-tools-plus.html" class="tool-card bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-start gap-3.5 group">
+          <div class="card-icon w-12 h-12 rounded-xl bg-red-50 border border-red-100 text-red-600 flex items-center justify-center text-2xl flex-shrink-0">
+            🧰
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-red-50 text-red-600 text-[10px] font-bold px-1.5 py-0.5 rounded">लोकप्रिय</span>
             </div>
-        </section>
+            <h3 class="font-extrabold text-sm sm:text-base text-slate-900 group-hover:text-blue-600 transition">PDF Tools Plus</h3>
+            <p class="text-xs text-slate-500 line-clamp-2 mt-0.5">PDF Merge, Split, Rotate, Page Number, Crop व Compress एकाच ठिकाणी.</p>
+          </div>
+          <span class="card-arrow text-slate-300 transition-transform font-bold text-base mt-2">→</span>
+        </a>
 
-        <!-- 2. PDF & Document Tools -->
-        <section class="tool-section" id="pdf-section" data-cat="pdf">
-            <div class="section-header">
-                <h2>📄 PDF व दस्तऐवज साधने (PDF & Documents)</h2>
-                <span class="section-count">6 Tools</span>
-            </div>
-            <div class="grid-cards">
-                <!-- eDost PDF Edit -->
-                <a class="tool-card featured" href="edost-pdf-edit.html" data-keywords="edost pdf edit pdf संपादक मजकूर एडिट व्हाईटआउट सही डिजिटल साइन लिंक">
-                    <div class="tool-icon" style="background:#e0e7ff; color:#4338ca;">📝</div>
-                    <div class="tool-body">
-                        <div class="tool-badge-row">
-                            <span class="badge-hot">नवीन</span>
-                        </div>
-                        <div class="tool-title">eDost PDF Edit</div>
-                        <div class="tool-desc">PDF मधील मजकूर संपादन, व्हाईटआउट (Erase), डिजिटल सही व लिंक जोडा.</div>
-                    </div>
-                    <span class="tool-arrow">→</span>
-                </a>
+        <!-- eDost साथी स्कॅन क्लीन -->
+        <a href="edost-scan-clean.html" class="tool-card bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-start gap-3.5 group">
+          <div class="card-icon w-12 h-12 rounded-xl bg-amber-50 border border-amber-100 text-amber-600 flex items-center justify-center text-2xl flex-shrink-0">
+            🧽
+          </div>
+          <div class="flex-1 min-w-0">
+            <h3 class="font-extrabold text-sm sm:text-base text-slate-900 group-hover:text-blue-600 transition">eDost साथी स्कॅन क्लीन</h3>
+            <p class="text-xs text-slate-500 line-clamp-2 mt-0.5">जुना पिवळा कागद, शाळा सोडल्याचा दाखला (LC) स्वच्छ व पांढरा करा.</p>
+          </div>
+          <span class="card-arrow text-slate-300 transition-transform font-bold text-base mt-2">→</span>
+        </a>
 
-                <!-- PDF Tools Plus -->
-                <a class="tool-card featured" href="pdf-tools-plus.html" data-keywords="pdf tools plus merge split rotate compress crop page number">
-                    <div class="tool-icon" style="background:#fee2e2; color:#b91c1c;">🧰</div>
-                    <div class="tool-body">
-                        <div class="tool-badge-row">
-                            <span class="badge-hot">लोकप्रिय</span>
-                        </div>
-                        <div class="tool-title">PDF Tools Plus</div>
-                        <div class="tool-desc">PDF Merge, Split, Rotate, Page Number, Crop व Compress एकाच ठिकाणी.</div>
-                    </div>
-                    <span class="tool-arrow">→</span>
-                </a>
-
-                <!-- eDost Scan Clean -->
-                <a class="tool-card" href="edost-scan-clean.html" data-keywords="edost scan clean जुना कागद स्वच्छ lc दाखले clean contrast document">
-                    <div class="tool-icon" style="background:#fef3c7; color:#b45309;">🧽</div>
-                    <div class="tool-body">
-                        <div class="tool-title">eDost साथी स्कॅन क्लीन</div>
-                        <div class="tool-desc">जुना पिवळा कागद, शाळा सोडल्याचा दाखला (LC) स्वच्छ व पांढरा करा.</div>
-                    </div>
-                    <span class="tool-arrow">→</span>
-                </a>
-
-                <!-- Cutter Photo & Sign -->
-                <a class="tool-card" href="cutter.html" data-keywords="photo sign cutter ssc hsc फोटो सही कटर crop resize kb size">
-                    <div class="tool-icon" style="background:#ede9fe; color:#6d28d9;">✂️</div>
-                    <div class="tool-body">
-                        <div class="tool-title">फोटो व सही कटर</div>
-                        <div class="tool-desc">SSC/HSC बोर्ड फॉर्मसाठी फोटो व सही अचूक आकारात क्रॉप व रिसाइज करा.</div>
-                    </div>
-                    <span class="tool-arrow">→</span>
-                </a>
-
-
-            </div>
-        </section>
+        <!-- फोटो व सही कटर -->
+        <a href="cutter.html" class="tool-card bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-start gap-3.5 group">
+          <div class="card-icon w-12 h-12 rounded-xl bg-purple-50 border border-purple-100 text-purple-600 flex items-center justify-center text-2xl flex-shrink-0">
+            ✂️
+          </div>
+          <div class="flex-1 min-w-0">
+            <h3 class="font-extrabold text-sm sm:text-base text-slate-900 group-hover:text-purple-600 transition">फोटो व सही कटर</h3>
+            <p class="text-xs text-slate-500 line-clamp-2 mt-0.5">SSC/HSC बोर्ड फॉर्मसाठी फोटो व सही अचूक आकारात क्रॉप व रिसाइज करा.</p>
+          </div>
+          <span class="card-arrow text-slate-300 transition-transform font-bold text-base mt-2">→</span>
+        </a>
 
         <!-- PDF to Excel Converter -->
-                <a class="tool-card featured" href="pdf-to-excel.html" data-keywords="pdf to excel converter scanned pdf ocr marathi english table xlsx पीडीएफ एक्सेल">
-                    <div class="tool-icon" style="background:#dcfce7;color:#166534;">📊</div>
-                    <div class="tool-body">
-                        <div class="tool-title">PDF to Excel Converter</div>
-                        <div class="tool-desc">डिजिटल किंवा स्कॅन PDF मधील टेबल्स Excel मध्ये बदला (मराठी + English OCR).</div>
-                    </div>
-                    <span class="tool-arrow">→</span>
-                </a>
+        <a href="pdf-to-excel.html" class="tool-card bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-start gap-3.5 group">
+          <div class="card-icon w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-600 flex items-center justify-center text-2xl flex-shrink-0">
+            📑
+          </div>
+          <div class="flex-1 min-w-0">
+            <h3 class="font-extrabold text-sm sm:text-base text-slate-900 group-hover:text-emerald-600 transition">PDF to Excel Converter</h3>
+            <p class="text-xs text-slate-500 line-clamp-2 mt-0.5">डिजिटल किंवा स्कॅन PDF मधील टेबल्स Excel मध्ये बदला (मराठी + OCR).</p>
+          </div>
+          <span class="card-arrow text-slate-300 transition-transform font-bold text-base mt-2">→</span>
+        </a>
 
-        <!-- 3. School & Educational Tools -->
-        <section class="tool-section" id="school-section" data-cat="school">
-            <div class="section-header">
-                <h2>🏫 शालेय व प्रशासकीय साधने (School & Office)</h2>
-                <span class="section-count">2 Tools</span>
-            </div>
-            <div class="grid-cards">
-                <!-- Sanch Manyata -->
-                <a class="tool-card featured" href="sanch-manyata.html" data-keywords="संच मान्यता शिक्षक गणना sanch manyata 15 march 2024 gr shikshak sankhya">
-                    <div class="tool-icon" style="background:#f0fdf4; color:#166534;">📋</div>
-                    <div class="tool-body">
-                        <div class="tool-badge-row">
-                            <span class="badge-hot">शासन निर्णय</span>
-                        </div>
-                        <div class="tool-title">संच मान्यता शिक्षक गणना</div>
-                        <div class="tool-desc">१५ मार्च २०२४ जीआरनुसार वर्गनिहाय विद्यार्थी पट व शिक्षक पदे गणना.</div>
-                    </div>
-                    <span class="tool-arrow">→</span>
-                </a>
+      </div>
+    </div>
 
-                <!-- Handwriting Converter -->
-                <a class="tool-card" href="handwriting.html" data-keywords="हस्तलिखित कन्व्हर्टर handwriting converter text to handwriting marathi">
-                    <div class="tool-icon" style="background:#faf5ff; color:#7e22ce;">✍️</div>
-                    <div class="tool-body">
-                        <div class="tool-title">मराठी हस्तलिखित कन्व्हर्टर</div>
-                        <div class="tool-desc">टाईप केलेला मजकूर सुंदर मानवी हस्तलिखित शैलीत बदलून डाऊनलोड करा.</div>
-                    </div>
-                    <span class="tool-arrow">→</span>
-                </a>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- Footer -->
-    <footer class="portal-footer">
-        <div class="footer-inner">
-            <div>© 2026 <strong>डिजिटल साथीदार (Digital SATHIDAR)</strong> | शिक्षक व कर्मचारी ऑनलाइन पोर्टल</div>
-            <nav aria-label="महत्त्वाच्या लिंक्स" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;font-size:14px;">
-                <a href="about-us.html" style="color:#1d4ed8;">About Us / आमच्याबद्दल</a>
-                <a href="contact-us.html" style="color:#1d4ed8;">Contact Us / संपर्क</a>
-                <a href="privacy-policy.html" style="color:#1d4ed8;">Privacy Policy / गोपनीयता</a>
-                <a href="terms-and-conditions.html" style="color:#1d4ed8;">Terms / अटी व शर्ती</a>
-                <a href="guides/index.html" style="color:#1d4ed8;">Tool Guides / मार्गदर्शक</a>
-            </nav>
-            <div class="visitor-badge" title="Digital SATHIDAR वेबसाइटच्या एकूण भेटी" style="display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;min-height:30px;">
-                <span>👁️ एकूण भेटी:</span>
-                <span id="visitorCount" class="counterapi" ns="rayatsevaksujit.github.io" key="applications-homepage" behavior="view" startNumber="7450" style="min-height:28px;display:inline-flex;align-items:center;color:#ffffff;font-weight:700;font-size:13px;">७,४५०</span>
-            </div>
-            <div style="color:#38bdf8; font-weight:700;">संकल्पना व निर्मिती : Sujit Patil (SP - रयत सेवक)</div>
+    <!-- विभाग ३: शालेय व इतर साधने -->
+    <div class="mb-8" id="school-section">
+      <div class="flex items-center justify-between pb-2 mb-3 border-b border-slate-200">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🏫</span>
+          <h2 class="text-base sm:text-lg font-bold text-slate-900">शालेय व उपयुक्त साधने (School & Utilities)</h2>
         </div>
-    </footer>
+        <span class="text-xs font-semibold text-purple-700 bg-purple-50 border border-purple-200 px-2.5 py-0.5 rounded-full">3 Tools</span>
+      </div>
 
-    <!-- WhatsApp Share Button -->
-    <a href="https://wa.me/919333411111?text=%E0%A4%A8%E0%A4%AE%E0%A4%B8%E0%A5%8D%E0%A4%95%E0%A4%BE%E0%A4%B0%2C%20%E0%A4%A1%E0%A4%BF%E0%A4%9C%E0%A4%BF%E0%A4%9F%E0%A4%B2%20%E0%A4%B8%E0%A4%BE%E0%A4%A5%E0%A5%80%E0%A4%A6%E0%A4%BE%E0%A4%B0%20%E0%A4%B8%E0%A4%82%E0%A4%A6%E0%A4%B0%E0%A5%8D%E0%A4%AD%E0%A4%BE%E0%A4%A4%20%E0%A4%AE%E0%A4%B2%E0%A4%BE%20%E0%A4%AE%E0%A4%BE%E0%A4%B9%E0%A4%BF%E0%A4%A4%E0%A5%80%20%E0%A4%B9%E0%A4%B5%E0%A5%80." target="_blank" class="wa-float" title="WhatsApp वर संपर्क साधा">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-    </a>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+        
+        <!-- अंकी ते अक्षरी व वय गणना -->
+        <a href="anki-to-akshari.html" class="tool-card bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-start gap-3.5 group">
+          <div class="card-icon w-12 h-12 rounded-xl bg-amber-50 border border-amber-100 text-amber-600 flex items-center justify-center text-2xl flex-shrink-0">
+            🔢
+          </div>
+          <div class="flex-1 min-w-0">
+            <h3 class="font-extrabold text-sm sm:text-base text-slate-900 group-hover:text-amber-600 transition">अंकी ते अक्षरी व वय गणना</h3>
+            <p class="text-xs text-slate-500 line-clamp-2 mt-0.5">रक्कम मराठी अक्षरात आणि जन्मदिनांकावरून अचूक वय गणना.</p>
+          </div>
+          <span class="card-arrow text-slate-300 transition-transform font-bold text-base mt-2">→</span>
+        </a>
 
-    <!-- Interactive Filtering & Reviews Script -->
-    <script>
-        // Instant Live Search
-        function filterTools() {
-            const query = document.getElementById('toolSearchInput').value.toLowerCase().trim();
-            const cards = document.querySelectorAll('.tool-card');
-            const sections = document.querySelectorAll('.tool-section');
+        <!-- संच मान्यता शिक्षक गणना -->
+        <a href="sanch-manyata.html" class="tool-card bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-start gap-3.5 group">
+          <div class="card-icon w-12 h-12 rounded-xl bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center text-2xl flex-shrink-0">
+            🏫
+          </div>
+          <div class="flex-1 min-w-0">
+            <h3 class="font-extrabold text-sm sm:text-base text-slate-900 group-hover:text-blue-600 transition">संच मान्यता शिक्षक गणना</h3>
+            <p class="text-xs text-slate-500 line-clamp-2 mt-0.5">१५ मार्च २०२४ च्या शासन निर्णयानुसार विद्यार्थी संख्येवरून शिक्षक पदे मोजा.</p>
+          </div>
+          <span class="card-arrow text-slate-300 transition-transform font-bold text-base mt-2">→</span>
+        </a>
 
-            cards.forEach(card => {
-                const title = card.querySelector('.tool-title').innerText.toLowerCase();
-                const desc = card.querySelector('.tool-desc').innerText.toLowerCase();
-                const kw = (card.getAttribute('data-keywords') || '').toLowerCase();
+        <!-- मराठी हस्तलिखित कन्व्हर्टर -->
+        <a href="handwriting.html" class="tool-card bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-start gap-3.5 group">
+          <div class="card-icon w-12 h-12 rounded-xl bg-teal-50 border border-teal-100 text-teal-600 flex items-center justify-center text-2xl flex-shrink-0">
+            ✍️
+          </div>
+          <div class="flex-1 min-w-0">
+            <h3 class="font-extrabold text-sm sm:text-base text-slate-900 group-hover:text-teal-600 transition">मराठी हस्तलिखित कन्व्हर्टर</h3>
+            <p class="text-xs text-slate-500 line-clamp-2 mt-0.5">मराठी मजकूर सुंदर हस्तलिखित (Handwritten) पानांमध्ये रूपांतरित करा.</p>
+          </div>
+          <span class="card-arrow text-slate-300 transition-transform font-bold text-base mt-2">→</span>
+        </a>
 
-                if (!query || title.includes(query) || desc.includes(query) || kw.includes(query)) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+      </div>
+    </div>
 
-            // Hide section if all cards in it are hidden
-            sections.forEach(sec => {
-                const visibleCards = sec.querySelectorAll('.tool-card[style*="display: flex"]');
-                const allCards = sec.querySelectorAll('.tool-card');
-                if (query && visibleCards.length === 0 && allCards.length > 0) {
-                    sec.style.display = 'none';
-                } else {
-                    sec.style.display = 'block';
-                }
-            });
+  </main>
+
+  <!-- Modern Footer with Live Visitor Counter (7322+) & Legal Links -->
+  <footer class="bg-white border-t border-slate-200 py-8 text-center text-xs text-slate-500">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col items-center gap-4">
+      
+      <!-- Live Visitor Counter Badge (Starts from 7322) -->
+      <div class="inline-flex items-center gap-2.5 bg-slate-900 text-white px-4 py-2 rounded-full shadow-md border border-slate-700" title="Digital SATHIDAR वेबसाइटच्या एकूण भेटी">
+        <span class="text-cyan-400 font-bold flex items-center gap-1.5">
+          <span>👁️</span> एकूण भेटी (Total Visits):
+        </span>
+        <span id="visitorCount" class="counterapi bg-blue-600 px-2.5 py-0.5 rounded-full text-white font-extrabold text-sm" ns="rayatsevaksujit.github.io" key="applications-homepage" behavior="view" startNumber="7322">
+          ७,३२२
+        </span>
+      </div>
+
+      <!-- Quick Nav Links from original site -->
+      <nav class="flex flex-wrap gap-4 justify-center text-slate-600 font-medium">
+        <a href="about-us.html" class="hover:text-blue-600 transition">About Us / आमच्याबद्दल</a>
+        <span>•</span>
+        <a href="contact-us.html" class="hover:text-blue-600 transition">Contact Us / संपर्क</a>
+        <span>•</span>
+        <a href="privacy-policy.html" class="hover:text-blue-600 transition">Privacy Policy / गोपनीयता</a>
+        <span>•</span>
+        <a href="terms-and-conditions.html" class="hover:text-blue-600 transition">Terms / अटी व शर्ती</a>
+        <span>•</span>
+        <a href="guides/index.html" class="hover:text-blue-600 transition">Tool Guides / मार्गदर्शक</a>
+      </nav>
+
+      <!-- Corrected Attribution -->
+      <div class="flex items-center gap-2 flex-wrap justify-center">
+        <span class="font-bold text-slate-700">Digital SATHIDAR (डिजिटल साथीदार)</span>
+        <span>•</span>
+        <span class="text-slate-800 font-semibold bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200">Developed by सुजित पाटील (रयत सेवक)</span>
+      </div>
+
+      <p class="text-slate-400">सर्व हक्क सुरक्षित © 2026 • मोफत व सुरक्षित शासकीय डिजिटल सेवा</p>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp Button -->
+  <a href="https://wa.me/919333411111?text=%E0%A4%A8%E0%A4%AE%E0%A4%B8%E0%A5%8D%E0%A4%95%E0%A4%BE%E0%A4%B0%2C%20%E0%A4%A1%E0%A4%BF%E0%A4%9F%E0%A4%BF%E0%A4%9F%E0%A4%B2%20%E0%A4%B8%E0%A4%BE%E0%A4%A5%E0%A5%80%E0%A4%A6%E0%A4%BE%E0%A4%B0%20%E0%A4%B8%E0%A4%82%E0%A4%A6%E0%A4%B0%E0%A5%8D%E0%A4%AD%E0%A4%BE%E0%A4%A4%20%E0%A4%AE%E0%A4%BE%E0%A4%B9%E0%A4%BF%E0%A4%A4%E0%A5%80%20%E0%A4%B9%E0%A4%B5%E0%A5%80." target="_blank" class="wa-float" title="WhatsApp वर संपर्क साधा">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+  </a>
+
+  <!-- CounterAPI Script -->
+  <script async src="https://counterapi.com/c.js?ns=rayatsevaksujit.github.io"></script>
+
+  <!-- Interactive Search, Filter & Counter Sync Script -->
+  <script>
+    // Search Filtering
+    const searchInput = document.getElementById('toolSearchInput');
+    const cards = document.querySelectorAll('.tool-card');
+    const sections = ['salary-section', 'pdf-section', 'school-section'];
+
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        cards.forEach(card => {
+          const text = card.textContent.toLowerCase();
+          if (!query || text.includes(query)) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        // Toggle sections based on visible cards
+        sections.forEach(secId => {
+          const sec = document.getElementById(secId);
+          if (sec) {
+            const visible = sec.querySelectorAll('.tool-card:not([style*="display: none"])');
+            sec.style.display = visible.length > 0 ? 'block' : 'none';
+          }
+        });
+      });
+    }
+
+    // Category Tabs Filtering
+    const catButtons = document.querySelectorAll('.cat-btn');
+    catButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-cat');
+        
+        catButtons.forEach(b => {
+          b.className = 'cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 transition cursor-pointer';
+        });
+        btn.className = 'cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white shadow-sm transition cursor-pointer';
+
+        sections.forEach(secId => {
+          const sec = document.getElementById(secId);
+          if (sec) {
+            if (target === 'all' || target === secId) {
+              sec.style.display = 'block';
+            } else {
+              sec.style.display = 'none';
+            }
+          }
+        });
+      });
+    });
+
+    // Visitor Counter Sync to Hero chip
+    const vCountEl = document.getElementById('visitorCount');
+    const heroVCountEl = document.getElementById('heroVisitorCount');
+    if (vCountEl && heroVCountEl) {
+      const observer = new MutationObserver(() => {
+        const countText = vCountEl.textContent.trim();
+        if (countText && countText !== '७,३२२') {
+          heroVCountEl.textContent = countText + '+';
         }
+      });
+      observer.observe(vCountEl, { childList: true, characterData: true, subtree: true });
+    }
+  </script>
 
-        // Category Tab Filter
-        let currentCat = 'all';
-        function setCategory(cat, btn) {
-            currentCat = cat;
-            document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
-            if (btn) btn.classList.add('active');
-
-            const sections = document.querySelectorAll('.tool-section');
-            sections.forEach(sec => {
-                const secCat = sec.getAttribute('data-cat');
-                if (cat === 'all' || secCat === cat) {
-                    sec.style.display = 'block';
-                } else {
-                    sec.style.display = 'none';
-                }
-            });
-
-            // Clear search when changing tab
-            document.getElementById('toolSearchInput').value = '';
-            document.querySelectorAll('.tool-card').forEach(c => c.style.display = 'flex');
-        }
-
-        window.onload = function() {
-            renderReviews();
-        };
-    </script>
-
-    <!-- Independent page-view counter; starts from the previous total of 7,450 -->
-    <script async src="https://counterapi.com/c.js?ns=rayatsevaksujit.github.io"></script>
-
-    <script>
-    /* Language and appearance preferences; does not change tool or review data */
-    (function(){
-      const translations = {
-        "📈 वेतन व कर":"📈 Salary & Tax","📄 PDF टूल्स":"📄 PDF Tools","🏫 शाळा कार्यालय":"🏫 School Office",
-        "डिजिटल साथीदार":"Digital SATHIDAR","शिक्षक व कर्मचारी डिजिटल टूल्स":"Digital tools for teachers & staff",
-        "शिक्षक, शिक्षकेतर कर्मचारी, शाळा आणि विद्यार्थ्यांसाठी सर्व मराठी डिजिटल साधने — जलद, सोपी व मोफत.":"Free, fast and easy digital tools for teachers, school staff, schools and students.",
-        "डिजिटल टूल्स":"Digital Tools","मोफत वापर":"Free to Use","जलद व सुरक्षित":"Fast & Secure",
-        "कोणतेही टूल शोधा... (उदा. पगार, वेतनवाढ, आयकर, DA, फोटो सही, PDF, संच मान्यता...)":"Search tools... (e.g. salary, increment, tax, DA, photo, PDF)",
-        "🌟 सर्व (All)":"🌟 All","💼 वेतन व कर":"💼 Salary & Tax","📄 PDF व स्कॅन":"📄 PDF & Scan","🏫 शाळा व कार्यालय":"🏫 School & Office",
-        "वेतन, कर व भत्ते साधने (Salary & Tax)":"Salary, Tax & Allowance Tools","७ वा वेतन आयोग वेतनवाढ":"7th Pay Commission Increment",
-        "आयकर तुलना (Old vs New)":"Income Tax Comparison (Old vs New)","DA फरक कॅलक्युलेटर":"DA Difference Calculator",
-        "HRA फरक कॅलक्युलेटर":"HRA Difference Calculator","अंकी ते अक्षरी व वय गणना":"Number to Words & Age Calculator",
-        "PDF व दस्तऐवज साधने (PDF & Documents)":"PDF & Document Tools","PDF Tools Plus":"PDF Tools Plus",
-        "eDost साथी स्कॅन क्लीन":"eDost Scan Clean","फोटो व सही कटर":"Photo & Signature Cutter",
-        "शालेय व प्रशासकीय साधने (School & Office)":"School & Administrative Tools","संच मान्यता शिक्षक गणना":"Staff Approval Teacher Calculator",
-        "मराठी हस्तलिखित कन्व्हर्टर":"Marathi Handwriting Converter",
-        "एकूण भेटी:":"Total visits:","संकल्पना व निर्मिती : Sujit Patil (SP - रयत सेवक)":"Concept & Created by: Sujit Patil (SP - Rayat Sevak)",
-        "About Us / आमच्याबद्दल":"About Us","Contact Us / संपर्क":"Contact Us","Privacy Policy / गोपनीयता":"Privacy Policy",
-        "Terms / अटी व शर्ती":"Terms & Conditions","Tool Guides / मार्गदर्शक":"Tool Guides",
-        "लोकप्रिय":"Popular","नवीन स्लॅब":"New Slabs","शासन निर्णय":"Government Resolution",
-        "१ जुलै/जानेवारी ३% वार्षिक वेतनवाढ व पदोन्नती/MACP फिक्सेशन पत्रक.":"3% annual increment and promotion/MACP fixation statement for July/January.",
-        "महागाई भत्ता वाढीचा फरक आणि अधिकृत विवरण पत्रक.":"Calculate DA arrears and prepare a statement.",
-        "घरभाडे भत्ता फरकाची अचूक व सोपी गणना.":"Simple and accurate HRA difference calculation.",
-        "PDF Merge, Split, Rotate, Page Number, Crop व Compress एकाच ठिकाणी.":"Merge, split, rotate, number, crop and compress PDFs in one place.",
-        "डिजिटल किंवा स्कॅन PDF मधील टेबल्स Excel मध्ये बदला (मराठी + English OCR).":"Convert tables in digital or scanned PDFs to Excel (Marathi + English OCR).",
-        "SSC/HSC बोर्ड फॉर्मसाठी फोटो व सही अचूक आकारात क्रॉप व रिसाइज करा.":"Crop and resize photos and signatures for SSC/HSC board forms.",
-        "लोकप्रिय":"Popular","नवीन स्लॅब":"New Slabs"
-      };
-      const originalTextNodes = [];
-      const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-      while(walker.nextNode()){
-        const node=walker.currentNode;
-        if(node.parentElement && !node.parentElement.closest('script,style,option')){
-          const original=node.nodeValue.trim();
-          if(original && translations[original]) originalTextNodes.push({node,original});
-        }
-      }
-      const placeholderMap = [
-        ['toolSearchInput','कोणतेही टूल शोधा... (उदा. पगार, वेतनवाढ, आयकर, DA, फोटो सही, PDF, संच मान्यता...)','Search tools... (e.g. salary, increment, tax, DA, photo, PDF)'],
-        ['revAuthor','आपले नाव (उदा. पाटील सर)','Your name (e.g. Patil Sir)'],
-        ['revPlace','गाव / शाळा (उदा. सातारा)','Village / School (e.g. Satara)'],
-        ['revMessage','आपल्याला हे पोर्टल कसे वाटले? आपला अनुभव किंवा सूचना येथे लिहा...','How do you like this portal? Share your experience or suggestions...']
-      ];
-      placeholderMap.forEach(([id,mr,en])=>{const el=document.getElementById(id);if(el){el.dataset.placeholderMr=mr;el.dataset.placeholderEn=en;}});
-      function setLanguage(lang){
-        originalTextNodes.forEach(({node,original})=>{if(node.isConnected) node.nodeValue=node.nodeValue.replace(node.nodeValue.trim(),lang==='en'?translations[original]:original);});
-        placeholderMap.forEach(([id,mr,en])=>{const el=document.getElementById(id);if(el)el.placeholder=lang==='en'?en:mr;});
-        document.documentElement.lang=lang;
-        try{localStorage.setItem('digital_sathidar_language',lang)}catch(e){}
-      }
-      function setTheme(theme){
-        document.body.dataset.theme=theme;
-        const btn=document.getElementById('siteThemeToggle');
-        if(btn){btn.textContent=theme==='dark'?'☀️ White Mode':'🌙 Dark Mode';btn.setAttribute('aria-pressed',String(theme==='dark'));}
-        try{localStorage.setItem('digital_sathidar_theme',theme)}catch(e){}
-      }
-      const language=document.getElementById('siteLanguage'),theme=document.getElementById('siteThemeToggle');
-      if(!language||!theme)return;
-      language.addEventListener('change',()=>setLanguage(language.value));
-      theme.addEventListener('click',()=>setTheme(document.body.dataset.theme==='dark'?'light':'dark'));
-      let savedLang='mr',savedTheme='light';
-      try{savedLang=localStorage.getItem('digital_sathidar_language')||'mr';savedTheme=localStorage.getItem('digital_sathidar_theme')||'light'}catch(e){}
-      language.value=savedLang;setLanguage(savedLang);setTheme(savedTheme);
-    })();
-    </script>
 </body>
 </html>
