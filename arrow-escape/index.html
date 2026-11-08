@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#080808">
+<title>Arrow Escape</title>
+<style>
+:root{color-scheme:dark;--bg:#090909;--panel:#171717;--line:#343434;--white:#f7f7f7;--muted:#999;--red:#ff3434;--green:#20d879}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:var(--bg);color:var(--white);font-family:Arial,Helvetica,sans-serif;display:flex;justify-content:center;padding:14px;user-select:none}
+.app{width:100%;max-width:470px}header{text-align:center;padding:12px 0 20px}.logo{font-size:30px;font-weight:900;letter-spacing:2px}.logo span{color:#aaa}.tag{font-size:10px;letter-spacing:3px;color:var(--muted);margin-top:5px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;text-align:center;padding:11px 4px}.stat small{font-size:10px;color:var(--muted)}.stat b{display:block;font-size:21px;margin-top:5px}
+.bad{margin-top:10px;background:#1d1111;border:1px solid #632626;border-radius:12px;padding:11px;display:flex;align-items:center;justify-content:space-between}.bad strong{font-size:12px;color:#ff8585}.bad small{display:block;font-size:10px;color:#aaa;margin-top:3px}.bad-icons{display:flex;gap:8px}.bad-icons span{width:24px;height:24px;border:1px solid var(--red);border-radius:50%;display:grid;place-items:center;color:var(--red);font-size:12px}.bad-icons span.used{background:#a21d1d;color:white;opacity:.45}
+.meta{display:flex;justify-content:space-between;margin:18px 3px 9px;color:#aaa;font-size:11px}.meta b{color:white}.progress{height:5px;background:#292929;border-radius:8px;overflow:hidden;margin-bottom:14px}.progress div{height:100%;width:0;background:#eee;transition:width .15s}
+.board-wrap{background:#111;border:1px solid #393939;border-radius:17px;padding:10px}.board{display:grid;gap:5px;width:100%;aspect-ratio:1}.tile{min-width:0;border:1px solid #414141;border-radius:7px;background:linear-gradient(145deg,#292929,#151515);color:#fff;font-size:clamp(19px,6vw,29px);display:grid;place-items:center;cursor:pointer;touch-action:manipulation}.tile:active{background:#444}.tile.removed{visibility:hidden;pointer-events:none}.tile.bad{background:#941d1d!important;border:2px solid #ff3434!important;color:#fff}.tile.hint{background:#075b37!important;border:2px solid var(--green)!important;color:#fff}.tile:focus-visible{outline:2px solid white;outline-offset:2px}
+.message{min-height:38px;display:grid;place-items:center;text-align:center;padding:5px;font-size:12px;font-weight:bold;color:#ddd}.message.error{color:#ff6464}.message.success{color:var(--green)}
+.controls{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.btn{border:1px solid #444;border-radius:10px;background:#222;color:white;padding:13px 4px;font-size:11px;font-weight:bold;cursor:pointer}.btn.primary{background:#fff;color:#080808;border-color:#fff}.btn:active{transform:scale(.97)}
+.help{margin-top:17px;padding:13px;background:var(--panel);border:1px solid var(--line);border-radius:13px}.help h3{font-size:12px;margin:0 0 7px}.help p{font-size:11px;color:#aaa;line-height:1.8;margin:0}.footer{text-align:center;color:#666;font-size:10px;margin:18px 0}
+.overlay{position:fixed;inset:0;background:#000e;display:none;align-items:center;justify-content:center;padding:20px;z-index:10}.modal{width:100%;max-width:340px;background:#191919;border:1px solid #555;border-radius:19px;padding:25px 19px;text-align:center}.modal h2{font-size:23px;margin:9px 0}.modal p{font-size:12px;color:#aaa;line-height:1.7;margin:0 0 16px}.modal .btn{width:100%;margin-top:8px}.ad-count{font-size:58px;font-weight:900;margin:18px}.ad-label{font-size:11px;letter-spacing:3px;color:#aaa}.ad-box{border:1px solid #444;border-radius:12px;padding:15px;margin:12px 0}.ad-status{font-size:12px;color:#aaa;line-height:1.6}
+</style>
+</head>
+<body>
+<main class="app">
+<header><div class="logo">➜ ARROW <span>ESCAPE</span></div><div class="tag">THE ULTIMATE ARROW PUZZLE</div></header>
+<section class="stats">
+<div class="stat"><small>SCORE</small><b id="score">0</b></div>
+<div class="stat"><small>LEVEL</small><b id="level">1</b></div>
+<div class="stat"><small>TIME</small><b id="timer">00:00</b></div>
+</section>
+<section class="bad"><div><strong>⚠ BAD MOVES</strong><small>3 mistakes allowed</small></div><div class="bad-icons" id="badIcons"></div></section>
+<div class="meta"><span>ARROWS LEFT: <b id="remaining">0</b></span><span>COMPLETED: <b id="percent">0%</b></span></div>
+<div class="progress"><div id="progress"></div></div>
+<section class="board-wrap"><div class="board" id="board"></div></section>
+<div class="message" id="message" aria-live="polite">Tap an arrow to make it exit the board.</div>
+<div class="controls">
+<button class="btn" id="restartBtn">↻ RESTART</button>
+<button class="btn primary" id="hintBtn">💡 HINT</button>
+<button class="btn" id="soundBtn">🔊 SOUND</button>
+</div>
+<section class="help"><h3>HOW TO PLAY</h3><p>Tap an arrow to send it out of the board in the direction it points. If another arrow blocks its path, it is a bad move. You have 3 bad moves. Watch a rewarded ad to reveal one correct move.</p></section>
+<div class="footer">ARROW ESCAPE • TRAIN YOUR BRAIN</div>
+</main>
+
+<div class="overlay" id="gameOverlay"><div class="modal"><div id="modalIcon" style="font-size:45px">🏆</div><h2 id="modalTitle">LEVEL COMPLETE!</h2><p id="modalText"></p><button class="btn primary" id="modalAction">NEXT LEVEL</button><button class="btn" id="replayBtn">↻ REPLAY LEVEL</button></div></div>
+<div class="overlay" id="adOverlay"><div class="modal"><div class="ad-label">ADVERTISEMENT</div><div class="ad-box"><div class="ad-count" id="adCount">7</div><div class="ad-status" id="adStatus">Checking advertisement availability...</div></div><button class="btn" id="cancelAd">CANCEL</button></div></div>
+
+<script>
+(()=> {
+"use strict";
+const $=id=>document.getElementById(id);
+const SAVE="arrowEscapeProgressV3",LAST_AD="arrowEscapeLastAd";
+const AD_GAP=10*60*1000,MAX_HINT_ADS=4,MAX_ADS_PER_LEVEL=3;
+let level=1,score=0,badMoves=0,board=[],size=4,seconds=0;
+let gameOver=false,soundOn=true,audio=null,timer=null,adTimer=null,hintIndex=-1;
+let sessionHintAds=0,levelAdCount=0,adPurpose=null;
+
+function load(){try{const x=JSON.parse(localStorage.getItem(SAVE)||"{}");level=Math.max(1,+x.level||1);score=Math.max(0,+x.score||0)}catch(e){}}
+function save(){try{localStorage.setItem(SAVE,JSON.stringify({level,score}))}catch(e){}}
+function beep(freq=550,duration=.08){if(!soundOn)return;try{audio=audio||new(window.AudioContext||window.webkitAudioContext)();if(audio.state==="suspended")audio.resume();const o=audio.createOscillator(),g=audio.createGain();o.connect(g);g.connect(audio.destination);o.frequency.value=freq;g.gain.setValueAtTime(.035,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+duration);o.start();o.stop(audio.currentTime+duration)}catch(e){}}
+function say(t,type=""){const e=$("message");e.textContent=t;e.className="message "+type}
+function tickTime(){seconds++;$("timer").textContent=String(Math.floor(seconds/60)).padStart(2,"0")+":"+String(seconds%60).padStart(2,"0")}
+function startClock(){clearInterval(timer);seconds=0;$("timer").textContent="00:00";timer=setInterval(()=>{if(!gameOver)tickTime()},1000)}
+const glyph={left:"←",right:"→",up:"↑",down:"↓"};
+function blocked(a,other){if(a.dir==="left")return other.r===a.r&&other.c<a.c;if(a.dir==="right")return other.r===a.r&&other.c>a.c;if(a.dir==="up")return other.c===a.c&&other.r<a.r;return other.c===a.c&&other.r>a.r}
+function canExit(a){return !board.some(b=>!b.removed&&b!==a&&blocked(a,b))}
+function solvable(candidate){const copy=candidate.map(a=>({...a}));let count=copy.length;while(count){const i=copy.findIndex(a=>!a.removed&&!copy.some(b=>!b.removed&&b!==a&&blocked(a,b)));if(i<0)return false;copy[i].removed=true;count--}return true}
+function makePuzzle(){
+ size=Math.min(4+Math.floor((level-1)/3),7);
+ for(let attempt=0;attempt<500;attempt++){
+  const dirs=["left","right","up","down"];
+  const candidate=[];
+  for(let r=0;r<size;r++)for(let c=0;c<size;c++)candidate.push({r,c,dir:dirs[Math.floor(Math.random()*4)],removed:false});
+  if(solvable(candidate)){board=candidate;return}
+ }
+ // Guaranteed easy fallback: each row points toward the nearest horizontal edge.
+ board=[];for(let r=0;r<size;r++)for(let c=0;c<size;c++)board.push({r,c,dir:c<size/2?"left":"right",removed:false});
+}
+function newGame(){gameOver=false;badMoves=0;hintIndex=-1;makePuzzle();render();stats();startClock();$("gameOverlay").style.display="none";say("Tap an arrow to make it exit the board.")}
+function render(){const el=$("board");el.innerHTML="";el.style.gridTemplateColumns=`repeat(${size},1fr)`;board.forEach((a,i)=>{const b=document.createElement("button");b.className="tile"+(a.removed?" removed":"");b.textContent=glyph[a.dir];b.setAttribute("aria-label","Arrow "+(i+1)+", points "+a.dir);b.onclick=()=>move(i);el.appendChild(b)})}
+function stats(){const left=board.filter(a=>!a.removed).length,done=board.length-left,pct=Math.round(done/board.length*100);$("score").textContent=score.toLocaleString();$("level").textContent=level;$("remaining").textContent=left;$("percent").textContent=pct+"%";$("progress").style.width=pct+"%";$("badIcons").innerHTML="";for(let i=0;i<3;i++){const s=document.createElement("span");s.className=i<badMoves?"used":"";s.textContent=i<badMoves?"✕":"✓";$("badIcons").appendChild(s)}}
+function move(i){if(gameOver||board[i].removed)return;const a=board[i];if(canExit(a)){a.removed=true;score+=10*level;hintIndex=-1;beep(760);render();stats();say("✓ ARROW ESCAPED!","success");if(board.every(x=>x.removed))setTimeout(win,300)}else{badMoves++;beep(160,.15);const cell=$("board").children[i];if(cell){cell.classList.add("bad");setTimeout(()=>cell.classList.remove("bad"),500)}stats();say("BAD MOVE! THE EXIT IS BLOCKED.","error");if(badMoves>=3)setTimeout(lose,350)}}
+function findMove(){return board.findIndex(a=>!a.removed&&canExit(a))}
+function requestHint(){if(gameOver)return;if(hintIndex!==-1){say("Follow the highlighted arrow first.");return}if(sessionHintAds>=MAX_HINT_ADS){say("You have used all 4 hint ads for this session.","error");return}beginAd("hint")}
+function revealHint(){const i=findMove();if(i<0)return;hintIndex=i;const a=board[i];$("board").children[i]?.classList.add("hint");say("HINT: Move the GREEN ARROW "+a.dir.toUpperCase()+" "+glyph[a.dir],"success");beep(650)}
+function lastAd(){try{return +(localStorage.getItem(LAST_AD)||0)}catch(e){return 0}}
+function cooldown(){return Date.now()-lastAd()<AD_GAP}
+function beginAd(purpose){if(cooldown()){say("Ads are paused for 10 minutes. Please keep playing.","error");return}if(purpose==="hint"&&sessionHintAds>=MAX_HINT_ADS)return;if(purpose==="normal"&&levelAdCount>=MAX_ADS_PER_LEVEL)return;adPurpose=purpose;let n=7;$("adCount").textContent=n;$("adStatus").textContent="Advertisement starting in...";$("adOverlay").style.display="flex";clearInterval(adTimer);adTimer=setInterval(()=>{n--;$("adCount").textContent=n;if(n<=0){clearInterval(adTimer);requestAdProvider(purpose)}},1000)}
+function requestAdProvider(purpose){
+ // Integrate your ad network SDK by defining window.ArrowAds.show().
+ // For rewarded ads it must resolve true ONLY after the provider confirms completion.
+ const provider=window.ArrowAds;
+ if(!provider||typeof provider.show!=="function"){$("adStatus").textContent="No ad provider connected. No reward has been granted.";setTimeout(()=>{$("adOverlay").style.display="none";say("Ad unavailable. Continue playing; no hint was used.","error")},1800);return}
+ Promise.resolve(provider.show({type:purpose==="hint"?"rewarded":"interstitial"})).then(result=>{
+  $("adOverlay").style.display="none";
+  if(result===true||result?.completed===true){markAdShown();if(purpose==="hint"){sessionHintAds++;revealHint()}else{levelAdCount++}}
+  else say("Ad was not completed. No hint was granted.","error");
+ }).catch(()=>{$("adOverlay").style.display="none";say("Ad unavailable. Please try again later.","error")})
+}
+function markAdShown(){try{localStorage.setItem(LAST_AD,String(Date.now()))}catch(e){}}
+function cancelAd(){clearInterval(adTimer);$("adOverlay").style.display="none";say("Ad cancelled. No hint was used.")}
+function win(){gameOver=true;clearInterval(timer);score+=Math.max(0,100-seconds)*level;save();stats();beep(900,.2);$("modalIcon").textContent="🏆";$("modalTitle").textContent="LEVEL COMPLETE!";$("modalText").textContent="Great job! You cleared Level "+level+". Your bonus score has been added."; $("modalAction").textContent="NEXT LEVEL";$("modalAction").onclick=()=>{level++;levelAdCount=0;save();newGame()};$("gameOverlay").style.display="flex";if(levelAdCount<MAX_ADS_PER_LEVEL&&!cooldown())setTimeout(()=>{if(gameOver&&levelAdCount<MAX_ADS_PER_LEVEL)beginAd("normal")},500)}
+function lose(){gameOver=true;clearInterval(timer);$("modalIcon").textContent="✕";$("modalTitle").textContent="GAME OVER";$("modalText").textContent="You used all 3 bad moves. Score: "+score;$("modalAction").textContent="TRY AGAIN";$("modalAction").onclick=()=>newGame();$("gameOverlay").style.display="flex"}
+$("restartBtn").onclick=()=>newGame();
+$("hintBtn").onclick=requestHint;
+$("soundBtn").onclick=()=>{soundOn=!soundOn;$("soundBtn").textContent=soundOn?"🔊 SOUND":"🔇 MUTED"};
+$("replayBtn").onclick=()=>newGame();
+$("cancelAd").onclick=cancelAd;
+load();newGame();
+})();
+</script>
+</body>
+</html>
