@@ -122,13 +122,41 @@
       transform: scale(1.1);
       box-shadow: 0 6px 22px rgba(37, 211, 102, 0.55);
     }
+
+    /* Digital SATHIDAR: compact rocker controls */
+    .header-controls { display:flex; align-items:center; gap:10px; flex-shrink:0; }
+    .rocker-control { display:flex; align-items:center; gap:6px; font-size:11px; font-weight:800; color:#475569; white-space:nowrap; }
+    .ds-rocker { appearance:none; -webkit-appearance:none; position:relative; width:54px; height:30px; border:0; border-radius:9px; cursor:pointer; background:linear-gradient(145deg,#0f172a,#334155); box-shadow:0 3px 8px #0003,0 1px 2px #ffffff20 inset; outline:none; transition:box-shadow .2s ease; }
+    .ds-rocker:focus-visible { box-shadow:0 0 0 3px #60a5fa,0 2px 5px #0004 inset; }
+    .ds-rocker::before,.ds-rocker::after { position:absolute; top:9px; font-size:8px; font-weight:900; color:#cbd5e1; }
+    .ds-rocker::before { content:attr(data-left); left:5px; }
+    .ds-rocker::after { content:attr(data-right); right:5px; }
+    .ds-rocker .rocker__cast { position:absolute; top:6px; width:20px; height:12px; z-index:0; transition:box-shadow .22s ease,transform .22s ease; }
+    .ds-rocker .rocker__knob { position:absolute; z-index:1; left:4px; top:4px; width:23px; height:22px; border-radius:6px; background:linear-gradient(145deg,#fff,#cbd5e1); box-shadow:0 2px 4px #0006,0 1px 1px #fff inset; transition:transform .22s cubic-bezier(.2,.8,.2,1),background .22s ease; }
+    .ds-rocker[aria-checked="true"] .rocker__knob { transform:translateX(23px); background:linear-gradient(145deg,#bbf7d0,#22c55e); }
+    body.ds-dark { background:#0b1220 !important; color:#e2e8f0 !important; }
+    body.ds-dark .glass-nav, body.ds-dark footer { background:#111c2e !important; border-color:#334155 !important; }
+    body.ds-dark .glass-nav h1, body.ds-dark #salary-section h2, body.ds-dark #pdf-section h2, body.ds-dark #school-section h2 { color:#f8fafc !important; }
+    body.ds-dark .glass-nav p, body.ds-dark footer, body.ds-dark footer nav, body.ds-dark .rocker-control { color:#cbd5e1 !important; }
+    body.ds-dark .tool-card, body.ds-dark #toolSearchInput, body.ds-dark .cat-btn:not(.bg-blue-600) { background:#172338 !important; border-color:#334155 !important; color:#e2e8f0 !important; }
+    body.ds-dark .tool-card h3 { color:#f1f5f9 !important; }
+    body.ds-dark .tool-card p, body.ds-dark .text-slate-500, body.ds-dark .text-slate-600 { color:#cbd5e1 !important; }
+    body.ds-dark .border-slate-200 { border-color:#334155 !important; }
+    body.ds-dark .cat-btn:not(.bg-blue-600) { color:#e2e8f0 !important; }
+    @media (max-width:760px) {
+      .header-inner { height:auto !important; min-height:64px; flex-wrap:wrap; padding-top:8px; padding-bottom:8px; gap:8px; }
+      .header-inner nav { order:3; width:100%; justify-content:center; overflow-x:auto; }
+      .header-controls { margin-left:auto; }
+      .rocker-control { gap:4px; font-size:10px; }
+    }
+
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
 
   <!-- Header: Removed PRO tag as requested -->
   <header class="glass-nav sticky top-0 z-50 border-b border-slate-200/80 shadow-sm">
-    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+    <div class="header-inner max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-700 to-indigo-600 flex items-center justify-center text-white font-black text-lg shadow-md shadow-blue-500/25">
           DS
@@ -146,6 +174,21 @@
         <a href="#pdf-section" class="px-3 py-1.5 rounded-lg hover:bg-slate-100 hover:text-blue-600 transition">📄 PDF टूल्स</a>
         <a href="#school-section" class="px-3 py-1.5 rounded-lg hover:bg-slate-100 hover:text-blue-600 transition">🏫 शालेय साधने</a>
       </nav>
+
+      <div class="header-controls" aria-label="Display and language settings">
+        <div class="rocker-control">
+          <span id="themeLabel">LIGHT</span>
+          <button class="ds-rocker" id="themeSwitch" type="button" role="switch" aria-checked="false" aria-label="Dark mode" data-left="L" data-right="D">
+            <span class="rocker__cast" aria-hidden="true"></span><span class="rocker__knob" aria-hidden="true"></span>
+          </button>
+        </div>
+        <div class="rocker-control">
+          <span id="languageLabel">मराठी</span>
+          <button class="ds-rocker" id="languageSwitch" type="button" role="switch" aria-checked="false" aria-label="Switch language to English" data-left="म" data-right="EN">
+            <span class="rocker__cast" aria-hidden="true"></span><span class="rocker__knob" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -538,6 +581,126 @@
       if (counterEl) {
         counterEl.textContent = formatted;
       }
+    })();
+  </script>
+
+
+  <script>
+    (function () {
+      const themeSwitch = document.getElementById('themeSwitch');
+      const languageSwitch = document.getElementById('languageSwitch');
+      const themeLabel = document.getElementById('themeLabel');
+      const languageLabel = document.getElementById('languageLabel');
+
+      function applyTheme(isDark) {
+        document.body.classList.toggle('ds-dark', isDark);
+        themeSwitch.setAttribute('aria-checked', String(isDark));
+        themeLabel.textContent = isDark ? 'DARK' : 'LIGHT';
+        document.querySelector('meta[name="theme-color"]')?.setAttribute('content', isDark ? '#0b1220' : '#1e40af');
+        try { localStorage.setItem('ds_theme', isDark ? 'dark' : 'light'); } catch (e) {}
+      }
+
+      const english = {
+        brandTag: 'Digital tools portal for teachers, schools & staff',
+        nav: ['💰 Salary & TDS', '📄 PDF Tools', '🏫 School Tools'],
+        heroTitle: 'All important government, salary and school tools in one place.',
+        heroDesc: 'TDS / Income Tax, salary increment, DA/HRA difference, PDF editing and staffing approval — free and secure.',
+        heroBadge: '✨ Maharashtra Government & School Digital Services',
+        toolCount: '१३+ Free Tools',
+        browserOnly: 'Browser Only',
+        search: 'Search any tool (e.g. TDS, Salary, PDF)...',
+        categories: ['All Tools (13)', '💰 Salary & TDS (5)', '📄 PDF Tools (5)', '🏫 School & Other (3)'],
+        sections: ['Salary, Income Tax & TDS Tools', 'PDF & Document Tools', 'School & Useful Tools'],
+        cardTitles: ['TDS / Income Tax System', '7th Pay Commission Increment', 'Income Tax Comparison (Old vs New)', 'DA Difference Calculator', 'HRA Difference Calculator', 'eDost PDF Edit', 'PDF Tools Plus', 'eDost Scan Clean', 'Photo & Signature Cutter', 'PDF to Excel Converter', 'Number to Words & Age Calculator', 'Staff Approval Calculator', 'Marathi Handwriting Converter'],
+        cardDescriptions: [
+          'Monthly TDS deductions, 24Q statements, Form 16 and income tax planning.',
+          'Calculate annual increments for 1 July or 1 January.',
+          'Compare old and new tax regimes to check which option benefits you more.',
+          'Calculate dearness allowance arrears as per government announcements.',
+          'Calculate house rent allowance increases and arrears.',
+          'Edit PDF text, erase content, add digital signatures and clickable links.',
+          'Merge, split, rotate, number, crop and compress PDF files.',
+          'Clean and whiten old yellow paper and school leaving certificates.',
+          'Crop and resize photos and signatures for SSC/HSC board forms.',
+          'Convert tables from digital or scanned PDFs into Excel (Marathi + OCR).',
+          'Convert amounts into words and calculate exact age from date of birth.',
+          'Calculate required teacher posts based on student strength and government resolution.',
+          'Convert Marathi text into attractive handwritten-style pages.'
+        ],
+        badges: ['IMPORTANT', 'NEW • NEW', 'Pro Editor', 'Popular'],
+        footerLinks: ['About Us', 'Contact Us', 'Privacy Policy', 'Terms', 'Tool Guides'],
+        footerName: 'Digital SATHIDAR',
+        copyright: 'All rights reserved © 2026 • Free & secure digital services',
+        totalVisits: '👁️ Total Visits:'
+      };
+
+      function applyLanguage(isEnglish) {
+        document.documentElement.lang = isEnglish ? 'en' : 'mr';
+        languageSwitch.setAttribute('aria-checked', String(isEnglish));
+        languageSwitch.setAttribute('aria-label', isEnglish ? 'Switch language to Marathi' : 'Switch language to English');
+        languageLabel.textContent = isEnglish ? 'ENGLISH' : 'मराठी';
+        const setText = (selector, value, index) => {
+          const el = document.querySelectorAll(selector)[index];
+          if (el) el.textContent = value;
+        };
+        setText('.glass-nav .flex.items-center.gap-3 > div:last-child p', english.brandTag, 0);
+        document.querySelectorAll('header nav a').forEach((el, i) => { if (english.nav[i]) el.textContent = english.nav[i]; });
+        setText('.gradient-hero h2', english.heroTitle, 0);
+        setText('.gradient-hero p', english.heroDesc, 0);
+        const heroBadge = document.querySelector('.gradient-hero .inline-flex');
+        if (heroBadge) heroBadge.lastElementChild.textContent = english.heroBadge.replace('✨ ', '');
+        const heroPills = document.querySelectorAll('.gradient-hero .backdrop-blur-md span:last-child');
+        if (heroPills[0]) heroPills[0].textContent = english.toolCount;
+        if (heroPills[1]) heroPills[1].textContent = english.browserOnly;
+        const search = document.getElementById('toolSearchInput');
+        if (search) search.placeholder = isEnglish ? english.search : 'कोणतेही टूल शोधा (उदा. TDS, वेतन, PDF)...';
+        document.querySelectorAll('.cat-btn').forEach((el, i) => {
+          const mr = ['सर्व साधने (13)', '💰 वेतन व TDS (5)', '📄 PDF साधने (5)', '🏫 शालेय व इतर (3)'];
+          el.textContent = isEnglish ? english.categories[i] : mr[i];
+        });
+        ['salary-section','pdf-section','school-section'].forEach((id, i) => {
+          const h = document.querySelector('#' + id + ' h2');
+          const mr = ['वेतन, आयकर व TDS साधने (Salary & Tax)', 'PDF व दस्तऐवज साधने (PDF & Documents)', 'शालेय व उपयुक्त साधने (School & Utilities)'];
+          if (h) h.textContent = isEnglish ? english.sections[i] : mr[i];
+        });
+        document.querySelectorAll('.tool-card h3').forEach((el, i) => {
+          const mr = ['TDS / Income Tax प्रणाली','७ वा वेतन आयोग वेतनवाढ','आयकर तुलना (Old vs New)','DA फरक कॅलक्युलेटर','HRA फरक कॅलक्युलेटर','eDost PDF Edit','PDF Tools Plus','eDost साथी स्कॅन क्लीन','फोटो व सही कटर','PDF to Excel Converter','अंकी ते अक्षरी व वय गणना','संच मान्यता शिक्षक गणना','मराठी हस्तलिखित कन्व्हर्टर'];
+          if (english.cardTitles[i]) el.textContent = isEnglish ? english.cardTitles[i] : mr[i];
+        });
+        document.querySelectorAll('.tool-card p').forEach((el, i) => {
+          const mr = [
+            'मासिक TDS कपात, 24Q विवरण, फॉर्म 16 आणि आयकर कपात नियोजन.',
+            '१ जुलै किंवा १ जानेवारी वार्षिक वेतनवाढ (Increment) अचूक गणना.',
+            'जुनी व नवीन कर प्रणाली तुलना करून कोणत्या पर्यायात जास्त फायदा आहे ते तपासा.',
+            'शासनाने जाहीर केलेल्या महागाई भत्ता फरकाची गणना व पत्रक.',
+            'घरभाडे भत्ता वाढ व फरकाची अचूक माहिती मिळवा.',
+            'PDF मजकूर संपादन, व्हाईटआउट (Erase), डिजिटल सही व क्लिकेबल लिंक्स जोडा.',
+            'PDF Merge, Split, Rotate, Page Number, Crop व Compress एकाच ठिकाणी.',
+            'जुना पिवळा कागद, शाळा सोडल्याचा दाखला (LC) स्वच्छ व पांढरा करा.',
+            'SSC/HSC बोर्ड फॉर्मसाठी फोटो व सही अचूक आकारात क्रॉप व रिसाइज करा.',
+            'डिजिटल किंवा स्कॅन PDF मधील टेबल्स Excel मध्ये बदला (मराठी + OCR).',
+            'रक्कम मराठी अक्षरात आणि जन्मदिनांकावरून अचूक वय गणना.',
+            '१५ मार्च २०२४ च्या शासन निर्णयानुसार विद्यार्थी संख्येवरून शिक्षक पदे मोजा.',
+            'मराठी मजकूर सुंदर हस्तलिखित (Handwritten) पानांमध्ये रूपांतरित करा.'
+          ];
+          if (english.cardDescriptions[i]) el.textContent = isEnglish ? english.cardDescriptions[i] : mr[i];
+        });
+        const footerNav = document.querySelectorAll('footer nav a');
+        const mrFooter = ['About Us / आमच्याबद्दल','Contact Us / संपर्क','Privacy Policy / गोपनीयता','Terms / अटी व शर्ती','Tool Guides / मार्गदर्शक'];
+        footerNav.forEach((el, i) => { if (english.footerLinks[i]) el.textContent = isEnglish ? english.footerLinks[i] : mrFooter[i]; });
+        const counterLabel = document.querySelector('footer .text-cyan-400');
+        if (counterLabel) counterLabel.textContent = isEnglish ? english.totalVisits : '👁️ एकूण भेटी (Total Visits):';
+        const copyright = document.querySelector('footer .text-slate-400');
+        if (copyright) copyright.textContent = isEnglish ? english.copyright : 'सर्व हक्क सुरक्षित © 2026 • मोफत व सुरक्षित शासकीय डिजिटल सेवा';
+        try { localStorage.setItem('ds_language', isEnglish ? 'en' : 'mr'); } catch (e) {}
+      }
+
+      themeSwitch.addEventListener('click', () => applyTheme(themeSwitch.getAttribute('aria-checked') !== 'true'));
+      languageSwitch.addEventListener('click', () => applyLanguage(languageSwitch.getAttribute('aria-checked') !== 'true'));
+      let savedTheme = 'light', savedLanguage = 'mr';
+      try { savedTheme = localStorage.getItem('ds_theme') || 'light'; savedLanguage = localStorage.getItem('ds_language') || 'mr'; } catch (e) {}
+      applyTheme(savedTheme === 'dark');
+      applyLanguage(savedLanguage === 'en');
     })();
   </script>
 
