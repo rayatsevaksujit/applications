@@ -121,6 +121,20 @@ input,select,textarea,button{max-width:100%;font-size:16px}
 <div class="top-bar">
         <a href="index.html" class="back-btn">⬅️ मुख्य पानावर परत जा (Home)</a>
         <div style="font-weight: 800; font-size: 16px; color: #1e40af;">घरभाडे भत्ता (HRA) फरक कॅल्क्युलेटर</div>
+
+    <div class="panel-card" style="max-width:1250px;margin:10px auto;padding:10px 12px;border:1px solid #bfdbfe;background:#f8fbff;">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;">
+        <button type="button" class="btn-ui btn-success" onclick="hraSaveData()">💾 माहिती सेव्ह करा</button>
+        <button type="button" class="btn-ui btn-primary" onclick="hraExportData()">⬇️ डेटा डाउनलोड करा (बॅकअप)</button>
+        <button type="button" class="btn-ui btn-outline" onclick="document.getElementById('hra-import-file').click()">⬆️ डेटा Import करा</button>
+        <input id="hra-import-file" type="file" accept=".json,application/json" style="display:none" onchange="hraImportData(this)">
+        <span id="hra-save-status" role="status" aria-live="polite" style="font-size:12px;color:#166534;font-weight:600;">माहिती भरताच आपोआप सेव्ह होईल.</span>
+      </div>
+      <div style="font-size:11px;color:#475569;margin-top:6px;line-height:1.6;">
+        सूचना: माहिती या संगणकाच्या याच ब्राउझरमध्ये आपोआप सेव्ह होते. दुसऱ्या संगणकावर काम सुरू करण्यासाठी डेटा डाउनलोड करून ठेवा व मूळ बॅकअप फाईलच Import करा. Import केल्यावर सध्याची माहिती बदलली जाईल.
+      </div>
+    </div>
+
     </div>
 
     <div class="panel-grid">
@@ -313,7 +327,14 @@ input,select,textarea,button{max-width:100%;font-size:16px}
         XLSX.writeFile(wb, "HRA_Farak_Patrak.xlsx");
     }
 
-    window.onload = function() { renderHRAMonthInputs(); buildHRATable(); };
+[object Object]
+    window.onload = function() {
+        const restored = hraRestoreData();
+        renderHRAMonthInputs();
+        buildHRATable();
+        if (restored) hraSetSaveMessage("✓ आधीची सेव्ह केलेली माहिती पुन्हा उपलब्ध झाली.");
+        else hraSetSaveMessage("माहिती भरताच आपोआप सेव्ह होईल.");
+    };
 </script>
 
 <section class="related-tools" aria-label="संबंधित Digital SATHIDAR टूल्स">
