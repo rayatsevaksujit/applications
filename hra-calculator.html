@@ -122,6 +122,8 @@ input,select,textarea,button{max-width:100%;font-size:16px}
         <a href="index.html" class="back-btn">⬅️ मुख्य पानावर परत जा (Home)</a>
         <div style="font-weight: 800; font-size: 16px; color: #1e40af;">घरभाडे भत्ता (HRA) फरक कॅल्क्युलेटर</div>
 
+    </div>
+
     <div class="panel-card" style="max-width:1250px;margin:10px auto;padding:10px 12px;border:1px solid #bfdbfe;background:#f8fbff;">
       <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;">
         <button type="button" class="btn-ui btn-success" onclick="hraSaveData()">💾 माहिती सेव्ह करा</button>
@@ -133,8 +135,6 @@ input,select,textarea,button{max-width:100%;font-size:16px}
       <div style="font-size:11px;color:#475569;margin-top:6px;line-height:1.6;">
         सूचना: माहिती या संगणकाच्या याच ब्राउझरमध्ये आपोआप सेव्ह होते. दुसऱ्या संगणकावर काम सुरू करण्यासाठी डेटा डाउनलोड करून ठेवा व मूळ बॅकअप फाईलच Import करा. Import केल्यावर सध्याची माहिती बदलली जाईल.
       </div>
-    </div>
-
     </div>
 
     <div class="panel-grid">
@@ -327,7 +327,96 @@ input,select,textarea,button{max-width:100%;font-size:16px}
         XLSX.writeFile(wb, "HRA_Farak_Patrak.xlsx");
     }
 
-[object Object]
+
+    const HRA_BACKUP_KEY = "digitalSathidar_HRA_calculator_v1";
+    let HRASaveTimer = null;
+    function hraBackupPayload() {
+        return {
+            schoolName: document.getElementById("hra-school-name").value,
+            oldRate: document.getElementById("old-hra").value,
+            newRate: document.getElementById("new-hra").value,
+            months: hraMonths.slice(),
+            employees: hraEmployees.map(emp => ({name:String(emp.name||""),desig:String(emp.desig||""),basics:emp.basics.map(v=>Number(v)||0)}))
+        };
+    }
+    function hraChecksum(value) {
+        const str=JSON.stringify(value); let hash=2166136261;
+        for(let i=0;i<str.length;i++){hash^=str.charCodeAt(i);hash=Math.imul(hash,16777619);}
+        return (hash>>>0).toString(16).padStart(8,"0");
+    }
+    function hraSetSaveMessage(message,color) {
+        const el=document.getElementById("hra-save-status");
+        if(el){el.textContent=message;el.style.color=color||"#166534";}
+    }
+    function hraSaveData() {
+        try {
+            const payload=hraBackupPayload();
+            localStorage.setItem(HRA_BACKUP_KEY,JSON.stringify({format:"DIGITAL_SATHIDAR_BACKUP",version:1,app:"HRA",savedAt:new Date().toISOString(),payload}));
+            hraSetSaveMessage("✓ माहिती या संगणकाच्या ब्राउझरमध्ये सेव्ह झाली: "+new Date().toLocaleTimeString("mr-IN"));
+        } catch(err) { hraSetSaveMessage("⚠️ माहिती सेव्ह होऊ शकली नाही. कृपया डेटा डाउनलोड करून ठेवा.","#b91c1c"); }
+    }
+    function hraScheduleSave() {
+        clearTimeout(HRASaveTimer); HRASaveTimer=setTimeout(hraSaveData,250);
+    }
+    function hraExportData() {
+        try {
+            const payload=hraBackupPayload();
+            const backup={format:"DIGITAL_SATHIDAR_BACKUP",version:1,app:"HRA",exportedAt:new Date().toISOString(),payload,checksum:hraChecksum(payload)};
+            const blob=new Blob([JSON.stringify(backup,null,2)],{type:"application/json;charset=utf-8"});
+            const url=URL.createObjectURL(blob),a=document.createElement("a");
+            a.href=url;a.download="HRA_Calculator_Data_Backup.json";document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+            hraSetSaveMessage("✓ बॅकअप फाईल डाउनलोड झाली.");
+        } catch(err) { alert("डेटा डाउनलोड करताना अडचण आली. कृपया पुन्हा प्रयत्न करा."); }
+    }
+    function hraImportData(input) {
+        const file=input.files&&input.files[0];if(!file)return;
+        const reader=new FileReader();
+        reader.onload=function(){
+            try {
+                const backup=JSON.parse(reader.result),payload=backup&&backup.payload;
+                const valid=backup&&backup.format==="DIGITAL_SATHIDAR_BACKUP"&&backup.version===1&&backup.app==="HRA"&&payload&&
+                    typeof payload.schoolName==="string"&&typeof payload.oldRate==="string"&&typeof payload.newRate==="string"&&
+                    Array.isArray(payload.months)&&payload.months.length>0&&payload.months.every(m=>typeof m==="string")&&
+                    Array.isArray(payload.employees)&&payload.employees.length>0&&payload.employees.every(emp=>emp&&typeof emp.name==="string"&&
+                    typeof emp.desig==="string"&&Array.isArray(emp.basics)&&emp.basics.length===payload.months.length&&
+                    emp.basics.every(v=>typeof v==="number"&&Number.isFinite(v)));
+                if(!valid||backup.checksum!==hraChecksum(payload)){
+                    alert("या फाईलमध्ये बदल केला आहे किंवा फाईल मूळ घरभाडे भत्ता (HRA) कॅल्क्युलेटरची नाही. त्यामुळे ती Import होऊ शकत नाही. कृपया मूळ Export केलेलीच फाईल Import करावी.");
+                    input.value="";return;
+                }
+                if(!confirm("सध्याची माहिती बदलून Export केलेली माहिती Import करायची आहे का? Import केल्यावर सध्याची माहिती बदलली जाईल.")){input.value="";return;}
+                hraMonths=payload.months.slice();
+                hraEmployees=payload.employees.map(emp=>({name:emp.name,desig:emp.desig,basics:emp.basics.slice()}));
+                document.getElementById("hra-school-name").value=payload.schoolName;
+                document.getElementById("old-hra").value=payload.oldRate;
+                document.getElementById("new-hra").value=payload.newRate;
+                renderHRAMonthInputs();buildHRATable();hraSaveData();
+                alert("✓ घरभाडे भत्ता (HRA) कॅल्क्युलेटरचा डेटा यशस्वीरीत्या Import झाला.");
+            } catch(err) {
+                alert("ही फाईल वाचता आली नाही किंवा तिचा मजकूर बदललेला आहे. कृपया मूळ Export केलेलीच फाईल Import करावी.");
+            }
+            input.value="";
+        };
+        reader.onerror=function(){alert("फाईल वाचताना अडचण आली. कृपया पुन्हा प्रयत्न करा.");input.value="";};
+        reader.readAsText(file,"UTF-8");
+    }
+    function hraRestoreData() {
+        try {
+            const raw=localStorage.getItem(HRA_BACKUP_KEY);if(!raw)return false;
+            const saved=JSON.parse(raw),payload=saved&&saved.payload;
+            if(!saved||saved.format!=="DIGITAL_SATHIDAR_BACKUP"||saved.version!==1||saved.app!=="HRA"||
+                !payload||!Array.isArray(payload.months)||!payload.months.length||!Array.isArray(payload.employees)||!payload.employees.length)return false;
+            hraMonths=payload.months;hraEmployees=payload.employees;
+            document.getElementById("hra-school-name").value=payload.schoolName||"";
+            document.getElementById("old-hra").value=payload.oldRate??"";
+            document.getElementById("new-hra").value=payload.newRate??"";
+            return true;
+        } catch(err){hraSetSaveMessage("⚠️ आधीची सेव्ह केलेली माहिती वाचता आली नाही.","#b91c1c");return false;}
+    }
+    document.addEventListener("input",function(event){if(event.target&&event.target.closest(".panel-grid"))hraScheduleSave();});
+    document.addEventListener("change",function(event){if(event.target&&event.target.closest(".panel-grid"))hraScheduleSave();});
+    document.addEventListener("click",function(event){if(event.target&&event.target.closest(".panel-grid"))hraScheduleSave();});
+
     window.onload = function() {
         const restored = hraRestoreData();
         renderHRAMonthInputs();
